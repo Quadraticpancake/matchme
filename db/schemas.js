@@ -23,10 +23,6 @@ db.query("CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, "
    	);
   //if you want to add additional basic schema fields to the user such as info, add it to the string here
  })
- // .then(function(){
- //   return db.query("CREATE TABLE IF NOT EXISTS clients_salespersons (salesperson_id int NOT NULL, client_id int NOT NULL, PRIMARY KEY (salesperson_id,client_id),"
- //   + " FOREIGN KEY (salesperson_id) REFERENCES salespersons(salesperson_id), FOREIGN KEY (client_id) REFERENCES clients(client_id));");
- // })
  .then(function(){
   console.log('pair table created');
   return db.query("CREATE TABLE IF NOT EXISTS pairs (pair_id SERIAL PRIMARY KEY, FOREIGN KEY (user_one) REFERENCES users(user_id),"
