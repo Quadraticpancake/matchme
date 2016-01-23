@@ -35,7 +35,7 @@ db.query("CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, "
  .then(function(){
   console.log('pair to matchmaker join table created')
   return db.query("CREATE TABLE IF NOT EXISTS matches_made (match_id SERIAL PRIMARY KEY, FOREIGN KEY (matchmaker) REFERENCES users(user_id)," 
-    + " FOREIGN KEY (pair_id) REFERENCES pairs(pair_id), created_at TIMESTAMP);");
+    + " FOREIGN KEY (pair) REFERENCES pairs(pair_id), created_at TIMESTAMP);");
  })
  .then(function(){
   console.log('subscription client join created')
