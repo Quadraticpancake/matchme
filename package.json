@@ -20,7 +20,10 @@
     "bluebird": "^3.1.2",
     "body-parser": "^1.14.2",
     "express": "^4.13.4",
+    "node-bing-api": "^2.3.0",
+    "node-random-name": "^1.0.1",
     "path": "^0.12.7",
-    "pg-promise": "^3.0.3"
+    "pg-promise": "^3.0.3",
+    "zipcodes": "^2.0.0"
   }
 }

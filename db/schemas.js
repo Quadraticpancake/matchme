@@ -19,23 +19,22 @@ db.query("CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, "
     + " age_max INTEGER,"
     + " gender_preference VARCHAR(10),"
     + " location_preference INTEGER,"
-    + " description VARCHAR(255),"
-   	);
+    + " description VARCHAR(255));"
+   	)
   //if you want to add additional basic schema fields to the user such as info, add it to the string here
- })
  .then(function(){
   console.log('pair table created');
-  return db.query("CREATE TABLE IF NOT EXISTS pairs (pair_id SERIAL PRIMARY KEY, FOREIGN KEY (user_one) REFERENCES users(user_id),"
+  return db.query("CREATE TABLE IF NOT EXISTS pairs (pair_id SERIAL PRIMARY KEY, user_one INTEGER, user_two INTEGER, FOREIGN KEY (user_one) REFERENCES users(user_id),"
     + " FOREIGN KEY (user_two) REFERENCES users(user_id), times_matched INTEGER, connected BOOLEAN);");
  })
  .then(function(){
   console.log('pair to matchmaker join table created')
-  return db.query("CREATE TABLE IF NOT EXISTS matches_made (match_id SERIAL PRIMARY KEY, FOREIGN KEY (matchmaker) REFERENCES users(user_id)," 
+  return db.query("CREATE TABLE IF NOT EXISTS matches_made (match_id SERIAL PRIMARY KEY, matchmaker INTEGER, pair INTEGER, FOREIGN KEY (matchmaker) REFERENCES users(user_id)," 
     + " FOREIGN KEY (pair) REFERENCES pairs(pair_id), created_at TIMESTAMP);");
  })
  .then(function(){
   console.log('subscription client join created')
-  return db.query("CREATE TABLE IF NOT EXISTS messages (messages_id SERIAL PRIMARY KEY, FOREIGN KEY (pair_id) REFERENCES pairs(pair_id),"
+  return db.query("CREATE TABLE IF NOT EXISTS messages (messages_id SERIAL PRIMARY KEY, pair_id INTEGER, sender INTEGER, FOREIGN KEY (pair_id) REFERENCES pairs(pair_id),"
     + " text VARCHAR(255),"
     + " created_at TIMESTAMP,"
     + " FOREIGN KEY (sender) REFERENCES users(user_id));");
@@ -44,24 +43,3 @@ db.query("CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY, "
   console.log('error creating tables');
   console.log(error);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
