@@ -7,5 +7,8 @@ var connectionString = process.env.DATABASE_URL||"postgres://localhost:5432/matc
 var db = pgp(connectionString);
 module.exports = db;
 
-//to test locally you must create a database 'matchmaker' in postgres
+// install postgres: https://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/
+// to test locally you must create a database 'matchmaker' in postgres
+	// CREATE DATABASE matchmaker;
+	// \connect matchmaker;
 
