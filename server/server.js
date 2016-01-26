@@ -1,3 +1,4 @@
+require("babel-core/register");
 var webpack = require('webpack')
 var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
@@ -18,7 +19,7 @@ app.use(webpackHotMiddleware(compiler))
 
 //Set up routes
 //require('./routes/index.js')(app, express);
-// require('./server/routes')(app, express);
+require('./routes')(app, express);
 
 //Set up static files
 // app.use(express.static(path.join(__dirname ,'../client')));
