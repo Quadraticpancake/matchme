@@ -1,7 +1,6 @@
 var random_name = require('node-random-name');
 var zipcodes = require('zipcodes');
 var descriptions = require('./descriptions.js');
-
 var possibleZipcodes = zipcodes.radius(94114, 60); // SF to San Jose seemed reasonable
 
 // bing image search type:photograph people:just faces search:guy
