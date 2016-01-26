@@ -2,9 +2,11 @@ var random_name = require('node-random-name');
 var zipcodes = require('zipcodes');
 var descriptions = require('./descriptions.js');
 
+var possibleZipcodes = zipcodes.radius(94114, 60); // SF to San Jose seemed reasonable
+
 // bing image search type:photograph people:just faces search:guy
 
-var generateUser = function() {
+export default function generateUser() {
 
   var gender = function() {
     if (Math.floor(Math.random() * 2) === 0) {
@@ -22,14 +24,17 @@ var generateUser = function() {
   }
 
   var zipcode = function() {
-    var possibleZipcodes = zipcodes.radius(94114, 60); // SF to San Jose seemed reasonable
     return possibleZipcodes[Math.floor(Math.random()*possibleZipcodes.length)];
   }
 
   var start = new Date(1973, 0, 1); // selecting between age 21 and 42
   var end = new Date(1994, 0, 1);
 
-  var birthday = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+  // Birthday needs to be in YYYY-MM-DD format for SQL
+  // getMonth() returns 0 for Jan, 1 for Feb, etc, so need to increment it by 1
+  var newDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())); 
+  var birthdayStr = newDate.getFullYear() + '-' + function(){ return newDate.getMonth() + 1; }() + '-' + newDate.getDate();
+  var birthday = newDate;
 
   var calculateAge = function(birthdate) { 
     var difference = Date.now() - birthdate;
@@ -82,13 +87,14 @@ var generateUser = function() {
     last_name: random_name({ last: true }),
     gender: gender,
     birthday: birthday, // TODO
+    birthdayStr: birthdayStr, // Use birthdayStr if you want to insert into the DB
     zipcode: zipcode(), // TODO
     status: true, // this can just be a boolean, whether they can be matched
     age_min: minAge, // birthday minus random number between 2 and 5 (floor 21)
     age_max: maxAge, // birthday plus random number between 2 and 10 (floor 21)
     gender_preference: genderPreference(gender), // homosexual ~10% of the time
     location_preference: 5, // just default to 5 mile radius, zipcodes.radius(zipcode, 5) returns a list of all zipcodes in radius
-    description: descriptions[Math.floor(Math.random()*descriptions.length)],
+    description: descriptions[Math.floor(Math.random()*descriptions.length)], // this field doesn't insert correctly into DB due to escape chars
     // image_url: userImage(gender) 
   }
 
