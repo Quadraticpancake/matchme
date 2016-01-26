@@ -1,7 +1,7 @@
+require("babel-core/register");
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-
 
 var app = express();
 
@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Set up routes
 //require('./routes/index.js')(app, express);
-
+require('./routes')(app, express);
 
 //Set up static files
 app.use(express.static(path.join(__dirname ,'../client')));
