@@ -4,6 +4,7 @@
   "description": "Be the best matchmaker ever",
   "main": "server/server.js",
   "scripts": {
+    "start": "node server/server.js",
     "test": "mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm run test -- --watch"
   },

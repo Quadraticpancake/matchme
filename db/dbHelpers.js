@@ -1,4 +1,4 @@
-import db from './config'
+import db from './config';
 
 ///////////////// DB helpers /////////////////////
 
@@ -10,7 +10,7 @@ export function getRandomUsers () {
 				 	// this is the actual query which pulls 3 random distinct rows from the users table using the size variables pulled in the first query
 				 		return db.query(`SELECT * FROM  (\
 										    SELECT DISTINCT 1 + trunc(random() * ${rows[0].id_span})::integer AS user_id \
-										    FROM   generate_series(1, ${rows[0].max_id * 1.1}) g ) \
+										    FROM   generate_series(1, 4) g ) \
 										    r JOIN users USING (user_id) LIMIT  3;`)
 				 		});
 }
