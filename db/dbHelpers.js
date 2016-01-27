@@ -22,6 +22,11 @@ export function addPair (pair) {
 	}
 
 	return db.query(`update pairs set times_matched = times_matched + 1 where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = ${ pairFormatted.user_two } returning *;`)
+		.then((rows) => {
+			if (rows.length === 0) {
+				return db.query(`insert into pairs (user_one, user_two, times_matched, connected) values (${ pairFormatted.user_one }, ${ pairFormatted.user_two }, 1, false);`)
+			}
+		})
 // update pairs set times_matched = times_matched + 1 where pairs.user_one = 5 and pairs.user_two = 20;
 }
 // get all users
