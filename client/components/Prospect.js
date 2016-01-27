@@ -10,7 +10,7 @@ class Prospect extends Component {
     const { prospect, actions } = this.props
     
     return (
-      <div>
+      <div style={divStyle}>
       	<button onClick={actions.chooseMatch}>{prospect.name}</button>
       </div>
     )
@@ -20,6 +20,13 @@ class Prospect extends Component {
 Prospect.propTypes = {
   prospect: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
+}
+
+const divStyle = {
+  width: 200,
+  height: 64,
+  padding: 32,
+  float: 'left'
 }
 
 export default Prospect
