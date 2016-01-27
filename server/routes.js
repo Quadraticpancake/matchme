@@ -8,4 +8,17 @@ export default function (app, express) {
 			res.json(rows[0]);
 		})
 	});
+
+	app.get('/target', function(req, res) {
+		getRandomUsers().then(function(rows) {
+			res.json(rows[0]);
+		})
+	});
+
+	app.get('/prospects', function(req, res) {
+		getRandomUsers().then(function(rows) {
+			res.json([rows[0], rows[1]]);
+		})
+	});
+
 }
