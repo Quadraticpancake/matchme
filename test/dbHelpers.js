@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import db from '../db/config';
 import createTables from  '../db/schemas';
 import generateUser from '../server/userGenerator/taglines';
-import {getRandomUsers} from '../db/dbHelpers';
+import { getRandomUsers, addPair } from '../db/dbHelpers';
 
 describe('database helpers', () => {
 	describe('getRandomUsers', () => {
@@ -64,5 +64,37 @@ describe('database helpers', () => {
 			});
 		});
 
+	});
+
+	describe('addPair', () => {
+		it('should update a pair if it already exists', () => {
+			return db.query('insert into pairs (user_one, user_two, times_matched, connected) values (5,20,1,false);')
+			.then((rows) => {
+				console.log('inserted test pair', rows)
+				return addPair({ target: {user_id: 5}, prospect: {user_id: 20} })
+			})
+			.then(() => {
+				return db.query('select * from pairs where pairs.user_one = 5 and pairs.user_two = 20;')
+			})
+			.then((rows) => {
+				expect(rows.length).to.equal(1)
+				expect(rows[0].times_matched).to.equal(2)
+				console.log('rows from addPair', Array.isArray(rows), rows.length, rows)
+			})
+			.catch((err) => {
+				throw new Error(err)
+			})
+		})
+		it('should create a pair if it does not exist', () => {
+			return addPair({ target: {user_id: 6}, prospect: {user_id: 25} })
+			.then(() => {
+				return db.query('select * from pairs where pairs.user_one = 6 and pairs.user_two = 25;')
+			})
+			.then((rows) => {
+				expect(rows.length).to.equal(1)
+				expect(rows[0].user_one).to.equal(6)
+				expect(rows[0].user_two).to.equal(25)
+			})
+		})
 	});
 });
