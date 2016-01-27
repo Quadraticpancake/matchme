@@ -42,12 +42,13 @@ function requestTarget() {
   }
 }
 export const RECEIVE_TARGET = 'RECEIVE_TARGET'
+
 function receiveTarget(json) {
 
   // Unpack more here
-  console.log('data', json)
+  
   let target = {
-    name: json.first_name
+    name: json[0].first_name
   }
 
   return {
@@ -68,7 +69,7 @@ export function fetchTarget() {
     // First dispatch: the app state is updated to inform
     // that the API call is starting.
     dispatch(requestTarget())
-
+    console.log('1. in fetchTarget')
 
     // The function called by the thunk middleware can return a value,
     // that is passed on as the return value of the dispatch method.

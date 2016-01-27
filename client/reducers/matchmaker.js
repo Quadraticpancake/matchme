@@ -27,7 +27,6 @@ export default function matchmaker(state = initialState, action) {
     case CHOOSE_MATCH:
       return newState
 
-
     case REQUEST_TARGET:
       return Object.assign({}, state, {
         isFetching: true,
@@ -40,6 +39,7 @@ export default function matchmaker(state = initialState, action) {
         lastUpdated: action.receivedAt
       })
 
+      console.log('NEW TARGET', newTarget.name)
       return Object.assign({}, state, {
         target: newTarget
       })
