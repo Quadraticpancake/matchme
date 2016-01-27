@@ -1,8 +1,10 @@
 require("babel-core/register");
+
 var webpack = require('webpack')
 var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
 var config = require('../webpack.config')
+
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -29,9 +31,14 @@ app.use(function(req, res) {
 
 // Set up ports
 var port = process.env.PORT || 3000;
-app.listen(port, function(){
-  console.log('Server listening on port ' + port);
-});
+
+app.listen(port, function(error) {
+  if (error) {
+    console.error(error)
+  } else {
+    console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port)
+  }
+})
 
 
 module.exports = app;

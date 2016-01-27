@@ -1,75 +1,42 @@
 import React, { Component, PropTypes } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { pushState } from 'redux-router'
-import Explore from '../components/Explore'
-import { resetErrorMessage } from '../actions'
+import Prospect from '../components/Prospect'
+import Target from '../components/Target'
+import * as MatchmakerActions from '../actions/matchmaker'
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleDismissClick = this.handleDismissClick.bind(this)
-  }
-
-  handleDismissClick(e) {
-    this.props.resetErrorMessage()
-    e.preventDefault()
-  }
-
-  handleChange(nextValue) {
-    this.props.pushState(null, `/${nextValue}`)
-  }
-
-  renderErrorMessage() {
-    const { errorMessage } = this.props
-    if (!errorMessage) {
-      return null
-    }
-
-    return (
-      <p style={{ backgroundColor: '#e99', padding: 10 }}>
-        <b>{errorMessage}</b>
-        {' '}
-        (<a href="#"
-            onClick={this.handleDismissClick}>
-          Dismiss
-        </a>)
-      </p>
-    )
-  }
-
   render() {
-    const { children, inputValue } = this.props
+    const { matchmaker, actions } = this.props
     return (
       <div>
-        <Explore value={inputValue}
-                 onChange={this.handleChange} />
-        <hr />
-        {this.renderErrorMessage()}
-        {children}
+        <Target target={matchmaker.target} actions={actions} />
+        <Prospect prospect={matchmaker.prospects.items[0]} actions={actions} />
+        <Prospect prospect={matchmaker.prospects.items[1]} actions={actions} />
       </div>
     )
   }
 }
 
 App.propTypes = {
-  // Injected by React Redux
-  errorMessage: PropTypes.string,
-  resetErrorMessage: PropTypes.func.isRequired,
-  pushState: PropTypes.func.isRequired,
-  inputValue: PropTypes.string.isRequired,
-  // Injected by React Router
-  children: PropTypes.node
+  matchmaker: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    errorMessage: state.errorMessage,
-    inputValue: state.router.location.pathname.substring(1)
+    matchmaker: state.matchmaker
   }
 }
 
-export default connect(mapStateToProps, {
-  resetErrorMessage,
-  pushState
-})(App)
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(MatchmakerActions, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
+
