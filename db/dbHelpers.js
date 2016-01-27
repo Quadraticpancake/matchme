@@ -14,6 +14,16 @@ export function getRandomUsers () {
 										    r JOIN users USING (user_id) LIMIT  3;`)
 				 		});
 }
+
+export function addPair (pair) {
+	var pairFormatted = {
+		user_one: pair.target.user_id < pair.prospect.user_id ? pair.target.user_id : pair.prospect.user_id,
+		user_two: pair.target.user_id > pair.prospect.user_id ? pair.target.user_id : pair.prospect.user_id
+	}
+
+	return db.query(`update pairs set times_matched = times_matched + 1 where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = ${ pairFormatted.user_two } returning *;`)
+// update pairs set times_matched = times_matched + 1 where pairs.user_one = 5 and pairs.user_two = 20;
+}
 // get all users
 
 // get user by id
