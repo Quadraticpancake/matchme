@@ -8,7 +8,7 @@ class Prospect extends Component {
 
   render() {
     const { prospect, actions } = this.props
-    
+
     return (
       <div style={divStyle}>
       	<button onClick={actions.chooseMatch}>{prospect.name}</button>

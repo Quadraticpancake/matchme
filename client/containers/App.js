@@ -4,14 +4,14 @@ import React, { Component } from 'react';
 // import './styles/app.scss';
 
 /* application components */
-// import { Header } from 'components/Header';
+import { Header } from '../components/Header';
 // import { Footer } from 'components/Footer';
 export default class App extends Component {
 
   render() {
     return (
       <section>
-        INSERT HEADER HERE
+        <Header />
         {this.props.children}
       </section>
     );

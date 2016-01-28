@@ -14,7 +14,7 @@ export default class MyChats extends Component {
   render() {
     return (
       <section>
-      	<div>My Chats</div>
+      	<div>My Chats Go Here!</div>
       </section>
     );
   }
