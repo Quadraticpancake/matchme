@@ -1,21 +1,21 @@
-import { CHOOSE_MATCH, REQUEST_TARGET, RECEIVE_TARGET } from '../actions/matchmaker'
+import { CHOOSE_MATCH, REQUEST_TRIAD, RECEIVE_TRIAD } from '../actions/matchmaker'
 
 const initialState = {
+  isFetching: false,
   target: {
-    name: 'Liam',
-    isFetching: false
+    user_id: 3,
+    first_name: 'Liam',
   },
-  prospects: {
-    isFetching: false,
-    items: [
-      {
-        name: 'Rachel'
-      },
-      {
-        name: 'Luellen'
-      }
-    ]
-  }
+  prospects: [
+    {
+      user_id: 4,
+      first_name: 'Rachel'
+    },
+    {
+      user_id: 5,
+      first_name: 'Luellen'
+    }
+  ]
 }
 
 export default function matchmaker(state = initialState, action) {
@@ -27,21 +27,29 @@ export default function matchmaker(state = initialState, action) {
     case CHOOSE_MATCH:
       return newState
 
-    case REQUEST_TARGET:
+    case REQUEST_TRIAD:
       return Object.assign({}, state, {
         isFetching: true,
       })
 
-    case RECEIVE_TARGET:
+    case RECEIVE_TRIAD:
 
-      let newTarget = Object.assign({}, action.target, {
-        isFetching: false, 
-        lastUpdated: action.receivedAt
-      })
+      // let newTriad = Object.assign({}, action.triad, {
+      //   isFetching: false, 
+      //   lastUpdated: action.receivedAt
+      // })
 
-      console.log('NEW TARGET', newTarget.name)
+      let target = action.triad.pop();
+
+      let prospects = action.triad;
+
+
+      console.log('NEW TRIAD')
       return Object.assign({}, state, {
-        target: newTarget
+        isFetching: false, 
+        lastUpdated: action.receivedAt,
+        target: target,
+        prospects: prospects
       })
 
     default:

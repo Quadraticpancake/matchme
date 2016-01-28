@@ -11,8 +11,8 @@ class Home extends Component {
     return (
       <div>
         <Target target={matchmaker.target} actions={actions} />
-        <Prospect prospect={matchmaker.prospects.items[0]} actions={actions} />
-        <Prospect prospect={matchmaker.prospects.items[1]} actions={actions} />
+        <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
+        <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
       </div>
     )
   }
