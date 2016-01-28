@@ -1,4 +1,4 @@
-import { getRandomUsers, addPair, getMatchSet } from '../db/dbHelpers';
+import { getRandomUsers, addMatch, getMatchSet } from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser'
 
@@ -11,11 +11,11 @@ export default function (app, express) {
 	})
 
 	app.post('/api/pairs', (req, res) => {
-		addPair(req.body).then(() => {
+		addMatch(req.body).then(() => {
 			getRandomUsers().then((rows) => {
 				res.json([rows[0], rows[1], rows[2]])
 			})
-		})
+		})	
 	})
 
 	app.get('/api/matchSet', (req, res) => {
