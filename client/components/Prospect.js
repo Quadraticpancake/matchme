@@ -22,7 +22,6 @@ const divProspectStyle = {
   WebkitTextFillColor: 'white', /* Will override color (regardless of order) */
   WebkitTextStrokeWidth: 1.5,
   WebkitTextStrokeColor: 'black',
-
   borderRadius: 5
 }
 
