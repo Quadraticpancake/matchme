@@ -11,8 +11,8 @@ class Prospect extends Component {
     // prospect on line 14 should be the prospect choosen
     return (
       <div style={divStyle}> 
-        <button onClick={ () => {
-          actions.chooseMatch(target, prospect) }}>{prospect.first_name}</button>
+        <div onClick={ () => {
+          actions.chooseMatch(target, prospect) }}>{prospect.first_name}</div>
       </div>
     )
   }
@@ -27,7 +27,8 @@ const divStyle = {
   width: 200,
   height: 64,
   padding: 32,
-  float: 'left'
+  float: 'left',
+
 }
 
 export default Prospect

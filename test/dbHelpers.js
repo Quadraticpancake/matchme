@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import db from '../db/config';
 import createTables from  '../db/schemas';
 import generateUser from '../server/userGenerator/taglines';
-import { getRandomUsers, addPair } from '../db/dbHelpers';
+import { getRandomUsers, addPair, getMatchSet } from '../db/dbHelpers';
 
 describe('database helpers', () => {
 	describe('getRandomUsers', () => {
@@ -10,7 +10,7 @@ describe('database helpers', () => {
 
 			// this is done to return database to untouched state: http://stackoverflow.com/questions/3327312/drop-all-tables-in-postgresql
 			db.query('DROP SCHEMA IF EXISTS public CASCADE;')
-      .then(() => {
+      		.then(() => {
 				return db.query('CREATE SCHEMA public;');
 			})
 			.then(() => {
@@ -26,15 +26,15 @@ describe('database helpers', () => {
 				return createTables();
 			})
 			.then(() => {
-				for (var i = 0; i < 50; i++) {
+				for (var i = 0; i < 1000; i++) {
 					var fakeUser = generateUser();
 					var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
-							location_preference,description) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
-							'${fakeUser.birthdayStr}','${fakeUser.zipcode}',${fakeUser.status},${fakeUser.age_min},${fakeUser.age_max},\
-							'${fakeUser.gender_preference}',${fakeUser.location_preference},'Placeholder description');`;
+							location_preference,description,image_url) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
+							'${fakeUser.birthdayStr}','${fakeUser.zipcode}','${fakeUser.status}',${fakeUser.age_min},${fakeUser.age_max},\
+							'${fakeUser.gender_preference}',${fakeUser.location_preference},'Placeholder description','${fakeUser.image_url}');`;
 
-				// run done() after the 50th user is generated to end the before block, otherwise run the query without resolving the promise
-					if (i === 49) {
+				// run done() after the 500th user is generated to end the before block, otherwise run the query without resolving the promise
+					if (i === 999) {
 						db.query(insertUserQueryStr)
 					  .then(() => {
 					  	done();
@@ -70,7 +70,6 @@ describe('database helpers', () => {
 		it('should update a pair if it already exists', () => {
 			return db.query('insert into pairs (user_one, user_two, times_matched, connected) values (5,20,1,false);')
 			.then((rows) => {
-				console.log('inserted test pair', rows)
 				return addPair({ target: {user_id: 5}, prospect: {user_id: 20} })
 			})
 			.then(() => {
@@ -79,7 +78,6 @@ describe('database helpers', () => {
 			.then((rows) => {
 				expect(rows.length).to.equal(1)
 				expect(rows[0].times_matched).to.equal(2)
-				console.log('rows from addPair', Array.isArray(rows), rows.length, rows)
 			})
 			.catch((err) => {
 				throw new Error(err)
@@ -97,4 +95,24 @@ describe('database helpers', () => {
 			})
 		})
 	});
+
+	describe('getMatchSet', () => {
+		it('should get a match set', () => {
+			return getMatchSet()
+			.then((rows) => {
+
+				expect(rows.target).to.have.property('first_name')
+				expect(rows.target).to.have.property('gender_preference')
+
+				expect(rows.prospects).to.have.length(2)
+				expect(rows.prospects[0]).to.not.equal(rows[1])
+				expect(rows.prospects[0]).to.have.property('first_name')
+				expect(rows.prospects[1]).to.have.property('gender_preference')
+			})
+			.catch((err) => {
+				throw new Error(err);
+			});
+		});
+	});
+
 });

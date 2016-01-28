@@ -23,8 +23,9 @@ app.use(webpackHotMiddleware(compiler))
 //require('./routes/index.js')(app, express);
 require('./routes')(app, express);
 
+app.use(express.static(path.join(__dirname , '..', '/static')));
+
 //Set up static files
-// app.use(express.static(path.join(__dirname ,'../client')));
 app.use(function(req, res) {
   res.sendFile(path.join(__dirname, '..', '/client/index.html'));
 });
