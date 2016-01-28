@@ -11,7 +11,7 @@ class Target extends Component {
     
     return (
       <div style={divStyle}>
-      	<label>{target.name}</label>
+      	<label>{target.first_name}</label>
       </div>
     )
   }

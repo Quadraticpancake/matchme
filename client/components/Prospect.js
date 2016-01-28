@@ -7,11 +7,12 @@ class Prospect extends Component {
   }
 
   render() {
-    const { prospect, actions } = this.props
-
+    const { prospect, actions, target } = this.props
+    // prospect on line 14 should be the prospect choosen
     return (
-      <div style={divStyle}>
-      	<button onClick={actions.chooseMatch}>{prospect.name}</button>
+      <div style={divStyle}> 
+        <button onClick={ () => {
+          actions.chooseMatch(target, prospect) }}>{prospect.first_name}</button>
       </div>
     )
   }
