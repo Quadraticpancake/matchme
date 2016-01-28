@@ -77,7 +77,7 @@ export function fetchTarget() {
     // In this case, we return a promise to wait for.
     // This is not required by thunk middleware, but it is convenient for us.
 
-    let request = new Request('/test', {method: 'GET'})
+    let request = new Request('/api/candidates', {method: 'GET'})
     return fetch(request)
       .then(response => response.json())
       .then(json =>
