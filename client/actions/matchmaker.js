@@ -41,7 +41,7 @@ export function chooseMatch(target, prospect) {
       )
 
     // TODO:
-    // .then(dispatch(fetchProspects)) 
+    // .then(dispatch(fetchProspects))
 
   }
 }
@@ -65,14 +65,14 @@ export const RECEIVE_TRIAD = 'RECEIVE_TRIAD'
 function receiveTriad(json) {
 
   // Unpack more here
-  
+
   // let target = json.pop();
 
   // let prospects = json;
 
   return {
     type: RECEIVE_TRIAD,
-    triad: json, 
+    triad: json,
     receivedAt: Date.now()
   }
 }
