@@ -15,7 +15,6 @@ render(
     <div>
 	  <Router history={browserHistory}>
 	     <Route path="/" component={App}>
-
 	     </Route>
 	    </Router>
       <DevTools />
