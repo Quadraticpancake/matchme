@@ -27,7 +27,7 @@ export function chooseMatch(target, prospect) {
       body: JSON.stringify({matchmaker: {user_id: 3}, pair: {target: {user_id: target.user_id}, prospect: {user_id: prospect.user_id} }})
     })
 
-      // {method: 'POST', body: JSON.stringify({target: {user_id: 1}, prospect: {user_id: 2}}) })
+    // {method: 'POST', body: JSON.stringify({target: {user_id: 1}, prospect: {user_id: 2}}) })
     console.log(request)
     return fetch(request)
       .then(response => response.json())
@@ -88,7 +88,6 @@ export function fetchTarget() {
     // First dispatch: the app state is updated to inform
     // that the API call is starting.
     dispatch(requestTriad())
-    console.log('1. in fetchTriad')
 
     // The function called by the thunk middleware can return a value,
     // that is passed on as the return value of the dispatch method.
@@ -113,5 +112,4 @@ export function fetchTarget() {
   }
 }
 
-// PROSPECTS
 
