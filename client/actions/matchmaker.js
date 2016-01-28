@@ -5,9 +5,6 @@ import fetch from 'isomorphic-fetch'
 ///////////////////
 
 export const CHOOSE_MATCH = 'CHOOSE_MATCH'
-export function chooseMatch(index) {
-  return { type: types.CHOOSE_MATCH, index }
-}
 
 export function chooseMatch(target, prospect) {
   console.log('chooseMatch called')
@@ -25,6 +22,7 @@ export function chooseMatch(target, prospect) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({matchmaker: {user_id: 3}, pair: {target: {user_id: target.user_id}, prospect: {user_id: prospect.user_id} }})
+
     })
 
     // {method: 'POST', body: JSON.stringify({target: {user_id: 1}, prospect: {user_id: 2}}) })
