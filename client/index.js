@@ -2,22 +2,24 @@ import 'babel-core/polyfill'
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import App from './containers/App'
 import DevTools from './containers/DevTools'
 import configureStore from './store/configureStore'
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, Redirect, browserHistory } from 'react-router'
 import { syncHistory, routeReducer } from 'react-router-redux'
+import App from './containers/App'
+import Home from './containers/Home'
+import MyChats from './containers/MyChats'
+import routes from './routes'
 
 const store = configureStore()
+//	    <Redirect from="/" to="home" />
 
 render(
   <Provider store={store}>
     <div>
 	  <Router history={browserHistory}>
-	     <Route path="/" component={App}>
-
-	     </Route>
-	    </Router>
+	    {routes}
+	  </Router>
       <DevTools />
     </div>
   </Provider>,
