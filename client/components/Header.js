@@ -3,11 +3,11 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router';
 
-
+import { styles } from './styles.scss';
 export class Header extends Component {
   render() {
     return (
-      <header >
+      <header className={`${styles}`} >
       <Navbar fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
