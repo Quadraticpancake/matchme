@@ -1,5 +1,44 @@
 import React, { Component, PropTypes } from 'react'
 
+let image_url = 'http://i.onionstatic.com/onion/7954/original/1200.jpg'
+
+const divStyle = {
+  width: 400,
+  height: 400,
+  margin: 20,
+  // borderWidth: 1,
+  // borderColor: 'black',
+  // backgroundColor: '#ccc',
+ 
+  display: 'table-cell',
+  verticalAlign: 'bottom',
+
+  backgroundImage: 'url(' + image_url + ')',
+  backgroundSize: 'contain',
+
+  fontSize: 50,
+  fontWeight: 'bold',
+  color:'white',
+  fontFamily: 'Arial, Helvetica, sans-serif',
+  // backgroundImage: 'http://i.onionstatic.com/onion/7954/original/1200.jpg',
+  WebkitTextFillColor: 'white', /* Will override color (regardless of order) */
+  WebkitTextStrokeWidth: 2,
+  WebkitTextStrokeColor: 'black',
+
+  borderRadius: 5
+}
+
+const paraTargetStyle = {
+  // backgroundColor: '#ccc',
+  // position: 'absolute'
+  // bottom: 0;
+  width: 400,
+
+  fontSize: 25,
+  fontWeight: 'bold',
+  color:'black',
+}
+
 class Target extends Component {
 
   constructor(props, context) {
@@ -8,10 +47,16 @@ class Target extends Component {
 
   render() {
     const { target, actions } = this.props
-    
+
+    divStyle.backgroundImage = 'url(' + 'http://localhost:3000' + target.image_url + ')'
+    // /img/profilePics/female/8849159795035870722.webp
+
     return (
-      <div style={divStyle}>
-      	<label>{target.first_name}</label>
+      <div>
+        <div style={divStyle}>
+        	<label>{target.first_name}</label>
+        </div>
+        <p style={paraTargetStyle}>{target.description}</p>
       </div>
     )
   }
@@ -22,14 +67,6 @@ Target.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
-const divStyle = {
-  width: 200,
-  height: 100,
-  padding: 32,
-  backgroundColor: '#ccc',
-  WebkitTransition: 'all', // note the capital 'W' here
-  msTransition: 'all', // 'ms' is the only lowercase vendor prefix
-  borderRadius: 5
-}
+
 
 export default Target

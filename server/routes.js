@@ -5,26 +5,25 @@ import bodyParser from 'body-parser'
 export default function (app, express) {
 	// test route, use this to get data for redux
 	app.get('/api/candidates', function(req, res) {
-		getRandomUsers().then(function(rows) {
-			res.json([rows[0], rows[1], rows[2]])
+		getMatchSet().then(function(rows) {
+			res.json([rows.prospects[0], rows.prospects[1], rows.target])
 		})
 	})
 
 	app.post('/api/pairs', (req, res) => {
 		addPair(req.body).then(() => {
-			getRandomUsers().then((rows) => {
-				res.json([rows[0], rows[1], rows[2]])
+			getMatchSet().then((rows) => {
+				res.json([rows.prospects[0], rows.prospects[1], rows.target])
 			})
 		})
 	})
 
-	app.get('/api/matchSet', (req, res) => {
-		getMatchSet().then((matchSet) => {
-
-			console.log(matchSet)
-			res.json(matchSet)
-		})
-	})
+	// app.get('/api/matchSet', (req, res) => {
+	// 	getMatchSet().then((matchSet) => {
+	// 		console.log(matchSet)
+	// 		res.json(matchSet)
+	// 	})
+	// })
 
 
 }
