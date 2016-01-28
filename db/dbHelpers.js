@@ -17,17 +17,22 @@ export function getRandomUsers () {
             });
 }
 
-// if pair not previously existing, create pair, otherwise, increment pair match count
-export function addPair (pair) {
-  var pairFormatted = {
-    user_one: pair.target.user_id < pair.prospect.user_id ? pair.target.user_id : pair.prospect.user_id,
-    user_two: pair.target.user_id > pair.prospect.user_id ? pair.target.user_id : pair.prospect.user_id
-  }
 
+// if pair not previously existing, create pair, otherwise, increment pair match count
+export function addMatch (match) {
+  var pairFormatted = {
+    user_one: match.pair.target.user_id < match.pair.prospect.user_id ? match.pair.target.user_id : match.pair.prospect.user_id,
+    user_two: match.pair.target.user_id > match.pair.prospect.user_id ? match.pair.target.user_id : match.pair.prospect.user_id
+  }
   return db.query(`update pairs set times_matched = times_matched + 1 where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = ${ pairFormatted.user_two } returning *;`)
     .then((rows) => {
       if (rows.length === 0) {
-        return db.query(`insert into pairs (user_one, user_two, times_matched, connected) values (${ pairFormatted.user_one }, ${ pairFormatted.user_two }, 1, false);`)
+        return db.query(`insert into pairs (user_one, user_two, times_matched, connected) values (${ pairFormatted.user_one }, ${ pairFormatted.user_two }, 1, false) returning pair_id;`)
+          .then((rows) => {
+            return db.query(`insert into matches_made (matchmaker, pair) values (${ match.matchmaker.user_id || null }, ${ rows[0].pair_id });`)
+          })
+      } else {
+      	return db.query(`insert into matches_made (matchmaker, pair) values (${ match.matchmaker.user_id || null }, ${ rows[0].pair_id });`)
       }
     })
 // update pairs set times_matched = times_matched + 1 where pairs.user_one = 5 and pairs.user_two = 20;

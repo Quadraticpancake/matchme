@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import db from '../db/config';
 import createTables from  '../db/schemas';
 import generateUser from '../server/userGenerator/taglines';
-import { getRandomUsers, addPair, getMatchSet } from '../db/dbHelpers';
+import { getRandomUsers, addMatch, getMatchSet } from '../db/dbHelpers';
 
 describe('database helpers', () => {
 	describe('getRandomUsers', () => {
@@ -66,11 +66,11 @@ describe('database helpers', () => {
 
 	});
 
-	describe('addPair', () => {
+	describe('addMatch', () => {
 		it('should update a pair if it already exists', () => {
 			return db.query('insert into pairs (user_one, user_two, times_matched, connected) values (5,20,1,false);')
 			.then((rows) => {
-				return addPair({ target: {user_id: 5}, prospect: {user_id: 20} })
+				return addMatch({matchmaker: {user_id: 4}, pair: {target: {user_id: 5}, prospect: {user_id: 20} }})
 			})
 			.then(() => {
 				return db.query('select * from pairs where pairs.user_one = 5 and pairs.user_two = 20;')
@@ -84,7 +84,7 @@ describe('database helpers', () => {
 			})
 		})
 		it('should create a pair if it does not exist', () => {
-			return addPair({ target: {user_id: 6}, prospect: {user_id: 25} })
+			return addMatch({matchmaker: {user_id: 4}, pair: {target: {user_id: 6}, prospect: {user_id: 25} }})
 			.then(() => {
 				return db.query('select * from pairs where pairs.user_one = 6 and pairs.user_two = 25;')
 			})
@@ -92,6 +92,17 @@ describe('database helpers', () => {
 				expect(rows.length).to.equal(1)
 				expect(rows[0].user_one).to.equal(6)
 				expect(rows[0].user_two).to.equal(25)
+			})
+		})
+		it('should create a match entry with the correct pair id and matchmaker', () => {
+            return addMatch({matchmaker: {user_id: 5}, pair: {target: {user_id: 6}, prospect: {user_id: 25} }})
+			.then(() => {
+				return db.query('select * from matches_made where matchmaker = 5')
+			})
+			.then((rows) => {
+				expect(rows.length).to.equal(1)
+				expect(rows[0].matchmaker).to.equal(5)
+				expect(rows[0].pair).to.equal(2) // Based on above tests
 			})
 		})
 	});
