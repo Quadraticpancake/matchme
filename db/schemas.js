@@ -20,7 +20,8 @@ export default function createTables () {
       + " age_max INTEGER,"
       + " gender_preference VARCHAR(10),"
       + " location_preference INTEGER,"
-      + " description VARCHAR(255));"
+      + " description VARCHAR(255),"
+      + " image_url VARCHAR(255));"
      	)
     //if you want to add additional basic schema fields to the user such as info, add it to the string here
    .then(function(){
@@ -34,12 +35,19 @@ export default function createTables () {
       + " FOREIGN KEY (pair) REFERENCES pairs(pair_id), created_at TIMESTAMP);");
    })
    .then(function(){
-    console.log('subscription client join created')
+    console.log('user message join created')
     return db.query("CREATE TABLE IF NOT EXISTS messages (messages_id SERIAL PRIMARY KEY, pair_id INTEGER, sender INTEGER, FOREIGN KEY (pair_id) REFERENCES pairs(pair_id),"
       + " text VARCHAR(255),"
       + " created_at TIMESTAMP,"
       + " FOREIGN KEY (sender) REFERENCES users(user_id));");
    })
+   // // create user to zipcode join table
+   // .then(function(){
+   //  console.log('user zipcode join created')
+   //  return db.query("CREATE TABLE IF NOT EXISTS zipcodes (FOREIGN KEY (zipcode_id) REFERENCES users(zipcode),"
+   //    + " text VARCHAR(255),"
+   //    + " FOREIGN KEY (user) REFERENCES users(user_id));");
+   // })
   .catch(function(error){
     console.log('error creating tables');
     console.log(error);
