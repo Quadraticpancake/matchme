@@ -11,7 +11,7 @@ export function getMessagesForUser(user_id) {
 
 export function getConnectedPairsAndMessagesForUser(user_id) {
 	return db.query(
-		`select pairs.*, messages.*\n\
+		`select pairs.*, messages.sender, messages.text, messages.created_at, users.*\n\
 		from messages\n\
 		full outer join pairs on messages.pair_id=pairs.pair_id\n\
 		inner join users on users.user_id=pairs.user_one or users.user_id=pairs.user_two\n\
