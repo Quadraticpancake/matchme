@@ -8,7 +8,7 @@ import { Router, Route, Redirect, browserHistory } from 'react-router'
 import { syncHistory, routeReducer } from 'react-router-redux'
 import App from './containers/App'
 import Home from './containers/Home'
-import MyChats from './containers/MyChats'
+import Chats from './containers/Chats'
 import routes from './routes'
 
 const store = configureStore()
