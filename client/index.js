@@ -12,14 +12,14 @@ import MyChats from './containers/MyChats'
 import routes from './routes'
 
 const store = configureStore()
-//	    <Redirect from="/" to="home" />
+//      <Redirect from="/" to="home" />
 
 render(
   <Provider store={store}>
     <div>
-	  <Router history={browserHistory}>
-	    {routes}
-	  </Router>
+    <Router history={browserHistory}>
+      {routes}
+    </Router>
       <DevTools />
     </div>
   </Provider>,
