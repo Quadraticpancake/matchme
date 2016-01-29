@@ -6,7 +6,9 @@ import Target from '../components/Target'
 import * as MatchmakerActions from '../actions/matchmaker'
 import Scoreboard from './Scoreboard'
 
-
+           // <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
+           //    <Scoreboard />
+           //  </div>
 const divStyle = {
   top: 10,
   right: 10
@@ -18,16 +20,11 @@ class Home extends Component {
       <div>
         <div className="container">
           <div className="row-fluid">
-            <div className="col-md-5 col-sm-12">
               <Target target={matchmaker.target} actions={actions} />
-            </div>
-            <div className="col-md-5 col-sm-12">
-              <Prospect className="col-sm-6" target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
-              <Prospect className="col-sm-6" target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
-            </div>
-            <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
-              <Scoreboard />
-            </div>
+              <div className='col-md-3'>
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
+              </div>
             </div>
         </div>
       </div>
