@@ -1,44 +1,65 @@
 import React, { Component, PropTypes } from 'react'
 
-let image_url = 'http://i.onionstatic.com/onion/7954/original/1200.jpg'
 
 const divStyle = {
-  width: 400,
-  height: 400,
-  margin: 10,
+  // width: 400,
+  height: 600,
+  width: "auto",
   // marginTop: 40,
-  // borderWidth: 1,
-  // borderColor: 'black',
+  borderWidth: 1,
+  borderColor: 'black',
+  // opacity: .5,
   // backgroundColor: '#ccc',
  
   display: 'block',
+  position:'relative',
   verticalAlign: 'bottom',
 
-  backgroundImage: 'url(' + image_url + ')',
-  backgroundSize: 'contain',
+  // backgroundImage: 'url(' + image_url + ')',
+  // backgroundSize: 'cover',
 
-  fontSize: 50,
+  fontSize: 30,
   fontWeight: 'bold',
-  color:'white',
   fontFamily: 'Arial, Helvetica, sans-serif',
   // backgroundImage: 'http://i.onionstatic.com/onion/7954/original/1200.jpg',
-  WebkitTextFillColor: 'white', /* Will override color (regardless of order) */
-  WebkitTextStrokeWidth: 2,
-  WebkitTextStrokeColor: 'black',
+  // WebkitTextFillColor: 'white',  Will override color (regardless of order) 
+  // WebkitTextStrokeWidth: 2,
+  // WebkitTextStrokeColor: 'black',
 
-  borderRadius: 5
+  borderRadius: 5,
+  zIndex: 1
 }
 
 const paraTargetStyle = {
   // backgroundColor: '#ccc',
   // position: 'absolute'
   // bottom: 0;
-  width: 400,
+  width: "90%",
 
-  fontSize: 25,
+  fontSize: 20,
   fontWeight: 'bold',
   color:'black',
 }
+
+const imgTargetStyle = {
+  maxWidth: '100%'
+}
+
+const backgroundDivStyle = {
+  top: 0,
+  left: 0,
+  bottom: 0,
+  backgroundColor: '#fff',
+  right: 0,
+  position: 'absolute',
+  zIndex: -1,
+  backgroundSize: 'cover',
+  opacity: 0.5
+}
+
+const wellStyle = {
+  // marginTop: 20
+};
 
 class Target extends Component {
 
@@ -49,16 +70,19 @@ class Target extends Component {
   render() {
     const { target, actions } = this.props
 
-    let newDivStyle = Object.assign({}, divStyle)
-    newDivStyle.backgroundImage = 'url(' + 'http://localhost:3000' + target.image_url + ')'
+    // let backgroundDivStyle = Object.assign({}, divStyle)
+    // let newBackgroundDivStyle = Object.assign({},  backgroundDivStyle)
+    // newBackgroundDivStyle.backgroundImage = 'url(' + 'http://localhost:3000' + target.image_url + ')'
     // /img/profilePics/female/8849159795035870722.webp
 
     return (
-      <div>
-        <div style={newDivStyle}>
-        	<label>{target.first_name}</label>
-        </div>
-        <p style={paraTargetStyle}>{target.description}</p>
+      <div className='well well-sm col-md-5' style={wellStyle}>
+        <div style={divStyle}>
+         <label>{target.first_name}</label>
+          <img src={target.image_url} style={imgTargetStyle}className="img img-responsive img-rounded center-block"/>
+          <p style={paraTargetStyle} className="text-center">{target.description}</p>
+        </div>       
+
       </div>
     )
   }
