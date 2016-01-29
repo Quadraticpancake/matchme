@@ -36,7 +36,7 @@ export default function createTables () {
    })
    .then(function(){
     console.log('user message join created')
-    return db.query("CREATE TABLE IF NOT EXISTS messages (messages_id SERIAL PRIMARY KEY, pair_id INTEGER, sender INTEGER, FOREIGN KEY (pair_id) REFERENCES pairs(pair_id),"
+    return db.query("CREATE TABLE IF NOT EXISTS messages (messages_id SERIAL PRIMARY KEY, pair INTEGER, sender INTEGER, FOREIGN KEY (pair) REFERENCES pairs(pair_id),"
       + " text VARCHAR(255),"
       + " created_at TIMESTAMP,"
       + " FOREIGN KEY (sender) REFERENCES users(user_id));");
