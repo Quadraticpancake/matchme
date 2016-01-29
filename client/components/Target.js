@@ -5,12 +5,13 @@ let image_url = 'http://i.onionstatic.com/onion/7954/original/1200.jpg'
 const divStyle = {
   width: 400,
   height: 400,
-  margin: 20,
+  margin: 10,
+  // marginTop: 40,
   // borderWidth: 1,
   // borderColor: 'black',
   // backgroundColor: '#ccc',
  
-  display: 'table-cell',
+  display: 'block',
   verticalAlign: 'bottom',
 
   backgroundImage: 'url(' + image_url + ')',
@@ -48,12 +49,13 @@ class Target extends Component {
   render() {
     const { target, actions } = this.props
 
-    divStyle.backgroundImage = 'url(' + 'http://localhost:3000' + target.image_url + ')'
+    let newDivStyle = Object.assign({}, divStyle)
+    newDivStyle.backgroundImage = 'url(' + 'http://localhost:3000' + target.image_url + ')'
     // /img/profilePics/female/8849159795035870722.webp
 
     return (
       <div>
-        <div style={divStyle}>
+        <div style={newDivStyle}>
         	<label>{target.first_name}</label>
         </div>
         <p style={paraTargetStyle}>{target.description}</p>

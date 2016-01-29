@@ -4,11 +4,12 @@ let image_url = 'http://i.onionstatic.com/onion/7954/original/1200.jpg'
 
 const divProspectStyle = {
   width: 200,
-  height: 200,
+  height: 199,
   margin: 10,
-  float: 'left',
+  marginBottom: -8,
+  //float: 'left',
   // backgroundColor: '#ccc',
-  display: 'table-cell',
+  display: 'block',
   verticalAlign: 'bottom',
 
   backgroundImage: 'url(' + image_url + ')',
@@ -28,11 +29,15 @@ const divProspectStyle = {
 
 const paraProspectStyle = {
   // backgroundColor: '#ccc',
-  width: 200,
-  float: 'left',
+  width: 100,
   fontSize: 18,
+
   fontWeight: 'bold',
   color:'black',
+  marginTop: 8
+}
+
+const divProspectNameStyle = {
 }
 
 class Prospect extends Component {
@@ -46,15 +51,23 @@ class Prospect extends Component {
     // prospect on line 14 should be the prospect choosen
     
     divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
-    console.log('PROS URL', prospect.image_url);
 
     return (
-      <div onClick={ () => {
-            actions.chooseMatch(target, prospect) }}>
-        <div style={divProspectStyle}> 
-          <div>{prospect.first_name}</div>
+      <div className="row">
+        <div onClick={ () => {
+              actions.chooseMatch(target, prospect)}}>
+
+          <div className="col-md-8">
+            <div style={divProspectStyle}> 
+              <div style={divProspectNameStyle}>{prospect.first_name}</div>
+            </div>
+          </div>
+
+          <div className="col-md-4">
+            <p style={paraProspectStyle}>{prospect.description}</p>
+          </div>
+          
         </div>
-        <p style={paraProspectStyle}>{prospect.description}</p>
       </div>
     )
   }

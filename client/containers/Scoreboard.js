@@ -4,6 +4,15 @@ import { connect } from 'react-redux'
 import * as ScoreboardActions from '../actions/scoreboard'
 import io from 'socket.io-client'
 
+const scoreboardStyle = {
+  position: 'fixed',
+  right: 0,
+  top: 50,
+  bottom: 0,
+  backgroundColor: '#ccc',
+  borderRight: '1px solid #333',
+  padding: 16
+}
 
 class Scoreboard extends Component {
 	componentDidMount() {
@@ -16,26 +25,31 @@ class Scoreboard extends Component {
 
   render() {
     const { scoreboard, actions } = this.props
+
+    let scoreboardEntries = scoreboard.map((scoreboardEntry) => {
+      return <ScoreboardEntry pair={scoreboardEntry.pair} />
+    })
+
+    console.log("Entries: ", scoreboardEntries)
+    console.log("numEntries: ", scoreboardEntries.length)
+
     return (
-    	<div>
-      <div>
-        {scoreboard[0] ? scoreboard[0].pair.target.first_name : ''} just matched with {scoreboard[0] ? scoreboard[0].pair.prospect.first_name : ''}
-      </div>
-      <div>
-        {scoreboard[1] ? scoreboard[1].pair.target.first_name : ''} just matched with {scoreboard[1] ? scoreboard[1].pair.prospect.first_name : ''}
-      </div>
-      <div>
-        {scoreboard[2] ? scoreboard[2].pair.target.first_name : ''} just matched with {scoreboard[2] ? scoreboard[2].pair.prospect.first_name : ''}
-      </div>
-      <div>
-        {scoreboard[3] ? scoreboard[3].pair.target.first_name : ''} just matched with {scoreboard[3] ? scoreboard[3].pair.prospect.first_name : ''}
-      </div>
-      <div>
-        {scoreboard[4] ? scoreboard[4].pair.target.first_name : ''} just matched with {scoreboard[4] ? scoreboard[4].pair.prospect.first_name : ''}
-      </div>
+    	<div style={scoreboardStyle}>
+        <div className="scoreboardEntries">
+          {scoreboardEntries}
+        </div>
       </div>
     )
   }
+}
+
+
+const ScoreboardEntry = (props) => {
+  return (
+    <div>
+      {props ? props.pair.target.first_name : ''} just matched with {props ? props.pair.prospect.first_name : ''}
+    </div>
+  )
 }
 
 Scoreboard.propTypes = {
