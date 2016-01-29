@@ -21,8 +21,7 @@ export function chooseMatch(target, prospect) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({matchmaker: {user_id: 3}, pair: {target: {user_id: target.user_id}, prospect: {user_id: prospect.user_id} }})
-
+      body: JSON.stringify({matchmaker: {user_id: 3}, pair: {target:  target, prospect: prospect }})
     })
 
     // {method: 'POST', body: JSON.stringify({target: {user_id: 1}, prospect: {user_id: 2}}) })

@@ -1,6 +1,7 @@
 import { getRandomUsers, addMatch, getMatchSet } from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser'
+import store from './scoreboard'
 
 export default function (app, express) {
 	// test route, use this to get data for redux
@@ -11,10 +12,10 @@ export default function (app, express) {
 	})
 
 	app.post('/api/pairs', (req, res) => {
+		store.dispatch({type: 'UPDATE_LATEST', latestMatch: req.body})
 		addMatch(req.body).then(() => {
 			getMatchSet().then((rows) => {
 				res.json([rows.prospects[0], rows.prospects[1], rows.target])
-
 			})
 		})	
 	})

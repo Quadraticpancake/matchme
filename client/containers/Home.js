@@ -4,15 +4,19 @@ import { connect } from 'react-redux'
 import Prospect from '../components/Prospect'
 import Target from '../components/Target'
 import * as MatchmakerActions from '../actions/matchmaker'
+import Scoreboard from './Scoreboard'
 
 class Home extends Component {
   render() {
     const { matchmaker, actions } = this.props
     return (
       <div>
+      <div>
         <Target target={matchmaker.target} actions={actions} />
         <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
         <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
+      </div>
+        <Scoreboard />
       </div>
     )
   }
