@@ -102,4 +102,48 @@ module.exports = ['Professional Eugoogoolizer at the Derek Zoolander Center For 
     'Im great at killing spiders and opening jars.',
     'wanna hear a joke about pizza? Nevermind... Its too cheesy.',
     'volly firefighter, met, problem solver, lover not a fighter...but ill finish a fight if i have to',
+    'The fortuneteller brought me here',
+    'Looking for something dumb to do...',
+    'If you could wake up anywhere in the world tomorrow, where would it be?',
+    'Sandy beaches and snowy mountain tops!',
+    'Buenos Aires – Paris – Berlin',
+    'Rise and shine, porcupine',
+    'What you cooking, good looking?',
+    'Im a cheap date',    
+    '1 tequila, 2 tequila, 3 tequila, floor!',
+    'I hate when people wear sunglasses indoors and say abbreviated words.',
+    'I think I’m funny, most people just think I’m an asshole.',
+    'Beer is proof God loves us',
+    'Love the life you live and live the life you love',
+    'Just promise not to fall in love with me',
+    'On the count of 3, name your favorite dinosaur',
+    'Just a normal person on a creepy app',
+    'Bio major, rock climber, hockey, Doctor Who, friends',
+    'Everything I need to know I got from watching Gilligans Island.',
+    'In time, we all become that which we most hate. That explains how I became a plate of liver and onions.',
+    'I used to think I was indecisive, but now Im not too sure.'
   ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

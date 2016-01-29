@@ -22,6 +22,7 @@ const divProspectStyle = {
   WebkitTextFillColor: 'white', /* Will override color (regardless of order) */
   WebkitTextStrokeWidth: 1.5,
   WebkitTextStrokeColor: 'black',
+
   borderRadius: 5
 }
 
@@ -48,10 +49,10 @@ class Prospect extends Component {
     console.log('PROS URL', prospect.image_url);
 
     return (
-      <div>
+      <div onClick={ () => {
+            actions.chooseMatch(target, prospect) }}>
         <div style={divProspectStyle}> 
-          <div onClick={ () => {
-            actions.chooseMatch(target, prospect) }}>{prospect.first_name}</div>
+          <div>{prospect.first_name}</div>
         </div>
         <p style={paraProspectStyle}>{prospect.description}</p>
       </div>
