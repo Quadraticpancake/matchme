@@ -3,7 +3,7 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router';
 
-import { styles } from './styles.scss';
+import { styles } from './Header.scss';
 export class Header extends Component {
   render() {
     return (
