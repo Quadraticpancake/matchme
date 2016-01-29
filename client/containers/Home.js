@@ -6,17 +6,27 @@ import Target from '../components/Target'
 import * as MatchmakerActions from '../actions/matchmaker'
 import Scoreboard from './Scoreboard'
 
+
+
 class Home extends Component {
   render() {
     const { matchmaker, actions } = this.props
     return (
       <div>
-      <div>
-        <Target target={matchmaker.target} actions={actions} />
-        <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
-        <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
-      </div>
-        <Scoreboard />
+        <div>
+          <Scoreboard />
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-5">
+              <Target target={matchmaker.target} actions={actions} />
+            </div>
+            <div className="col-md-4">
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
+            </div>
+            </div>
+        </div>
       </div>
     )
   }
