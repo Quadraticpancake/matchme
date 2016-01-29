@@ -76,7 +76,7 @@ class Target extends Component {
     // /img/profilePics/female/8849159795035870722.webp
 
     return (
-      <div className='well well-sm col-md-5' style={wellStyle}>
+      <div className='well well-sm col-md-6 col-sm-12 col-xs-12' style={wellStyle}>
         <div style={divStyle}>
          <label>{target.first_name}</label>
           <img src={target.image_url} style={imgTargetStyle}className="img img-responsive img-rounded center-block"/>

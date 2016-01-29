@@ -25,7 +25,10 @@ class Home extends Component {
               <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
               <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
               </div>
-            </div>
+          </div>
+            <div className=" navbar navbar-right navbar-fixed col-md-3 hidden-sm hidden-xs" style={divStyle}>
+              <Scoreboard />
+           </div>
         </div>
       </div>
     )
