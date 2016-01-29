@@ -7,23 +7,26 @@ import * as MatchmakerActions from '../actions/matchmaker'
 import Scoreboard from './Scoreboard'
 
 
-
+const divStyle = {
+  top: 10,
+  right: 10
+}
 class Home extends Component {
   render() {
     const { matchmaker, actions } = this.props
     return (
       <div>
-        <div>
-          <Scoreboard />
-        </div>
         <div className="container">
-          <div className="row">
-            <div className="col-md-5">
+          <div className="row-fluid">
+            <div className="col-md-5 col-sm-12">
               <Target target={matchmaker.target} actions={actions} />
             </div>
-            <div className="col-md-4">
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
+            <div className="col-md-5 col-sm-12">
+              <Prospect className="col-sm-6" target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
+              <Prospect className="col-sm-6" target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
+            </div>
+            <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
+              <Scoreboard />
             </div>
             </div>
         </div>

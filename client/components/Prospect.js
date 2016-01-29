@@ -3,17 +3,19 @@ import React, { Component, PropTypes } from 'react'
 let image_url = 'http://i.onionstatic.com/onion/7954/original/1200.jpg'
 
 const divProspectStyle = {
-  width: 200,
-  height: 199,
+  height: 300,
   margin: 10,
   marginBottom: -8,
   //float: 'left',
   // backgroundColor: '#ccc',
   display: 'block',
   verticalAlign: 'bottom',
+  opacity: .5,
+  borderWidth: 1,
+  borderColor: 'black',
 
   backgroundImage: 'url(' + image_url + ')',
-  backgroundSize: 'contain',
+  backgroundSize: 'cover',
 
   fontSize: 35,
   fontWeight: 'bold',
@@ -29,15 +31,19 @@ const divProspectStyle = {
 
 const paraProspectStyle = {
   // backgroundColor: '#ccc',
-  width: 100,
+  width: 150,
   fontSize: 18,
-
   fontWeight: 'bold',
   color:'black',
-  marginTop: 8
+  position: 'absolute',
+  right: 30
 }
 
 const divProspectNameStyle = {
+}
+
+const imgProspectStyle = {
+  width: '70%'
 }
 
 class Prospect extends Component {
@@ -46,6 +52,22 @@ class Prospect extends Component {
     super(props, context)
   }
 
+  // <div className="row">
+  //   <div onClick={ () => {
+  //         actions.chooseMatch(target, prospect) }}>
+
+  //     <div>
+  //       <div style={divProspectStyle}> 
+  //         <div style={divProspectNameStyle}>{prospect.first_name}</div>
+  //       </div>
+  //       <p style={paraProspectStyle}>{prospect.description}</p>
+  //     </div>
+
+      
+  //   </div>
+  // </div>
+  //         <img src={prospect.image_url} style={imgProspectStyle}/>
+
   render() {
     const { prospect, actions, target } = this.props
     // prospect on line 14 should be the prospect choosen
@@ -53,21 +75,15 @@ class Prospect extends Component {
     divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
 
     return (
-      <div className="row">
-        <div onClick={ () => {
-              actions.chooseMatch(target, prospect)}}>
 
-          <div className="col-md-8">
-            <div style={divProspectStyle}> 
-              <div style={divProspectNameStyle}>{prospect.first_name}</div>
-            </div>
-          </div>
 
-          <div className="col-md-4">
-            <p style={paraProspectStyle}>{prospect.description}</p>
-          </div>
-          
-        </div>
+      <div style={divProspectStyle} className='well' onClick={() => {actions.chooseMatch(target,prospect)}}>
+        
+        <label>{prospect.first_name}</label>
+
+
+        <p style={paraProspectStyle} className="text-center">{prospect.description}</p>
+
       </div>
     )
   }

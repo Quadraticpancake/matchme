@@ -34,7 +34,7 @@ class Scoreboard extends Component {
     console.log("numEntries: ", scoreboardEntries.length)
 
     return (
-    	<div style={scoreboardStyle}>
+    	<div>
         <div className="scoreboardEntries">
           {scoreboardEntries}
         </div>
