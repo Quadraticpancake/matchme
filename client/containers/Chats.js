@@ -14,6 +14,7 @@ class Chats extends Component {
   // }
 
   render() {
+    window.props = this.props
     const { chats } = this.props;
     return (
       <section>
