@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 
 const wellStyle = {
-  height: 300
+  height: '24em',
+  marginBottom: 15
 }
 const divProspectStyle = {
   height: 200,
   width: "auto",
-  margin: 10,
-  marginBottom: -8,
   //float: 'left',
   // backgroundColor: '#ccc',
   display: 'block',
@@ -36,8 +35,9 @@ const divProspectNameStyle = {
 }
 
 const imgProspectStyle = {
-  maxHeight: '90%',
-  maxWidth: '90%'
+  maxHeight: '100%',
+  maxWidth: '100%',
+  marginBottom: 10
 }
 
 class Prospect extends Component {
@@ -53,7 +53,7 @@ class Prospect extends Component {
     // divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
 
     return (
-      <div className='well well-sm col-md-12 col-lg-12 col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target,prospect)}}>
+      <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target,prospect)}}>
         <label>{prospect.first_name}</label>
         <div style={divProspectStyle} >
           <img src={prospect.image_url} style={imgProspectStyle} className="img img-responsive img-rounded center-block"/>

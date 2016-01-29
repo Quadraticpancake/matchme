@@ -75,6 +75,11 @@ class Target extends Component {
     // newBackgroundDivStyle.backgroundImage = 'url(' + 'http://localhost:3000' + target.image_url + ')'
     // /img/profilePics/female/8849159795035870722.webp
 
+    // let targetHeight = $(document).height() - 500;
+    let targetHeight = '49em';
+    let wellStyle = {height: targetHeight};
+    
+
     return (
       <div className='well well-sm col-md-6 col-sm-12 col-xs-12' style={wellStyle}>
         <div style={divStyle}>
