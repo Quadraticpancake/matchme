@@ -40,7 +40,7 @@ export class Header extends Component {
               <NavItem eventKey={1}>Chats</NavItem>
             </LinkContainer>
             <LinkContainer to="/profile">
-              <NavItem eventKey={1}>My Profile</NavItem>
+              <NavItem eventKey={2}>My Profile</NavItem>
             </LinkContainer>
           </Nav>
           <Nav navbar>
