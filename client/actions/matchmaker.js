@@ -85,14 +85,10 @@ function requestTriad() {
 export const RECEIVE_TRIAD = 'RECEIVE_TRIAD';
 
 function receiveTriad(json) {
-
   return {
     type: RECEIVE_TRIAD,
     triad: json,
     receivedAt: Date.now()
   };
 }
-
-
-
 
