@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Prospect from '../components/Prospect'
 import Target from '../components/Target'
+import SkipButton from '../components/SkipButton'
 import * as MatchmakerActions from '../actions/matchmaker'
 import Scoreboard from './Scoreboard'
 
@@ -26,6 +27,7 @@ class Home extends Component {
               <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
               </div>
           </div>
+           <SkipButton actions={actions}/>
         </div>
       </div>
     )
