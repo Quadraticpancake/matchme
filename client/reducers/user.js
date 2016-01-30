@@ -1,8 +1,8 @@
 import * as UserActions from '../actions/user'
 
 var initialState = {
-	user_id: 0,
-	chats: [{chat_id: 0, chatter1: 'amy', chatter2: 'bob', messages: ['hi']}]
+	user_id: 25,
+	chats: []
 };
 
 export default function user(state = initialState, action) {

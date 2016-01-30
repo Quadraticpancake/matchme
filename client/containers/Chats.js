@@ -13,10 +13,17 @@ class Chats extends Component {
   // constructor(props) {
   //   super(props);
   // }
+  addMessageOnEnter(pair_id, event) {
+    const { actions, user_id } = this.props;
+    if (event.key === 'Enter') {
+      actions.sendMessage(event.target.value, user_id, Number(pair_id));
+      event.target.value = '';
+    }
+  }
 
   componentDidMount() {
-    const { actions } = this.props
-    actions.fetchChats()
+    const { actions, user_id } = this.props;
+    actions.fetchChats(user_id)
   }
 
   render() {
@@ -26,7 +33,8 @@ class Chats extends Component {
     var renderedChats = [];
 
     Object.keys(chats).map((chatKey) => {
-      renderedChats.push(<Chat chat={chats[chatKey]} />)
+      //chatKey is the pair_id
+      renderedChats.push(<Chat chat={chats[chatKey]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={chatKey} />)
     });
 
     return (
@@ -38,12 +46,15 @@ class Chats extends Component {
 }
 
 
+
+
 // Chats.propTypes = {
 //   chats: PropTypes.array.isRequired
 // }
 
 function mapStateToProps(state) {
   return {
+    user_id: state.user.user_id,
     chats: state.user.chats
   }
 }

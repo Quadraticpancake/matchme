@@ -35,7 +35,9 @@ export function getConnectedPairsAndMessagesForUser(user_id) {
 }
 
 export function addMessage(msgObj) {
-	// return db.query(
-	// 	`insert into messages (pair_id, sender, text, created_at) values(${msgObj}`
-	// )
+	var currentTime = (new Date ((new Date((new Date(new Date())).toISOString() )).getTime() - ((new Date()).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' ');
+
+	return db.query(
+		`insert into messages (pair_id, sender, text, created_at) values(${msgObj.pair_id}, ${msgObj.sender}, '${msgObj.text}', '${currentTime}');`
+	).catch((err) => { throw new Error(err); })
 }
