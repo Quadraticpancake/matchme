@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react'
-
+import React, { Component, PropTypes } from 'react';
+import SkipButton from '../components/SkipButton';
 
 const divStyle = {
   // width: 400,
@@ -20,7 +20,7 @@ const divStyle = {
 
   fontSize: 30,
   fontWeight: 'bold',
-  fontFamily: 'Arial, Helvetica, sans-serif',
+  fontFamily: 'Helvetica, sans-serif',
   // backgroundImage: 'http://i.onionstatic.com/onion/7954/original/1200.jpg',
   // WebkitTextFillColor: 'white',  Will override color (regardless of order)
   // WebkitTextStrokeWidth: 2,
@@ -28,7 +28,7 @@ const divStyle = {
 
   borderRadius: 5,
   zIndex: 1
-}
+};
 
 const paraTargetStyle = {
   // backgroundColor: '#ccc',
@@ -39,11 +39,11 @@ const paraTargetStyle = {
   fontSize: 20,
   fontWeight: 'bold',
   color:'black',
-}
+};
 
 const imgTargetStyle = {
   maxWidth: '100%'
-}
+};
 
 const backgroundDivStyle = {
   top: 0,
@@ -55,46 +55,55 @@ const backgroundDivStyle = {
   zIndex: -1,
   backgroundSize: 'cover',
   opacity: 0.5
-}
+};
 
 const wellStyle = {
   // marginTop: 20
+};
+
+const iconStyle = {
+  height: 45,
+  width: 'auto'
 };
 
 class Target extends Component {
 
   constructor(props, context) {
     super(props, context)
-  }
+  };
 
   render() {
-    const { target, actions } = this.props
+    const { target, actions } = this.props;
 
-    // let backgroundDivStyle = Object.assign({}, divStyle)
-    // let newBackgroundDivStyle = Object.assign({},  backgroundDivStyle)
-    // newBackgroundDivStyle.backgroundImage = 'url(' + 'http://localhost:3000' + target.image_url + ')'
-    // /img/profilePics/female/8849159795035870722.webp
-
-    // let targetHeight = $(document).height() - 500;
     let targetHeight = '49em';
     let wellStyle = {height: targetHeight};
-
+    console.log('GEENNDDEERRR',target.gender)
+    let icon_path = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
+    if (target.gender === 'female') {
+      icon_path = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
+    }
 
     return (
+    
       <div className='well well-sm col-md-6 col-sm-12 col-xs-12' style={wellStyle}>
         <div style={divStyle}>
          <label>{target.first_name}</label>
-          <img src={target.image_url} style={imgTargetStyle}className="img img-responsive img-rounded center-block"/>
+          <img src={target.image_url} style={imgTargetStyle} className="img img-responsive img-rounded center-block"/>
+          <img src={icon_path} style={iconStyle}/>
+          
           <p style={paraTargetStyle} className="text-center">{target.description}</p>
+          <SkipButton actions={actions}/>
         </div>
 
       </div>
+
+      
     )
   }
 }
 
 Target.propTypes = {
-  target: PropTypes.object.isRequired,
+  prospect: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 }
 
