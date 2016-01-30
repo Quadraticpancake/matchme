@@ -6,7 +6,7 @@ module.exports = ['Professional Eugoogoolizer at the Derek Zoolander Center For 
     'I’m counting on your standards being lower than mine.',
     'NYC editor who gets drunk and takes pictures a lot. Not exactly a special snowflake.',
     'If you can eat more McDonald’s cheeseburgers than me then we can date',
-    'Half-Filipino, Half-German, Physics major.',
+    'Half-German, Physics major.',
     'I like laughing, dogs, lots of food, beer, outdoor activities, and adventures.',
     'If you can’t handle me at my worst, then leave because I don’t have a best. I’m always awful.',
     'Our relationship should be like Nintendo 64–classic, fun and every issue fixed by blowing on it then shoving it back in.',
