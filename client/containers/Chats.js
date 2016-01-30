@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as UserActions from '../actions/user'
+import {Chat} from '../components/Chat'
 
 // @connect(
 //   state => state.items,
@@ -13,12 +14,24 @@ class Chats extends Component {
   //   super(props);
   // }
 
+  componentDidMount() {
+    const { actions } = this.props
+    actions.fetchChats()
+  }
+
   render() {
-    window.props = this.props
+    window.props = this.props;
     const { chats } = this.props;
+
+    var renderedChats = [];
+
+    Object.keys(chats).map((chatKey) => {
+      renderedChats.push(<Chat chat={chats[chatKey]} />)
+    });
+
     return (
       <section>
-      	<div>{JSON.stringify(chats[0])}</div>
+        {renderedChats}
       </section>
     );
   }
