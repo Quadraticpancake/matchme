@@ -1,4 +1,5 @@
 import { getRandomUsers, addMatch, getMatchSet } from '../db/dbHelpers';
+import { getConnectedPairsAndMessagesForUser, addMessage } from '../db/chatHelpers'
 import path from 'path';
 import bodyParser from 'body-parser'
 import store from './scoreboard'
@@ -20,6 +21,17 @@ export default function (app, express) {
 		})	
 	})
 
+	app.get('/api/chats/:user_id', (req, res) => {
+		getConnectedPairsAndMessagesForUser(req.params.user_id).then((rows) => {
+			res.json(rows)
+		})
+	});
+
+	app.post('/api/chats', (req, res) => {
+		addMessage(req.body).then(() => {
+			res.end();
+		});
+	});
 	// app.get('/api/matchSet', (req, res) => {
 	// 	getMatchSet().then((matchSet) => {
 	// 		console.log(matchSet)
