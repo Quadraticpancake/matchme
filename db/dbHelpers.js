@@ -113,6 +113,10 @@ export function getMatchSet () {
           })
 }
 
+export function getMatchmakerScore () {
+  // select * from users inner join pairs on pairs.user_one = users.user_id or pairs.user_two = users.user_id on inner join matches_made on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id;
+ 
+}
 
 // get all users
 
