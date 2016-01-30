@@ -21,6 +21,7 @@ export default function (app, express) {
 		})	
 	})
 
+
 	app.get('/api/chats/:user_id', (req, res) => {
 		getConnectedPairsAndMessagesForUser(req.params.user_id).then((rows) => {
 			res.json(rows)
@@ -38,6 +39,7 @@ export default function (app, express) {
 	// 		res.json(matchSet)
 	// 	})
 	// })
+
 
 
 }

@@ -40,6 +40,13 @@ const imgProspectStyle = {
   marginBottom: 10
 }
 
+const divStyle = {
+  width: 200,
+  height: 64,
+  padding: 32,
+  float: 'left',
+}
+
 class Prospect extends Component {
 
   constructor(props, context) {
@@ -70,12 +77,6 @@ Prospect.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
-const divStyle = {
-  width: 200,
-  height: 64,
-  padding: 32,
-  float: 'left',
 
-}
 
 export default Prospect

@@ -17,7 +17,9 @@ class Home extends Component {
   render() {
     const { matchmaker, actions } = this.props
     return (
+
       <div>
+      
         <div className="container">
           <div className="row-fluid">
               <Target target={matchmaker.target} actions={actions} />
