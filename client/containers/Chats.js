@@ -44,10 +44,6 @@ class Chats extends Component {
   }
 }
 
-// Chats.propTypes = {
-//   chats: PropTypes.array.isRequired
-// }
-
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
