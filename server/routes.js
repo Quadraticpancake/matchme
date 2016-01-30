@@ -4,6 +4,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
 import request from 'request';
+import { io } from './server';
 
 var genderPreference = function(input) {
   if (Math.floor(Math.random() * 10) === 0) {
@@ -49,6 +50,8 @@ export default function (app, express) {
 
 	app.post('/api/chats', (req, res) => {
 		addMessage(req.body).then(() => {
+			console.log(req.body)
+			io.to(req.body.pair_id.toString()).emit('refreshChats');
 			res.end();
 		});
 	});

@@ -11,8 +11,11 @@ var bodyParser = require('body-parser');
 
 var app = express();
 var server = require('http').Server(app);
+
 var io = require('socket.io')(server);
-var store = require('./scoreboard/');
+
+module.exports = {app: app, io: io};
+require('./sockets');
 
 // Middleware
 app.use(bodyParser.json());
@@ -36,15 +39,6 @@ app.use(function(req, res) {
 // Set up ports
 var port = process.env.PORT || 3000;
 
-// Set up sockets and Redux store for the real-time scoreboard
-io.on('connection', function(socket) {
-	socket.emit('scoreboard', store.getState())
-})
-
-store.subscribe(() => {
-	io.emit('scoreboard', store.getState())
-})
-
 server.listen(port, function(error) {
   if (error) {
     console.error(error)
@@ -53,5 +47,3 @@ server.listen(port, function(error) {
   }
 })
 
-
-module.exports = app;

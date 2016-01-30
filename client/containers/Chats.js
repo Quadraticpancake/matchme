@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as UserActions from '../actions/user';
-import {Chat} from '../components/Chat';
+import { Chat } from '../components/Chat';
+import { socket } from './App';
 
 // @connect(
 //   state => state.items,
@@ -21,9 +22,24 @@ class Chats extends Component {
     }
   }
 
-  componentDidMount() {
-    const { actions, user_id } = this.props;
+  fetchChatsAndTellSocket() {
+    const { actions, user_id, chats } = this.props;
     actions.fetchChats(user_id);
+    // () => {
+    //   socket.emit('joinChatrooms', { chats: chats });
+    // }
+  }
+
+  componentDidMount() {
+    this.fetchChatsAndTellSocket();
+    socket.on('refreshChats', () => { 
+      this.fetchChatsAndTellSocket();
+    }.bind(this));
+  }
+
+  componentDidUpdate() {
+    const { chats } = this.props;
+    socket.emit('joinChatrooms', { chats: chats });
   }
 
   render() {
