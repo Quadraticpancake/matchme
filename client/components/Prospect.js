@@ -5,7 +5,7 @@ const wellStyle = {
   marginBottom: 15
 }
 const divProspectStyle = {
-  height: 200,
+  height:250,
   width: "auto",
   //float: 'left',
   // backgroundColor: '#ccc',
@@ -49,7 +49,7 @@ class Prospect extends Component {
   render() {
     const { prospect, actions, target } = this.props
     // prospect on line 14 should be the prospect choosen
-    
+
     // divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
 
     return (
