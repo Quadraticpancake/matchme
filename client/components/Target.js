@@ -10,10 +10,10 @@ const divStyle = {
   borderColor: 'black',
   // opacity: .5,
   // backgroundColor: '#ccc',
- 
-  display: 'block',
-  position:'relative',
-  verticalAlign: 'bottom',
+
+  // display: 'block',
+  // position:'relative',
+  // verticalAlign: 'bottom',
 
   // backgroundImage: 'url(' + image_url + ')',
   // backgroundSize: 'cover',
@@ -22,7 +22,7 @@ const divStyle = {
   fontWeight: 'bold',
   fontFamily: 'Arial, Helvetica, sans-serif',
   // backgroundImage: 'http://i.onionstatic.com/onion/7954/original/1200.jpg',
-  // WebkitTextFillColor: 'white',  Will override color (regardless of order) 
+  // WebkitTextFillColor: 'white',  Will override color (regardless of order)
   // WebkitTextStrokeWidth: 2,
   // WebkitTextStrokeColor: 'black',
 
@@ -78,7 +78,7 @@ class Target extends Component {
     // let targetHeight = $(document).height() - 500;
     let targetHeight = '49em';
     let wellStyle = {height: targetHeight};
-    
+
 
     return (
       <div className='well well-sm col-md-6 col-sm-12 col-xs-12' style={wellStyle}>
@@ -86,7 +86,7 @@ class Target extends Component {
          <label>{target.first_name}</label>
           <img src={target.image_url} style={imgTargetStyle}className="img img-responsive img-rounded center-block"/>
           <p style={paraTargetStyle} className="text-center">{target.description}</p>
-        </div>       
+        </div>
 
       </div>
     )

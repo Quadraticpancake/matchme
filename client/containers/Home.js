@@ -21,14 +21,11 @@ class Home extends Component {
         <div className="container">
           <div className="row-fluid">
               <Target target={matchmaker.target} actions={actions} />
-              <div className='col-md-3'>
+              <div className='col-md-4'>
               <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
               <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
               </div>
           </div>
-            <div className=" navbar navbar-right navbar-fixed col-md-3 hidden-sm hidden-xs" style={divStyle}>
-              <Scoreboard />
-           </div>
         </div>
       </div>
     )

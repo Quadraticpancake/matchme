@@ -6,12 +6,13 @@ import io from 'socket.io-client'
 
 const scoreboardStyle = {
   position: 'fixed',
+  width: 230,
   right: 0,
   top: 50,
   bottom: 0,
-  backgroundColor: '#ccc',
-  borderRight: '1px solid #333',
-  padding: 16
+  backgroundColor: '#eee',
+  // borderRight: '1px solid #333',
+  // padding: 16
 }
 
 class Scoreboard extends Component {
@@ -26,8 +27,8 @@ class Scoreboard extends Component {
   render() {
     const { scoreboard, actions } = this.props
 
-    let scoreboardEntries = scoreboard.map((scoreboardEntry) => {
-      return <ScoreboardEntry pair={scoreboardEntry.pair} />
+    let scoreboardEntries = scoreboard.map((scoreboardEntry, index) => {
+      return <ScoreboardEntry pair={scoreboardEntry.pair} key={index} />
     })
 
     console.log("Entries: ", scoreboardEntries)
@@ -35,7 +36,7 @@ class Scoreboard extends Component {
 
     return (
     	<div>
-        <div className="scoreboardEntries">
+        <div className="scoreboardEntries " style={scoreboardStyle}>
           {scoreboardEntries}
         </div>
       </div>
@@ -43,10 +44,13 @@ class Scoreboard extends Component {
   }
 }
 
-
+const entryStyle = {
+  marginTop: 10,
+  marginBottom: -5
+}
 const ScoreboardEntry = (props) => {
   return (
-    <div>
+    <div className="well well-sm" style={entryStyle}>
       {props ? props.pair.target.first_name : ''} just matched with {props ? props.pair.prospect.first_name : ''}
     </div>
   )

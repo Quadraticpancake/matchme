@@ -23,6 +23,9 @@ export class Header extends Component {
             <LinkContainer to="/chats">
               <NavItem eventKey={1}>Chats</NavItem>
             </LinkContainer>
+            <LinkContainer to="/profile">
+              <NavItem eventKey={1}>My Profile</NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
