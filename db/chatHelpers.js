@@ -16,7 +16,22 @@ export function getConnectedPairsAndMessagesForUser(user_id) {
 		full outer join pairs on messages.pair_id=pairs.pair_id\n\
 		inner join users on users.user_id=pairs.user_one or users.user_id=pairs.user_two\n\
 		where users.user_id=${user_id} and pairs.connected=false;` //for testing purposes, pairs.connected=false. Set it to true for production.
-	)
+	).then((rows) => {
+		// organize messages by pair
+		var allPairs = {};
+		rows.forEach((row) => {
+			if (allPairs[row.pair_id] === undefined) {
+				allPairs[row.pair_id] = {}
+				allPairs[row.pair_id]['user_one'] = row.user_one
+				allPairs[row.pair_id]['user_two'] = row.user_two
+				allPairs[row.pair_id]['messages'] = row.text ? [{created_at: row.created_at, sender: row.sender, text: row.text}] : []
+			} else {
+				allPairs[row.pair_id]['messages'].push({created_at: row.created_at, sender: row.sender, text: row.text})
+			}
+		});
+
+		return allPairs;
+	})
 }
 
 export function addMessage(msgObj) {
