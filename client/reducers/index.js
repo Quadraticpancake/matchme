@@ -10,8 +10,7 @@ const rootReducer = combineReducers({
   form: formReducer,
   scoreboard,
   matchmaker,
-  user,
-  authentication
+  user
 });
 
 export default rootReducer;
