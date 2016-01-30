@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch';
 
 ////////////////////////
 // Login Related Code //
@@ -12,29 +12,29 @@ import fetch from 'isomorphic-fetch'
 // User actions //
 //////////////////
 
-export const CHOOSE_MATCH = 'CHOOSE_MATCH'
+export const CHOOSE_MATCH = 'CHOOSE_MATCH';
 
 export function chooseMatch(target, prospect) {
-  console.log('chooseMatch called')
+  console.log('chooseMatch called');
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
 
 
-  return function (dispatch) {
+  return function(dispatch) {
 
     // Fetch our target
     // TODO: also fetch our prospects
-    dispatch(requestTriad())
+    dispatch(requestTriad());
 
-    let request = new Request('/api/pairs',  {
+    let request = new Request('/api/pairs', {
       method: 'post',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({matchmaker: {user_id: 3}, pair: {target:  target, prospect: prospect }})
-    })
+    });
 
     return fetch(request)
       .then(response => response.json())
@@ -42,31 +42,31 @@ export function chooseMatch(target, prospect) {
         // We can dispatch many times!
         // Here, we update the app state with the results of the API call.
         console.log(json);
-        dispatch(receiveTriad(json))
-      })
-  }
+        dispatch(receiveTriad(json));
+      });
+  };
 }
 
-export const GET_NEW_CANDIDATES = 'GET_NEW_CANDIDATES'
+export const GET_NEW_CANDIDATES = 'GET_NEW_CANDIDATES';
 
 export function getNewCandidates() {
-  return function (dispatch) {
-    
-    let request = new Request('/api/candidates',  {
+  return function(dispatch) {
+
+    let request = new Request('/api/candidates', {
       method: 'get',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-    })
+    });
 
     return fetch(request)
       .then(response => response.json())
       .then((json) => {
 
-        dispatch(receiveTriad(json))
-      })
-  }
+        dispatch(receiveTriad(json));
+      });
+  };
 }
 
 ///////////////////
@@ -76,13 +76,13 @@ export function getNewCandidates() {
 
 // TARGET
 
-export const REQUEST_TRIAD = 'REQUEST_TRIAD'
+export const REQUEST_TRIAD = 'REQUEST_TRIAD';
 function requestTriad() {
   return {
     type: REQUEST_TRIAD
-  }
+  };
 }
-export const RECEIVE_TRIAD = 'RECEIVE_TRIAD'
+export const RECEIVE_TRIAD = 'RECEIVE_TRIAD';
 
 function receiveTriad(json) {
 
@@ -90,7 +90,7 @@ function receiveTriad(json) {
     type: RECEIVE_TRIAD,
     triad: json,
     receivedAt: Date.now()
-  }
+  };
 }
 
 

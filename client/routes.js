@@ -5,7 +5,7 @@ import { Route } from 'react-router';
 import App from './containers/App';
 import Home from './containers/Home';
 import Profile from './containers/Profile.js';
-import Chats from './containers/Chats'
+import Chats from './containers/Chats';
 
 export default (
   <Route path="/" component={App}>
