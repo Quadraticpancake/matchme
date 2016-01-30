@@ -50,7 +50,7 @@ export default function matchmaker(state = initialState, action) {
         lastUpdated: action.receivedAt,
         target: target,
         prospects: prospects
-      })
+      })  
 
     default:
       return state

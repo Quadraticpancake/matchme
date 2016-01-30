@@ -1,8 +1,34 @@
 import db from './config';
+var request = require('request');
 var zipcodes = require('zipcodes');
 var _ = require('underscore');
 
 ///////////////// DB helpers /////////////////////
+
+export function getUser (facebook_id) {
+  console.log(facebook_id);
+  // the syntax below is because facebook_id must be explictly passed as a string
+  return db.query("SELECT * from users where facebook_id = '" + facebook_id + "';")
+}
+
+
+export function postUser (user) {
+  console.log(user);
+  var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
+              location_preference,description,image_url) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}','${user.gender}',\
+              '${user.birthday}','${user.zipcode}','${user.status}',${user.age_min},${user.age_max},\
+              '${user.gender_preference}',${user.location_preference},'${user.description}','${user.image_url}') returning *;`;
+  console.log(insertUserQueryStr);
+  return db.query(insertUserQueryStr)
+  .then((rows) => {
+    console.log('added entry', rows);
+    return rows[0];
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+}
+
 
 // get three random users, based on: http://stackoverflow.com/questions/8674718/best-way-to-select-random-rows-postgresql
 export function getRandomUsers () {

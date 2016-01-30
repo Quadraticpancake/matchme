@@ -1,8 +1,16 @@
 import fetch from 'isomorphic-fetch'
 
-///////////////////
-// User actions
-///////////////////
+////////////////////////
+// Login Related Code //
+////////////////////////
+
+// There are three possible states for our login
+// process and we need actions for each of them
+
+
+//////////////////
+// User actions //
+//////////////////
 
 export const CHOOSE_MATCH = 'CHOOSE_MATCH'
 
@@ -11,7 +19,13 @@ export function chooseMatch(target, prospect) {
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
+
+
   return function (dispatch) {
+
+    // Fetch our target
+    // TODO: also fetch our prospects
+    dispatch(requestTriad())
 
     let request = new Request('/api/pairs',  {
       method: 'post',
@@ -63,9 +77,9 @@ export function getNewCandidates() {
 // TARGET
 
 export const REQUEST_TRIAD = 'REQUEST_TRIAD'
-function requestTarget() {
+function requestTriad() {
   return {
-    type: REQUEST_TARGET
+    type: REQUEST_TRIAD
   }
 }
 export const RECEIVE_TRIAD = 'RECEIVE_TRIAD'

@@ -5,12 +5,15 @@ import { combineReducers } from 'redux'
 import matchmaker from './matchmaker'
 import scoreboard from './scoreboard'
 import user from './user'
+import authentication from './authentication'
+
 
 const rootReducer = combineReducers({
   routing: routeReducer,
   scoreboard,
   matchmaker,
-  user
+  user,
+  authentication
 })
 
 export default rootReducer

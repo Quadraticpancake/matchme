@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import Prospect from '../components/Prospect'
 import Target from '../components/Target'
 import * as MatchmakerActions from '../actions/matchmaker'
-import Scoreboard from './Scoreboard'
 
            // <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
            //    <Scoreboard />
@@ -18,8 +17,7 @@ class Home extends Component {
     const { matchmaker, actions } = this.props
     return (
 
-      <div>
-      
+      <div>      
         <div className="container">
           <div className="row-fluid">
               <Target target={matchmaker.target} actions={actions} />
