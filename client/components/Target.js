@@ -77,10 +77,15 @@ class Target extends Component {
 
     let targetHeight = '49em';
     let wellStyle = {height: targetHeight};
-    console.log('GEENNDDEERRR', target.gender);
     let icon_path = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
+
     if (target.gender === 'female') {
-      icon_path = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
+      icon_user_path = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
+    }
+
+    let icon_seeking_path = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
+    if (target.gender_preference === 'female') {
+      icon_seeking_path = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
     }
 
     return (
@@ -89,9 +94,11 @@ class Target extends Component {
         <div style={divStyle}>
          <label>{target.first_name}</label>
           <img src={target.image_url} style={imgTargetStyle} className="img img-responsive img-rounded center-block"/>
-          <img src={icon_path} style={iconStyle}/>
 
-          <p style={paraTargetStyle} className="text-center">{target.description}</p>
+          <img src={icon_user_path} style={iconStyle}/> seeking <img src={icon_seeking_path} style={iconStyle}/>
+          
+          <p style={paraTargetStyle} className="text-center">Description: ''{target.description}''</p>
+
           <SkipButton actions={actions}/>
         </div>
 
