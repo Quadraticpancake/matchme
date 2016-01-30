@@ -1,7 +1,7 @@
 import * as UserActions from '../actions/user'
 
 var initialState = {
-	user_id: 25,
+	user_id: 20,
 	chats: []
 };
 

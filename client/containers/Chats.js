@@ -27,10 +27,6 @@ class Chats extends Component {
   }
 
   render() {
-<<<<<<< HEAD
-=======
-    window.props = this.props;
->>>>>>> 0914b3984ba32dbef4a183fdfa928f36bf5cc48a
     const { chats } = this.props;
 
     var renderedChats = [];
