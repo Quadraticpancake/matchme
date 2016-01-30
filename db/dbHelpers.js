@@ -16,7 +16,7 @@ export function postUser (user) {
   console.log(user);
   var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
               location_preference,description,image_url) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}','${user.gender}',\
-              ${user.birthday},'${user.zipcode}','${user.status}',${user.age_min},${user.age_max},\
+              '${user.birthday}','${user.zipcode}','${user.status}',${user.age_min},${user.age_max},\
               '${user.gender_preference}',${user.location_preference},'${user.description}','${user.image_url}') returning *;`;
   console.log(insertUserQueryStr);
   return db.query(insertUserQueryStr)

@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { getRandomUsers, addMatch, getMatchSet } from '../db/dbHelpers';
 import { getConnectedPairsAndMessagesForUser, addMessage } from '../db/chatHelpers'
-=======
 import { getRandomUsers, addMatch, getMatchSet, getUser, postUser } from '../db/dbHelpers';
->>>>>>> Lots of changes to have button to login in and add and get user data from the database
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -50,9 +46,7 @@ export default function (app, express) {
 	});
 
 	app.put('/api/users', (req, res) => {
-		console.log(typeof req.body.facebook_id);
 		getUser(req.body.facebook_id).then((rows) => {
-			console.log(rows);
 			if (rows.length === 0) {
 			  res.json(null);
 			} else {
@@ -62,20 +56,22 @@ export default function (app, express) {
 	})
 
 	app.post('/api/users', (req, res) => {
-		console.log(req.body.access_token);
+		console.log('logging in');
 		request.get('https://graph.facebook.com/v2.5/me?fields=id,first_name,last_name,gender,birthday,picture.width(200).height(200).type(square)&access_token=' + req.body.access_token, function(err, getResponse, fbResult) {
             if (err) {
                 console.log("FB err: ", err);
                 return res.send(500);
             }
-            try {
+            try {            	
                 fbResult = JSON.parse(fbResult);
+                var gp = genderPreference(fbResult.gender);
+                console.log(fbResult);
                 var userData = {
                     facebook_id: fbResult.id, 
                     first_name: fbResult.first_name,
                     last_name: fbResult.last_name,
                     gender: fbResult.gender,
-                    birthday: null, // NEEDS CLEANING FOR BAD DATA
+                    birthday: '1986-05-05', // NEEDS CLEANING FOR BAD DATA
                     zipcode: 99999, // DUMMY VALUE
                     status: 'true',
                     age_min: 0,

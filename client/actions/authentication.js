@@ -12,10 +12,9 @@ export function clickLogin () {
   console.log("CLICK LOGIN")
   requestLogin();
   FB.getLoginStatus(function(response) {
-    console.log(response);
     // In this case the user must have logged in previously so get request SHOULD return user data
     // These puts should be converted to gets with ID params
-    if (response === 'connected') {
+    if (response.status === 'connected') {
       let request = new Request ('/api/users',  {
         method: 'put',
         headers: {
@@ -29,13 +28,10 @@ export function clickLogin () {
         .then((json) => {
           // We can dispatch many times!
           // Here, we update the app state with the results of the API call.
-          console.log(json);
           receiveLogin(json);
         })
     } else {
       FB.login(function (responseLogin) {
-        console.log(responseLogin);
-        console.log("Successful login:", responseLogin.authResponse.userID);
         let request2 = new Request ('/api/users',  {
           method: 'put',
            headers: {
@@ -47,7 +43,6 @@ export function clickLogin () {
         return fetch(request2)
           .then(response => response.json())
           .then((json) => {
-            console.log(json);
             if (json) {
               receiveLogin(json)
             } else {
@@ -67,7 +62,6 @@ export function clickLogin () {
                 .then((json) => {
                 // We can dispatch many times!
                 // Here, we update the app state with the results of the API call.
-                  console.log(json);
                   receiveLogin(json)
                 })
             }
@@ -77,7 +71,8 @@ export function clickLogin () {
   })    
 }
 
-clickLogin();
+// Naive solution to getting searching for FB login status after FB loads
+setTimeout(clickLogin, 2000);
 
 export function requestLogin() {
   return {
@@ -87,6 +82,7 @@ export function requestLogin() {
 }
 
 export function receiveLogin(user) {
+  console.log("recievedLogin", user);
   return {
     type: LOGIN_SUCCESS,
     isFetchingAuth: false,

@@ -23,13 +23,10 @@ export function chooseMatch(target, prospect) {
 
   return function (dispatch) {
 
-<<<<<<< HEAD
-=======
     // Fetch our target
     // TODO: also fetch our prospects
     dispatch(requestTriad())
 
->>>>>>> Lots of changes to have button to login in and add and get user data from the database
     let request = new Request('/api/pairs',  {
       method: 'post',
       headers: {
@@ -47,7 +44,6 @@ export function chooseMatch(target, prospect) {
         console.log(json);
         dispatch(receiveTriad(json))
       })
-<<<<<<< HEAD
   }
 }
 
@@ -63,8 +59,6 @@ export function getNewCandidates() {
         'Content-Type': 'application/json'
       },
     })
-=======
->>>>>>> Lots of changes to have button to login in and add and get user data from the database
 
     return fetch(request)
       .then(response => response.json())
