@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 export class Chat extends Component {
   render() {
-    const {chat} = this.props
+    const {chat, addMessageOnEnter, pair_id} = this.props
+    window.chatprops = this.props
 
     // messages vs. chats:
     // Chats refer to all messages between a particular pair (bob and amy)
@@ -18,7 +19,7 @@ export class Chat extends Component {
       Chat between {chat.user_one} and {chat.user_two}
       {renderedMessages}
       </div>
-      <input type='text' />
+      <input type='text' onKeyPress={addMessageOnEnter.bind(this, pair_id)} />
       </div>
     );
   }
