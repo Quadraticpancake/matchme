@@ -3,25 +3,25 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router';
 import css from './Header.scss';
-import { clickLogin } from '../actions/authentication'
+import { clickLogin } from '../actions/authentication';
 
 // This function is called when someone finishes with the Login
 // Button.  See the onlogin handler attached to it in the sample
 // code below.
 
 
-const handleClick = function () {
+const handleClick = function() {
   clickLogin();
-}
+};
 
-const handleLogin = function () {
+const handleLogin = function() {
   console.log('BAILEY B BAILEY');
-}
+};
 
 
 export class Header extends Component {
   render() {
-    window.HeaderProps = this.props
+    window.HeaderProps = this.props;
     return (
       <header className={css.header} >
       <Navbar fixedTop>

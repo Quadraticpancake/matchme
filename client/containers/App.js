@@ -13,7 +13,7 @@ import { Header } from '../components/Header';
 class App extends Component {
 
   render() {
-    window.AppProps = this.props
+    window.AppProps = this.props;
     const { actions } = this.props;
     return (
       <section>
@@ -30,17 +30,17 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(AuthActions, dispatch)
-  }
+  };
 }
 
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(App);

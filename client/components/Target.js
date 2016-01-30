@@ -4,7 +4,7 @@ import SkipButton from '../components/SkipButton';
 const divStyle = {
   // width: 400,
   height: 600,
-  width: "auto",
+  width: 'auto',
   // marginTop: 40,
   borderWidth: 1,
   borderColor: 'black',
@@ -34,7 +34,7 @@ const paraTargetStyle = {
   // backgroundColor: '#ccc',
   // position: 'absolute'
   // bottom: 0;
-  width: "90%",
+  width: '90%',
 
   fontSize: 20,
   fontWeight: 'bold',
@@ -69,44 +69,44 @@ const iconStyle = {
 class Target extends Component {
 
   constructor(props, context) {
-    super(props, context)
-  };
+    super(props, context);
+  }
 
   render() {
     const { target, actions } = this.props;
 
     let targetHeight = '49em';
     let wellStyle = {height: targetHeight};
-    console.log('GEENNDDEERRR',target.gender)
+    console.log('GEENNDDEERRR', target.gender);
     let icon_path = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
     if (target.gender === 'female') {
       icon_path = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
     }
 
     return (
-    
+
       <div className='well well-sm col-md-6 col-sm-12 col-xs-12' style={wellStyle}>
         <div style={divStyle}>
          <label>{target.first_name}</label>
           <img src={target.image_url} style={imgTargetStyle} className="img img-responsive img-rounded center-block"/>
           <img src={icon_path} style={iconStyle}/>
-          
+
           <p style={paraTargetStyle} className="text-center">{target.description}</p>
           <SkipButton actions={actions}/>
         </div>
 
       </div>
 
-      
-    )
+
+    );
   }
 }
 
 Target.propTypes = {
   prospect: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
-}
+};
 
 
 
-export default Target
+export default Target;

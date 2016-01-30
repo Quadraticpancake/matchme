@@ -23,6 +23,7 @@
     "bluebird": "^3.1.2",
     "body-parser": "^1.14.2",
     "classnames": "^2.1.2",
+    "eslint-config-airbnb": "^0.1.0",
     "express": "^4.13.4",
     "history": "^1.17.0",
     "humps": "^0.6.0",

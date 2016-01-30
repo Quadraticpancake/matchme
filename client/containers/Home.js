@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import Prospect from '../components/Prospect'
-import Target from '../components/Target'
-import * as MatchmakerActions from '../actions/matchmaker'
+import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import Prospect from '../components/Prospect';
+import Target from '../components/Target';
+import * as MatchmakerActions from '../actions/matchmaker';
 
            // <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
            //    <Scoreboard />
@@ -11,13 +11,13 @@ import * as MatchmakerActions from '../actions/matchmaker'
 const divStyle = {
   top: 10,
   right: 10
-}
+};
 class Home extends Component {
   render() {
-    const { matchmaker, actions } = this.props
+    const { matchmaker, actions } = this.props;
     return (
 
-      <div>      
+      <div>
         <div className="container">
           <div className="row-fluid">
               <Target target={matchmaker.target} actions={actions} />
@@ -28,29 +28,29 @@ class Home extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
 Home.propTypes = {
   matchmaker: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
-}
+};
 
 function mapStateToProps(state) {
   return {
     matchmaker: state.matchmaker
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MatchmakerActions, dispatch)
-  }
+  };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home)
+)(Home);
 

@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 
 class Login extends Component {
-  
+
   render() {
-    const { errorMessage } = this.props
-    
+    const { errorMessage } = this.props;
+
     return (
       <div>
         <input type='text' ref='username' className="form-control" style={{ marginRight: '5px' }} placeholder='Username'/>
@@ -12,25 +12,25 @@ class Login extends Component {
         <button onClick={(event) => this.handleClick(event)} className="btn btn-primary">
           Login
         </button>
-        
+
         {errorMessage &&
           <p style={{color:'red'}}>{errorMessage}</p>
         }
       </div>
-    )
+    );
   }
-  
+
   handleClick(event) {
-    const username = this.refs.username
-    const password = this.refs.password
-    const creds = { username: username.value.trim(), password: password.value.trim() }
-    this.props.onLoginClick(creds)
+    const username = this.refs.username;
+    const password = this.refs.password;
+    const creds = { username: username.value.trim(), password: password.value.trim() };
+    this.props.onLoginClick(creds);
   }
 }
 
 Login.propTypes = {
   onLoginClick: PropTypes.func.isRequired,
   errorMessage: PropTypes.string
-}
+};
 
-export default Login
+export default Login;

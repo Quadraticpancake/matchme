@@ -1,13 +1,13 @@
-import thunkMiddleware from 'redux-thunk'
-import createLogger from 'redux-logger'
-import { createStore, applyMiddleware, compose } from 'redux'
-import rootReducer from '../reducers'
+import thunkMiddleware from 'redux-thunk';
+import createLogger from 'redux-logger';
+import { createStore, applyMiddleware, compose } from 'redux';
+import rootReducer from '../reducers';
 import DevTools from '../containers/DevTools';
-import { Router, Route, browserHistory } from 'react-router'
-import { syncHistory, routeReducer } from 'react-router-redux'
+import { Router, Route, browserHistory } from 'react-router';
+import { syncHistory, routeReducer } from 'react-router-redux';
 
-const loggerMiddleware = createLogger()
-const reduxRouterMiddleware = syncHistory(browserHistory)
+const loggerMiddleware = createLogger();
+const reduxRouterMiddleware = syncHistory(browserHistory);
 
 const finalCreateStore = compose(
   applyMiddleware(
@@ -25,10 +25,10 @@ export default function configureStore(initialState) {
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      const nextReducer = require('../reducers')
-      store.replaceReducer(nextReducer)
-    })
+      const nextReducer = require('../reducers');
+      store.replaceReducer(nextReducer);
+    });
   }
 
-  return store
+  return store;
 }
