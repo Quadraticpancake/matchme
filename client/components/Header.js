@@ -12,7 +12,6 @@ import { clickLogin } from '../actions/authentication'
 
 const handleClick = function () {
   clickLogin();
-  console.log('handleClick');
 }
 
 const handleLogin = function () {
@@ -22,6 +21,7 @@ const handleLogin = function () {
 
 export class Header extends Component {
   render() {
+    window.HeaderProps = this.props
     return (
       <header className={css.header} >
       <Navbar fixedTop>
@@ -44,7 +44,7 @@ export class Header extends Component {
             </LinkContainer>
           </Nav>
           <Nav navbar>
-            <div onClick={handleClick}>
+            <div onClick={this.props.actions.clickLogin}>
               FACEBOOK
             </div>
           </Nav>
