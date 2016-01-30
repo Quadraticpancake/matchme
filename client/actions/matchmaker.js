@@ -6,36 +6,7 @@ import fetch from 'isomorphic-fetch'
 
 // There are three possible states for our login
 // process and we need actions for each of them
-export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 
-function requestLogin(creds) {
-  return {
-    type: LOGIN_REQUEST,
-    isFetching: true,
-    isAuthenticated: false,
-    creds
-  }
-}
-
-function receiveLogin(user) {
-  return {
-    type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
-    id_token: user.id_token
-  }
-}
-
-function loginError(message) {
-  return {
-    type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    message
-  }
-}
 
 //////////////////
 // User actions //
@@ -48,8 +19,17 @@ export function chooseMatch(target, prospect) {
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
+
+
   return function (dispatch) {
 
+<<<<<<< HEAD
+=======
+    // Fetch our target
+    // TODO: also fetch our prospects
+    dispatch(requestTriad())
+
+>>>>>>> Lots of changes to have button to login in and add and get user data from the database
     let request = new Request('/api/pairs',  {
       method: 'post',
       headers: {
@@ -67,6 +47,7 @@ export function chooseMatch(target, prospect) {
         console.log(json);
         dispatch(receiveTriad(json))
       })
+<<<<<<< HEAD
   }
 }
 
@@ -82,6 +63,8 @@ export function getNewCandidates() {
         'Content-Type': 'application/json'
       },
     })
+=======
+>>>>>>> Lots of changes to have button to login in and add and get user data from the database
 
     return fetch(request)
       .then(response => response.json())
@@ -100,9 +83,9 @@ export function getNewCandidates() {
 // TARGET
 
 export const REQUEST_TRIAD = 'REQUEST_TRIAD'
-function requestTarget() {
+function requestTriad() {
   return {
-    type: REQUEST_TARGET
+    type: REQUEST_TRIAD
   }
 }
 export const RECEIVE_TRIAD = 'RECEIVE_TRIAD'
