@@ -6,7 +6,7 @@ export class Chat extends Component {
     // messages vs. chats:
     // Chats refer to all messages between a particular pair (bob and amy)
     // messages are an individual message of text sent by one user
-    var renderedMessages = [];
+    let renderedMessages = [];
     chat.messages.forEach((message) => {
       renderedMessages.push(<div>{message.sender}: {message.text}</div>);
     });

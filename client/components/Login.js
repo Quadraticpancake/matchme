@@ -33,4 +33,4 @@ Login.propTypes = {
   errorMessage: PropTypes.string
 };
 
-export default Login
+export default Login;

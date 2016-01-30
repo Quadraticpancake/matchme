@@ -29,7 +29,7 @@ class Chats extends Component {
   render() {
     const { chats } = this.props;
 
-    var renderedChats = [];
+    let renderedChats = [];
 
     Object.keys(chats).map((chatKey) => {
       //chatKey is the pair_id
@@ -43,9 +43,6 @@ class Chats extends Component {
     );
   }
 }
-
-
-
 
 // Chats.propTypes = {
 //   chats: PropTypes.array.isRequired
@@ -68,4 +65,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Chats)
+)(Chats);

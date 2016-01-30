@@ -19,12 +19,10 @@ const initialState = {
 };
 
 export default function matchmaker(state = initialState, action) {
-
-  let newState = Object.assign({}, state);
-
   switch (action.type) {
 
     case CHOOSE_MATCH:
+      let newState = Object.assign({}, state);
       return newState;
 
     case REQUEST_TRIAD:
@@ -38,11 +36,8 @@ export default function matchmaker(state = initialState, action) {
       //   isFetching: false,
       //   lastUpdated: action.receivedAt
       // })
-
       let target = action.triad.pop();
-
       let prospects = action.triad;
-
 
       console.log('NEW TRIAD');
       return Object.assign({}, state, {
@@ -50,7 +45,7 @@ export default function matchmaker(state = initialState, action) {
         lastUpdated: action.receivedAt,
         target: target,
         prospects: prospects
-      })
+      });
 
     default:
       return state;

@@ -17,10 +17,10 @@ const scoreboardStyle = {
 
 class Scoreboard extends Component {
 	componentDidMount() {
-		  const { actions } = this.props;
-		  const socket = io();
-		  socket.on('scoreboard', (data) => {
-		    actions.updateScoreboard(data);
+		    const { actions } = this.props;
+		    const socket = io();
+		    socket.on('scoreboard', (data) => {
+		      actions.updateScoreboard(data);
 		});
 	}
 
