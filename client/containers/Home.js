@@ -13,6 +13,10 @@ const divStyle = {
   right: 10
 };
 class Home extends Component {
+  componentWillMount(){
+    const { matchmaker, actions } = this.props;
+    actions.getNewCandidates();
+  }
   render() {
     const { matchmaker, actions } = this.props;
     return (

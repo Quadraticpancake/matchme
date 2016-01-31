@@ -5,11 +5,6 @@ import { Link } from 'react-router';
 import css from './Header.scss';
 import { clickLogin } from '../actions/authentication';
 
-// This function is called when someone finishes with the Login
-// Button.  See the onlogin handler attached to it in the sample
-// code below.
-
-
 const handleClick = function() {
   clickLogin();
 };
@@ -20,6 +15,12 @@ const handleLogin = function() {
 
 
 export class Header extends Component {
+
+  componentDidMount() {
+    const {actions} = this.props;
+    console.log("DID MOUNT");
+    // actions.clickLogin(); //This should log us in, but is buggy right now since FB is not always loaded fast enough
+  }
   render() {
     window.HeaderProps = this.props;
     return (
@@ -43,10 +44,10 @@ export class Header extends Component {
               <NavItem eventKey={2}>My Profile</NavItem>
             </LinkContainer>
           </Nav>
-          <Nav navbar>
-            <div onClick={this.props.actions.clickLogin}>
+          <Nav>
+            <NavItem eventKey={3} onClick={this.props.actions.clickLogin}>
               FACEBOOK
-            </div>
+            </NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
