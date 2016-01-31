@@ -119,7 +119,7 @@ class Target extends Component {
 }
 
 Target.propTypes = {
-  prospect: PropTypes.object.isRequired,
+  target: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
