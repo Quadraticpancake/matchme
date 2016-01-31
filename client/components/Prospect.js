@@ -58,14 +58,23 @@ class Prospect extends Component {
     // prospect on line 14 should be the prospect choosen
 
     // divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
+    function calculateAge(birthdate) { 
 
+      let difference = +Date.now() - +new Date(birthdate);
+      let ageDate = new Date(difference); // miliseconds from epoch
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
+    let age = calculateAge(prospect.birthday);
     return (
-      <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target, prospect);}}>
-        <label>{prospect.first_name}</label>
+
+      <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target,prospect)}}>
+        <label>{prospect.first_name}, {age}</label>
+
         <div style={divProspectStyle} >
           <img src={prospect.image_url} style={imgProspectStyle} className="img img-responsive img-rounded center-block"/>
         </div>
-        <p>{prospect.description}</p>
+        <p>''{prospect.description}''</p>
 
       </div>
     );

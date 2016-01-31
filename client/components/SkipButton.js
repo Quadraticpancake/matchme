@@ -10,9 +10,6 @@ const buttonStyle = {
   filter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr="#132103ff", endColorstr="#ccfafe")',
   borderColor: '#ccfafe #ccfafe hsl(185, 100%, 85%)',
   color: '#333',
-  webkitFontSmoothing: 'antialiased',
-  position:'relative',
-  top: 125
 
 };
 
