@@ -15,6 +15,12 @@ const handleLogin = function() {
 
 
 export class Header extends Component {
+
+  componentDidMount() {
+    const {actions} = this.props;
+    console.log("DID MOUNT");
+    // actions.clickLogin(); //This should log us in, but is buggy right now since FB is not always loaded fast enough
+  }
   render() {
     window.HeaderProps = this.props;
     return (
