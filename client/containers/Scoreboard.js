@@ -48,10 +48,23 @@ const entryStyle = {
   marginTop: 10,
   marginBottom: -5
 };
+
+}
+
+const thumbnailStyle = {
+  height: 60,
+  width: 60,
+  marginRight: 10,
+  borderRadius: 5
+}
+
 const ScoreboardEntry = (props) => {
   return (
     <div className="well well-sm" style={entryStyle}>
-      {props ? props.pair.target.first_name : ''} just matched with {props ? props.pair.prospect.first_name : ''}
+      <img src={props.pair.target.image_url} style={thumbnailStyle}/>
+      <img src={props.pair.prospect.image_url} style={thumbnailStyle}/>
+      <br></br>
+      {props ? props.pair.target.first_name : ''} and {props ? props.pair.prospect.first_name : ''} just got matched!
     </div>
   );
 };

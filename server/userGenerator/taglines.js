@@ -45,8 +45,8 @@ export default function generateUser() {
     return String(base + gender + "/" + filename);
   };
 
-  var start = new Date(1973, 0, 1); // selecting between age 21 and 42
-  var end = new Date(1994, 0, 1);
+  var start = new Date(1980, 0, 1); // selecting between age 21 and 42
+  var end = new Date(1997, 0, 1);
 
   // Birthday needs to be in YYYY-MM-DD format for SQL
   // getMonth() returns 0 for Jan, 1 for Feb, etc, so need to increment it by 1
