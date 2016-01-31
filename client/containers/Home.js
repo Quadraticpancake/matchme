@@ -18,7 +18,9 @@ class Home extends Component {
     actions.getNewCandidates();
   }
   render() {
-    const { matchmaker, actions } = this.props;
+    const { matchmaker, actions, user } = this.props;
+    window.props = this.props;
+    console.log(user, 'this is the user_id');
     return (
 
       <div>
@@ -26,8 +28,8 @@ class Home extends Component {
           <div className="row-fluid">
               <Target target={matchmaker.target} actions={actions} />
               <div className='col-md-4'>
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} />
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} />
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} user_id ={user.user_id} />
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} user_id ={user.user_id} />
               </div>
           </div>
         </div>
@@ -43,7 +45,8 @@ Home.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    matchmaker: state.matchmaker
+    matchmaker: state.matchmaker,
+    user: state.user
   };
 }
 

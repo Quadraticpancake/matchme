@@ -113,9 +113,18 @@ export function getMatchSet () {
           })
 }
 
-export function getMatchmakerScore () {
-  // select * from users inner join pairs on pairs.user_one = users.user_id or pairs.user_two = users.user_id on inner join matches_made on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id;
- 
+export function getMatchesMade (matchmaker) {
+  // the query below will return all the information for who user one is and who user two is.
+  // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
+  var getMatchesStr = `select pairs.pair_id, u1.*, u2.* from matches_made join pairs \
+  on matches_made.matchmaker = ${ matchmaker } and matches_made.pair = pairs.pair_id join users u1 \
+  on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;`
+  console.log(getMatchesStr);
+  return db.query(getMatchesStr)
+    .then((rows) => {
+      console.log(rows[0]);
+      return rows;
+    });
 }
 
 // get all users

@@ -5,13 +5,15 @@ import { Route } from 'react-router';
 import App from './containers/App';
 import Home from './containers/Home';
 import Profile from './containers/Profile.js';
-import Chats from './containers/Chats';
+import Chats from './containers/Chats.js';
+import Score from './containers/UserScore.js'
 
 export default (
   <Route path="/" component={App}>
     <Route path="home" component={Home} />
     <Route path="profile" component={Profile} />
     <Route path="chats" component={Chats} />
+    <Route path="score" component={Score} />
     <Route status={404} path="*" component={Home} />
   </Route>
 );

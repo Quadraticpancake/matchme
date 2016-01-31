@@ -1,5 +1,5 @@
 import { getConnectedPairsAndMessagesForUser, addMessage } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser } from '../db/dbHelpers';
+import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade } from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -33,10 +33,18 @@ export default function (app, express) {
 	})
 
 
+	// This function should eventually get other things such as a score.
+	app.get('/api/matchmakerScore/:user_id', (req, res) => {
+      	getMatchesMade(req.params.user_id).then((rows) => {
+        	res.json(rows);
+    	});
+	})
+
+
 	app.get('/api/chats/:user_id', (req, res) => {
 		getConnectedPairsAndMessagesForUser(req.params.user_id).then((rows) => {
 			res.json(rows)
-		})
+		});
 	});
 
 	app.post('/api/chats', (req, res) => {
@@ -52,8 +60,20 @@ export default function (app, express) {
 			} else {
 			  res.json(rows[0]);
 			}
-		})
-	})
+		});
+	});
+
+    // This should replace the put request
+	app.get('/api/users/:facebook_id', (req, res) => {
+		console.log(req.params.facebook_id);
+		getUser(req.params.facebook_id).then((rows) => {
+			if (rows.length === 0) {
+			  res.json(null);
+			} else {
+			  res.json(rows[0]);
+			}
+		});
+	});
 
 	app.post('/api/users', (req, res) => {
 		console.log('logging in');
