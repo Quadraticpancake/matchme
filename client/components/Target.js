@@ -66,6 +66,17 @@ const iconStyle = {
   width: 'auto'
 };
 
+const skipButtonStyle = {
+  float: 'right',
+  fontSize: 18,
+  borderRadius: 5,
+  backgroundColor: '#fff',
+  backgroundRepeat: 'repeat-x',
+  filter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr="#132103ff", endColorstr="#ccfafe")',
+  borderColor: '#ccfafe #ccfafe hsl(185, 100%, 85%)',
+  color: '#333'
+};
+
 class Target extends Component {
 
   constructor(props, context) {
@@ -108,7 +119,7 @@ class Target extends Component {
           
           <p>age: {age}</p>
           <p style={paraTargetStyle}>''{target.description}''</p>
-          <SkipButton actions={actions}/>
+          <SkipButton style={skipButtonStyle} actions={actions}/>
         </div>
 
       </div>

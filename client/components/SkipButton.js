@@ -1,13 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 const buttonStyle = {
-  fontSize: 18,
-  borderRadius: 5,
-  backgroundColor: '#fff',
-  backgroundRepeat: 'repeat-x',
-  filter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr="#132103ff", endColorstr="#ccfafe")',
-  borderColor: '#ccfafe #ccfafe hsl(185, 100%, 85%)',
-  color: '#333'
+
 };
 
 class SkipButton extends Component {
