@@ -4,7 +4,7 @@ const wellStyle = {
   height: '24em',
   marginBottom: 15
 };
-const divProspectStyle = {
+const divMatcheeStyle = {
   height:250,
   width: 'auto',
   //float: 'left',
@@ -21,7 +21,7 @@ const divProspectStyle = {
   borderRadius: 5
 };
 
-const paraProspectStyle = {
+const paraMatcheeStyle = {
   // backgroundColor: '#ccc',
   width: 150,
   fontSize: 18,
@@ -31,10 +31,10 @@ const paraProspectStyle = {
   right: 30
 };
 
-const divProspectNameStyle = {
+const divMatcheeNameStyle = {
 };
 
-const imgProspectStyle = {
+const imgMatcheeStyle = {
   maxHeight: '100%',
   maxWidth: '100%',
   marginBottom: 10
@@ -47,17 +47,17 @@ const divStyle = {
   float: 'left',
 };
 
-class Prospect extends Component {
+class Matchee extends Component {
 
   constructor(props, context) {
     super(props, context);
   }
 
   render() {
-    const { prospect, actions, target, user_id } = this.props;
-    // prospect on line 14 should be the prospect choosen
+    const { matchee } = this.props;
+    // matchee on line 14 should be the matchee choosen
 
-    // divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
+    // divMatcheeStyle.backgroundImage = 'url(' + 'http://localhost:3000' + matchee.image_url + ')'
     function calculateAge(birthdate) { 
 
       let difference = +Date.now() - +new Date(birthdate);
@@ -65,26 +65,25 @@ class Prospect extends Component {
       return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
 
-    let age = calculateAge(prospect.birthday);
+    let age = calculateAge(matchee.birthday);
     return (
 
-      <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target, prospect, user_id);}}>
-        <label>{prospect.first_name}</label>
-        <div style={divProspectStyle} >
-          <img src={prospect.image_url} style={imgProspectStyle} className="img img-responsive img-rounded center-block"/>
+      <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle}>
+        <label>{matchee.first_name}</label>
+        <div style={divMatcheeStyle} >
+          <img src={matchee.image_url} style={imgMatcheeStyle} className="img img-responsive img-rounded center-block"/>
         </div>
-        <p>''{prospect.description}''</p>
+        <p>''{matchee.description}''</p>
 
       </div>
     );
   }
 }
 
-Prospect.propTypes = {
-  prospect: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+Matchee.propTypes = {
+  matchee: PropTypes.object.isRequired,
 };
 
 
 
-export default Prospect;
+export default Matchee;

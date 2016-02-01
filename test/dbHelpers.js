@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import db from '../db/config';
 import createTables from  '../db/schemas';
 import generateUser from '../server/userGenerator/taglines';
-import { getRandomUsers, addMatch, getMatchSet } from '../db/dbHelpers';
+import { getRandomUsers, addMatch, getMatchSet, getMatchesMade } from '../db/dbHelpers';
 
 describe('database helpers', () => {
 	describe('getRandomUsers', () => {
@@ -126,4 +126,12 @@ describe('database helpers', () => {
 		});
 	});
 
+    /*
+	descripe('getMatchesMade', () => {
+		it('should get two distinct users and their props', () => {
+
+			return getMatchesMade(3)
+		})
+	})
+	*/
 });

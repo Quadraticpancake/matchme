@@ -9,6 +9,7 @@ import { syncHistory, routeReducer } from 'react-router-redux';
 import App from './containers/App';
 import Home from './containers/Home';
 import Chats from './containers/Chats';
+import Score from './containers/UserScore';
 import routes from './routes';
 
 const store = configureStore();

@@ -4,6 +4,8 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST } from '../
 
 // FB.getLoginStatus()
 const initialState = {
+  user_id: 20,
+  userScore: null,
   chats: []
 };
 
@@ -33,6 +35,10 @@ export default function user(state = initialState, action) {
     case UserActions.SET_CHATS:
       return Object.assign({}, state, {
         chats: action.chats
+      });
+    case UserActions.SET_USER_SCORE:
+      return Object.assign({}, state, {
+        userScore: action.userScore
       });
     default:
       return state;

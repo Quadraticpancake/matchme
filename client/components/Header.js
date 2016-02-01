@@ -3,15 +3,12 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router';
 import css from './Header.scss';
-import { clickLogin } from '../actions/authentication';
 
-const handleClick = function() {
-  clickLogin();
-};
 
-const handleLogin = function() {
-  console.log('BAILEY B BAILEY');
-};
+
+// This function is called when someone finishes with the Login
+// Button.  See the onlogin handler attached to it in the sample
+// code below.
 
 
 export class Header extends Component {
@@ -42,6 +39,9 @@ export class Header extends Component {
             </LinkContainer>
             <LinkContainer to="/profile">
               <NavItem eventKey={2}>My Profile</NavItem>
+            </LinkContainer>
+            <LinkContainer to="/score">
+              <NavItem eventKey={3}>My Score</NavItem>
             </LinkContainer>
           </Nav>
           <Nav>

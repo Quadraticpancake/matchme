@@ -14,13 +14,13 @@ import fetch from 'isomorphic-fetch';
 
 export const CHOOSE_MATCH = 'CHOOSE_MATCH';
 
-export function chooseMatch(target, prospect) {
+export function chooseMatch(target, prospect, user_id) {
   console.log('chooseMatch called');
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
 
-
+  console.log(user_id);
   return function(dispatch) {
 
     // Fetch our target
@@ -33,7 +33,7 @@ export function chooseMatch(target, prospect) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({matchmaker: {user_id: 3}, pair: {target:  target, prospect: prospect }})
+      body: JSON.stringify({matchmaker: {user_id: user_id}, pair: {target:  target, prospect: prospect }})
     });
 
     return fetch(request)

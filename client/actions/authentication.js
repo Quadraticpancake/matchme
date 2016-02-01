@@ -10,20 +10,13 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 
 export function clickLogin() {
   return function(dispatch) {
-    console.log('dispatching lciclogin', dispatch);
+    console.log('dispatching login', dispatch);
     dispatch(requestLogin());
     FB.getLoginStatus(function(response) {
       // In this case the user must have logged in previously so get request SHOULD return user data
       // These puts should be converted to gets with ID params
       if (response.status === 'connected') {
-        let request = new Request('/api/users', {
-          method: 'put',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({facebook_id: response.authResponse.userID})
-        });
+        let request = new Request(`/api/users/${response.authResponse.userID}`, {method: 'GET'});
         return fetch(request)
           .then(response => response.json())
           .then((json) => {
@@ -33,14 +26,7 @@ export function clickLogin() {
           });
       } else {
         FB.login(function(responseLogin) {
-          let request2 = new Request('/api/users', {
-            method: 'put',
-            headers: {
-               'Accept': 'application/json',
-               'Content-Type': 'application/json'
-             },
-            body: JSON.stringify({facebook_id: responseLogin.authResponse.userID})
-          });
+          let request2 = new Request(`/api/users/${responseLogin.authResponse.userID}`, {method: 'GET'});
           return fetch(request2)
             .then(response => response.json())
             .then((json) => {
