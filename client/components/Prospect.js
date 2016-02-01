@@ -47,6 +47,12 @@ const divStyle = {
   float: 'left',
 };
 
+const iconProspectStyle = {
+  width: 25,
+  height: 'auto',
+  marginBottom: 7
+}
+
 class Prospect extends Component {
 
   constructor(props, context) {
@@ -66,10 +72,22 @@ class Prospect extends Component {
     }
 
     let age = calculateAge(prospect.birthday);
-    return (
 
-      <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target, prospect, user_id);}}>
-        <label>{prospect.first_name}</label>
+    let maleIcon = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
+    let femaleIcon = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
+    let bothIcon = 'http://icons.iconarchive.com/icons/icons-land/vista-love/128/Sex-Unknown-icon.png';
+
+    let icon_prospect_path = maleIcon;
+    if (prospect.gender === 'female') {
+      icon_prospect_path = femaleIcon;
+    } else if (prospect.gender === 'both') {
+      icon_prospect_path = bothIcon;
+    }
+
+    return (
+     <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target, prospect, user_id);}}>
+        <label>{prospect.first_name}</label> <img src={icon_prospect_path} style={iconProspectStyle}/>
+
         <div style={divProspectStyle} >
           <img src={prospect.image_url} style={imgProspectStyle} className="img img-responsive img-rounded center-block"/>
         </div>

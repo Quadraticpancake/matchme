@@ -18,7 +18,7 @@ export default function createTables () {
       + " status VARCHAR(20),"
       + " age_min INTEGER,"
       + " age_max INTEGER,"
-      + " gender_preference VARCHAR(10),"
+      + " gender_preference VARCHAR(10)," // male, female, both
       + " location_preference INTEGER,"
       + " description VARCHAR(350),"
       + " image_url VARCHAR(255));"

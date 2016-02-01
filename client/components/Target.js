@@ -89,14 +89,23 @@ class Target extends Component {
     let targetHeight = '49em';
     let wellStyle = {height: targetHeight};
 
-    let icon_user_path = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
+    let maleIcon = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
+    let femaleIcon = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
+    let bothIcon = 'http://icons.iconarchive.com/icons/icons-land/vista-love/128/Sex-Unknown-icon.png';
+
+    let icon_user_path = maleIcon;
     if (target.gender === 'female') {
-      icon_user_path = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
+      icon_user_path = femaleIcon;
+    } if (target.gender === 'both') {
+      icon_user_path = bothIcon;
     }
 
-    let icon_seeking_path = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
+    let icon_seeking_path = maleIcon;
     if (target.gender_preference === 'female') {
-      icon_seeking_path = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
+      icon_seeking_path = femaleIcon;
+    } else if (target.gender_preference === 'both') {
+      // http://icons.iconarchive.com/icons/aha-soft/free-large-love/512/Sex-icon.png
+      icon_seeking_path = bothIcon;
     }
 
     function calculateAge(birthdate) { 

@@ -23,8 +23,12 @@ export default function generateUser() {
   };
 
   var genderPreference = function(input) {
-    if (Math.floor(Math.random() * 10) === 0) {
+    // set to be 10% gay and 10% bisexual for diversity in testing
+    let random = Math.floor(Math.random() * 10);
+    if (random === 0) {
       return input;
+    } else if (random === 1) {
+      return 'both';
     }
     if (input === 'male') return 'female';
     return 'male';

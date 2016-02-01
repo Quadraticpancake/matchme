@@ -85,22 +85,36 @@ export function getMatchSet () {
 
             // get target out of row results
 
-            let target = targetRows[0]
+            let target = targetRows[0];
 
-            let roughAge = (new Date()).getFullYear() - (new Date(target.birthday)).getFullYear()
+            let roughAge = (new Date()).getFullYear() - (new Date(target.birthday)).getFullYear();
 
-            let maxBirthday = new Date(Date.now() - (target.age_max * 365 * 24 * 60 * 60 * 1000))
-            let minBirthday = new Date(Date.now() - (target.age_min * 365 * 24 * 60 * 60 * 1000))
+            let maxBirthday = new Date(Date.now() - (target.age_max * 365 * 24 * 60 * 60 * 1000));
+            let minBirthday = new Date(Date.now() - (target.age_min * 365 * 24 * 60 * 60 * 1000));
 
-            let prospectsQuery = `SELECT * FROM users WHERE gender= '${target.gender_preference}' ` +
-              `AND gender_preference='${target.gender}' `+
-              // target is within correct age range
-              `AND age_min<='${roughAge}' `+
-              `AND age_max>='${roughAge}' `+
-              // within target's age range
-              `AND birthday<='${minBirthday.toISOString()}' `+
-              `AND birthday>='${maxBirthday.toISOString()}' ` +
-              `AND user_id!='${target.user_id}'`
+            let gender_preference = target.gender_preference;
+            let prospectsQuery = ``;
+
+            if (gender_preference === 'both') {
+              prospectsQuery = `SELECT * FROM users WHERE age_min<='${roughAge}' ` +
+                `AND age_max>='${roughAge}' `+
+                // within target's age range
+                `AND birthday<='${minBirthday.toISOString()}' `+
+                `AND birthday>='${maxBirthday.toISOString()}' ` +
+                `AND user_id!='${target.user_id}'` 
+
+            } else {
+              prospectsQuery = `SELECT * FROM users WHERE gender= '${target.gender_preference}' ` +
+                `AND gender_preference='${target.gender}' `+
+                // target is within correct age range
+                `AND age_min<='${roughAge}' `+
+                `AND age_max>='${roughAge}' `+
+                // within target's age range
+                `AND birthday<='${minBirthday.toISOString()}' `+
+                `AND birthday>='${maxBirthday.toISOString()}' ` +
+                `AND user_id!='${target.user_id}'` 
+            }
+
 
             matchSet.target = target;
             return db.query(prospectsQuery);
