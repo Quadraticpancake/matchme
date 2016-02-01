@@ -83,12 +83,11 @@ export default function (app, express) {
 		request.get('https://graph.facebook.com/v2.5/me?fields=id,first_name,last_name,gender,birthday,picture.width(200).height(200).type(square)&access_token=' + req.body.access_token, function(err, getResponse, fbResult) {
             if (err) {
                 console.log("FB err: ", err);
-                return res.send(500);
+                res.send(500);
             }
             try {            	
                 fbResult = JSON.parse(fbResult);
                 var gp = genderPreference(fbResult.gender);
-                console.log(fbResult);
                 var userData = {
                     facebook_id: fbResult.id, 
                     first_name: fbResult.first_name,
@@ -105,12 +104,13 @@ export default function (app, express) {
                     image_url: fbResult.picture.data.url
                 }
                 postUser(userData).then((rows) => {
-                  return res.json(rows[0]);
+                  res.json(rows);
                 });           
             } catch (e) {
                 console.log("generic error");
-                return res.send(500);
+                res.send(500);
             }
+            console.log("GOT HERE");
 		})
 	})
 
