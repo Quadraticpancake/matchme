@@ -52,21 +52,25 @@ const entryStyle = {
 const thumbnailStyle = {
   height: 60,
   width: 60,
+  borderRadius: 5,
   marginRight: 10
 }
 
 const heartIconStyle = {
-  height: 20,
+  height: 22,
 
 }
 
+let heartIcon = 'http://findicons.com/files/icons/725/colobrush/256/pink_heart.png'
+// let heartIcon = 'http://www.esevans.net/images/pinkheart.png'
+// let heartIcon = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons-256/3d-transparent-glass-icons-culture/022152-3d-transparent-glass-icon-culture-heart-solid-sc44.png'
 const ScoreboardEntry = (props) => {
   return (
     <div className="well well-sm" style={entryStyle}>
       <img src={props.pair.target.image_url} style={thumbnailStyle}/>
       <img src={props.pair.prospect.image_url} style={thumbnailStyle}/>
       <br></br>
-      <img style={heartIconStyle} src='http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons-256/3d-transparent-glass-icons-culture/022152-3d-transparent-glass-icon-culture-heart-solid-sc44.png'/>
+      <img style={heartIconStyle} src={heartIcon}/>
       {props ? props.pair.target.first_name : ''} was just matched with {props ? props.pair.prospect.first_name : ''}
     </div>
   )
