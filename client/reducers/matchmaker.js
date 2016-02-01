@@ -3,17 +3,18 @@ import { CHOOSE_MATCH, REQUEST_TRIAD, RECEIVE_TRIAD } from '../actions/matchmake
 const initialState = {
   isFetching: false,
   target: {
+    placeholder: true,
     user_id: 3,
-    first_name: 'Liam',
+    first_name: '',
   },
   prospects: [
     {
       user_id: 4,
-      first_name: 'Rachel'
+      first_name: ''
     },
     {
       user_id: 5,
-      first_name: 'Luellen'
+      first_name: 'matchmaker.js'
     }
   ]
 };

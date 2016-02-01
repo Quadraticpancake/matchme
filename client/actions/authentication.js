@@ -8,6 +8,21 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 
 // Working but not hooked up to redux totally properly
 
+export function login(userID){
+  return function(dispatch) {
+    dispatch(requestLogin());
+    let request = new Request(`/api/users/${userID}`, {method: 'GET'});
+    return fetch(request)
+      .then(response => response.json())
+      .then((json) => {
+        // We can dispatch many times!
+        // Here, we update the app state with the results of the API call.
+        dispatch(receiveLogin(json));
+      });
+  }
+
+}
+
 export function clickLogin() {
   return function(dispatch) {
     console.log('dispatching login', dispatch);
