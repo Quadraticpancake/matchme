@@ -26,11 +26,9 @@ describe('database helpers', () => {
 				return createTables();
 			})
 			.then(() => {
-<<<<<<< 918f25869d5559b5a428142cfb6a7632a9312552
+
 				for (var i = 0; i < 1000; i++) {
-=======
-				for (var i = 0; i < 100; i++) {
->>>>>>> styling
+
 					var fakeUser = generateUser();
 					var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
 							location_preference,description,image_url) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\

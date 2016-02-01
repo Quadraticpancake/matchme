@@ -35,7 +35,6 @@ const paraTargetStyle = {
   // position: 'absolute'
   // bottom: 0;
   width: '90%',
-
   fontSize: 20,
   fontWeight: 'bold',
   color:'black',
@@ -76,6 +75,15 @@ const skipButtonStyle = {
   borderColor: '#ccfafe #ccfafe hsl(185, 100%, 85%)',
   color: '#333'
 };
+
+const userInfoStyle = {
+  marginLeft: 45
+}
+
+const seekingStyle = {
+  marginTop: -20,
+  fontSize: 23
+}
 
 class Target extends Component {
 
@@ -121,13 +129,14 @@ class Target extends Component {
 
       <div className='well well-sm col-md-6 col-sm-12 col-xs-12' style={wellStyle}>
         <div style={divStyle}>
-         <label>{target.first_name}</label>
           <img src={target.image_url} style={imgTargetStyle} className="img img-responsive img-rounded center-block"/>
-
-          <img src={icon_user_path} style={iconStyle}/> seeking <img src={icon_seeking_path} style={iconStyle}/>
-          
-          <p>age: {age}</p>
-          <p style={paraTargetStyle}>''{target.description}''</p>
+          <div style={userInfoStyle}>
+              <p>{target.first_name}, {age}</p>
+              <div style={seekingStyle}>
+                <img src={icon_user_path} style={iconStyle}/> seeking <img src={icon_seeking_path} style={iconStyle}/>
+              </div>
+              <p style={paraTargetStyle}>''{target.description}''</p>
+          </div>
           <SkipButton style={skipButtonStyle} actions={actions}/>
         </div>
 

@@ -51,6 +51,15 @@ const iconProspectStyle = {
   width: 25,
   height: 'auto',
   marginBottom: 7
+};
+
+const prospectInfoStyle = {
+  width: '90%',
+  marginLeft: 10
+};
+
+const prospectInfo = {
+  marginTop: -10
 }
 
 class Prospect extends Component {
@@ -86,13 +95,14 @@ class Prospect extends Component {
 
     return (
      <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target, prospect, user_id);}}>
-        <label>{prospect.first_name}</label> <img src={icon_prospect_path} style={iconProspectStyle}/>
 
         <div style={divProspectStyle} >
           <img src={prospect.image_url} style={imgProspectStyle} className="img img-responsive img-rounded center-block"/>
         </div>
-        <p>''{prospect.description}''</p>
-
+        <div style={prospectInfoStyle}>
+          <label>{prospect.first_name}, {age}</label> <img src={icon_prospect_path} style={iconProspectStyle}/>
+          <p style={prospectInfo}>''{prospect.description}''</p>
+        </div>
       </div>
     );
   }
