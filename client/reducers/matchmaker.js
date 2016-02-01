@@ -3,6 +3,7 @@ import { CHOOSE_MATCH, REQUEST_TRIAD, RECEIVE_TRIAD } from '../actions/matchmake
 const initialState = {
   isFetching: false,
   target: {
+    placeholder: true,
     user_id: 3,
     first_name: '',
   },
@@ -13,7 +14,7 @@ const initialState = {
     },
     {
       user_id: 5,
-      first_name: ''
+      first_name: 'matchmaker.js'
     }
   ]
 };
