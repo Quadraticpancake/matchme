@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as ScoreboardActions from '../actions/scoreboard'
-import io from 'socket.io-client'
+import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as ScoreboardActions from '../actions/scoreboard';
+import { socket } from './App'
 
 const scoreboardStyle = {
   position: 'fixed',
@@ -17,11 +17,11 @@ const scoreboardStyle = {
 
 class Scoreboard extends Component {
 	componentDidMount() {
-		const { actions } = this.props
-		const socket = io()
-		socket.on('scoreboard', (data) => {
-		  actions.updateScoreboard(data)
-		})
+    const { actions } = this.props;
+    
+    socket.on('scoreboard', (data) => {
+      actions.updateScoreboard(data);
+		});
 	}
 
   render() {

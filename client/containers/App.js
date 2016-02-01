@@ -3,6 +3,10 @@ import Scoreboard from './Scoreboard';
 import * as AuthActions from '../actions/authentication';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
+
+// expose socket for scoreboard and chats
+export const socket = io();
 
 /* global styles for app */
 // import './styles/app.scss';
