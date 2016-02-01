@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as UserActions from '../actions/user';
+import Matchee from '../components/Matchee';
 //import {Chat} from '../components/Chat';
 
 // @connect(
@@ -23,21 +24,27 @@ class UserScore extends Component {
     const { userScore } = this.props;
 
     // for testing purposes
-    let renderedConnectionsMade = userScore;
-
-    /*
-    for (var i = 0; i < connectionsMade.length; i++) {
-      renderedConnectionsMade.push(<div>
-                                   <div>You Made A Connection For</div>
-                                   <ConnectionMade connectionMade={connectionsMade[i].user_one}/>
-                                   <ConnectionMade connectionMade={connectionsMade[i].user_two}/>
+    
+    let renderedConnectionsMade = [];
+    console.log(renderedConnectionsMade);
+    console.log(userScore);
+    
+    for (var i = 0; i < (userScore ? userScore.length : 0); i++) {
+      renderedConnectionsMade.push(<div className="container">
+                                     <div className="row-fluid">
+                                       <div className='col-md-4'>
+                                         <Matchee matchee={userScore[i]} />
+                                         <Matchee matchee={userScore[i]} />
+                                       </div>
+                                     </div>
                                    </div>);
     }
-    */
+    console.log(renderedConnectionsMade);
+    
 
     return (
       <section>
-        {renderedConnectionsMade}
+        {<div><div>These are the wonderful matches you have made</div>{renderedConnectionsMade}</div>}
       </section>
     );
   }
@@ -46,7 +53,7 @@ class UserScore extends Component {
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
-    connectionsMade: state.connectionsMade
+    userScore: state.user.userScore,
   };
 }
 
