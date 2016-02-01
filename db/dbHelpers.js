@@ -130,14 +130,35 @@ export function getMatchSet () {
 export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
   // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
-  var getMatchesStr = `select pairs.pair_id, u1.*, u2.* from matches_made join pairs \
+  var getMatchesStr = `select pairs.pair_id, u1.*, u2.user_id as user_id2, u2.facebook_id as facebook_id2,  \
+  u2.first_name as first_name2, u2.last_name as last_name2, u2.gender as gender2, u2.birthday as birthday2,  \
+  u2.zipcode as zipcode2, u2.status as status2, u2.age_min as age_min2, u2.age_max as age_max,  \
+  u2.gender_preference as gender_preference2, u2.location_preference as location_preference2,  \
+  u2.description as description2, u2.image_url as image_url2 from matches_made join pairs \
   on matches_made.matchmaker = ${ matchmaker } and matches_made.pair = pairs.pair_id join users u1 \
   on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;`
   console.log(getMatchesStr);
   return db.query(getMatchesStr)
     .then((rows) => {
-      console.log(rows[0]);
-      return rows;
+      var output = [];
+      var pairsSeen = {};
+      for (var i = 0; i < rows.length; i++) {
+        if (!pairsSeen[rows[i].pair_id]) { 
+          var obj = {user_one: {}, user_two: {}, pair_info: {}};
+          pairsSeen[rows[i].pair_id] = true;
+          for (var key in rows[i]) {
+            if (key.charAt(key.length - 1) === '2') {
+              obj.user_two[key.substr(0, key.length - 1)] = rows[i][key];
+            } else if (key === 'pair_id') {
+              obj.pair_info[key] = rows[i][key];
+            } else {
+              obj.user_one[key] = rows[i][key];
+            }
+          }
+          output.push(obj);
+        }
+      }
+      return output;
     });
 }
 

@@ -26,20 +26,17 @@ class UserScore extends Component {
     // for testing purposes
     
     let renderedConnectionsMade = [];
-    console.log(renderedConnectionsMade);
-    console.log(userScore);
     
     for (var i = 0; i < (userScore ? userScore.length : 0); i++) {
       renderedConnectionsMade.push(<div className="container">
                                      <div className="row-fluid">
                                        <div className='col-md-4'>
-                                         <Matchee matchee={userScore[i]} />
-                                         <Matchee matchee={userScore[i]} />
+                                         <Matchee matchee={userScore[i].user_one} />
+                                         <Matchee matchee={userScore[i].user_two} />
                                        </div>
                                      </div>
                                    </div>);
     }
-    console.log(renderedConnectionsMade);
     
 
     return (

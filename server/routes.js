@@ -36,8 +36,8 @@ export default function (app, express) {
 
 	// This function should eventually get other things such as a score.
 	app.get('/api/matchmakerScore/:user_id', (req, res) => {
-      	getMatchesMade(req.params.user_id).then((rows) => {
-        	res.json(rows);
+      	getMatchesMade(req.params.user_id).then((output) => {
+        	res.json(output);
     	});
 	})
 
