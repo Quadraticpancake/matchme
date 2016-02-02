@@ -63,7 +63,7 @@ class Chats extends Component {
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
-    chats: state.user.chats
+    chats: state.chats.chats
   };
 }
 
