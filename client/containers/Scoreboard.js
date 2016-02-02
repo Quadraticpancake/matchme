@@ -4,16 +4,15 @@ import { connect } from 'react-redux';
 import * as ScoreboardActions from '../actions/scoreboard';
 import { socket } from './App'
 
-const height = $('body').height();
 const scoreboardStyle = {
   position: 'absolute',
   width: 230,
   right: 0,
   top: 0,
   marginTop: 50,
+  bottom: 0,
   backgroundColor: '#eee',
-  height: height,
-  // borderRight: '1px solid #333',
+  borderRight: '1px solid #333',
   // padding: 16
 }
 
