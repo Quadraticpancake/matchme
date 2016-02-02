@@ -10,6 +10,24 @@ class SimpleForm extends Component {
   // componentWillUnmount() {
   //   if (this.props.pristine) this.props.destroyForm();
   // }
+  videoError(e) {
+    console.log('error with video intialization', e);
+  }
+
+   takePicture() {
+    // http://matthewschrager.com/2013/05/25/how-to-take-webcam-pictures-from-browser-and-store-server-side/
+    let canvas = document.querySelector("#picDisplay");
+    let video = document.querySelector("#videoElement");
+    canvas.width = 624;
+    canvas.height = 624;
+    canvas.getContext('2d').drawImage(video,0,0);
+  
+    let imgData = canvas.toDataURL("img/png");
+    imgData = imgData.replace('data:image/png;base64,','');
+    let postData = JSON.stringify({imgData: imgData});
+    // console.log('IMAGE DATA', postData)
+  }
+
   componentDidMount(){
     // http://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
     let video = document.querySelector("#videoElement");
@@ -21,30 +39,13 @@ class SimpleForm extends Component {
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
    
     if (navigator.getUserMedia) {       
-        navigator.getUserMedia({video: true}, handleVideo, videoError);
+        navigator.getUserMedia({video: true}, handleVideo, this.videoError);
     }
 
-    function takePicture() {
-      // http://matthewschrager.com/2013/05/25/how-to-take-webcam-pictures-from-browser-and-store-server-side/
-      let canvas = document.querySelector("#picDisplay");
-      canvas.width = 624;
-      canvas.height = 624;
-      canvas.getContext('2d').drawImage(video,0,0);
-    
-      let imgData = canvas.toDataURL("img/png");
-      imgData = imgData.replace('data:image/png;base64,','');
-      let postData = JSON.stringify({imgData: imgData});
-      console.log('IMAGE DATA', postData)
-    }
 
-    function videoError(e) {
-      console.log('error with video intialization', e);
-    };
   }
 
   render() {
-
-
 
     const {
       fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description},
@@ -87,7 +88,7 @@ class SimpleForm extends Component {
         <video style={videoElementStyle} autoPlay="true" id="videoElement"></video>
         <canvas style={displayElementStyle} id="picDisplay"></canvas>
       </div>
-      <button type="button" style={picButtonStyle} className="center-block" onClick={() => {takePicture()}}>Take a new Profile Picture</button>
+      <button type="button" style={picButtonStyle} className="center-block" onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
 
       <br></br>
       <br></br>
