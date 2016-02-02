@@ -6,20 +6,23 @@ export const fields = ['first_name', 'last_name', 'gender', 'gender_preference',
 
 class SimpleForm extends Component {
 
-  render() {
 
+  // componentWillUnmount() {
+  //   if (this.props.pristine) this.props.destroyForm();
+  // }
+  componentDidMount(){
     // http://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
     let video = document.querySelector("#videoElement");
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-     
-    if (navigator.getUserMedia) {       
-        navigator.getUserMedia({video: true}, handleVideo, videoError);
-    }
-     
     function handleVideo(stream) {
       // comment this out and then uncomment to see
       video.src = window.URL.createObjectURL(stream);
     };
+    
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+   
+    if (navigator.getUserMedia) {       
+        navigator.getUserMedia({video: true}, handleVideo, videoError);
+    }
 
     function takePicture() {
       // http://matthewschrager.com/2013/05/25/how-to-take-webcam-pictures-from-browser-and-store-server-side/
@@ -37,6 +40,11 @@ class SimpleForm extends Component {
     function videoError(e) {
       console.log('error with video intialization', e);
     };
+  }
+
+  render() {
+
+
 
     const {
       fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description},
