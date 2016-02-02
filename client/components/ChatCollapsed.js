@@ -13,7 +13,6 @@ const smallImageStyle = {
 
 const textStyle = {
   alignSelf: 'auto',
-  maxHeight: '4em'
 };
 
 const timeStyle = {
@@ -35,10 +34,8 @@ export class ChatCollapsed extends Component {
 
     var userNotMe = chat.user_one.user_id === user_id ? chat.user_two : chat.user_one;
 
-    console.log('messages',chat.messages[chat.messages.length - 1]);
-
     return (
-      <div className='well well-sm col-md-10 col-sm-10 col-xs-10' style={chatCollapsedStyle} onClick={expandChat}>
+      <div className='well well-sm col-md-4' style={chatCollapsedStyle} onClick={() => expandChat(pair_id)}>
         <img src={userNotMe.image_url} style={smallImageStyle} />
         <div style={textStyle}>
           {userNotMe.first_name} {userNotMe.last_name} 

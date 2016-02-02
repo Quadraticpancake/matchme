@@ -15,7 +15,7 @@ export default function user(state = initialState, action) {
       });
     case ChatsActions.EXPAND_CHAT:
       return Object.assign({}, state, {
-        focus: 0
+        focus: action.pair_id
       });
 
     default:

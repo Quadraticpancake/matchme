@@ -53,13 +53,18 @@ class Chats extends Component {
         //chatKey is the pair_id
         renderedChats.push(<ChatCollapsed chat={chats[chatKey]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={chatKey} user_id={user_id} expandChat={actions.expandChat} />);
       });
-    } 
-
-
+    } else {
+      renderedChats = (<Chat chat={chats[focus]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={focus} user_id={user_id} />);
+    }
     return (
+      <div>
       <section>
         {renderedChats}
       </section>
+      <div className="col-md-5">
+        <Chat chat={chats[focus]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={focus} user_id={user_id} />
+      </div>
+      </div>
     );
   }
 }

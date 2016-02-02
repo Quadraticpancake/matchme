@@ -41,9 +41,10 @@ export function sendMessage(text, sender, pair_id) {
 
 }
 
-export function expandChat() {
+export function expandChat(pair_id) {
   return {
-    type: EXPAND_CHAT
+    type: EXPAND_CHAT,
+    pair_id: pair_id
   }
 
 }
