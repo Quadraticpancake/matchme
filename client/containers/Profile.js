@@ -23,9 +23,11 @@ class SimpleForm extends Component {
     canvas.getContext('2d').drawImage(video,0,0);
   
     let imgData = canvas.toDataURL("img/png");
+    // extract data in base 64 encoded png format
     imgData = imgData.replace('data:image/png;base64,','');
     let postData = JSON.stringify({imgData: imgData});
-    // console.log('IMAGE DATA', postData)
+
+    //post to server and send to database
   }
 
   componentDidMount(){
@@ -58,14 +60,14 @@ class SimpleForm extends Component {
       width: 200,
       height: 'auto',
       // paddingBottom: 50,
-      backgroundColor: '#eee',
+      // backgroundColor: '#eee',
       clear: 'all'
     }
 
     const displayElementStyle = {
       width: 200,
       // height: 200,
-      backgroundColor: '#eee',
+      // backgroundColor: '#eee',
       
       clear: 'all'
     }
