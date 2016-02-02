@@ -28,7 +28,8 @@ class App extends Component {
           if (response.status === 'connected') {
             // Logged into your app and Facebook.
             let userID = response.authResponse.userID;
-            actions.login(userID);
+            let accessToken = response.authResponse.accessToken;
+            actions.login(userID, accessToken);
             // testAPI();
           } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
