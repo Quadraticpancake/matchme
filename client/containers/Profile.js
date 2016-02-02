@@ -2,51 +2,53 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {reduxForm} from 'redux-form';
-export const fields = ['firstName', 'lastName', 'email', 'sex', 'favoriteColor', 'employed', 'notes'];
+export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'favoriteColor', 'employed', 'description'];
 
 class SimpleForm extends Component {
-  // componentWillMount() {
-  //   if (this.props.pristine) this.props.initializeForm(this.props.todo);
-  // }
 
-  // componentWillUnmount() {
-  //   if (this.props.pristine) this.props.destroyForm();
-  // }
   render() {
     const {
-      fields: {firstName, lastName, email, sex, favoriteColor, employed, notes},
+      fields: {first_name, last_name, gender, gender_preference, favoriteColor, employed, description},
       handleSubmit,
       resetForm,
       submitting
-      } = this.props;
+    } = this.props;
 
     return (<form onSubmit={handleSubmit}>
         <div>
           <label>First Name</label>
           <div>
-            <input type="text" placeholder="First Name" {...firstName}/>
+            <input type="text" placeholder="First Name" {...first_name} disabled={true}/>
           </div>
         </div>
         <div>
           <label>Last Name</label>
           <div>
-            <input type="text" placeholder="Last Name" {...lastName}/>
+            <input type="text" placeholder="Last Name" {...last_name} disabled/>
           </div>
         </div>
         <div>
-          <label>Email</label>
-          <div>
-            <input type="email" placeholder="Email" {...email}/>
-          </div>
-        </div>
-        <div>
-          <label>Sex</label>
+          <label>Gender</label>
           <div>
             <label>
-              <input type="radio" {...sex} value="male" checked={sex.value === 'male'}/> Male
+              <input type="radio" value="male" checked={gender.value === 'male'}/> Male
             </label>
             <label>
-              <input type="radio" {...sex} value="female" checked={sex.value === 'female'}/> Female
+              <input type="radio" value="female" checked={gender.value === 'female'}/> Female
+            </label>
+          </div>
+        </div>
+        <div>
+          <label>Gender Preference</label>
+          <div>
+            <label>
+              <input type="radio" value="male" checked={gender_preference.value === 'male'}/> Male
+            </label>
+            <label>
+              <input type="radio" value="female" checked={gender_preference.value === 'female'}/> Female
+            </label>
+            <label>
+              <input type="radio" value="Both" checked={gender_preference.value === 'null'}/> Both
             </label>
           </div>
         </div>
@@ -73,11 +75,11 @@ class SimpleForm extends Component {
           </label>
         </div>
         <div>
-          <label>Notes</label>
+          <label>Description</label>
           <div>
             <textarea
-              {...notes}
-              value={notes.value || ''} // required for reset form to work (only on textarea's)
+              {...description}
+              value={description.value || ''} // required for reset form to work (only on textarea's)
                                         // see: https://github.com/facebook/react/issues/2533
             />
           </div>
@@ -103,6 +105,11 @@ SimpleForm.propTypes = {
 };
 
 export default reduxForm({
-  form: 'simple',
+  form: 'profile',
   fields
-})(SimpleForm);
+},
+state => ({ // mapStateToProps
+  initialValues: state.user.userInfo // will pull state into form's initialValues
+}),
+{}      // mapDispatchToProps (will bind action creator to dispatch)
+)(SimpleForm);

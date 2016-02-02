@@ -77,7 +77,7 @@ class App extends Component {
         <Header actions={actions} user={user}/>
         {this.props.children}
         <Scoreboard />
-]      </section>
+      </section>
     );
   }
 }
