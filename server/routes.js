@@ -57,16 +57,6 @@ export default function (app, express) {
 		});
 	});
 
-	app.put('/api/users', (req, res) => {
-		getUser(req.body.facebook_id).then((rows) => {
-			if (rows.length === 0) {
-			  res.json(null);
-			} else {
-			  res.json(rows[0]);
-			}
-		});
-	});
-
     // This should replace the put request
 	app.get('/api/users/:facebook_id', (req, res) => {
 		console.log(req.params.facebook_id);
