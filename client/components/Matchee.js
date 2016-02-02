@@ -81,7 +81,7 @@ class Matchee extends Component {
 }
 
 Matchee.propTypes = {
-  matchee: PropTypes.object.isRequired,
+  matchee: PropTypes.object.isRequired
 };
 
 

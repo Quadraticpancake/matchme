@@ -73,6 +73,7 @@ export function clickLogin() {
                   .then((json) => {
                   // We can dispatch many times!
                   // Here, we update the app state with the results of the API call.
+                    console.log("receiveLogin", json);
                     dispatch(receiveLogin(json));
                   });
               }

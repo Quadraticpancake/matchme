@@ -26,7 +26,8 @@ export default function (app, express) {
 
 	app.post('/api/pairs', (req, res) => {
 		store.dispatch({type: 'UPDATE_LATEST', latestMatch: req.body})
-		addMatch(req.body).then(() => {
+		addMatch(req.body).then((row) => {
+			// STUFF CAN BE DONE HERE TO PING USER IF ROW ENTRY RETURNED BECAUSE CONNECTION WAS MADE!!!!!
 			getMatchSet().then((rows) => {
 				res.json([rows.prospects[0], rows.prospects[1], rows.target])
 			})
@@ -36,8 +37,8 @@ export default function (app, express) {
 
 	// This function should eventually get other things such as a score.
 	app.get('/api/matchmakerScore/:user_id', (req, res) => {
-      	getMatchesMade(req.params.user_id).then((rows) => {
-        	res.json(rows);
+      	getMatchesMade(req.params.user_id).then((output) => {
+        	res.json(output);
     	});
 	})
 
@@ -83,12 +84,11 @@ export default function (app, express) {
 		request.get('https://graph.facebook.com/v2.5/me?fields=id,first_name,last_name,gender,birthday,picture.width(200).height(200).type(square)&access_token=' + req.body.access_token, function(err, getResponse, fbResult) {
             if (err) {
                 console.log("FB err: ", err);
-                return res.send(500);
+                res.send(500);
             }
             try {            	
                 fbResult = JSON.parse(fbResult);
                 var gp = genderPreference(fbResult.gender);
-                console.log(fbResult);
                 var userData = {
                     facebook_id: fbResult.id, 
                     first_name: fbResult.first_name,
@@ -105,12 +105,13 @@ export default function (app, express) {
                     image_url: fbResult.picture.data.url
                 }
                 postUser(userData).then((rows) => {
-                  return res.json(rows[0]);
+                  res.json(rows);
                 });           
             } catch (e) {
                 console.log("generic error");
-                return res.send(500);
+                res.send(500);
             }
+            console.log("GOT HERE");
 		})
 	})
 

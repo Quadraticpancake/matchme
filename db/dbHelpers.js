@@ -50,17 +50,56 @@ export function addMatch (match) {
     user_one: match.pair.target.user_id < match.pair.prospect.user_id ? match.pair.target.user_id : match.pair.prospect.user_id,
     user_two: match.pair.target.user_id > match.pair.prospect.user_id ? match.pair.target.user_id : match.pair.prospect.user_id
   }
+  /* Here is what the query below does.
+  the "i" sees if pairs already has an entry for that pair
+  If it doesn't a new entry gets insterted.
+  the "p" gets the unique pair_id pertaining to that pair. This will always be one pair_id
+  unless it is a new pair in which case there will be 0 rows
+  the "temp" just inserts the entry into the matchmaker table with the single value returned
+  from either p or i depending on if the pair existed (from p) or is new (from i). The union all
+  table will ALWAYS have exactly one entry.
+  finally, having inserted the new match we return all the existing matches with the same pair.
+  if we end up with n matches the statement will return n - 1 matches. Thus, on the creation of a
+  new pair we have 0 rows returned.
+  */
+  var matchQuery = `with i as (insert into pairs (user_one, user_two, connected, user_one_heart, user_two_heart) \
+    select ${ pairFormatted.user_one }, ${ pairFormatted.user_two }, false, false, false  \
+    where not exists (select * from pairs where user_one = ${ pairFormatted.user_one } and  \
+    user_two = ${ pairFormatted.user_two }) returning pair_id), p as (select pair_id from  \
+    pairs where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = \
+    ${ pairFormatted.user_two }), temp as (insert into matches_made (matchmaker, pair) values \
+    (${ match.matchmaker.user_id }, (select pair_id from p union all select pair_id from i))) \
+    select matches_made.pair from matches_made join p on p.pair_id = matches_made.pair;`;
+    console.log(matchQuery);
+  return db.query(matchQuery)
+    .then((rows) => {
+      var threshold = 1;
+      if (rows.length >= threshold) { // we have "crossed" the threshold (we have threshold +1 matches)
+        return db.query(`update pairs set connected = true where pair_id = ${ rows[0].pair } returning *;`)
+      } else {
+        return false; // No connection occured 
+      }
+    })
+  /*
   return db.query(`update pairs set times_matched = times_matched + 1 where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = ${ pairFormatted.user_two } returning *;`)
     .then((rows) => {
       if (rows.length === 0) {
-        return db.query(`insert into pairs (user_one, user_two, times_matched, connected) values (${ pairFormatted.user_one }, ${ pairFormatted.user_two }, 1, false) returning pair_id;`)
+        return db.query(`insert into pairs (user_one, user_two, times_matched, connected, user_one_heart, user_two_heart) values (${ pairFormatted.user_one }, ${ pairFormatted.user_two }, 1, false, false, false) returning pair_id;`)
           .then((rows) => {
             return db.query(`insert into matches_made (matchmaker, pair) values (${ match.matchmaker.user_id || null }, ${ rows[0].pair_id });`)
           })
       } else {
-      	return db.query(`insert into matches_made (matchmaker, pair) values (${ match.matchmaker.user_id || null }, ${ rows[0].pair_id });`)
+        if (rows[0].times_matched === 2) { // Threshold for connection
+          return db.query(`update pairs set connected = true where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = ${ pairFormatted.user_two } returning *;`)
+            .then((rows) => {
+              return db.query(`select * from into matches_made (matchmaker, pair) values (${ match.matchmaker.user_id || null }, ${ rows[0].pair_id });`)    
+            })
+      	} else {
+          return db.query(`insert into matches_made (matchmaker, pair) values (${ match.matchmaker.user_id || null }, ${ rows[0].pair_id });`)
+        }        
       }
     })
+*/
 // update pairs set times_matched = times_matched + 1 where pairs.user_one = 5 and pairs.user_two = 20;
 }
 
@@ -130,14 +169,41 @@ export function getMatchSet () {
 export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
   // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
-  var getMatchesStr = `select pairs.pair_id, u1.*, u2.* from matches_made join pairs \
+  var getMatchesStr = `select pairs.pair_id,  \ 
+  u1.user_id as user_id1, u1.facebook_id as facebook_id1,  \
+  u1.first_name as first_name1, u1.last_name as last_name1, u1.gender as gender1, u1.birthday as birthday1,  \
+  u1.zipcode as zipcode1, u1.status as status1, u1.age_min as age_min1, u1.age_max as age_max1,  \
+  u1.gender_preference as gender_preference1, u1.location_preference as location_preference1,  \
+  u1.description as description1, u1.image_url as image_url1,  \
+  u2.user_id as user_id2, u2.facebook_id as facebook_id2,  \
+  u2.first_name as first_name2, u2.last_name as last_name2, u2.gender as gender2, u2.birthday as birthday2,  \
+  u2.zipcode as zipcode2, u2.status as status2, u2.age_min as age_min2, u2.age_max as age_max2,  \
+  u2.gender_preference as gender_preference2, u2.location_preference as location_preference2,  \
+  u2.description as description2, u2.image_url as image_url2 from matches_made join pairs \
   on matches_made.matchmaker = ${ matchmaker } and matches_made.pair = pairs.pair_id join users u1 \
   on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;`
   console.log(getMatchesStr);
   return db.query(getMatchesStr)
     .then((rows) => {
-      console.log(rows[0]);
-      return rows;
+      var output = [];
+      var pairsSeen = {};
+      for (var i = 0; i < rows.length; i++) {
+        if (!pairsSeen[rows[i].pair_id]) { 
+          var obj = {user_one: {}, user_two: {}, pair_info: {}};
+          pairsSeen[rows[i].pair_id] = true;
+          for (var key in rows[i]) {
+            if (key.charAt(key.length - 1) === '2') {
+              obj.user_two[key.substr(0, key.length - 1)] = rows[i][key];
+            } else if (key.charAt(key.length - 1) === '1') {
+              obj.user_one[key.substr(0, key.length - 1)] = rows[i][key];
+            } else {
+              obj.pair_info[key] = rows[i][key];
+            }
+          }
+          output.push(obj);
+        }
+      }
+      return output;
     });
 }
 
