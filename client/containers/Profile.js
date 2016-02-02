@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {reduxForm} from 'redux-form';
-export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'age_min', 'age_max', 'favoriteColor', 'employed', 'description'];
+export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'age_min', 'age_max', 'favoriteColor', 'employed', 'description', 'image_url'];
 
 class SimpleForm extends Component {
 
@@ -21,7 +21,7 @@ class SimpleForm extends Component {
     canvas.width = 624;
     canvas.height = 468;
     canvas.getContext('2d').drawImage(video,0,0);
-  
+
     let imgData = canvas.toDataURL("img/png");
     // extract data in base 64 encoded png format
     imgData = imgData.replace('data:image/png;base64,','');
@@ -37,10 +37,10 @@ class SimpleForm extends Component {
       // comment this out and then uncomment to see
       video.src = window.URL.createObjectURL(stream);
     };
-    
+
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-   
-    if (navigator.getUserMedia) {       
+
+    if (navigator.getUserMedia) {
         navigator.getUserMedia({video: true}, handleVideo, this.videoError);
     }
 
@@ -50,7 +50,7 @@ class SimpleForm extends Component {
   render() {
 
     const {
-      fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description},
+      fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description, image_url},
       handleSubmit,
       resetForm,
       submitting
@@ -68,19 +68,19 @@ class SimpleForm extends Component {
       width: 200,
       // height: 200,
       // backgroundColor: '#eee',
-      
+
       clear: 'all'
     }
 
     const picButtonStyle = {
-      
+
       borderRadius: 5,
       float: 'left',
       clear: 'all'
     }
 
     const formStyle = {
-      
+
       clear: 'all'
 
     }
@@ -96,6 +96,12 @@ class SimpleForm extends Component {
       <br></br>
       <br></br>
       <form style={formStyle} onSubmit={handleSubmit}>
+        <div>
+          <label>Profile Picture</label>
+          <div>
+          <img src={image_url.value} />
+          </div>
+        </div>
         <div>
           <label>First Name</label>
           <div>
@@ -191,7 +197,8 @@ SimpleForm.propTypes = {
   fields: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired
+  submitting: PropTypes.bool.isRequired,
+  userInfo: PropTypes.object.isRequired
 };
 
 export default reduxForm({
@@ -199,7 +206,7 @@ export default reduxForm({
   fields
 },
 state => ({ // mapStateToProps
-  initialValues: state.user.userInfo // will pull state into form's initialValues
+  initialValues: state.user.userInfo, // will pull state into form's initialValues
 }),
 {}      // mapDispatchToProps (will bind action creator to dispatch)
 )(SimpleForm);
