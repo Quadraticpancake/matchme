@@ -19,7 +19,7 @@ class SimpleForm extends Component {
     let canvas = document.querySelector("#picDisplay");
     let video = document.querySelector("#videoElement");
     canvas.width = 624;
-    canvas.height = 624;
+    canvas.height = 468;
     canvas.getContext('2d').drawImage(video,0,0);
   
     let imgData = canvas.toDataURL("img/png");
@@ -56,14 +56,15 @@ class SimpleForm extends Component {
 
     const videoElementStyle = {
       width: 200,
-      height: 200,
+      height: 'auto',
+      // paddingBottom: 50,
       backgroundColor: '#eee',
       clear: 'all'
     }
 
     const displayElementStyle = {
       width: 200,
-      height: 200,
+      // height: 200,
       backgroundColor: '#eee',
       
       clear: 'all'
