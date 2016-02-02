@@ -17,17 +17,21 @@ class SimpleForm extends Component {
     }
      
     function handleVideo(stream) {
+      // comment this out and then uncomment to see
       video.src = window.URL.createObjectURL(stream);
     };
 
     function takePicture() {
+      // http://matthewschrager.com/2013/05/25/how-to-take-webcam-pictures-from-browser-and-store-server-side/
       let canvas = document.querySelector("#picDisplay");
       canvas.width = 624;
       canvas.height = 624;
-      setTimeout(function() {
-        canvas.getContext('2d').drawImage(video,0,0);
-
-      }, 50)
+      canvas.getContext('2d').drawImage(video,0,0);
+    
+      let imgData = canvas.toDataURL("img/png");
+      imgData = imgData.replace('data:image/png;base64,','');
+      let postData = JSON.stringify({imgData: imgData});
+      console.log('IMAGE DATA', postData)
     }
 
     function videoError(e) {
