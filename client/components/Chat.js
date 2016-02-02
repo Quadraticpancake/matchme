@@ -12,7 +12,7 @@ export class Chat extends Component {
     });
 
     return (
-      <div>
+      <div className='col-md-10 col-sm-10 col-xs-10'>
       <div>
       Chat between {chat.user_one} and {chat.user_two}
       {renderedMessages}
