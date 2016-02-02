@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as UserActions from '../actions/user';
+import * as ChatsActions from '../actions/chats';
 import { Chat } from '../components/Chat';
 import { socket } from './App';
 
@@ -69,7 +69,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(UserActions, dispatch)
+    actions: bindActionCreators(ChatsActions, dispatch)
   };
 }
 
