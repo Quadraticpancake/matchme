@@ -2,13 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {reduxForm} from 'redux-form';
-export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'favoriteColor', 'employed', 'description'];
+export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'age_min', 'age_max', 'favoriteColor', 'employed', 'description'];
 
 class SimpleForm extends Component {
 
   render() {
     const {
-      fields: {first_name, last_name, gender, gender_preference, favoriteColor, employed, description},
+      fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description},
       handleSubmit,
       resetForm,
       submitting
@@ -31,10 +31,10 @@ class SimpleForm extends Component {
           <label>Gender</label>
           <div>
             <label>
-              <input type="radio" value="male" checked={gender.value === 'male'}/> Male
+              <input type="radio" {...gender} value="male" checked={gender.value === 'male'}/> Male
             </label>
             <label>
-              <input type="radio" value="female" checked={gender.value === 'female'}/> Female
+              <input type="radio" {...gender} value="female" checked={gender.value === 'female'}/> Female
             </label>
           </div>
         </div>
@@ -42,14 +42,22 @@ class SimpleForm extends Component {
           <label>Gender Preference</label>
           <div>
             <label>
-              <input type="radio" value="male" checked={gender_preference.value === 'male'}/> Male
+              <input type="radio" {...gender_preference} value="male" checked={gender_preference.value === 'male'}/> Male
             </label>
             <label>
-              <input type="radio" value="female" checked={gender_preference.value === 'female'}/> Female
+              <input type="radio" {...gender_preference} value="female" checked={gender_preference.value === 'female'}/> Female
             </label>
             <label>
-              <input type="radio" value="Both" checked={gender_preference.value === 'null'}/> Both
+              <input type="radio" {...gender_preference} value="none" checked={gender_preference.value === 'none' || gender_preference.value === null}/> Both
             </label>
+          </div>
+        </div>
+        <div>
+          <label>Age Preference</label>
+          <div>
+            <input type="number" min="18"  {...age_min} placeholder="Min Age" />
+            to
+            <input type="number" max="100" {...age_max} placeholder="Max Age" />
           </div>
         </div>
         <div>
