@@ -76,10 +76,8 @@ class App extends Component {
       <section>
         <Header actions={actions} user={user}/>
         {this.props.children}
-         <div className="col-md-2 hidden-sm hidden-xs pull-right">
-           <Scoreboard />
-        </div>
-      </section>
+        <Scoreboard />
+]      </section>
     );
   }
 }
