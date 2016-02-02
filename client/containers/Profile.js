@@ -6,7 +6,49 @@ export const fields = ['first_name', 'last_name', 'gender', 'gender_preference',
 
 class SimpleForm extends Component {
 
+
+  // componentWillUnmount() {
+  //   if (this.props.pristine) this.props.destroyForm();
+  // }
+  videoError(e) {
+    console.log('error with video intialization', e);
+  }
+
+   takePicture() {
+    // http://matthewschrager.com/2013/05/25/how-to-take-webcam-pictures-from-browser-and-store-server-side/
+    let canvas = document.querySelector("#picDisplay");
+    let video = document.querySelector("#videoElement");
+    canvas.width = 624;
+    canvas.height = 468;
+    canvas.getContext('2d').drawImage(video,0,0);
+  
+    let imgData = canvas.toDataURL("img/png");
+    // extract data in base 64 encoded png format
+    imgData = imgData.replace('data:image/png;base64,','');
+    let postData = JSON.stringify({imgData: imgData});
+
+    //post to server and send to database
+  }
+
+  componentDidMount(){
+    // http://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
+    let video = document.querySelector("#videoElement");
+    function handleVideo(stream) {
+      // comment this out and then uncomment to see
+      video.src = window.URL.createObjectURL(stream);
+    };
+    
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+   
+    if (navigator.getUserMedia) {       
+        navigator.getUserMedia({video: true}, handleVideo, this.videoError);
+    }
+
+
+  }
+
   render() {
+
     const {
       fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description},
       handleSubmit,
@@ -14,7 +56,46 @@ class SimpleForm extends Component {
       submitting
     } = this.props;
 
-    return (<form onSubmit={handleSubmit}>
+    const videoElementStyle = {
+      width: 200,
+      height: 'auto',
+      // paddingBottom: 50,
+      // backgroundColor: '#eee',
+      clear: 'all'
+    }
+
+    const displayElementStyle = {
+      width: 200,
+      // height: 200,
+      // backgroundColor: '#eee',
+      
+      clear: 'all'
+    }
+
+    const picButtonStyle = {
+      
+      borderRadius: 5,
+      float: 'left',
+      clear: 'all'
+    }
+
+    const formStyle = {
+      
+      clear: 'all'
+
+    }
+
+    return (
+      <div>
+      <div>
+        <video style={videoElementStyle} autoPlay="true" id="videoElement"></video>
+        <canvas style={displayElementStyle} id="picDisplay"></canvas>
+      </div>
+      <button type="button" style={picButtonStyle} className="center-block" onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
+
+      <br></br>
+      <br></br>
+      <form style={formStyle} onSubmit={handleSubmit}>
         <div>
           <label>First Name</label>
           <div>
@@ -101,6 +182,7 @@ class SimpleForm extends Component {
           </button>
         </div>
       </form>
+      </div>
     );
   }
 }
