@@ -12,7 +12,8 @@ const scoreboardStyle = {
   marginTop: 50,
   bottom: 0,
   backgroundColor: '#eee',
-  borderRight: '1px solid #333',
+  height: '100%'
+  // borderRight: '1px solid #333',
   // padding: 16
 }
 
