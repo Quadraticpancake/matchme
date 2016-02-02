@@ -11,6 +11,15 @@ import { socket } from './App';
 //   dispatch => bindActionCreators(actionCreators, dispatch)
 // )
 
+const rowStyle = {
+  marginLeft: '0px',
+  marginRight: '0px'
+};
+
+const chatStyle = {
+  paddingLeft: 0
+};
+
 class Chats extends Component {
   // constructor(props) {
   //   super(props);
@@ -48,20 +57,17 @@ class Chats extends Component {
 
     let renderedChats = [];
 
-    if (focus === null) {
-      Object.keys(chats).map((chatKey) => {
-        //chatKey is the pair_id
-        renderedChats.push(<ChatCollapsed chat={chats[chatKey]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={chatKey} user_id={user_id} expandChat={actions.expandChat} />);
-      });
-    } else {
-      renderedChats = (<Chat chat={chats[focus]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={focus} user_id={user_id} />);
-    }
+    Object.keys(chats).map((chatKey) => {
+      //chatKey is the pair_id
+      renderedChats.push(<ChatCollapsed chat={chats[chatKey]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={chatKey} user_id={user_id} expandChat={actions.expandChat} />);
+    });
+
     return (
-      <div>
-      <section>
+      <div className='row' style={rowStyle}>
+      <div className='col-md-3 col-sm-4 col-xs-4'>
         {renderedChats}
-      </section>
-      <div className="col-md-5">
+      </div>
+      <div className="col-md-8 col-sm-8 col-xs-8" style={chatStyle}>
         <Chat chat={chats[focus]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={focus} user_id={user_id} />
       </div>
       </div>
