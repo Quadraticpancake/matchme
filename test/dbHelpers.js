@@ -72,7 +72,7 @@ describe('database helpers', () => {
 		it('should update a pair if it already exists', () => {
 			return db.query('insert into pairs (user_one, user_two, connected,user_one_heart,user_two_heart) values (5,20,false,false,false);')
 			.then((rows) => {
-				return addMatch({matchmaker: {user_id: 4}, pair: {target: {user_id: 5}, prospect: {user_id: 20} }})
+				return addMatch({matchmaker: {user_id: 6}, pair: {target: {user_id: 5}, prospect: {user_id: 20} }})
 			})
 			.then(() => {
 				return db.query('select * from pairs where pairs.user_one = 5 and pairs.user_two = 20;')
@@ -104,6 +104,28 @@ describe('database helpers', () => {
 				expect(rows.length).to.equal(1)
 				expect(rows[0].matchmaker).to.equal(5)
 				expect(rows[0].pair).to.equal(2) // Based on above tests
+			})
+		})
+		it('should handle going over the threshold correctly', () => {
+			return addMatch({matchmaker: {user_id: 8}, pair: {target: {user_id: 5}, prospect: {user_id: 20} }})
+			.then((pairRow) => {
+				console.log(pairRow);
+				return db.query('select * from users where user_id = 6 or user_id = 8')
+				.then((rows) => {
+					expect(pairRow.length).to.equal(1)
+					expect(pairRow[0].pair_id).to.equal(1)
+					expect(pairRow[0].user_one).to.equal(5)
+					expect(pairRow[0].user_two).to.equal(20)
+					expect(rows.length).to.equal(2)
+                    // Assumes that the threshold is set to 1 (2 match requirement)
+					if (rows[0].user_id === 8) {
+					  expect(rows[0].score).to.equal(210)
+					  expect(rows[1].score).to.equal(110)
+					} else {
+					  expect(rows[0].score).to.equal(210)
+					  expect(rows[1].score).to.equal(110)
+				    }
+				})
 			})
 		})
 	});

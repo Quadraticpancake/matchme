@@ -15,9 +15,9 @@ export function getUser (facebook_id) {
 export function postUser (user) {
   console.log(user);
   var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
-              location_preference,description,image_url) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}','${user.gender}',\
+              location_preference,description,image_url,score) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}','${user.gender}',\
               '${user.birthday}','${user.zipcode}','${user.status}',${user.age_min},${user.age_max},\
-              '${user.gender_preference}',${user.location_preference},'${user.description}','${user.image_url}') returning *;`;
+              '${user.gender_preference}',${user.location_preference},'${user.description}','${user.image_url}',0) returning *;`;
   console.log(insertUserQueryStr);
   return db.query(insertUserQueryStr)
   .then((rows) => {
@@ -62,45 +62,35 @@ export function addMatch (match) {
   if we end up with n matches the statement will return n - 1 matches. Thus, on the creation of a
   new pair we have 0 rows returned.
   */
-  var matchQuery = `with i as (insert into pairs (user_one, user_two, connected, user_one_heart, user_two_heart) \
+  var matchQuery = `with score as (update users set score = score + 10 where user_id = \
+    ${ match.matchmaker.user_id }), \ 
+    i as (insert into pairs (user_one, user_two, connected, user_one_heart, user_two_heart) \
     select ${ pairFormatted.user_one }, ${ pairFormatted.user_two }, false, false, false  \
     where not exists (select * from pairs where user_one = ${ pairFormatted.user_one } and  \
     user_two = ${ pairFormatted.user_two }) returning pair_id), p as (select pair_id from  \
     pairs where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = \
     ${ pairFormatted.user_two }), temp as (insert into matches_made (matchmaker, pair) values \
     (${ match.matchmaker.user_id }, (select pair_id from p union all select pair_id from i))) \
-    select matches_made.pair from matches_made join p on p.pair_id = matches_made.pair;`;
-    console.log(matchQuery);
+    select matches_made.matchmaker, matches_made.pair from matches_made join p on p.pair_id = matches_made.pair;`;
+    //console.log(matchQuery);
   return db.query(matchQuery)
     .then((rows) => {
       var threshold = 1;
-      if (rows.length >= threshold) { // we have "crossed" the threshold (we have threshold +1 matches)
-        return db.query(`update pairs set connected = true where pair_id = ${ rows[0].pair } returning *;`)
+      if (rows.length === threshold) { // we have "crossed" the threshold (we have threshold +1 matches)
+        var matchmakersStr = '' + rows[0].matchmaker; 
+        for (var i = 1; i < rows.length; i++) {
+          matchmakersStr += ', ' + rows[i].matchmaker;
+        }
+        var onConnectionQuery = `with score as (update users set score = score + 200 where user_id = \
+          ${ match.matchmaker.user_id }), allscore as (update users set score = score + 100 where user_id in \
+          (${ matchmakersStr })) update pairs set connected = true where pair_id = \
+          ${ rows[0].pair } returning *;`
+        console.log(onConnectionQuery);
+        return db.query(onConnectionQuery);
       } else {
         return false; // No connection occured 
       }
     })
-  /*
-  return db.query(`update pairs set times_matched = times_matched + 1 where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = ${ pairFormatted.user_two } returning *;`)
-    .then((rows) => {
-      if (rows.length === 0) {
-        return db.query(`insert into pairs (user_one, user_two, times_matched, connected, user_one_heart, user_two_heart) values (${ pairFormatted.user_one }, ${ pairFormatted.user_two }, 1, false, false, false) returning pair_id;`)
-          .then((rows) => {
-            return db.query(`insert into matches_made (matchmaker, pair) values (${ match.matchmaker.user_id || null }, ${ rows[0].pair_id });`)
-          })
-      } else {
-        if (rows[0].times_matched === 2) { // Threshold for connection
-          return db.query(`update pairs set connected = true where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = ${ pairFormatted.user_two } returning *;`)
-            .then((rows) => {
-              return db.query(`select * from into matches_made (matchmaker, pair) values (${ match.matchmaker.user_id || null }, ${ rows[0].pair_id });`)    
-            })
-      	} else {
-          return db.query(`insert into matches_made (matchmaker, pair) values (${ match.matchmaker.user_id || null }, ${ rows[0].pair_id });`)
-        }        
-      }
-    })
-*/
-// update pairs set times_matched = times_matched + 1 where pairs.user_one = 5 and pairs.user_two = 20;
 }
 
 // get one target and two suitable prospects

@@ -22,7 +22,7 @@ export default function createTables () {
       + " location_preference INTEGER,"
       + " description VARCHAR(350),"
       + " image_url VARCHAR(255),"
-      + " score BIGINT);"
+      + " score INTEGER);"
      	)
     //if you want to add additional basic schema fields to the user such as info, add it to the string here
    .then(function(){
