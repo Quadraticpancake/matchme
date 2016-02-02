@@ -26,7 +26,8 @@ export default function (app, express) {
 
 	app.post('/api/pairs', (req, res) => {
 		store.dispatch({type: 'UPDATE_LATEST', latestMatch: req.body})
-		addMatch(req.body).then(() => {
+		addMatch(req.body).then((row) => {
+			// STUFF CAN BE DONE HERE TO PING USER IF ROW ENTRY RETURNED BECAUSE CONNECTION WAS MADE!!!!!
 			getMatchSet().then((rows) => {
 				res.json([rows.prospects[0], rows.prospects[1], rows.target])
 			})

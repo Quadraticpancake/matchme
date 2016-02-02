@@ -31,9 +31,9 @@ describe('database helpers', () => {
 
 					var fakeUser = generateUser();
 					var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
-							location_preference,description,image_url) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
+							location_preference,description,image_url,score) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
 							'${fakeUser.birthdayStr}','${fakeUser.zipcode}','${fakeUser.status}',${fakeUser.age_min},${fakeUser.age_max},\
-							'${fakeUser.gender_preference}',${fakeUser.location_preference},'${fakeUser.description}','${fakeUser.image_url}');`;
+							'${fakeUser.gender_preference}',${fakeUser.location_preference},'${fakeUser.description}','${fakeUser.image_url}',0);`;
 
 				// run done() after the 500th user is generated to end the before block, otherwise run the query without resolving the promise
 					if (i === 999) {
@@ -70,7 +70,7 @@ describe('database helpers', () => {
 
 	describe('addMatch', () => {
 		it('should update a pair if it already exists', () => {
-			return db.query('insert into pairs (user_one, user_two, times_matched, connected) values (5,20,1,false);')
+			return db.query('insert into pairs (user_one, user_two, connected,user_one_heart,user_two_heart) values (5,20,false,false,false);')
 			.then((rows) => {
 				return addMatch({matchmaker: {user_id: 4}, pair: {target: {user_id: 5}, prospect: {user_id: 20} }})
 			})
@@ -79,7 +79,6 @@ describe('database helpers', () => {
 			})
 			.then((rows) => {
 				expect(rows.length).to.equal(1)
-				expect(rows[0].times_matched).to.equal(2)
 			})
 			.catch((err) => {
 				throw new Error(err)

@@ -21,13 +21,14 @@ export default function createTables () {
       + " gender_preference VARCHAR(10)," // male, female, both
       + " location_preference INTEGER,"
       + " description VARCHAR(350),"
-      + " image_url VARCHAR(255));"
+      + " image_url VARCHAR(255),"
+      + " score BIGINT);"
      	)
     //if you want to add additional basic schema fields to the user such as info, add it to the string here
    .then(function(){
     console.log('pair table created');
     return db.query("CREATE TABLE IF NOT EXISTS pairs (pair_id SERIAL PRIMARY KEY, user_one INTEGER, user_two INTEGER, FOREIGN KEY (user_one) REFERENCES users(user_id),"
-      + " FOREIGN KEY (user_two) REFERENCES users(user_id), times_matched INTEGER, connected BOOLEAN);");
+      + " FOREIGN KEY (user_two) REFERENCES users(user_id), connected BOOLEAN, user_one_heart BOOLEAN, user_two_heart BOOLEAN);");
    })
    .then(function(){
     console.log('pair to matchmaker join table created')
