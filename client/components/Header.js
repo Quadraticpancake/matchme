@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router';
@@ -11,15 +11,11 @@ import css from './Header.scss';
 // code below.
 
 
-export class Header extends Component {
+class Header extends Component {
 
-  componentDidMount() {
-    const {actions} = this.props;
-    console.log("DID MOUNT");
-    // actions.clickLogin(); //This should log us in, but is buggy right now since FB is not always loaded fast enough
-  }
   render() {
     window.HeaderProps = this.props;
+    const {user, actions} = this.props;
     return (
       <header className={css.header} >
       <Navbar fixedTop>
@@ -45,9 +41,16 @@ export class Header extends Component {
             </LinkContainer>
           </Nav>
           <Nav>
+            {!user.isAuthenticated &&
             <NavItem eventKey={3} onClick={this.props.actions.clickLogin}>
-              FACEBOOK
-            </NavItem>
+              Login via Facebook
+            </NavItem>}
+            {user.isAuthenticated &&
+            <NavItem eventKey={3} onClick={this.props.actions.logout}>
+              Logout
+            </NavItem>}
+            {user.isAuthenticated &&
+            <p className={'navbar-text'}>Logged in as <strong>{user.userInfo.first_name}</strong></p>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -55,3 +58,10 @@ export class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  user: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
+};
+
+export default Header;

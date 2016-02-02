@@ -12,11 +12,11 @@ export const socket = io();
 // import './styles/app.scss';
 
 /* application components */
-import { Header } from '../components/Header';
+import Header from '../components/Header';
 // import { Footer } from 'components/Footer';
 
 class App extends Component {
-    componentDidMount(){
+    componentWillMount(){
       const { actions } = this.props;
         function statusChangeCallback(response) {
           console.log('statusChangeCallback');
@@ -71,10 +71,10 @@ class App extends Component {
 
   render() {
     window.AppProps = this.props;
-    const { actions } = this.props;
+    const { actions, user } = this.props;
     return (
       <section>
-        <Header actions={actions} />
+        <Header actions={actions} user={user}/>
         {this.props.children}
          <div className="col-md-2 hidden-sm hidden-xs pull-right">
            <Scoreboard />
