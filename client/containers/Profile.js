@@ -18,11 +18,11 @@ class SimpleForm extends Component {
     }
      
     function handleVideo(stream) {
-        video.src = window.URL.createObjectURL(stream);
+      video.src = window.URL.createObjectURL(stream);
     }
      
     function videoError(e) {
-        // do something
+      console.log('Error initializing camera', e);
     }
 
     const {
@@ -32,13 +32,19 @@ class SimpleForm extends Component {
       submitting
     } = this.props;
 
+    const videoElementStyle = {
+      width: 200,
+      height: 200,
+      backgroundColor: '#666' 
+    }
+
+  
+
     return (
       <div>
       <div >
 
-          <video autoplay="true" id="videoElement">
-           
-          </video>
+          <video autoPlay="true" style={videoElementStyle} id="videoElement"></video>
       </div>
 
       <form onSubmit={handleSubmit}>
