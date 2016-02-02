@@ -13,10 +13,11 @@ export default function user(state = initialState, action) {
       return Object.assign({}, state, {
         chats: action.chats
       });
-    case ChatsActions.SET_USER_SCORE:
+    case ChatsActions.EXPAND_CHAT:
       return Object.assign({}, state, {
-        userScore: action.userScore
+        focus: 0
       });
+
     default:
       return state;
   }

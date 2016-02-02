@@ -1,6 +1,7 @@
 export const FETCH_CHATS = 'FETCH_CHATS';
 export const SET_CHATS = 'SET_CHATS';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const EXPAND_CHAT = 'EXPAND_CHAT';
 
 function setChats(chats) {
   return {
@@ -37,4 +38,12 @@ export function sendMessage(text, sender, pair_id) {
         dispatch(fetchChats(sender));
       });
   };
+
+}
+
+export function expandChat() {
+  return {
+    type: EXPAND_CHAT
+  }
+
 }

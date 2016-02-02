@@ -1,6 +1,3 @@
-export const FETCH_CHATS = 'FETCH_CHATS';
-export const SET_CHATS = 'SET_CHATS';
-export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const SET_USER_SCORE = 'SET_USER_SCORE';
 export const FETCH_USER_SCORE = 'FETCH_USER_SCORE';
 

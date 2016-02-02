@@ -31,6 +31,11 @@ class Chats extends Component {
     // }
   }
 
+  expandChat() {
+    const { actions } = this.props;
+    dispatch(actions.expandChat());
+  }
+
   componentDidMount() {
     this.fetchChatsAndTellSocket();
     socket.on('refreshChats', () => { 
@@ -44,14 +49,14 @@ class Chats extends Component {
   }
 
   render() {
-    const { chats, focus } = this.props;
+    const { chats, focus, user_id } = this.props;
 
     let renderedChats = [];
 
     if (focus === null) {
       Object.keys(chats).map((chatKey) => {
         //chatKey is the pair_id
-        renderedChats.push(<ChatCollapsed chat={chats[chatKey]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={chatKey} />);
+        renderedChats.push(<ChatCollapsed chat={chats[chatKey]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={chatKey} user_id={user_id} expandChat={this.expandChat} />);
       });
     } 
 
