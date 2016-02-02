@@ -5,12 +5,14 @@ import * as ScoreboardActions from '../actions/scoreboard';
 import { socket } from './App'
 
 const scoreboardStyle = {
-  position: 'fixed',
+  position: 'absolute',
   width: 230,
   right: 0,
-  top: 50,
+  top: 0,
+  marginTop: 50,
   bottom: 0,
   backgroundColor: '#eee',
+  height: '100%'
   // borderRight: '1px solid #333',
   // padding: 16
 }
@@ -18,7 +20,7 @@ const scoreboardStyle = {
 class Scoreboard extends Component {
 	componentDidMount() {
     const { actions } = this.props;
-    
+
     socket.on('scoreboard', (data) => {
       actions.updateScoreboard(data);
 		});
@@ -35,10 +37,8 @@ class Scoreboard extends Component {
     console.log("numEntries: ", scoreboardEntries.length)
 
     return (
-    	<div>
-        <div className="scoreboardEntries " style={scoreboardStyle}>
-          {scoreboardEntries}
-        </div>
+      <div className="navbar-fixed-side navbar-fixed-side-right hidden-sm hidden-xs" style={scoreboardStyle}>
+        {scoreboardEntries}
       </div>
     )
   }

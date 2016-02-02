@@ -17,8 +17,7 @@ class Header extends Component {
     window.HeaderProps = this.props;
     const {user, actions} = this.props;
     return (
-      <header className={css.header} >
-      <Navbar fixedTop>
+      <Navbar staticTop className={css.header}>
         <Navbar.Header>
           <Navbar.Brand>
             <Link to="/home" activeStyle={{color: '#33e0ff'}}>
@@ -54,7 +53,6 @@ class Header extends Component {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      </header>
     );
   }
 }
