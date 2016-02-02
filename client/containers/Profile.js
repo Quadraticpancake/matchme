@@ -8,9 +8,8 @@ class SimpleForm extends Component {
 
   render() {
 
-
-    var video = document.querySelector("#videoElement");
-     
+    // http://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
+    let video = document.querySelector("#videoElement");
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
      
     if (navigator.getUserMedia) {       
@@ -19,11 +18,21 @@ class SimpleForm extends Component {
      
     function handleVideo(stream) {
       video.src = window.URL.createObjectURL(stream);
+    };
+
+    function takePicture() {
+      let canvas = document.querySelector("#picDisplay");
+      canvas.width = 624;
+      canvas.height = 624;
+      setTimeout(function() {
+        canvas.getContext('2d').drawImage(video,0,0);
+
+      }, 50)
     }
-     
+
     function videoError(e) {
-      console.log('Error initializing camera', e);
-    }
+      console.log('error with video intialization', e);
+    };
 
     const {
       fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description},
@@ -35,19 +44,42 @@ class SimpleForm extends Component {
     const videoElementStyle = {
       width: 200,
       height: 200,
-      backgroundColor: '#666' 
+      backgroundColor: '#eee',
+      clear: 'all'
     }
 
-  
+    const displayElementStyle = {
+      width: 200,
+      height: 200,
+      backgroundColor: '#eee',
+      
+      clear: 'all'
+    }
+
+    const picButtonStyle = {
+      
+      borderRadius: 5,
+      float: 'left',
+      clear: 'all'
+    }
+
+    const formStyle = {
+      
+      clear: 'all'
+
+    }
 
     return (
       <div>
-      <div >
-
-          <video autoPlay="true" style={videoElementStyle} id="videoElement"></video>
+      <div>
+        <video style={videoElementStyle} autoPlay="true" id="videoElement"></video>
+        <canvas style={displayElementStyle} id="picDisplay"></canvas>
       </div>
+      <button type="button" style={picButtonStyle} className="center-block" onClick={() => {takePicture()}}>Take a new Profile Picture</button>
 
-      <form onSubmit={handleSubmit}>
+      <br></br>
+      <br></br>
+      <form style={formStyle} onSubmit={handleSubmit}>
         <div>
           <label>First Name</label>
           <div>
