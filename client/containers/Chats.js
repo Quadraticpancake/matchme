@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as ChatsActions from '../actions/chats';
 import { Chat } from '../components/Chat';
+import { ChatCollapsed } from '../components/ChatCollapsed';
 import { socket } from './App';
 
 // @connect(
@@ -43,14 +44,17 @@ class Chats extends Component {
   }
 
   render() {
-    const { chats } = this.props;
+    const { chats, focus } = this.props;
 
     let renderedChats = [];
 
-    Object.keys(chats).map((chatKey) => {
-      //chatKey is the pair_id
-      renderedChats.push(<Chat chat={chats[chatKey]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={chatKey} />);
-    });
+    if (focus === null) {
+      Object.keys(chats).map((chatKey) => {
+        //chatKey is the pair_id
+        renderedChats.push(<ChatCollapsed chat={chats[chatKey]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={chatKey} />);
+      });
+    } 
+
 
     return (
       <section>
@@ -63,7 +67,8 @@ class Chats extends Component {
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
-    chats: state.chats.chats
+    chats: state.chats.chats,
+    focus: state.chats.focus
   };
 }
 

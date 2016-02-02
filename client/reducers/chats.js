@@ -3,7 +3,8 @@ import * as ChatsActions from '../actions/chats';
 
 // FB.getLoginStatus()
 const initialState = {
-  chats: {}
+  chats: {},
+  focus: null
 };
 
 export default function user(state = initialState, action) {
