@@ -41,13 +41,16 @@ class Header extends Component {
             </LinkContainer>
           </Nav>
           <Nav>
+            {!user.isAuthenticated &&
             <NavItem eventKey={3} onClick={this.props.actions.clickLogin}>
-              FACEBOOK
-            </NavItem>
-            {user.isAuthenticated &&
-            <NavItem eventKey={3} onClick={this.props.actions.clickLogin}>
-              LOGOUT
+              Login via Facebook
             </NavItem>}
+            {user.isAuthenticated &&
+            <NavItem eventKey={3} onClick={this.props.actions.logout}>
+              Logout
+            </NavItem>}
+            {user.isAuthenticated &&
+            <p className={'navbar-text'}>Logged in as <strong>{user.userInfo.first_name}</strong></p>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

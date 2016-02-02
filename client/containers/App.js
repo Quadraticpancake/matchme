@@ -16,7 +16,7 @@ import Header from '../components/Header';
 // import { Footer } from 'components/Footer';
 
 class App extends Component {
-    componentDidMount(){
+    componentWillMount(){
       const { actions } = this.props;
         function statusChangeCallback(response) {
           console.log('statusChangeCallback');

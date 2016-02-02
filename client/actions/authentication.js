@@ -19,9 +19,18 @@ export function login(userID){
         // Here, we update the app state with the results of the API call.
         dispatch(receiveLogin(json));
       });
-  }
+  };
 
 }
+
+export function logout(){
+  return function(dispatch){
+    dispatch(requestLogout());
+    FB.logout(function(response) {
+      console.log(response);
+    });
+  };
+};
 
 export function clickLogin() {
   return function(dispatch) {
