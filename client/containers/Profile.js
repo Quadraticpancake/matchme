@@ -7,6 +7,24 @@ export const fields = ['first_name', 'last_name', 'gender', 'gender_preference',
 class SimpleForm extends Component {
 
   render() {
+
+
+    var video = document.querySelector("#videoElement");
+     
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+     
+    if (navigator.getUserMedia) {       
+        navigator.getUserMedia({video: true}, handleVideo, videoError);
+    }
+     
+    function handleVideo(stream) {
+        video.src = window.URL.createObjectURL(stream);
+    }
+     
+    function videoError(e) {
+        // do something
+    }
+
     const {
       fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description},
       handleSubmit,
@@ -14,7 +32,16 @@ class SimpleForm extends Component {
       submitting
     } = this.props;
 
-    return (<form onSubmit={handleSubmit}>
+    return (
+      <div>
+      <div >
+
+          <video autoplay="true" id="videoElement">
+           
+          </video>
+      </div>
+
+      <form onSubmit={handleSubmit}>
         <div>
           <label>First Name</label>
           <div>
@@ -101,6 +128,7 @@ class SimpleForm extends Component {
           </button>
         </div>
       </form>
+      </div>
     );
   }
 }
