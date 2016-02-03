@@ -18,13 +18,13 @@ export function updatePic(image_url, user_id) {
 
     dispatch(requestPic());
 
-    let request = new Request('/api/profilePicture', { 
-      method: 'post',
+    let request = new Request(`/api/pictures/${user_id}`, { 
+      method: 'put',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({user: {user_id: user_id}, image_url: {image_url:  image_url});
+      body: JSON.stringify({image_url:  image_url});
     });
 
     return fetch(request)

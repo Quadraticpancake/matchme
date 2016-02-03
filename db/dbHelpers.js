@@ -235,7 +235,7 @@ export function getAlbum (user) {
 
 }
 
-export function postPicture (user_id, image_url) {
+export function putPicture (user_id, image_url) {
   
   var insertPictureQueryStr = `UPDATE users SET image_url =` + image_url + ` WHERE ` + `user_id = ` + user_id + `;`;
   

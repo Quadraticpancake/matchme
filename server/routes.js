@@ -1,5 +1,5 @@
 import { getConnectedPairsAndMessagesForUser, addMessage } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, postPicture} from '../db/dbHelpers';
+import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture} from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -44,8 +44,8 @@ export default function (app, express) {
 	});
 
 	// change profile picture
-	app.post('/api/profilePicture/:user_id', (req, res) => {
-      	postPicture(req.params.user_id, req.body.image_url).then(output) => {
+	app.put('/api/pictures/:user_id', (req, res) => {
+      	putPicture(req.params.user_id, req.body.image_url).then(output) => {
       		res.json(output);
       	}
 	});

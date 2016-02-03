@@ -85,10 +85,12 @@ class ProfilePicture extends Component {
     // get the complete list of pictures with a database query
     let photos = ['https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', 'http://www.cats.org.uk/uploads/branches/211/5507692-cat-m.jpg']
     let photoAlbum = [];
+
+    const {actions, user} = this.props;
     
     for (var i = 0; i < (photos ? photos.length : 0); i++) {
       photoAlbum.push(<div><img src={photos[i]} style={imageStyle}/><br></br>
-        <button type="button" style={picButtonStyle} onClick={() => {updatePic(1, photos[i])}}>Use as Profile Picture</button><br></br>
+        <button type="button" style={picButtonStyle} onClick={() => {updatePic(photos[i], user.user_id)}}>Use as Profile Picture</button><br></br>
         </div>);
     }
 
@@ -126,5 +128,28 @@ class ProfilePicture extends Component {
     )
   }
 }
+
+ProfilePicture.propTypes = {
+  actions: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
+};
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(ProfilePictureActions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfilePicture);
+
 
 export default ProfilePicture;
