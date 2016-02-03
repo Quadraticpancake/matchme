@@ -45,9 +45,9 @@ export default function (app, express) {
 
 	// change profile picture
 	app.put('/api/pictures/:user_id', (req, res) => {
-      	putPicture(req.params.user_id, req.body.image_url).then(output) => {
+      	putPicture(req.params.user_id, req.body.image_url).then((output) => {
       		res.json(output);
-      	}
+      	});
 	});
 
 	app.get('/api/album', (req, res) => {

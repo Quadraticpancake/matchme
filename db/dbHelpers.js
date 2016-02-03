@@ -6,7 +6,7 @@ var _ = require('underscore');
 ///////////////// DB helpers /////////////////////
 
 export function getUser (facebook_id) {
-  console.log(facebook_id);
+  
   // the syntax below is because facebook_id must be explictly passed as a string
   return db.query("SELECT *, to_char(birthday, 'YYYY-MM-DD') as birthday from users where facebook_id = '" + facebook_id + "';");
 }
@@ -21,11 +21,11 @@ export function postUser (user) {
   
   return db.query(insertUserQueryStr)
   .then((rows) => {
-    console.log('added entry', rows);
+    
     return rows[0];
   })
   .then((row) => {
-    console.log('user_id', row.user_id);
+    
     var insertPictureQueryStr = `INSERT INTO pictures (user_id, image_url) VALUES ('${row.user_id}','${user.image_url}')`;
     db.query(insertPictureQueryStr);
   })
@@ -35,8 +35,7 @@ export function postUser (user) {
 }
 
 export const putUser = (userID, userInfo) => {
-  console.log(userID);
-  console.log(userInfo);
+
   const {first_name, last_name, gender, gender_preference, age_min, age_max, description,
          image_url, birthday, status} = userInfo;
   var queryStr = `UPDATE users SET first_name = '${first_name}', last_name = '${last_name}', \
@@ -44,7 +43,7 @@ export const putUser = (userID, userInfo) => {
                   age_max = '${age_max}', description = '${description}', image_url = '${image_url}',
                   birthday = '${birthday}', status = '${status}' \
                   WHERE user_id = ${userID} returning *;`;
-  console.log(queryStr);
+  
   return db.query(queryStr)
     .then((rows) => {
       return rows[0];
@@ -201,7 +200,7 @@ export function getMatchesMade (matchmaker) {
   on matches_made.matchmaker = ${ matchmaker } and matches_made.pair = pairs.pair_id \
   join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two \
   join users uMatchmaker on uMatchmaker.user_id = ${ matchmaker };`
-  console.log(getMatchesStr);
+  
   return db.query(getMatchesStr)
     .then((rows) => {
       var output = [];
@@ -236,8 +235,9 @@ export function getAlbum (user) {
 }
 
 export function putPicture (user_id, image_url) {
-  
-  var insertPictureQueryStr = `UPDATE users SET image_url =` + image_url + ` WHERE ` + `user_id = ` + user_id + `;`;
+  console.log('Got to put picture')
+  console.log('user_id', user_id, 'image_url', image_url)
+  var insertPictureQueryStr = `UPDATE users SET image_url = '${image_url}'  WHERE user_id = ${user_id};`;
   
   return db.query(insertPictureQueryStr)
   .then((rows) => {

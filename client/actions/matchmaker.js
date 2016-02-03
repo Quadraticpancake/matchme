@@ -80,7 +80,8 @@ export const REQUEST_TRIAD = 'REQUEST_TRIAD';
 function requestTriad() {
   console.log("requestTriad called");
   return {
-    type: REQUEST_TRIAD
+    type: REQUEST_TRIAD,
+    isFetching: true
   };
 }
 export const RECEIVE_TRIAD = 'RECEIVE_TRIAD';
@@ -89,6 +90,7 @@ function receiveTriad(json) {
   return {
     type: RECEIVE_TRIAD,
     triad: json,
+    isFetching: false,
     receivedAt: Date.now()
   };
 }

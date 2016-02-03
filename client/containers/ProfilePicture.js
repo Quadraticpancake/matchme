@@ -26,7 +26,7 @@ class ProfilePicture extends Component {
       // ASYNC:
       // writeFile to profilePics
       // 
-  };
+  }
 
   uploadPicture() {
     let reader = new FileReader();
@@ -39,7 +39,7 @@ class ProfilePicture extends Component {
 
     canvas.getContext('2d').drawImage(background,0,0);
     
-  };
+  }
 
   componentDidMount(){
     // http://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
@@ -54,7 +54,18 @@ class ProfilePicture extends Component {
     if (navigator.getUserMedia) {       
         navigator.getUserMedia({video: true}, handleVideo, this.videoError);
     }
-  };
+  }
+  handleClick(item){
+    console.log("EVENT",event);
+    console.log(item);
+    console.log(this);
+    const {actions, user} = this.props;
+
+    console.log(actions.updatePic)
+    actions.updatePic(item,user.user_id);
+
+  }
+
   render() {
     const videoElementStyle = {
       width: 200,
@@ -82,23 +93,26 @@ class ProfilePicture extends Component {
       width: 200
     }
 
-    // get the complete list of pictures with a database query
+    const {actions, user} = this.props;
+    console.log(actions);
+    console.log(user);
+
     let photos = ['https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', 'http://www.cats.org.uk/uploads/branches/211/5507692-cat-m.jpg']
     let photoAlbum = [];
-
-    const {actions, user} = this.props;
     
-    for (var i = 0; i < (photos ? photos.length : 0); i++) {
-      photoAlbum.push(<div><img src={photos[i]} style={imageStyle}/><br></br>
-        <button type="button" style={picButtonStyle} onClick={() => {updatePic(photos[i], user.user_id)}}>Use as Profile Picture</button><br></br>
-        </div>);
-    }
+    // for (var i = 0; i < (photos ? photos.length : 0); i++) {
+    //   photoAlbum.push(<div><img src={photos[i]} style={imageStyle}/><br></br>
+    //     <button type="button" style={picButtonStyle} key={i} onClick={(event) => this.handleClick(event)}>Use as Profile Picture</button><br></br>
+    //     </div>);
+    // }
 
     // photos.map(item =>
     //   '<div><img src='+ {item} + 'style=' + {imageStyle} + '/><br></br>' + 
     //     '<button type="button" style=' + {picButtonStyle} + 'onClick={() => {console.log("clicked")}}>Use as Profile Picture</button><br></br></div>').join('');
-
-    // console.log('photos', photos)
+    let self = this;
+    let photosMap = photos.map(function(item,i) {
+      return <div><img src={item} key={i} style={imageStyle} /><br></br><button type="button" style={picButtonStyle} onClick={self.handleClick.bind(self, item)}>Use as Profile Picture</button><br></br></div>
+    });
 
     return (
       <div>
@@ -106,7 +120,7 @@ class ProfilePicture extends Component {
         <h4>Option 1. Choose from your existing photos</h4>
 
           <p>Your pictures:</p>
-          <div>{photoAlbum}</div>
+          <div>{photosMap}</div>
 
         <h4>Option 2. Upload a picture</h4>
 
@@ -150,6 +164,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ProfilePicture);
-
-
-export default ProfilePicture;

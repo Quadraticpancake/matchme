@@ -12,7 +12,7 @@ export const UPDATE_PIC = 'UPDATE_PIC';
 
 export function updatePic(image_url, user_id) {
   console.log('updatePic called');
-  console.log(user_id);
+  console.log('IN UPDATE PIC', image_url);
 
   return function(dispatch) {
 
@@ -24,7 +24,7 @@ export function updatePic(image_url, user_id) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({image_url:  image_url});
+      body: JSON.stringify({image_url:  image_url})
     });
 
     return fetch(request)
@@ -67,14 +67,16 @@ export function getAlbum() {
 export const REQUEST_PIC = 'REQUEST_PIC';
 function requestPic() {
   return {
-    type: REQUEST_PIC
+    type: REQUEST_PIC,
+    isFetching: true
   };
 }
 
 export const RECEIVE_PIC = 'RECEIVE_PIC';
-function receivePIC(json) {
+function receivePic(json) {
   return {
     type: RECEIVE_PIC,
+    isFetching: false,
     imageUrl: json,
     receivedAt: Date.now()
   };
