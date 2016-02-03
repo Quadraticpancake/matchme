@@ -47,6 +47,21 @@ const divStyle = {
   float: 'left',
 };
 
+const iconMatcheeStyle = {
+  width: 25,
+  height: 'auto',
+  marginBottom: 7
+};
+
+const matcheeInfoStyle = {
+  width: '90%',
+  marginLeft: 10
+};
+
+const matcheeInfo = {
+  marginTop: -10
+}
+
 class Matchee extends Component {
 
   constructor(props, context) {
@@ -66,15 +81,27 @@ class Matchee extends Component {
     }
 
     let age = calculateAge(matchee.birthday);
-    return (
 
+    let maleIcon = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
+    let femaleIcon = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
+    let bothIcon = 'http://icons.iconarchive.com/icons/icons-land/vista-love/128/Sex-Unknown-icon.png';
+
+    let icon_matchee_path = maleIcon;
+    if (matchee.gender === 'female') {
+      icon_matchee_path = femaleIcon;
+    } else if (matchee.gender === 'both') {
+      icon_matchee_path = bothIcon;
+    }
+    
+    return (
       <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle}>
-        <label>{matchee.first_name}</label>
         <div style={divMatcheeStyle} >
           <img src={matchee.image_url} style={imgMatcheeStyle} className="img img-responsive img-rounded center-block"/>
         </div>
-        <p>''{matchee.description}''</p>
-
+        <div style={matcheeInfoStyle}>
+          <label>{matchee.first_name}, {age}</label> <img src={icon_matchee_path} style={iconMatcheeStyle}/>
+          <p style={matcheeInfo}>''{matchee.description}''</p>
+        </div>
       </div>
     );
   }
