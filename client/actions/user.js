@@ -1,5 +1,6 @@
 export const SET_USER_SCORE = 'SET_USER_SCORE';
 export const FETCH_USER_SCORE = 'FETCH_USER_SCORE';
+export const SET_USER_INFO = 'GET_USER_INFO';
 
 export function fetchUserScore (user_id) {
   console.log('fetching user score');
@@ -16,5 +17,12 @@ export function setUserScore (userScore) {
   return {
     type: SET_USER_SCORE,
     userScore: userScore
+  };
+}
+
+export function setUserInfo(data){
+  return {
+    type: SET_USER_INFO,
+    userInfo: data
   };
 }
