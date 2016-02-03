@@ -141,7 +141,9 @@ export function getMatchSet () {
                 // within target's age range
                 `AND birthday<='${minBirthday.toISOString()}' `+
                 `AND birthday>='${maxBirthday.toISOString()}' ` +
-                `AND user_id!='${target.user_id}'`
+
+                `AND user_id<>'${target.user_id}'` 
+
             }
 
 
