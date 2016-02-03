@@ -8,7 +8,10 @@ export const fields = ['first_name', 'last_name', 'gender', 'gender_preference',
 class ProfileForm extends Component {
 
 
-    videoError(e) {
+  // componentWillUnmount() {
+  //   if (this.props.pristine) this.props.destroyForm();
+  // }
+  videoError(e) {
     console.log('error with video intialization', e);
   }
 
@@ -19,30 +22,14 @@ class ProfileForm extends Component {
     canvas.width = 624;
     canvas.height = 468;
     canvas.getContext('2d').drawImage(video,0,0);
-  
-    let imgData = canvas.toDataURL("img/webp");
-    // extract data in base 64 encoded webp format
-    imgData = imgData.replace('data:image/webp;base64,','');
+
+    let imgData = canvas.toDataURL("img/png");
+    // extract data in base 64 encoded png format
+    imgData = imgData.replace('data:image/png;base64,','');
     let postData = JSON.stringify({imgData: imgData});
-    // post to server 
-      // ASYNC:
-      // writeFile to profilePics
-      // 
-  };
 
-  uploadPicture() {
-    console.log('UPLOAD PIC')
-    let reader = new FileReader();
-    let canvas = document.querySelector("#picDisplay");
-    let background = new Image();
-    background.src = "https://pbs.twimg.com/profile_images/562466745340817408/_nIu8KHX.jpeg";
-
-    canvas.width = 624;
-    canvas.height = 468;
-
-    canvas.getContext('2d').drawImage(background,0,0);
-    }
-  };
+    //post to server and send to database
+  }
 
   componentDidMount(){
     // http://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
@@ -51,13 +38,15 @@ class ProfileForm extends Component {
       // comment this out and then uncomment to see
       video.src = window.URL.createObjectURL(stream);
     };
-    
+
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-   
-    if (navigator.getUserMedia) {       
+
+    if (navigator.getUserMedia) {
         navigator.getUserMedia({video: true}, handleVideo, this.videoError);
     }
-  };
+
+
+  }
 
   render() {
     const videoElementStyle = {
@@ -98,30 +87,14 @@ class ProfileForm extends Component {
 
     return (
       <div>
-
       <div>
-        <h4>Option 1. Choose from your existing photos</h4>
-
-          <p>Insert clickable image previews here</p>
-
-        <h4>Option 2. Upload a picture</h4>
-
-          <input type="file" id="myFile" onchange={{() => this.uploadPicture()}} />
-
-        <h4>Option 3. Snap the perfect shot now using your device camera!</h4>
-
-          <div>
-            <video style={videoElementStyle} autoPlay="true" id="videoElement"></video>
-            <canvas style={displayElementStyle} id="picDisplay"></canvas>
-          </div>
-
-          <button type="button" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
-          <button type="button" style={picButtonStyle} onClick={() => {console.log('clicked')}}>Use as Profile Picture</button>
-        
-        <br></br>
-        <br></br>
+        <video style={videoElementStyle} autoPlay="true" id="videoElement"></video>
+        <canvas style={displayElementStyle} id="picDisplay"></canvas>
       </div>
+      <button type="button" style={picButtonStyle} className="center-block" onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
 
+      <br></br>
+      <br></br>
       <form style={formStyle} onSubmit={handleSubmit}>
         <div>
           <label>Profile Picture</label>
