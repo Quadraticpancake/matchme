@@ -5,7 +5,7 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST } from '../
 // FB.getLoginStatus()
 const initialState = {
   user_id: 20,
-  userScore: null
+  userScore: {score: null, pairs: []}
 };
 
 export default function user(state = initialState, action) {
@@ -30,6 +30,10 @@ export default function user(state = initialState, action) {
         userInfo: null,
         user_id: null,
         isAuthenticated: false
+      });
+    case UserActions.SET_USER_SCORE:    
+      return Object.assign({}, state, {   
+        userScore: action.userScore   
       });
     default:
       return state;

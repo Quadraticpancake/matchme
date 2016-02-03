@@ -56,6 +56,7 @@ class UserScore extends Component {
     
     let renderedConnectionsMade = [];
     let score = 0;
+    console.log("THIS IS THE RENDERING USERSCORE", userScore);
     if (userScore) {
       console.log(userScore);
       score = userScore.score;
@@ -83,7 +84,7 @@ class UserScore extends Component {
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
-    userScore: state.user.userScore,
+    userScore: state.user.userScore
   };
 }
 
