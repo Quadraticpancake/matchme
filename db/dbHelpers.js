@@ -32,8 +32,21 @@ export function postUser (user) {
 export const putUser = (userID, userInfo) => {
   console.log(userID);
   console.log(userInfo);
-  var queryStr = `UPDATE users where user_id = ${userID};`;
+  const {first_name, last_name, gender, gender_preference, age_min, age_max, description,
+         image_url, birthday, status} = userInfo;
+  var queryStr = `UPDATE users SET first_name = '${first_name}', last_name = '${last_name}', \
+                  gender = '${gender}', gender_preference = '${gender_preference}', age_min = '${age_min}', \
+                  age_max = '${age_max}', description = '${description}', image_url = '${image_url}',
+                  birthday = '${birthday}', status = '${status}' \
+                  WHERE user_id = ${userID} returning *;`;
   console.log(queryStr);
+  return db.query(queryStr)
+    .then((rows) => {
+      return rows[0];
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 

@@ -112,8 +112,10 @@ export default function (app, express) {
 	  console.log(req.body);
 	  let userID = req.params.userID;
 	  let userInfo = req.body;
-	  putUser(userID, userInfo);
-	  res.json({});
+	  putUser(userID, userInfo)
+	    .then((rows)=> {
+	      res.json(rows);
+	    });
 	});
 
 	// app.get('/api/matchSet', (req, res) => {

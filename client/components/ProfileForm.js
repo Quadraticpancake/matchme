@@ -134,13 +134,13 @@ class ProfileForm extends Component {
         <div>
           <label>First Name</label>
           <div>
-            <input type="text" placeholder="First Name" {...first_name} disabled={true}/>
+            <input type="text" placeholder="First Name" {...first_name} />
           </div>
         </div>
         <div>
           <label>Last Name</label>
           <div>
-            <input type="text" placeholder="Last Name" {...last_name} disabled/>
+            <input type="text" placeholder="Last Name" {...last_name} />
           </div>
         </div>
         <div>

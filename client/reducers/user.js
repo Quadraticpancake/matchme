@@ -44,6 +44,7 @@ export default function user(state = initialState, action) {
     case UPDATE_USER_INFO:
       return {
         ...state,
+        isSettingUserInfo: false,
         userInfo: {...state.userInfo, ...action.userInfo}
       };
     default:
