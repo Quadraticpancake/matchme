@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {reduxForm} from 'redux-form';
 import * as MatchmakerActions from '../actions/matchmaker';
-export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'age_min', 'age_max', 'favoriteColor', 'employed', 'description', 'image_url', 'bday', 'status'];
+export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'age_min', 'age_max', 'favoriteColor', 'employed', 'description', 'image_url', 'birthday', 'status'];
 
 class ProfileForm extends Component {
 
@@ -22,15 +22,15 @@ class ProfileForm extends Component {
     canvas.width = 624;
     canvas.height = 468;
     canvas.getContext('2d').drawImage(video,0,0);
-  
+
     let imgData = canvas.toDataURL("img/webp");
     // extract data in base 64 encoded webp format
     imgData = imgData.replace('data:image/webp;base64,','');
     let postData = JSON.stringify({imgData: imgData});
-    // post to server 
+    // post to server
       // ASYNC:
       // writeFile to profilePics
-      // 
+      //
   };
 
   uploadPicture() {
@@ -44,7 +44,7 @@ class ProfileForm extends Component {
     canvas.height = 468;
 
     canvas.getContext('2d').drawImage(background,0,0);
-    
+
   };
 
   componentDidMount(){
@@ -54,10 +54,10 @@ class ProfileForm extends Component {
       // comment this out and then uncomment to see
       video.src = window.URL.createObjectURL(stream);
     };
-    
+
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-   
-    if (navigator.getUserMedia) {       
+
+    if (navigator.getUserMedia) {
         navigator.getUserMedia({video: true}, handleVideo, this.videoError);
     }
   };
@@ -93,7 +93,7 @@ class ProfileForm extends Component {
     }
 
     const {
-      fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description, image_url, bday, status},
+      fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description, image_url, birthday, status},
       handleSubmit,
       resetForm,
       submitting
@@ -120,7 +120,7 @@ class ProfileForm extends Component {
 
           <button type="button" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
           <button type="button" style={picButtonStyle} onClick={() => {console.log('clicked')}}>Use as Profile Picture</button>
-        
+
         <br></br>
         <br></br>
       </div>
@@ -134,13 +134,13 @@ class ProfileForm extends Component {
         <div>
           <label>First Name</label>
           <div>
-            <input type="text" placeholder="First Name" {...first_name} disabled={true}/>
+            <input type="text" placeholder="First Name" {...first_name} />
           </div>
         </div>
         <div>
           <label>Last Name</label>
           <div>
-            <input type="text" placeholder="Last Name" {...last_name} disabled/>
+            <input type="text" placeholder="Last Name" {...last_name} />
           </div>
         </div>
         <div>
@@ -156,7 +156,7 @@ class ProfileForm extends Component {
         </div>
         <div>
           <label>Birthday</label>
-          <input type="date" name="bday" max="1997-01-01" {...bday} />
+          <input type="date" name="birthday" max="1997-01-01" {...birthday} />
         </div>
         <div>
           <label>Gender Preference</label>

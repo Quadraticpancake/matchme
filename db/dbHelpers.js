@@ -8,7 +8,7 @@ var _ = require('underscore');
 export function getUser (facebook_id) {
   console.log(facebook_id);
   // the syntax below is because facebook_id must be explictly passed as a string
-  return db.query("SELECT *, to_char(birthday, 'YYYY-MM-DD') as bday from users where facebook_id = '" + facebook_id + "';");
+  return db.query("SELECT *, to_char(birthday, 'YYYY-MM-DD') as birthday from users where facebook_id = '" + facebook_id + "';");
 }
 
 
@@ -28,6 +28,26 @@ export function postUser (user) {
     console.log(error);
   })
 }
+
+export const putUser = (userID, userInfo) => {
+  console.log(userID);
+  console.log(userInfo);
+  const {first_name, last_name, gender, gender_preference, age_min, age_max, description,
+         image_url, birthday, status} = userInfo;
+  var queryStr = `UPDATE users SET first_name = '${first_name}', last_name = '${last_name}', \
+                  gender = '${gender}', gender_preference = '${gender_preference}', age_min = '${age_min}', \
+                  age_max = '${age_max}', description = '${description}', image_url = '${image_url}',
+                  birthday = '${birthday}', status = '${status}' \
+                  WHERE user_id = ${userID} returning *;`;
+  console.log(queryStr);
+  return db.query(queryStr)
+    .then((rows) => {
+      return rows[0];
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 
 // get three random users, based on: http://stackoverflow.com/questions/8674718/best-way-to-select-random-rows-postgresql
@@ -142,7 +162,7 @@ export function getMatchSet () {
                 `AND birthday<='${minBirthday.toISOString()}' `+
                 `AND birthday>='${maxBirthday.toISOString()}' ` +
 
-                `AND user_id<>'${target.user_id}'` 
+                `AND user_id<>'${target.user_id}'`
 
             }
 
@@ -162,7 +182,7 @@ export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
   // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
 
-  var getMatchesStr = `select pairs.pair_id, pairs.connected, uMatchmaker.score, \ 
+  var getMatchesStr = `select pairs.pair_id, pairs.connected, uMatchmaker.score, \
   u1.user_id as user_id1, u1.facebook_id as facebook_id1,  \
   u1.first_name as first_name1, u1.last_name as last_name1, u1.gender as gender1, u1.birthday as birthday1,  \
   u1.zipcode as zipcode1, u1.status as status1, u1.age_min as age_min1, u1.age_max as age_max1,  \
@@ -182,7 +202,7 @@ export function getMatchesMade (matchmaker) {
       var output = [];
       var pairsSeen = {};
       for (var i = 0; i < rows.length; i++) {
-        if (!pairsSeen[rows[i].pair_id] && rows[i].connected === true) { 
+        if (!pairsSeen[rows[i].pair_id] && rows[i].connected === true) {
           var obj = {user_one: {}, user_two: {}};
           pairsSeen[rows[i].pair_id] = true;
           for (var key in rows[i]) {
@@ -197,7 +217,7 @@ export function getMatchesMade (matchmaker) {
       }
       if (rows.length > 0) { // true if there has been a match event
         return {score: rows[0].score, pairs: output};
-      } else { 
+      } else {
         return db.query('select score from users where user_id = ' + matchmaker)
           .then((score_row) => {
             return {score: score_row[0].score, pairs: []};

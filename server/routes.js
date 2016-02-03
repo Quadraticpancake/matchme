@@ -1,5 +1,5 @@
 import { getConnectedPairsAndMessagesForUser, addMessage } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade } from '../db/dbHelpers';
+import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser} from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -106,6 +106,17 @@ export default function (app, express) {
 		})
 	})
 
+
+	app.put('/api/users/:userID', (req, res) => {
+      console.log(req.params.userID);
+	  console.log(req.body);
+	  let userID = req.params.userID;
+	  let userInfo = req.body;
+	  putUser(userID, userInfo)
+	    .then((rows)=> {
+	      res.json(rows);
+	    });
+	});
 
 	// app.get('/api/matchSet', (req, res) => {
 	// 	getMatchSet().then((matchSet) => {
