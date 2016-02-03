@@ -37,8 +37,13 @@ const divStyle = {
 
   //borderRadius: 5,
   //zIndex: 1
-};
 
+};
+/*
+const testStyle = {
+  float: 'left'
+}
+*/
 class UserScore extends Component {
   // constructor(props) {
   //   super(props);
@@ -56,16 +61,19 @@ class UserScore extends Component {
     
     let renderedConnectionsMade = [];
     let score = 0;
-    console.log("THIS IS THE RENDERING USERSCORE", userScore);
     if (userScore) {
       console.log(userScore);
       score = userScore.score;
-      for (var i = 0; i < (userScore.pairs.length : 0); i++) {
+      for (var i = 0; i < userScore.pairs.length; i++) {
         renderedConnectionsMade.push(<div className="container">
                                        <div className="row-fluid">
-                                         <div className="col-md-4">
-                                           <Matchee matchee={userScore.pairs[i].user_one} />
-                                           <Matchee matchee={userScore.pairs[i].user_two} />
+                                         <div className="col-md-12">
+                                           <div className="col-md-5">
+                                             <Matchee matchee={userScore.pairs[i].user_one} />
+                                           </div>
+                                           <div className="col-md-5">
+                                             <Matchee matchee={userScore.pairs[i].user_two} />
+                                           </div>
                                          </div>
                                        </div>
                                      </div>);
@@ -75,7 +83,7 @@ class UserScore extends Component {
 
     return (
       <section>
-        {<div><div className='well well-sm col-md-6 col-sm-12 col-xs-12' style={divStyle}>Your score is { score } and these are the wonderful connections you helped create</div>{renderedConnectionsMade}</div>}
+        {<div><div className='col-md-1'></div><div className='col-md-8 col-sm-8 col-xs-8' style={divStyle}><div className='text-center'>Your score is { score } </div><div className='text-center'>These are the wonderful connections you helped create</div></div>{renderedConnectionsMade}</div>}
       </section>
     );
   }

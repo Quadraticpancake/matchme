@@ -149,6 +149,22 @@ describe('database helpers', () => {
 		});
 	});
 
+	describe('getMatchesMade', () => {
+		it('should get a pair that connected in part due to the matchmaker made', () => {
+			return getMatchesMade(4)
+			.then((output) => {
+			  expect(output.pairs[0].user_one.user_id).to.equal(6);
+			});
+		});
+		it('should return score for matchmaker', () => {
+			return getMatchesMade(4)
+			.then((output) => {
+			  expect(output.score).to.equal(110);
+			});
+		});
+
+	});
+
     /*
 	descripe('getMatchesMade', () => {
 		it('should get two distinct users and their props', () => {
