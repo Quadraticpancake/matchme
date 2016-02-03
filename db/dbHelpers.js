@@ -29,6 +29,10 @@ export function postUser (user) {
   })
 }
 
+export const putUser = (userInfo) => {
+  console.log(userInfo);
+};
+
 
 // get three random users, based on: http://stackoverflow.com/questions/8674718/best-way-to-select-random-rows-postgresql
 export function getRandomUsers () {

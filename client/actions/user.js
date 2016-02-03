@@ -25,25 +25,25 @@ export function setUserScore (userScore) {
 export const updateUserInfo = (userID, userInfo) => {
   return dispatch => {
     dispatch(setUserInfo(userInfo));
-    // let request = new Request(`/api/users/${userID}`, {
-    //   method: 'put',
-    //   headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
-    //   body: JSON.stringify(userInfo)
-    // });
-    // return fetch(request)
-    //   .then(response => response.json())
-    //   .then(json => dispatch(receiveUserInfo(json)));
+    let request = new Request(`/api/users/${userID}`, {
+      method: 'put',
+      headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
+      body: JSON.stringify(userInfo)
+    });
+    return fetch(request)
+      .then(response => response.json())
+      .then(json => dispatch(receiveUserInfo(json)));
   };
 }
 
-export function setUserInfo(userInfo){
+export const setUserInfo = (userInfo) => {
   return {
     type: SET_USER_INFO,
     userInfo
   };
 }
 
-export function receiveUserInfo(userInfo){
+export const receiveUserInfo = (userInfo) => {
   return {
     type: RECEIVE_USER_INFO,
     userInfo
