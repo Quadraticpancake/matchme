@@ -161,7 +161,8 @@ export function getMatchSet () {
 export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
   // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
-  var getMatchesStr = `select pairs.pair_id,  \
+
+  var getMatchesStr = `select pairs.pair_id, pairs.connected, uMatchmaker.score, \ 
   u1.user_id as user_id1, u1.facebook_id as facebook_id1,  \
   u1.first_name as first_name1, u1.last_name as last_name1, u1.gender as gender1, u1.birthday as birthday1,  \
   u1.zipcode as zipcode1, u1.status as status1, u1.age_min as age_min1, u1.age_max as age_max1,  \
@@ -172,30 +173,36 @@ export function getMatchesMade (matchmaker) {
   u2.zipcode as zipcode2, u2.status as status2, u2.age_min as age_min2, u2.age_max as age_max2,  \
   u2.gender_preference as gender_preference2, u2.location_preference as location_preference2,  \
   u2.description as description2, u2.image_url as image_url2 from matches_made join pairs \
-  on matches_made.matchmaker = ${ matchmaker } and matches_made.pair = pairs.pair_id join users u1 \
-  on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;`
+  on matches_made.matchmaker = ${ matchmaker } and matches_made.pair = pairs.pair_id \
+  join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two \
+  join users uMatchmaker on uMatchmaker.user_id = ${ matchmaker };`
   console.log(getMatchesStr);
   return db.query(getMatchesStr)
     .then((rows) => {
       var output = [];
       var pairsSeen = {};
       for (var i = 0; i < rows.length; i++) {
-        if (!pairsSeen[rows[i].pair_id]) {
-          var obj = {user_one: {}, user_two: {}, pair_info: {}};
+        if (!pairsSeen[rows[i].pair_id] && rows[i].connected === true) { 
+          var obj = {user_one: {}, user_two: {}};
           pairsSeen[rows[i].pair_id] = true;
           for (var key in rows[i]) {
             if (key.charAt(key.length - 1) === '2') {
               obj.user_two[key.substr(0, key.length - 1)] = rows[i][key];
             } else if (key.charAt(key.length - 1) === '1') {
               obj.user_one[key.substr(0, key.length - 1)] = rows[i][key];
-            } else {
-              obj.pair_info[key] = rows[i][key];
             }
           }
           output.push(obj);
         }
       }
-      return output;
+      if (rows.length > 0) { // true if there has been a match event
+        return {score: rows[0].score, pairs: output};
+      } else { 
+        return db.query('select score from users where user_id = ' + matchmaker)
+          .then((score_row) => {
+            return {score: score_row[0].score, pairs: []};
+          })
+      }
     });
 }
 

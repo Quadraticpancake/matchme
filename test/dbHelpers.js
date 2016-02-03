@@ -27,7 +27,7 @@ describe('database helpers', () => {
 			})
 			.then(() => {
 
-				for (var i = 0; i < 10; i++) {
+				for (var i = 0; i < 100; i++) {
 
 					var fakeUser = generateUser();
 					var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
@@ -36,7 +36,7 @@ describe('database helpers', () => {
 							'${fakeUser.gender_preference}',${fakeUser.location_preference},'${fakeUser.description}','${fakeUser.image_url}',0);`;
 
 				// run done() after the 500th user is generated to end the before block, otherwise run the query without resolving the promise
-					if (i === 9) {
+					if (i === 99) {
 						db.query(insertUserQueryStr)
 					  .then(() => {
 					  	done();
