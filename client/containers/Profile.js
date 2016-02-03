@@ -8,15 +8,15 @@ import * as UserActions from '../actions/user';
 class Profile extends Component {
 
   handleSubmit(data){
-    window.alert('Data submitted! ' + JSON.stringify(data));
+    const {actions, user} = this.props;
+    actions.updateUserInfo(user.user_id, data);
   }
   render() {
-    const {actions} = this.props;
     return (
       <div className="container">
-        <ProfileForm onSubmit={actions.setUserInfo} />
+        <ProfileForm onSubmit={this.handleSubmit.bind(this)} />
       </div>
-    )
+    );
   }
 }
 

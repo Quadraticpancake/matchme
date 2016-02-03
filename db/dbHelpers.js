@@ -142,7 +142,7 @@ export function getMatchSet () {
                 `AND birthday<='${minBirthday.toISOString()}' `+
                 `AND birthday>='${maxBirthday.toISOString()}' ` +
 
-                `AND user_id<>'${target.user_id}'` 
+                `AND user_id<>'${target.user_id}'`
 
             }
 
@@ -162,7 +162,7 @@ export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
   // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
 
-  var getMatchesStr = `select pairs.pair_id, pairs.connected, uMatchmaker.score, \ 
+  var getMatchesStr = `select pairs.pair_id, pairs.connected, uMatchmaker.score, \
   u1.user_id as user_id1, u1.facebook_id as facebook_id1,  \
   u1.first_name as first_name1, u1.last_name as last_name1, u1.gender as gender1, u1.birthday as birthday1,  \
   u1.zipcode as zipcode1, u1.status as status1, u1.age_min as age_min1, u1.age_max as age_max1,  \
@@ -182,7 +182,7 @@ export function getMatchesMade (matchmaker) {
       var output = [];
       var pairsSeen = {};
       for (var i = 0; i < rows.length; i++) {
-        if (!pairsSeen[rows[i].pair_id] && rows[i].connected === true) { 
+        if (!pairsSeen[rows[i].pair_id] && rows[i].connected === true) {
           var obj = {user_one: {}, user_two: {}};
           pairsSeen[rows[i].pair_id] = true;
           for (var key in rows[i]) {
@@ -197,7 +197,7 @@ export function getMatchesMade (matchmaker) {
       }
       if (rows.length > 0) { // true if there has been a match event
         return {score: rows[0].score, pairs: output};
-      } else { 
+      } else {
         return db.query('select score from users where user_id = ' + matchmaker)
           .then((score_row) => {
             return {score: score_row[0].score, pairs: []};
