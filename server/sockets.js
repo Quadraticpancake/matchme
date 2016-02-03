@@ -7,11 +7,9 @@ io.on('connection', (socket) => {
 
 	// Make the user join rooms for each pair/chat he/she is a part of
 	socket.on('joinChatrooms', (chats) => {
-		console.log('joining chatrooms with', chats)
 		Object.keys(chats.chats).forEach((chat) => {
 			socket.join(`${chat}`);
 		});
-		console.log(socket.rooms);
 	});
 
 	socket.to('68').emit('refreshChats');
