@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
-
+import { fetchChats } from './chats';
+import { fetchUserScore } from './user';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -19,6 +20,8 @@ export function login(userID, accessToken){
         // Here, we update the app state with the results of the API call.
         if (json) {
           console.log(json);
+          dispatch(fetchChats(json.user_id));
+          dispatch(fetchUserScore(json.user_id));
           dispatch(receiveLogin(json));
         } else {
           let request = new Request('/api/users', {
@@ -39,6 +42,8 @@ export function login(userID, accessToken){
             // Here, we update the app state with the results of the API call.
               console.log("receiveLogin", json);
               if (json) {
+                dispatch(fetchChats(json.user_id));
+                dispatch(fetchUserScore(json.user_id));
                 dispatch(receiveLogin(json));
               }
             });
@@ -74,6 +79,8 @@ export function clickLogin() {
             .then(response => response.json())
             .then((json) => {
               if (json) {
+                dispatch(fetchChats(json.user_id))
+                dispatch(fetchUserScore(json.user_id));
                 dispatch(receiveLogin(json));
               } else {
                 let request3 = new Request('/api/users', {
@@ -93,6 +100,8 @@ export function clickLogin() {
                   // We can dispatch many times!
                   // Here, we update the app state with the results of the API call.
                     console.log("receiveLogin", json);
+                    dispatch(fetchChats(json.user_id));
+                    dispatch(fetchUserScore(json.user_id));
                     dispatch(receiveLogin(json));
                   });
               }
