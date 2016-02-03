@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 const wellStyle = {
   height: '24em',
-  marginBottom: 15
+  marginBottom: 15,
 };
 const divMatcheeStyle = {
   height:250,
@@ -37,7 +37,7 @@ const divMatcheeNameStyle = {
 const imgMatcheeStyle = {
   maxHeight: '100%',
   maxWidth: '100%',
-  marginBottom: 10
+  marginBottom: 10,
 };
 
 const divStyle = {

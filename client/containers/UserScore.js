@@ -37,8 +37,13 @@ const divStyle = {
 
   //borderRadius: 5,
   //zIndex: 1
-};
 
+};
+/*
+const testStyle = {
+  float: 'left'
+}
+*/
 class UserScore extends Component {
   // constructor(props) {
   //   super(props);
@@ -56,16 +61,17 @@ class UserScore extends Component {
     
     let renderedConnectionsMade = [];
     let score = 0;
-    console.log("THIS IS THE RENDERING USERSCORE", userScore);
     if (userScore) {
       console.log(userScore);
       score = userScore.score;
       for (var i = 0; i < (userScore.pairs.length : 0); i++) {
         renderedConnectionsMade.push(<div className="container">
                                        <div className="row-fluid">
-                                         <div className="col-md-4">
-                                           <Matchee matchee={userScore.pairs[i].user_one} />
-                                           <Matchee matchee={userScore.pairs[i].user_two} />
+                                         <div className="col-md-4" style={{float:'left'}}>
+                                           <div>
+                                             <Matchee matchee={userScore.pairs[i].user_one} style={{float:'left'}}/>
+                                             <Matchee matchee={userScore.pairs[i].user_two} style={{float:'left'}}/>
+                                           </div>
                                          </div>
                                        </div>
                                      </div>);
