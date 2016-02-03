@@ -31,7 +31,7 @@ export default function (app, express) {
 			getMatchSet().then((rows) => {
 				res.json([rows.prospects[0], rows.prospects[1], rows.target])
 			})
-		})	
+		})
 	})
 
 
@@ -76,27 +76,27 @@ export default function (app, express) {
                 console.log("FB err: ", err);
                 res.send(500);
             }
-            try {            	
+            try {
                 fbResult = JSON.parse(fbResult);
                 var gp = genderPreference(fbResult.gender);
                 var userData = {
-                    facebook_id: fbResult.id, 
+                    facebook_id: fbResult.id,
                     first_name: fbResult.first_name,
                     last_name: fbResult.last_name,
                     gender: fbResult.gender,
                     birthday: '1986-05-05', // NEEDS CLEANING FOR BAD DATA
                     zipcode: 99999, // DUMMY VALUE
                     status: 'true',
-                    age_min: 0,
+                    age_min: 18,
                     age_max: 100,
                     gender_preference: gp,
-                    description: '',
+                    description: 'Ready to Mingle',
                     location_preference: 99999,
                     image_url: fbResult.picture.data.url
                 }
                 postUser(userData).then((rows) => {
                   res.json(rows);
-                });           
+                });
             } catch (e) {
                 console.log("generic error");
                 res.send(500);

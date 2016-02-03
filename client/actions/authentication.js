@@ -18,6 +18,7 @@ export function login(userID, accessToken){
         // We can dispatch many times!
         // Here, we update the app state with the results of the API call.
         if (json) {
+          console.log(json);
           dispatch(receiveLogin(json));
         } else {
           let request = new Request('/api/users', {

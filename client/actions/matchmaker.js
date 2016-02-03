@@ -78,6 +78,7 @@ export function getNewCandidates() {
 
 export const REQUEST_TRIAD = 'REQUEST_TRIAD';
 function requestTriad() {
+  console.log("requestTriad called");
   return {
     type: REQUEST_TRIAD
   };

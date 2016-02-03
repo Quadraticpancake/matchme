@@ -8,7 +8,7 @@ var _ = require('underscore');
 export function getUser (facebook_id) {
   console.log(facebook_id);
   // the syntax below is because facebook_id must be explictly passed as a string
-  return db.query("SELECT * from users where facebook_id = '" + facebook_id + "';")
+  return db.query("SELECT *, to_char(birthday, 'YYYY-MM-DD') as bday from users where facebook_id = '" + facebook_id + "';");
 }
 
 
@@ -63,7 +63,7 @@ export function addMatch (match) {
   new pair we have 0 rows returned.
   */
   var matchQuery = `with score as (update users set score = score + 10 where user_id = \
-    ${ match.matchmaker.user_id }), \ 
+    ${ match.matchmaker.user_id }), \
     i as (insert into pairs (user_one, user_two, connected, user_one_heart, user_two_heart) \
     select ${ pairFormatted.user_one }, ${ pairFormatted.user_two }, false, false, false  \
     where not exists (select * from pairs where user_one = ${ pairFormatted.user_one } and  \
@@ -77,7 +77,7 @@ export function addMatch (match) {
     .then((rows) => {
       var threshold = 1;
       if (rows.length === threshold) { // we have "crossed" the threshold (we have threshold +1 matches)
-        var matchmakersStr = '' + rows[0].matchmaker; 
+        var matchmakersStr = '' + rows[0].matchmaker;
         for (var i = 1; i < rows.length; i++) {
           matchmakersStr += ', ' + rows[i].matchmaker;
         }
@@ -88,9 +88,9 @@ export function addMatch (match) {
         console.log(onConnectionQuery);
         return db.query(onConnectionQuery);
       } else {
-        return false; // No connection occured 
+        return false; // No connection occured
       }
-    })
+    });
 }
 
 // get one target and two suitable prospects
@@ -130,7 +130,7 @@ export function getMatchSet () {
                 // within target's age range
                 `AND birthday<='${minBirthday.toISOString()}' `+
                 `AND birthday>='${maxBirthday.toISOString()}' ` +
-                `AND user_id!='${target.user_id}'` 
+                `AND user_id!='${target.user_id}'`
 
             } else {
               prospectsQuery = `SELECT * FROM users WHERE gender= '${target.gender_preference}' ` +
@@ -141,7 +141,7 @@ export function getMatchSet () {
                 // within target's age range
                 `AND birthday<='${minBirthday.toISOString()}' `+
                 `AND birthday>='${maxBirthday.toISOString()}' ` +
-                `AND user_id!='${target.user_id}'` 
+                `AND user_id!='${target.user_id}'`
             }
 
 
@@ -152,14 +152,14 @@ export function getMatchSet () {
           .then((prospectRows) => {
             matchSet.prospects = _.shuffle(prospectRows).slice(0,2);
             return matchSet;
-            
+
           })
 }
 
 export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
   // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
-  var getMatchesStr = `select pairs.pair_id,  \ 
+  var getMatchesStr = `select pairs.pair_id,  \
   u1.user_id as user_id1, u1.facebook_id as facebook_id1,  \
   u1.first_name as first_name1, u1.last_name as last_name1, u1.gender as gender1, u1.birthday as birthday1,  \
   u1.zipcode as zipcode1, u1.status as status1, u1.age_min as age_min1, u1.age_max as age_max1,  \
@@ -178,7 +178,7 @@ export function getMatchesMade (matchmaker) {
       var output = [];
       var pairsSeen = {};
       for (var i = 0; i < rows.length; i++) {
-        if (!pairsSeen[rows[i].pair_id]) { 
+        if (!pairsSeen[rows[i].pair_id]) {
           var obj = {user_one: {}, user_two: {}, pair_info: {}};
           pairsSeen[rows[i].pair_id] = true;
           for (var key in rows[i]) {
