@@ -18,7 +18,6 @@ export default function user(state = initialState, action) {
         isAuthenticated: false,
       });
     case LOGIN_SUCCESS:
-      console.log('LOGIN SUCCESS');
       return Object.assign({}, state, {
         isFetchingAuth: false,
         userInfo: action.user,

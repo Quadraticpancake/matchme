@@ -1,6 +1,5 @@
 import * as ChatsActions from '../actions/chats';
 
-
 // FB.getLoginStatus()
 const initialState = {
   chats: {},

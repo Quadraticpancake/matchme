@@ -1,5 +1,5 @@
 import { getConnectedPairsAndMessagesForUser, addMessage } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser} from '../db/dbHelpers';
+import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, postPicture} from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -22,7 +22,7 @@ export default function (app, express) {
 		getMatchSet().then(function(rows) {
 			res.json([rows.prospects[0], rows.prospects[1], rows.target])
 		})
-	})
+	});
 
 	app.post('/api/pairs', (req, res) => {
 		store.dispatch({type: 'UPDATE_LATEST', latestMatch: req.body})
@@ -32,7 +32,7 @@ export default function (app, express) {
 				res.json([rows.prospects[0], rows.prospects[1], rows.target])
 			})
 		})
-	})
+	});
 
 
 	// This function should eventually get other things such as a score.
@@ -41,8 +41,18 @@ export default function (app, express) {
       	getMatchesMade(req.params.user_id).then((output) => {
         	res.json(output);
     	});
-	})
+	});
 
+	// change profile picture
+	app.post('/api/profilePicture/:user_id', (req, res) => {
+      	postPicture(req.params.user_id, req.body.image_url).then(output) => {
+      		res.json(output);
+      	}
+	});
+
+	app.get('/api/album', (req, res) => {
+      	
+	});
 
 	app.get('/api/chats/:user_id', (req, res) => {
 		getConnectedPairsAndMessagesForUser(req.params.user_id).then((rows) => {
