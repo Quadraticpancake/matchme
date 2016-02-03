@@ -110,8 +110,9 @@ export default function (app, express) {
 	app.put('/api/users/:userID', (req, res) => {
       console.log(req.params.userID);
 	  console.log(req.body);
+	  let userID = req.params.userID;
 	  let userInfo = req.body;
-	  putUser(userInfo);
+	  putUser(userID, userInfo);
 	  res.json({});
 	});
 

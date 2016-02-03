@@ -22,30 +22,31 @@ export function setUserScore (userScore) {
   };
 }
 
+const setUserInfo = (userInfo) => {
+  return {
+    type: SET_USER_INFO,
+    userInfo
+  };
+};
+
+const receiveUserInfo = (userInfo) => {
+  return {
+    type: RECEIVE_USER_INFO,
+    userInfo
+  };
+};
+
 export const updateUserInfo = (userID, userInfo) => {
   return dispatch => {
     dispatch(setUserInfo(userInfo));
     let request = new Request(`/api/users/${userID}`, {
       method: 'put',
-      headers: { 'Accept': 'application/json','Content-Type': 'application/json'},
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'},
       body: JSON.stringify(userInfo)
     });
     return fetch(request)
       .then(response => response.json())
       .then(json => dispatch(receiveUserInfo(json)));
   };
-}
+};
 
-export const setUserInfo = (userInfo) => {
-  return {
-    type: SET_USER_INFO,
-    userInfo
-  };
-}
-
-export const receiveUserInfo = (userInfo) => {
-  return {
-    type: RECEIVE_USER_INFO,
-    userInfo
-  };
-}

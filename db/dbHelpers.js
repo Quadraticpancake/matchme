@@ -8,7 +8,7 @@ var _ = require('underscore');
 export function getUser (facebook_id) {
   console.log(facebook_id);
   // the syntax below is because facebook_id must be explictly passed as a string
-  return db.query("SELECT *, to_char(birthday, 'YYYY-MM-DD') as bday from users where facebook_id = '" + facebook_id + "';");
+  return db.query("SELECT *, to_char(birthday, 'YYYY-MM-DD') as birthday from users where facebook_id = '" + facebook_id + "';");
 }
 
 
@@ -29,8 +29,11 @@ export function postUser (user) {
   })
 }
 
-export const putUser = (userInfo) => {
+export const putUser = (userID, userInfo) => {
+  console.log(userID);
   console.log(userInfo);
+  var queryStr = `UPDATE users where user_id = ${userID};`;
+  console.log(queryStr);
 };
 
 
