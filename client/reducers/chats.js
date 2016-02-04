@@ -16,6 +16,23 @@ export default function user(state = initialState, action) {
       return Object.assign({}, state, {
         focus: action.pair_id
       });
+    case ChatsActions.HEART_CONNECTION_CHANGING:      
+      let noteableChat = Object.assign({}, state.chats[action.pair_id], {
+        heartChanging: true
+      });
+      let heartConnectionChangingState = Object.assign({}, state);
+      heartConnectionChangingState.chats[action.pair_id] = noteableChat;
+      return heartConnectionChangingState;
+    case ChatsActions.HEART_CONNECTION_CHANGED:
+      let particularChat = Object.assign({}, state.chats[action.pair_id], {
+         userHeart: action.userHeart,
+         pairHeart: action.pairHeart,
+         heartChanging: false
+      });
+      console.log(particularChat);
+      let newState = Object.assign({}, state);
+      newState.chats[action.pair_id] = particularChat;
+      return newState;
 
     default:
       return state;

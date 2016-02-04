@@ -1,5 +1,6 @@
-import { getConnectedPairsAndMessagesForUser, addMessage } from '../db/chatHelpers'
+import { getConnectedPairsAndMessagesForUser, addMessage, updateHeart } from '../db/chatHelpers'
 import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture} from '../db/dbHelpers';
+
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -125,6 +126,14 @@ export default function (app, express) {
 	  putUser(userID, userInfo)
 	    .then((rows)=> {
 	      res.json(rows);
+	    });
+	});
+
+	app.put('/api/chatsheart', (req, res) => {
+	  console.log('got to here');
+	  updateHeart(req.body.user_id, req.body.pair_id, req.body.is_user_one)
+	    .then((heartInfo) => {
+	      res.json(heartInfo);
 	    });
 	});
 
