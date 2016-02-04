@@ -49,7 +49,12 @@ export default function createTables () {
    //    + " text VARCHAR(255),"
    //    + " FOREIGN KEY (user) REFERENCES users(user_id));");
    // })
-
+  .then(function(){
+    console.log('picture join table created')
+    return db.query("CREATE TABLE IF NOT EXISTS pictures (picture_id SERIAL PRIMARY KEY, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES users(user_id),"
+      + " image_url VARCHAR(255),"
+      + " created_at TIMESTAMP NOT NULL DEFAULT NOW());");
+  })
   .then(function(){
     console.log('creating trigger to expire old matches')
     return db.query("CREATE FUNCTION matches_made_delete_old() RETURNS trigger "

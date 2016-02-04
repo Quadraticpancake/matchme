@@ -25,6 +25,7 @@ export function setUserScore (userScore) {
 const setUserInfo = (userInfo) => {
   return {
     type: SET_USER_INFO,
+    isFetching: true,
     userInfo
   };
 };
@@ -32,6 +33,7 @@ const setUserInfo = (userInfo) => {
 const receiveUserInfo = (userInfo) => {
   return {
     type: RECEIVE_USER_INFO,
+    isFetching: false,
     userInfo
   };
 };

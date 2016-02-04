@@ -7,6 +7,7 @@ import Home from './containers/Home';
 import Profile from './containers/Profile.js';
 import Chats from './containers/Chats.js';
 import Score from './containers/UserScore.js'
+import ProfilePicture from './containers/ProfilePicture.js'
 
 export default (
   <Route path="/" component={App}>
@@ -14,6 +15,7 @@ export default (
     <Route path="profile" component={Profile} />
     <Route path="chats" component={Chats} />
     <Route path="score" component={Score} />
+    <Route path="pictures" component={ProfilePicture}/>
     <Route status={404} path="*" component={Home} />
   </Route>
 );

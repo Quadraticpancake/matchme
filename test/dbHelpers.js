@@ -34,7 +34,7 @@ describe('database helpers', () => {
 							location_preference,description,image_url,score) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
 							'${fakeUser.birthdayStr}','${fakeUser.zipcode}','${fakeUser.status}',${fakeUser.age_min},${fakeUser.age_max},\
 							'${fakeUser.gender_preference}',${fakeUser.location_preference},'${fakeUser.description}','${fakeUser.image_url}',0);`;
-
+					
 				// run done() after the 500th user is generated to end the before block, otherwise run the query without resolving the promise
 					if (i === 999) {
 						db.query(insertUserQueryStr)

@@ -14,7 +14,6 @@ import routes from './routes';
 
 const store = configureStore();
 //      <Redirect from="/" to="home" />
-
 render(
   <Provider store={store}>
     <div>
