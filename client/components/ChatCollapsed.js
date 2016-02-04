@@ -33,7 +33,7 @@ export class ChatCollapsed extends Component {
   
 
   render() {
-    const {chat, addMessageOnEnter, pair_id, user_id, expandChat} = this.props;
+    const {chat, addMessageOnEnter, heartConnection, pair_id, user_id, expandChat} = this.props;
     // messages vs. chats:
     // Chats refer to all messages between a particular pair (bob and amy)
     // messages are an individual message of text sent by one user
@@ -45,16 +45,17 @@ export class ChatCollapsed extends Component {
       renderedMessages.push(<div>{message.text}</div>);
     });
 
-    var userNotMe = chat.user_one.user_id === user_id ? chat.user_two : chat.user_one;
+    var is_user_one = chat.user_one.user_id === user_id;
+    var userNotMe = is_user_one ? chat.user_two : chat.user_one;
 
     return (
       <div className='well well-sm'>
-        <div onClick={() => expandChat(pair_id)} style={chatCollapsedStyle}>
+        <div style={chatCollapsedStyle}>
           <div style={ {alignSelf: 'flex-start'} }>
             <img src={userNotMe.image_url} style={smallImageStyle} />
-            <img src={heartButton} style={smallImageStyle} onClick={() => test()} />
+            <img src={heartButton} style={smallImageStyle} onClick={() => heartConnection(pair_id, user_id, is_user_one)} />
           </div>
-          <div style={textStyle}>
+          <div style={textStyle} onClick={() => expandChat(pair_id)}>
             {userNotMe.first_name} {userNotMe.last_name} 
             <div>
               {chat.messages[chat.messages.length - 1].text}

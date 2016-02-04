@@ -33,6 +33,7 @@ export function getConnectedPairsAndMessagesForUser(user_id) {
 		});
 
 		for (let pair in allPairs) {
+			allPairs[pair].userHeart = allPairs[pair].user_one.user_one_heart && allPairs[pair].user_one.user_two_heart;
 			delete allPairs[pair].user_one.pair_id;
 			delete allPairs[pair].user_one.user_one;
 			delete allPairs[pair].user_one.user_two;
@@ -43,6 +44,8 @@ export function getConnectedPairsAndMessagesForUser(user_id) {
 			delete allPairs[pair].user_one.sender;
 			delete allPairs[pair].user_one.text;
 			delete allPairs[pair].user_one.created_at;
+			delete allPairs[pair].user_one.user_one_heart;
+			delete allPairs[pair].user_one.user_two_heart;
 
 			delete allPairs[pair].user_two.pair_id;
 			delete allPairs[pair].user_two.user_one;
@@ -54,6 +57,8 @@ export function getConnectedPairsAndMessagesForUser(user_id) {
 			delete allPairs[pair].user_two.sender;
 			delete allPairs[pair].user_two.text;
 			delete allPairs[pair].user_two.created_at;
+			delete allPairs[pair].user_two.user_one_heart;
+			delete allPairs[pair].user_two.user_two_heart;
 
 			var dedupedMessages = uniq(allPairs[pair].messages, function(x){
 		    return x.messages_id;
@@ -74,3 +79,19 @@ export function addMessage(msgObj) {
 		`insert into messages (pair, sender, text, created_at) values(${msgObj.pair_id}, ${msgObj.sender}, '${msgObj.text}', '${currentTime}');`
 	).catch((err) => { throw new Error(err); })
 }
+
+export function updateHeart(user, pair, is_user_one) {
+	console.log('about to update', is_user_one);
+	if (is_user_one) {
+	  return db.query(`update pairs set user_one_heart = not user_one_heart where pair_id = ${ pair } returning user_one_heart, user_two_heart;`)
+	  .then((row) => {
+	  	return {userHeart: row[0].user_one_heart, pairHeart: row[0].user_one_heart && row[0].user_two_heart};
+	  });	  
+	} else {
+	  return db.query(`update pairs set user_two_heart = not user_two_heart where pair_id = ${ pair } returning user_one_heart, user_two_heart;`)
+	  .then((row) => {
+	  	console.log('got to here2')
+	  	return {userHeart: row[0].user_two_heart, pairHeart: row[0].user_one_heart && row[0].user_two_heart};
+	  });
+	}
+} 
