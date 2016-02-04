@@ -52,7 +52,7 @@ export default function (app, express) {
 	});
 
 	app.get('/api/album', (req, res) => {
-      	
+
 	});
 
 	app.get('/api/chats/:user_id', (req, res) => {
@@ -96,17 +96,17 @@ export default function (app, express) {
                     first_name: fbResult.first_name,
                     last_name: fbResult.last_name,
                     gender: fbResult.gender,
-                    birthday: '1986-05-05', // NEEDS CLEANING FOR BAD DATA
                     zipcode: 99999, // DUMMY VALUE
                     status: 'true',
                     age_min: 18,
                     age_max: 100,
-                    gender_preference: gp,
+                    gender_preference: 'none',
                     description: 'Ready to Mingle',
                     location_preference: 99999,
                     image_url: fbResult.picture.data.url
                 }
                 postUser(userData).then((rows) => {
+                  console.log(rows);
                   res.json(rows);
                 });
             } catch (e) {
