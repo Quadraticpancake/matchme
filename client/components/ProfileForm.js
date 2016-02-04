@@ -117,10 +117,10 @@ class ProfileForm extends Component {
         </div>
         <div>
           <button type="submit" disabled={submitting}>
-            {submitting ? <i/> : <i/>} Submit
+            {submitting ? <i/> : <i/>} Save Profile
           </button>
           <button type="button" disabled={submitting} onClick={resetForm}>
-            Clear Values
+            Cancel Edit
           </button>
         </div>
       </form>

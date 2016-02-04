@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { fetchChats } from './chats';
 import { fetchUserScore } from './user';
+import { routeActions } from 'react-router-redux';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -23,6 +24,7 @@ export function login(userID, accessToken){
           dispatch(fetchChats(json.user_id));
           dispatch(fetchUserScore(json.user_id));
           dispatch(receiveLogin(json));
+          dispatch(routeActions.push('/profile'));
         } else {
           let request = new Request('/api/users', {
             method: 'post',
@@ -45,6 +47,7 @@ export function login(userID, accessToken){
                 dispatch(fetchChats(json.user_id));
                 dispatch(fetchUserScore(json.user_id));
                 dispatch(receiveLogin(json));
+
               }
             });
         }
