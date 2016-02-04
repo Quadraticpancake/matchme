@@ -58,7 +58,7 @@ export class ChatCollapsed extends Component {
           <div style={textStyle} onClick={() => expandChat(pair_id)}>
             {userNotMe.first_name} {userNotMe.last_name} 
             <div>
-              {chat.messages[chat.messages.length - 1].text}
+              {chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].text : 'No messages yet'}
             </div>
           </div>
         </div>

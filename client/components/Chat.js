@@ -12,7 +12,6 @@ const inputStyle = {
 export class Chat extends Component {
   render() {
     const {chat, addMessageOnEnter, pair_id} = this.props;
-    window.props = this.props
     // messages vs. chats:
     // Chats refer to all messages between a particular pair (bob and amy)
     // messages are an individual message of text sent by one user
@@ -26,7 +25,7 @@ export class Chat extends Component {
       return (
         <div className='col-md-10 col-sm-11 col-xs-11 well' style={chatStyle}>
         <div>
-          {renderedMessages}
+          {renderedMessages.length > 0 ? renderedMessages : "No messages yet"}
         </div>
         <div className='row'>
         <div className='col-md-12 col-sm-12 col-xs-12'>

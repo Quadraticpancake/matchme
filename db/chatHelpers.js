@@ -66,6 +66,12 @@ export function getConnectedPairsAndMessagesForUser(user_id) {
 
 			allPairs[pair].messages = dedupedMessages;
 
+			if (allPairs[pair].messages.length === 1) {
+				if (allPairs[pair].messages[0].messages_id === null) {
+					allPairs[pair].messages = [];
+				}
+			}
+
 		}
 
 		return allPairs;
