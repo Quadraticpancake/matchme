@@ -2,6 +2,8 @@ import fetch from 'isomorphic-fetch';
 import { fetchChats } from './chats';
 import { fetchUserScore } from './user';
 import { routeActions } from 'react-router-redux';
+import { getAlbum } from './pictureActions.js';
+
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -20,10 +22,11 @@ export function login(userID, accessToken){
         // We can dispatch many times!
         // Here, we update the app state with the results of the API call.
         if (json) {
-          console.log(json);
+          console.log('HERE 1',json);
           dispatch(fetchChats(json.user_id));
           dispatch(fetchUserScore(json.user_id));
           dispatch(receiveLogin(json));
+          dispatch(getAlbum(json.user_id));
         } else {
           let request = new Request('/api/users', {
             method: 'post',
@@ -41,10 +44,12 @@ export function login(userID, accessToken){
             .then((json) => {
             // We can dispatch many times!
             // Here, we update the app state with the results of the API call.
-              console.log("receiveLogin", json);
               if (json) {
+                console.log('HERE 2',json);
                 dispatch(fetchChats(json.user_id));
                 dispatch(fetchUserScore(json.user_id));
+                console.log('FETCHING ALBUM', json.user_id,getAlbum)
+                dispatch(getAlbum(json.user_id));
                 dispatch(receiveLogin(json));
 
               }
@@ -82,9 +87,11 @@ export function clickLogin() {
             .then(response => response.json())
             .then((json) => {
               if (json) {
+                console.log('HERE 3',json);
                 dispatch(fetchChats(json.user_id))
                 dispatch(fetchUserScore(json.user_id));
                 dispatch(receiveLogin(json));
+                dispatch(getAlbum(json.user_id));
               } else {
                 console.log("New User");
                 // New User
@@ -105,9 +112,11 @@ export function clickLogin() {
                   .then((json) => {
                   // We can dispatch many times!
                   // Here, we update the app state with the results of the API call.
-                    console.log("receiveLogin", json);
+                    console.log('HERE 4',json);
+                    console.log('FETCHING ALBUM', getAlbum)
                     dispatch(fetchChats(json.user_id));
                     dispatch(fetchUserScore(json.user_id));
+                    dispatch(getAlbum(json.user_id));
                     dispatch(receiveLogin(json));
                     dispatch(routeActions.push('/profile'));
                   })
@@ -134,7 +143,6 @@ export function requestLogin() {
 }
 
 export function receiveLogin(user) {
-  console.log('recievedLogin', user);
   return {
     type: LOGIN_SUCCESS,
     isFetchingAuth: false,
