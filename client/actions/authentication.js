@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { fetchChats } from './chats';
 import { fetchUserScore } from './user';
+import { routeActions } from 'react-router-redux';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -45,6 +46,7 @@ export function login(userID, accessToken){
                 dispatch(fetchChats(json.user_id));
                 dispatch(fetchUserScore(json.user_id));
                 dispatch(receiveLogin(json));
+
               }
             });
         }
@@ -74,6 +76,7 @@ export function clickLogin() {
 
       } else {
         FB.login(function(responseLogin) {
+          console.log(responseLogin);
           let request2 = new Request(`/api/users/${responseLogin.authResponse.userID}`, {method: 'GET'});
           return fetch(request2)
             .then(response => response.json())
@@ -83,6 +86,8 @@ export function clickLogin() {
                 dispatch(fetchUserScore(json.user_id));
                 dispatch(receiveLogin(json));
               } else {
+                console.log("New User");
+                // New User
                 let request3 = new Request('/api/users', {
                   method: 'post',
                   headers: {
@@ -94,6 +99,7 @@ export function clickLogin() {
                     access_token: responseLogin.authResponse.accessToken
                   })
                 });
+
                 return fetch(request3)
                   .then(response => response.json())
                   .then((json) => {
@@ -103,7 +109,11 @@ export function clickLogin() {
                     dispatch(fetchChats(json.user_id));
                     dispatch(fetchUserScore(json.user_id));
                     dispatch(receiveLogin(json));
-                  });
+                    dispatch(routeActions.push('/profile'));
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  } );
               }
             });
         }, {scope: 'public_profile,email'});

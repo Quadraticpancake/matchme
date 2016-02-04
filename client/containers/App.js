@@ -4,6 +4,7 @@ import * as AuthActions from '../actions/authentication';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
+import { routeActions } from 'react-router-redux';
 
 // expose socket for scoreboard and chats
 export const socket = io();
@@ -17,7 +18,7 @@ import Header from '../components/Header';
 
 class App extends Component {
     componentWillMount(){
-      const { actions } = this.props;
+      const { actions, routeActions } = this.props;
         function statusChangeCallback(response) {
           console.log('statusChangeCallback');
           console.log(response);
@@ -30,6 +31,7 @@ class App extends Component {
             let userID = response.authResponse.userID;
             let accessToken = response.authResponse.accessToken;
             actions.login(userID, accessToken);
+            // routeActions.push('/profile');
             // testAPI();
           } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
@@ -91,7 +93,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(AuthActions, dispatch)
+    actions: bindActionCreators(AuthActions, dispatch),
+    routeActions: bindActionCreators(routeActions, dispatch)
   };
 }
 

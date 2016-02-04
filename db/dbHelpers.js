@@ -6,32 +6,38 @@ var _ = require('underscore');
 ///////////////// DB helpers /////////////////////
 
 export function getUser (facebook_id) {
-  
+
   // the syntax below is because facebook_id must be explictly passed as a string
   return db.query("SELECT *, to_char(birthday, 'YYYY-MM-DD') as birthday from users where facebook_id = '" + facebook_id + "';");
 }
 
 
 export function postUser (user) {
-  
-  var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
-              location_preference,description,image_url,score) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}','${user.gender}',\
-              '${user.birthday}','${user.zipcode}','${user.status}',${user.age_min},${user.age_max},\
+  var userInfo = null;
+  var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,zipcode,status,age_min,age_max,gender_preference,\
+              location_preference,description,image_url,score) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}', \
+              '${user.gender}', '${user.zipcode}','${user.status}',${user.age_min},${user.age_max},\
               '${user.gender_preference}',${user.location_preference},'${user.description}','${user.image_url}',0) returning *;`;
-  
+
   return db.query(insertUserQueryStr)
   .then((rows) => {
-    
+    console.log(rows);
+    userInfo = rows[0];
     return rows[0];
   })
   .then((row) => {
-    
-    var insertPictureQueryStr = `INSERT INTO pictures (user_id, image_url) VALUES ('${row.user_id}','${user.image_url}')`;
-    db.query(insertPictureQueryStr);
+
+    var insertPictureQueryStr = `INSERT INTO pictures (user_id, image_url) VALUES ('${row.user_id}','${user.image_url}') returning *;`;
+    return db.query(insertPictureQueryStr);
+  })
+  .then((rows) => {
+    console.log(rows);
+    console.log(userInfo);
+    return userInfo;
   })
   .catch((error) => {
     console.log(error);
-  })
+  });
 }
 
 export const putUser = (userID, userInfo) => {
@@ -43,7 +49,7 @@ export const putUser = (userID, userInfo) => {
                   age_max = '${age_max}', description = '${description}', image_url = '${image_url}',
                   birthday = '${birthday}', status = '${status}' \
                   WHERE user_id = ${userID} returning *;`;
-  
+
   return db.query(queryStr)
     .then((rows) => {
       return rows[0];
@@ -200,7 +206,7 @@ export function getMatchesMade (matchmaker) {
   on matches_made.matchmaker = ${ matchmaker } and matches_made.pair = pairs.pair_id \
   join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two \
   join users uMatchmaker on uMatchmaker.user_id = ${ matchmaker };`
-  
+
   return db.query(getMatchesStr)
     .then((rows) => {
       var output = [];
@@ -238,7 +244,7 @@ export function putPicture (user_id, image_url) {
   console.log('Got to put picture')
   console.log('user_id', user_id, 'image_url', image_url)
   var insertPictureQueryStr = `UPDATE users SET image_url = '${image_url}'  WHERE user_id = ${user_id};`;
-  
+
   return db.query(insertPictureQueryStr)
   .then((rows) => {
     return rows; // this doesn't really do anything
