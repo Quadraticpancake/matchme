@@ -16,13 +16,13 @@ class FileUpload extends Component {
       body.append(key, data[ key ]);
     })
 
-    fetch(`http://example.com/send/`, {
-      method: 'POST',
-      body: body,
-    })
-    .then(res => res.json())
-    .then(res => console.log(res))
-    .catch(err => console.error(err));
+    // fetch(`http://example.com/send/`, {
+    //   method: 'POST',
+    //   body: body,
+    // })
+    // .then(res => res.json())
+    // .then(res => console.log(res))
+    // .catch(err => console.error(err));
   }
 
   render() {
