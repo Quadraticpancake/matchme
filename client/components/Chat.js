@@ -18,8 +18,8 @@ export class Chat extends Component {
     let renderedMessages = [];
 
     if (chat) {
-      chat.messages.forEach((message) => {
-        renderedMessages.push(<Message message={message} chat={chat} sender={message.sender === chat.user_one.user_id ? chat.user_one : chat.user_two}/>);
+      chat.messages.forEach((message, index) => {
+        renderedMessages.push(<Message key={index} message={message} chat={chat} sender={message.sender === chat.user_one.user_id ? chat.user_one : chat.user_two}/>);
       });
 
       return (
