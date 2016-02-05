@@ -24,7 +24,7 @@ const chatCollapsedStyle = {
   marginBottom: '10px'
 }
 
-const chatCollapsedStyleIfSelected = extend({}, chatCollapsedStyle, {backgroundColor: 'white'});
+const chatCollapsedStyleIfSelected = extend({}, chatCollapsedStyle, {backgroundColor: 'white', borderColor: '#838b8b'});
 
 var test = function () {
   console.log('this heart was clicked');
