@@ -27,7 +27,6 @@
     "express": "^4.13.4",
     "history": "^1.17.0",
     "humps": "^0.6.0",
-    "imgur": "^0.1.7",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^2.2.0",
     "lodash": "^3.10.1",

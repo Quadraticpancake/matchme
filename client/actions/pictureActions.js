@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import imgur from 'imgur'; 
 
 //////////////////////
 // picture actions //

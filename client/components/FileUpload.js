@@ -5,7 +5,6 @@ import {reduxForm} from 'redux-form';
 import * as ProfilePictureActions from '../actions/pictureActions';
 
 import Dropzone from 'react-dropzone';
-import imgur from 'imgur'; 
 
 export const fields = ['files'];
 
