@@ -29,10 +29,10 @@ class Home extends Component {
       <div>
         <div className="container">
           <div className="row-fluid">
-            <Target target={matchmaker.target} actions={actions} />
+            <Target target={matchmaker.target} actions={actions} user={user}/>
               <div className='col-md-4'>
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} user_id ={user.user_id} />
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} user_id ={user.user_id} />
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} user={user} />
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} user={user} />
               </div>
           </div>
         </div>

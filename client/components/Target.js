@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import SkipButton from '../components/SkipButton';
 import css from './Target.scss';
 import { Col, Row } from 'react-bootstrap';
+import BuyButton from '../components/BuyButton';
 
 
 const divStyle = {
@@ -82,6 +83,17 @@ const skipButtonStyle = {
   color: '#333'
 };
 
+const buyButtonStyle = {
+  float: 'right',
+  fontSize: 18,
+  borderRadius: 5,
+  backgroundColor: '#fff',
+  backgroundRepeat: 'repeat-x',
+  filter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr="#132103ff", endColorstr="#ccfafe")',
+  borderColor: '#ccfafe #ccfafe hsl(185, 100%, 85%)',
+  color: '#333'
+}
+
 const userInfoStyle = {
   marginLeft: 45
 }
@@ -98,7 +110,7 @@ class Target extends Component {
   }
 
   render() {
-    const { target, actions } = this.props;
+    const { target, actions, user } = this.props;
 
     let targetHeight = '90vh';
 
@@ -148,6 +160,7 @@ class Target extends Component {
               <p style={paraTargetStyle}>''{target.description}''</p>
           </div>
           <SkipButton style={skipButtonStyle} actions={actions}/>
+          {!user[target.user_id] && <BuyButton style={buyButtonStyle} actions={actions} person={target}/>}
         </div>
 
       </Col>

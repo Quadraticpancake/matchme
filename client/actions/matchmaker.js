@@ -69,6 +69,25 @@ export function getNewCandidates() {
   };
 }
 
+export function buyCandidate() {
+  return function(dispatch) {
+    let request = new Request('/api/candidates', {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    });
+
+    return fetch(request)
+      .then(response => response.json())
+      .then((json) => {
+
+        dispatch(receiveTriad(json));
+      });
+  }
+}
+
 ///////////////////
 // Network requests
 ///////////////////

@@ -193,7 +193,8 @@ export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
   // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
 
-  var getMatchesStr = `select pairs.pair_id, pairs.connected, uMatchmaker.score, \
+  var getMatchesStr = `select pairs.pair_id, pairs.connected, pairs.user_one_heart, pairs.user_two_heart, \
+   uMatchmaker.score, \
   u1.user_id as user_id1, u1.facebook_id as facebook_id1,  \
   u1.first_name as first_name1, u1.last_name as last_name1, u1.gender as gender1, u1.birthday as birthday1,  \
   u1.zipcode as zipcode1, u1.status as status1, u1.age_min as age_min1, u1.age_max as age_max1,  \
@@ -221,8 +222,9 @@ export function getMatchesMade (matchmaker) {
               obj.user_two[key.substr(0, key.length - 1)] = rows[i][key];
             } else if (key.charAt(key.length - 1) === '1') {
               obj.user_one[key.substr(0, key.length - 1)] = rows[i][key];
-            }
+            } 
           }
+          obj.pairHeart = rows[i].user_one_heart && rows[i].user_two_heart;
           output.push(obj);
         }
       }
