@@ -18,7 +18,7 @@ export function updatePic(image_url, user_id) {
 
     dispatch(requestPic());
 
-    let request = new Request(`/api/pictures/${user_id}`, { 
+    let request = new Request(`/api/pictures/${user_id}`, {
       method: 'put',
       headers: {
         'Accept': 'application/json',
@@ -54,6 +54,29 @@ export function getAlbum(user_id) {
       .then((json) => {
 
         dispatch(receiveAlbum(json));
+      });
+  };
+}
+
+export function postPicture(user_id, image) {
+  return (dispatch) => {
+    //dispatch(postPic Action)
+    let request = new Request(`https://api.imgur.com/3/image`, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Client-ID a447505b4d4e019'
+      },
+      body: {
+        image: image
+      }
+    });
+
+    return fetch(request)
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
       });
   };
 }
