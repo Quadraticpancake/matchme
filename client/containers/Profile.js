@@ -4,8 +4,17 @@ import { connect } from 'react-redux';
 import {reduxForm} from 'redux-form';
 import ProfileForm from '../components/ProfileForm';
 import * as UserActions from '../actions/user';
+import { routeActions } from 'react-router-redux';
 
 class Profile extends Component {
+
+  componentWillMount(){
+    const {user, routerActions } = this.props;
+    if (!user.isAuthenticated) {
+      routerActions.push('/home');
+      return;
+    }
+  }
 
   handleSubmit(data){
     const {actions, user} = this.props;
@@ -32,7 +41,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(UserActions, dispatch)
+    actions: bindActionCreators(UserActions, dispatch),
+    routerActions: bindActionCreators(routeActions, dispatch)
   };
 }
 

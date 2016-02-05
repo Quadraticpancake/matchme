@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as UserActions from '../actions/user';
 import Matchee from '../components/Matchee';
+import { routeActions } from 'react-router-redux';
 //import {Chat} from '../components/Chat';
 
 // @connect(
@@ -49,16 +50,27 @@ class UserScore extends Component {
   //   super(props);
   // }
 
+  componentWillMount(){
+    const { user, routerActions } = this.props;
+    //if user isn't authenticated reroute them to the home page
+    if (!user.isAuthenticated) {
+      routerActions.push('/home');
+      return;
+    }
+  }
+
   componentDidMount() {
-    const { actions, user_id } = this.props;
-    actions.fetchUserScore(user_id);
+    const { actions, user_id, user} = this.props;
+    if (user.isAuthenticated) {
+      actions.fetchUserScore(user_id);
+    }
   }
 
   render() {
     const { userScore } = this.props;
 
     // for testing purposes
-    
+
     let renderedConnectionsMade = [];
     let score = 0;
     if (userScore) {
@@ -79,7 +91,7 @@ class UserScore extends Component {
                                      </div>);
       }
     }
-    
+
 
     return (
       <section>
@@ -92,13 +104,15 @@ class UserScore extends Component {
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
-    userScore: state.user.userScore
+    userScore: state.user.userScore,
+    user: state.user
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(UserActions, dispatch)
+    actions: bindActionCreators(UserActions, dispatch),
+    routerActions: bindActionCreators(routeActions, dispatch)
   };
 }
 

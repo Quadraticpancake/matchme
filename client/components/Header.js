@@ -25,19 +25,23 @@ class Header extends Component {
               <span>Home</span>
             </Link>
           </Navbar.Brand>
+          <Navbar.Toggle />
         </Navbar.Header>
 
         <Navbar.Collapse eventKey={0}>
           <Nav navbar>
+            {user.isAuthenticated &&
             <LinkContainer to="/chats">
               <NavItem eventKey={1}>Chats</NavItem>
-            </LinkContainer>
+            </LinkContainer>}
+            {user.isAuthenticated &&
             <LinkContainer to="/profile">
               <NavItem eventKey={2}>My Profile</NavItem>
-            </LinkContainer>
+            </LinkContainer>}
+            {user.isAuthenticated &&
             <LinkContainer to="/score">
               <NavItem eventKey={3}>My Score</NavItem>
-            </LinkContainer>
+            </LinkContainer>}
           </Nav>
           <Nav>
             {!user.isAuthenticated &&
