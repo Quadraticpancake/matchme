@@ -5,6 +5,8 @@ import * as ChatsActions from '../actions/chats';
 import { Chat } from '../components/Chat';
 import { ChatCollapsed } from '../components/ChatCollapsed';
 import { socket } from './App';
+import { routeActions } from 'react-router-redux';
+
 
 // @connect(
 //   state => state.items,
@@ -41,8 +43,11 @@ class Chats extends Component {
   }
 
   componentDidMount() {
+    const { actions, user_id, user, routerActions } = this.props;
+    routerActions.push('/home');
+    return;
     this.fetchChatsAndTellSocket();
-    socket.on('refreshChats', () => { 
+    socket.on('refreshChats', () => {
       this.fetchChatsAndTellSocket();
     }.bind(this));
   }
@@ -78,6 +83,7 @@ class Chats extends Component {
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
+    user: state.user,
     chats: state.chats.chats,
     focus: state.chats.focus
   };
@@ -85,7 +91,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(ChatsActions, dispatch)
+    actions: bindActionCreators(ChatsActions, dispatch),
+    routerActions: bindActionCreators(routeActions, dispatch)
   };
 }
 

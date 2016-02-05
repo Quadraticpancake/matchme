@@ -4,7 +4,7 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST } from '../
 
 // FB.getLoginStatus()
 const initialState = {
-  user_id: 20,
+  user_id: null,
   userScore: {score: null, pairs: []}
 };
 

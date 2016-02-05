@@ -13,6 +13,7 @@ function setChats(chats) {
 }
 
 export function fetchChats(user_id) {
+  console.log("fetch_chats");
   return function(dispatch) {
     let request = new Request(`/api/chats/${user_id}`, {method: 'GET'});
     return fetch(request)
@@ -60,7 +61,7 @@ export function heartConnection(pair_id, user_id, is_user_one) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         user_id: user_id,
         pair_id: pair_id,
         is_user_one: is_user_one
