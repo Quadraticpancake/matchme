@@ -4,7 +4,6 @@ import css from './Target.scss';
 import { Col, Row } from 'react-bootstrap';
 import BuyButton from '../components/BuyButton';
 
-
 const divStyle = {
   // width: 400,
   height: 600,
