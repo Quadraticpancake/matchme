@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { uniqueId, extend } from 'underscore';
 
 const smallImageStyle = {
   width: '4em',
@@ -23,6 +24,8 @@ const chatCollapsedStyle = {
   marginBottom: '10px'
 }
 
+const chatCollapsedStyleIfSelected = extend({}, chatCollapsedStyle, {backgroundColor: 'white'});
+
 var test = function () {
   console.log('this heart was clicked');
 }
@@ -33,23 +36,24 @@ export class ChatCollapsed extends Component {
   
 
   render() {
-    const {chat, addMessageOnEnter, heartConnection, pair_id, user_id, expandChat} = this.props;
+    const {chat, addMessageOnEnter, heartConnection, pair_id, user_id, expandChat, focus} = this.props;
     // messages vs. chats:
     // Chats refer to all messages between a particular pair (bob and amy)
     // messages are an individual message of text sent by one user
 
-    let heartButton = 'https://freeiconshop.com/files/edd/heart-compact-flat.png';
+    const heartButton = 'https://freeiconshop.com/files/edd/heart-compact-flat.png';
 
-    let renderedMessages = [];
-    chat.messages.forEach((message) => {
-      renderedMessages.push(<div>{message.text}</div>);
-    });
+    const is_user_one = chat.user_one.user_id === user_id;
+    const userNotMe = is_user_one ? chat.user_two : chat.user_one;
 
-    var is_user_one = chat.user_one.user_id === user_id;
-    var userNotMe = is_user_one ? chat.user_two : chat.user_one;
+    const id = uniqueId("ChatCollapsed");
 
     return (
-      <div className='well well-sm'>
+      <div className='well well-sm' id={id} style={focus === pair_id ? chatCollapsedStyleIfSelected : chatCollapsedStyle}>
+        <style>{
+          // hover uses the id generated with uniqueId, based on this example: https://jsfiddle.net/ors1vos9/ 
+          "#" + id + ":hover {background-color: white} "
+        }</style>
         <div style={chatCollapsedStyle}>
           <div style={ {alignSelf: 'flex-start'} }>
             <img src={userNotMe.image_url} style={smallImageStyle} />
@@ -62,7 +66,6 @@ export class ChatCollapsed extends Component {
             </div>
           </div>
         </div>
-        
       </div>
     );
   }

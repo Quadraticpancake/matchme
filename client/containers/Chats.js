@@ -59,7 +59,16 @@ class Chats extends Component {
 
     Object.keys(chats).map((chatKey) => {
       //chatKey is the pair_id
-      renderedChats.push(<ChatCollapsed chat={chats[chatKey]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} heartConnection={actions.heartConnection} pair_id={chatKey} user_id={user_id} expandChat={actions.expandChat} />);
+      renderedChats.push(
+        <ChatCollapsed 
+          chat={chats[chatKey]} 
+          addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
+          heartConnection={actions.heartConnection} 
+          pair_id={chatKey} 
+          user_id={user_id} 
+          expandChat={actions.expandChat}
+          focus={focus} 
+        />);
     });
 
     return (
