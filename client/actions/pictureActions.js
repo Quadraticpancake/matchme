@@ -59,25 +59,38 @@ export function getAlbum(user_id) {
 }
 
 export function postPicture(user_id, image) {
-  return (dispatch) => {
-    //dispatch(postPic Action)
-    let request = new Request('https://api.imgur.com/3/image', {
-      method: 'post',
-      headers: {
-        'Authorization': 'Client-ID a447505b4d4e019'
-      },
-      data: {
-        image: 'http://i.imgur.com/RVyKk5g.jpg',
-        type: 'url'
-      },
-    });
-
-    return fetch(request)
-      .then(response => response.json())
-      .then(json => {
-        console.log(json);
+  console.log('posting picture', image)
+  //////////////imgur stuff///////////////////////
+  imgur.setClientId('a447505b4d4e019');
+  // imgur.setCredentials('email@domain.com', 'password', 'a447505b4d4e019');
+  imgur.uploadBase64(image)
+      .then(function (json) {
+          console.log(json.data.link);
+      })
+      .catch(function (err) {
+          console.error(err.message);
       });
-  };
+  ///////////////////////////////////////////////
+
+  // return (dispatch) => {
+  //   //dispatch(postPic Action)
+  //   let request = new Request('https://api.imgur.com/3/image', {
+  //     method: 'post',
+  //     headers: {
+  //       'Authorization': 'Client-ID a447505b4d4e019'
+  //     },
+  //     data: {
+  //       image: 'http://i.imgur.com/RVyKk5g.jpg',
+  //       type: 'url'
+  //     },
+  //   });
+
+  //   return fetch(request)
+  //     .then(response => response.json())
+  //     .then(json => {
+  //       console.log(json);
+  //     });
+  // };
 }
 
 ///////////////////

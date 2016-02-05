@@ -5,9 +5,11 @@ import {reduxForm} from 'redux-form';
 import * as ProfilePictureActions from '../actions/pictureActions';
 
 import Dropzone from 'react-dropzone';
+
 export const fields = ['files'];
 
 class FileUpload extends Component {
+
 
   render() {
 

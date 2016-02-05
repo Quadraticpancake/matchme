@@ -35,8 +35,8 @@ const divProspectNameStyle = {
 };
 
 const imgProspectStyle = {
-  maxHeight: '100%',
-  maxWidth: '100%',
+  maxHeight: '95%',
+  maxWidth: '95%',
   marginBottom: 10
 };
 

@@ -4,7 +4,6 @@ import css from './Target.scss';
 import { Col, Row } from 'react-bootstrap';
 import BuyButton from '../components/BuyButton';
 
-
 const divStyle = {
   // width: 400,
   height: 600,
@@ -46,7 +45,10 @@ const paraTargetStyle = {
 };
 
 const imgTargetStyle = {
-  maxWidth: '100%'
+  height: 400,
+  width: 400,
+  maxHeight: '100%',
+  maxWidth: '100%',
 };
 
 const backgroundDivStyle = {
