@@ -97,8 +97,8 @@ export default function generateUser() {
 
   var fakeUser = {
     facebook_id: 12345,
-    first_name: random_name({ first: true, gender: gender, seed: String(Math.random() + Date.now()) }),
-    last_name: random_name({ last: true, seed: String(Math.random() + Date.now()) }),
+    first_name: random_name({ first: true, gender: gender, seed: String(Math.random() * Date.now()) }),
+    last_name: random_name({ last: true, seed: String(Math.random() * Date.now()) }),
     gender: gender,
     birthday: birthday, // TODO
     birthdayStr: birthdayStr, // Use birthdayStr if you want to insert into the DB
