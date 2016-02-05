@@ -46,7 +46,10 @@ const paraTargetStyle = {
 };
 
 const imgTargetStyle = {
-  maxWidth: '100%'
+  height: 400,
+  width: 400,
+  maxHeight: '100%',
+  maxWidth: '100%',
 };
 
 const backgroundDivStyle = {
