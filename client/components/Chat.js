@@ -32,10 +32,11 @@ export class Chat extends Component {
 
       return (
         <div className='col-md-10 col-sm-11 col-xs-11 well' style={chatStyle}>
-        <div>
+        <div style={{'display': 'flex'}}>
           <img src={heartButton} style={heartStyle} onClick={() => heartConnection(pair_id, user_id, is_user_one)} />
-          {renderedMessages.length > 0 ? renderedMessages : "No messages yet"}
+          Like this match? Let us know! The other user won't know you gave them a heart unless you gave them one too.
         </div>
+        <div>{renderedMessages.length > 0 ? renderedMessages : "No messages yet"}</div>
         <div className='row'>
         <div className='col-md-12 col-sm-12 col-xs-12'>
           <input style={inputStyle} type='text' onKeyPress={addMessageOnEnter.bind(this, pair_id)} placeholder='Write a message...' />
