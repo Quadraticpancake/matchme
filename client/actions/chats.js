@@ -73,6 +73,7 @@ export function expandChat(pair_id) {
 }
 
 export function heartConnection(pair_id, user_id, is_user_one) {
+  console.log('heartConnection', arguments);
   return function (dispatch) {
     dispatch(heartConnectionChanging(pair_id));
     console.log('making heart connection request');

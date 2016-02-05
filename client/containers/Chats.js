@@ -67,7 +67,7 @@ class Chats extends Component {
   }
 
   render() {
-    const { chats, focus, user_id, actions } = this.props;
+    const { chats, focus, focusedChat, user_id, actions } = this.props;
 
     let renderedChats = [];
 
@@ -75,6 +75,7 @@ class Chats extends Component {
       //chatKey is the pair_id
       renderedChats.push(
         <ChatCollapsed 
+          key={chatKey}
           chat={chats[chatKey]} 
           addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
           heartConnection={actions.heartConnection}
@@ -83,17 +84,25 @@ class Chats extends Component {
           user_id={user_id} 
           expandChat={actions.expandChat}
           focus={focus} 
+          userHeart={chats[chatKey].userHeart}
         />);
     });
 
     return (
       <div className='row' style={rowStyle}>
-      <div className='col-md-3 col-sm-4 col-xs-4'>
-        {renderedChats}
-      </div>
-      <div className="col-md-8 col-sm-8 col-xs-8" style={chatStyle}>
-        <Chat chat={chats[focus]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={focus} user_id={user_id} />
-      </div>
+        <div className='col-md-3 col-sm-4 col-xs-4'>
+          {renderedChats}
+        </div>
+        <div className="col-md-8 col-sm-8 col-xs-8" style={chatStyle}>
+          <Chat 
+            key={focus}
+            chat={focusedChat} 
+            addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
+            pair_id={focus} 
+            user_id={user_id} 
+            heartConnection={actions.heartConnection} 
+          />
+        </div>
       </div>
     );
   }
@@ -104,7 +113,8 @@ function mapStateToProps(state) {
     user_id: state.user.user_id,
     user: state.user,
     chats: state.chats.chats,
-    focus: state.chats.focus
+    focus: state.chats.focus,
+    focusedChat: state.chats.chats[state.chats.focus]
   };
 }
 
