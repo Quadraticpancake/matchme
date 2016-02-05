@@ -1,10 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import SkipButton from '../components/SkipButton';
+const css = require('./Target.scss');
+import { Col, Row } from 'react-bootstrap';
+
 
 const divStyle = {
   // width: 400,
   height: 600,
   width: 'auto',
+  paddingTop: 10,
   // marginTop: 40,
   borderWidth: 1,
   borderColor: 'black',
@@ -58,6 +62,8 @@ const backgroundDivStyle = {
 
 const wellStyle = {
   // marginTop: 20
+  border: 'black',
+  backgroundColor: '#eee'
 };
 
 const iconStyle = {
@@ -94,8 +100,8 @@ class Target extends Component {
   render() {
     const { target, actions } = this.props;
 
-    let targetHeight = '49em';
-    let wellStyle = {height: targetHeight};
+    let targetHeight = '90vh';
+    let wellStyle = {height: targetHeight, backgroundColor: "#eee"};
 
     let maleIcon = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
     let femaleIcon = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
@@ -116,7 +122,7 @@ class Target extends Component {
       icon_seeking_path = bothIcon;
     }
 
-    function calculateAge(birthdate) { 
+    function calculateAge(birthdate) {
 
       let difference = +Date.now() - +new Date(birthdate);
       let ageDate = new Date(difference); // miliseconds from epoch
@@ -125,9 +131,11 @@ class Target extends Component {
 
     let age = calculateAge(target.birthday);
 
+    // <container className='col-md-6 col-sm-12 col-xs-12 img-rounded' style={wellStyle}>
+
     return (
 
-      <div className='well well-sm col-md-6 col-sm-12 col-xs-12' style={wellStyle}>
+      <Col xs={12} sm={12} md={6} rounded className={css.target}>
         <div style={divStyle}>
           <img src={target.image_url} style={imgTargetStyle} className="img img-responsive img-rounded center-block"/>
           <div style={userInfoStyle}>
@@ -140,7 +148,7 @@ class Target extends Component {
           <SkipButton style={skipButtonStyle} actions={actions}/>
         </div>
 
-      </div>
+      </Col>
 
 
     );

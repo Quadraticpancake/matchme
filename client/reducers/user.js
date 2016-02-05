@@ -5,7 +5,7 @@ import { GET_ALBUM, RECEIVE_ALBUM } from '../actions/pictureActions.js';
 // FB.getLoginStatus()
 const initialState = {
   user_id: null,
-  userScore: {score: null, pairs: []}
+  userScore: {score: null, pairs: []},
   album: {}
 
 };

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 const wellStyle = {
-  height: '24em',
+  height: '44vh',
   marginBottom: 15
 };
 const divProspectStyle = {
@@ -73,7 +73,7 @@ class Prospect extends Component {
     // prospect on line 14 should be the prospect choosen
 
     // divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
-    function calculateAge(birthdate) { 
+    function calculateAge(birthdate) {
 
       let difference = +Date.now() - +new Date(birthdate);
       let ageDate = new Date(difference); // miliseconds from epoch
