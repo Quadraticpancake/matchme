@@ -148,11 +148,11 @@ class Target extends Component {
     let age = calculateAge(target.birthday);
 
     // <container className='col-md-6 col-sm-12 col-xs-12 img-rounded' style={wellStyle}>
-
+// && (user.userScore.score >= 1000
     return (
 
-      <Col xs={12} sm={12} md={6} className={css.target}>
-        <div style={divStyle}>
+      <Col xs={12} sm={12} md={6} >
+        <Row className={css.target}>
           <img src={target.image_url} style={imgTargetStyle} className="img img-responsive img-rounded center-block"/>
           <div style={userInfoStyle}>
               <p>{target.first_name}, {age}</p>
@@ -161,10 +161,11 @@ class Target extends Component {
               </div>
               <p style={paraTargetStyle}>''{target.description}''</p>
           </div>
-          <SkipButton style={skipButtonStyle} actions={actions}/>
-          {!user[target.user_id] && (user.userScore.score >= 1000) && <BuyButton style={buyButtonStyle} actions={actions} person={target} user={user}/>}
-        </div>
-
+        </Row>
+        <Row className={css.buttons}>
+          <SkipButton actions={actions} />
+          {!user[target.user_id] && <BuyButton actions={actions} person={target} user={user}/>}
+        </Row>
       </Col>
 
 

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Button } from 'react-bootstrap';
 
 const buttonStyle = {
 
@@ -21,7 +22,7 @@ class BuyButton extends Component {
     const user_id = user.user_id;
 
     return (
-        <button type="button" style={buttonStyle} className="center-block" onClick={() => {actions.buyCandidate(person_id, user_id, cost);}} >Match with { person.first_name }? ({cost} points)</button>
+        <Button bsSize="large" bsStyle="info" onClick={() => {actions.buyCandidate(person_id, user_id, cost);}} >Match with { person.first_name }? ({cost} points)</Button>
     );
   }
 }
