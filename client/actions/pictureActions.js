@@ -61,16 +61,15 @@ export function getAlbum(user_id) {
 export function postPicture(user_id, image) {
   return (dispatch) => {
     //dispatch(postPic Action)
-    let request = new Request(`https://api.imgur.com/3/image`, {
+    let request = new Request('https://api.imgur.com/3/image', {
       method: 'post',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': 'Client-ID a447505b4d4e019'
       },
-      body: {
-        image: image
-      }
+      data: {
+        image: 'http://i.imgur.com/RVyKk5g.jpg',
+        type: 'url'
+      },
     });
 
     return fetch(request)
