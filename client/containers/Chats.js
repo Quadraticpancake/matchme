@@ -92,7 +92,13 @@ class Chats extends Component {
         {renderedChats}
       </div>
       <div className="col-md-8 col-sm-8 col-xs-8" style={chatStyle}>
-        <Chat chat={chats[focus]} addMessageOnEnter={this.addMessageOnEnter.bind(this)} pair_id={focus} user_id={user_id} />
+        <Chat 
+          chat={chats[focus]} 
+          addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
+          pair_id={focus} 
+          user_id={user_id} 
+          heartConnection={actions.heartConnection} 
+        />
       </div>
       </div>
     );

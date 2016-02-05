@@ -43,7 +43,6 @@ export class ChatCollapsed extends Component {
 
     const heartButton = 'https://freeiconshop.com/files/edd/heart-compact-flat.png';
     const closeButton = 'https://image.freepik.com/free-icon/close-button-with-a-cross-in-a-circle_318-26587.jpg'
-
     const is_user_one = chat.user_one.user_id === user_id;
     const userNotMe = is_user_one ? chat.user_two : chat.user_one;
 
