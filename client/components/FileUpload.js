@@ -9,22 +9,6 @@ export const fields = ['files'];
 
 class FileUpload extends Component {
 
-  handleSubmit(data) {
-    console.log('HANDLED SUBMIT', data);
-    var body = new FormData();
-    Object.keys(data).forEach(( key ) => {
-      body.append(key, data[ key ]);
-    })
-
-    // fetch(`http://example.com/send/`, {
-    //   method: 'POST',
-    //   body: body,
-    // })
-    // .then(res => res.json())
-    // .then(res => console.log(res))
-    // .catch(err => console.error(err));
-  }
-
   render() {
 
     const formStyle = {
@@ -39,14 +23,14 @@ class FileUpload extends Component {
     } = this.props;
 
     return (
-      <form onSubmit={ handleSubmit }>
+      <form onSubmit={handleSubmit}>
         <div>
           <div>
             <Dropzone { ...files } onDrop={ ( filesToUpload, e ) => files.onChange(filesToUpload) }></Dropzone>
           </div>
         </div>
         <div>
-          <button type="submit" disabled={submitting} onClick={ handleSubmit(this.handleSubmit) }>
+          <button type="submit" disabled={submitting} >
             {submitting ? <i/> : <i/>} Submit
           </button>
 

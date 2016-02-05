@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import SkipButton from '../components/SkipButton';
-const css = require('./Target.scss');
+import css from './Target.scss';
 import { Col, Row } from 'react-bootstrap';
 
 

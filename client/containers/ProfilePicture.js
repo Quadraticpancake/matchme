@@ -22,21 +22,24 @@ class ProfilePicture extends Component {
 
   uploadPicture() {
     let canvas = document.querySelector("#picDisplay");
-    let imgData = canvas.toDataURL("img/webp");
-    console.log('url???', imgData.toString())
+    let imgData = canvas.toDataURL("img/png");
+    // console.log('url???', imgData.toString());
     // extract data in base 64 encoded webp format
-    imgData = imgData.replace('data:image/webp;base64,','');
-    let postData = JSON.stringify({imgData: imgData});
+    // console.log(imgData);
+    imgData = imgData.replace('data:image/png;base64,','');
+    // console.log(imgData);
+    // let postData = JSON.stringify({imgData: imgData});
 
-    console.log('postdata from webcam', postData)
-    // post to server 
+    // console.log('postdata from webcam', postData)
+    // post to server
       // ASYNC:
       // writeFile to profilePics
-      // 
+      //
 
     const {actions, user} = this.props;
     // actions.updatePic(item,user.user_id);
-    
+    actions.postPicture(user.user_id, imgData);
+
   }
 
   componentDidMount(){
@@ -46,10 +49,10 @@ class ProfilePicture extends Component {
       // comment this out and then uncomment to see
       video.src = window.URL.createObjectURL(stream);
     };
-    
+
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-   
-    if (navigator.getUserMedia) {       
+
+    if (navigator.getUserMedia) {
         navigator.getUserMedia({video: true}, handleVideo, this.videoError);
     }
 
@@ -65,6 +68,29 @@ class ProfilePicture extends Component {
   handleClick(item){
     const {actions, user} = this.props;
     actions.updatePic(item,user.user_id);
+  }
+
+  handleSubmit(data){
+    const {actions, user} = this.props;
+    console.log('HANDLED SUBMIT', data);
+    var body = new FormData();
+    // Object.keys(data).forEach(( key ) => {
+    //   body.append(key, data[ key ]);
+    // });
+    console.log(body);
+    body.append('image', data.files[0]);
+    console.log(body);
+    console.log(data.files[0]);
+    // actions.updatePic(item,user.user_id);
+    actions.postPicture(user.user_id, body);
+
+    // fetch(`http://example.com/send/`, {
+    //   method: 'POST',
+    //   body: body,
+    // })
+    // .then(res => res.json())
+    // .then(res => console.log(res))
+    // .catch(err => console.error(err));
   }
 
 
@@ -108,20 +134,20 @@ class ProfilePicture extends Component {
     }
 
     const {
-      actions, 
+      actions,
       user,
       handleSubmit,
     } = this.props;
 
     // let photos = ['https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', 'http://www.cats.org.uk/uploads/branches/211/5507692-cat-m.jpg']
-    let photos = Object.keys(user.album); 
+    let photos = Object.keys(user.album);
 
     photos = photos.map(function(item) {
       return user.album[item].image_url;
     });
 
     let photoAlbum = [];
-    
+
     let self = this;
 
     let photosMap = photos.map(function(item,i) {
@@ -134,9 +160,9 @@ class ProfilePicture extends Component {
 
           <p>Your pictures:</p>
           <div>{photosMap}</div>
-        
+
         <h3 style={divStyle}>Option 2. Upload a picture</h3>
-          <FileUpload/>
+          <FileUpload onSubmit={this.handleSubmit.bind(this)} />
           <p>Drop file here to upload</p>
        <h3 style={divStyle}>Option 3. No good pics? Snap the perfect shot with your device camera!</h3>
 
@@ -147,7 +173,7 @@ class ProfilePicture extends Component {
 
           <button type="button" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
           <button type="button" style={picButtonStyle} onClick={() => {this.uploadPicture()}}>Use as Profile Picture</button>
-        
+
         <br></br>
         <br></br>
 
