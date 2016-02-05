@@ -37,10 +37,11 @@ export function updatePic(image_url, user_id) {
 
 export const GET_ALBUM = 'GET_ALBUM';
 
-export function getAlbum() {
+export function getAlbum(user_id) {
+  console.log('got to getAlbum', user_id)
   return function(dispatch) {
-
-    let request = new Request('/api/album', {
+    dispatch(requestAlbum());
+    let request = new Request(`/api/album/${user_id}`, {
       method: 'get',
       headers: {
         'Accept': 'application/json',
@@ -68,7 +69,6 @@ export const REQUEST_PIC = 'REQUEST_PIC';
 function requestPic() {
   return {
     type: REQUEST_PIC,
-    isFetching: true
   };
 }
 
@@ -76,9 +76,15 @@ export const RECEIVE_PIC = 'RECEIVE_PIC';
 function receivePic(json) {
   return {
     type: RECEIVE_PIC,
-    isFetching: false,
     imageUrl: json,
     receivedAt: Date.now()
+  };
+}
+
+export const REQUEST_ALBUM = 'REQUEST_ALBUM';
+function requestAlbum() {
+  return {
+    type: REQUEST_ALBUM
   };
 }
 
@@ -86,7 +92,7 @@ export const RECEIVE_ALBUM = 'RECEIVE_ALBUM';
 function receiveAlbum(json) {
   return {
     type: RECEIVE_ALBUM,
-    images: json,
+    album: json,
     receivedAt: Date.now()
   };
 }

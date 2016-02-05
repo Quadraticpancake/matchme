@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {reduxForm} from 'redux-form';
-import * as ProfilePictureActions from '../actions/pictureActions.js';
+import * as ProfilePictureActions from '../actions/pictureActions';
+import FileUpload from '../components/FileUpload';
 
 class ProfilePicture extends Component {
 
@@ -17,27 +18,24 @@ class ProfilePicture extends Component {
     canvas.width = 624;
     canvas.height = 468;
     canvas.getContext('2d').drawImage(video,0,0);
-  
+  }
+
+  uploadPicture() {
+    let canvas = document.querySelector("#picDisplay");
     let imgData = canvas.toDataURL("img/webp");
+    console.log('url???', imgData.toString())
     // extract data in base 64 encoded webp format
     imgData = imgData.replace('data:image/webp;base64,','');
     let postData = JSON.stringify({imgData: imgData});
+
+    console.log('postdata from webcam', postData)
     // post to server 
       // ASYNC:
       // writeFile to profilePics
       // 
-  }
 
-  uploadPicture() {
-    let reader = new FileReader();
-    let canvas = document.querySelector("#picDisplay");
-    let background = new Image();
-    background.src = "https://pbs.twimg.com/profile_images/562466745340817408/_nIu8KHX.jpeg";
-
-    canvas.width = 624;
-    canvas.height = 468;
-
-    canvas.getContext('2d').drawImage(background,0,0);
+    const {actions, user} = this.props;
+    // actions.updatePic(item,user.user_id);
     
   }
 
@@ -54,90 +52,105 @@ class ProfilePicture extends Component {
     if (navigator.getUserMedia) {       
         navigator.getUserMedia({video: true}, handleVideo, this.videoError);
     }
-  }
-  handleClick(item){
-    console.log("EVENT",event);
-    console.log(item);
-    console.log(this);
+
+  };
+
+  componentWillMount(){
     const {actions, user} = this.props;
-
-    console.log(actions.updatePic)
-    actions.updatePic(item,user.user_id);
-
+    console.log('userID in profilePicture', user.user_id)
+    actions.getAlbum(user.user_id);
+    console.log('USER IN PICTURES', user.user_id)
   }
+
+  handleClick(item){
+    const {actions, user} = this.props;
+    actions.updatePic(item,user.user_id);
+  }
+
 
   render() {
     const videoElementStyle = {
       width: 200,
       height: 'auto',
-      // paddingBottom: 50,
-      // backgroundColor: '#eee',
       clear: 'all'
     }
 
     const displayElementStyle = {
       width: 200,
-      // height: 200,
-      // backgroundColor: '#eee',
-      clear: 'all'
+      clear: 'all',
+      border: '1px black'
     }
 
     const picButtonStyle = {
       borderRadius: 5,
-      float: 'left',
-      clear: 'all'
+      // float: 'left',
+      // clear: 'all',
+      display: 'block',
+      borderRadius: 5,
+      margin: 2
     }
 
     const imageStyle = {
       height: 200,
-      width: 200
+      width: 200,
+      clear:'left',
+      margin: 2,
+      borderRadius: 5
     }
 
-    const {actions, user} = this.props;
-    console.log(actions);
-    console.log(user);
+    const imgDiv = {
+      float: 'left'
+    }
 
-    let photos = ['https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', 'http://www.cats.org.uk/uploads/branches/211/5507692-cat-m.jpg']
+    const divStyle = {
+      clear: 'both',
+      margin: 2
+    }
+
+    const {
+      actions, 
+      user,
+      handleSubmit,
+    } = this.props;
+
+    // let photos = ['https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', 'http://www.cats.org.uk/uploads/branches/211/5507692-cat-m.jpg']
+    let photos = Object.keys(user.album); 
+
+    photos = photos.map(function(item) {
+      return user.album[item].image_url;
+    });
+
     let photoAlbum = [];
     
-    // for (var i = 0; i < (photos ? photos.length : 0); i++) {
-    //   photoAlbum.push(<div><img src={photos[i]} style={imageStyle}/><br></br>
-    //     <button type="button" style={picButtonStyle} key={i} onClick={(event) => this.handleClick(event)}>Use as Profile Picture</button><br></br>
-    //     </div>);
-    // }
-
-    // photos.map(item =>
-    //   '<div><img src='+ {item} + 'style=' + {imageStyle} + '/><br></br>' + 
-    //     '<button type="button" style=' + {picButtonStyle} + 'onClick={() => {console.log("clicked")}}>Use as Profile Picture</button><br></br></div>').join('');
     let self = this;
+
     let photosMap = photos.map(function(item,i) {
-      return <div><img src={item} key={i} style={imageStyle} /><br></br><button type="button" style={picButtonStyle} onClick={self.handleClick.bind(self, item)}>Use as Profile Picture</button><br></br></div>
+      return <div style={imgDiv}><img src={item} key={i} style={imageStyle} /><br></br><button type="button" style={picButtonStyle} onClick={self.handleClick.bind(self, item)}>Use as Profile Picture</button><br></br></div>
     });
 
     return (
       <div>
-
-        <h4>Option 1. Choose from your existing photos</h4>
+        <h3 style={divStyle}>Option 1. Choose from your existing photos</h3>
 
           <p>Your pictures:</p>
           <div>{photosMap}</div>
+        
+        <h3 style={divStyle}>Option 2. Upload a picture</h3>
+          <FileUpload/>
+          <p>Drop file here to upload</p>
+       <h3 style={divStyle}>Option 3. No good pics? Snap the perfect shot with your device camera!</h3>
 
-        <h4>Option 2. Upload a picture</h4>
-
-          <input type="file" id="myFile" onchange={ () => {console.log('clicked')}} />
-
-        <h4>Option 3. Snap the perfect shot now using your device camera!</h4>
-
-          <div>
+          <div style={divStyle}>
             <video style={videoElementStyle} autoPlay="true" id="videoElement"></video>
             <canvas style={displayElementStyle} id="picDisplay"></canvas>
           </div>
 
           <button type="button" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
-          <button type="button" style={picButtonStyle} onClick={() => {console.log('clicked')}}>Use as Profile Picture</button>
+          <button type="button" style={picButtonStyle} onClick={() => {this.uploadPicture()}}>Use as Profile Picture</button>
         
         <br></br>
         <br></br>
+
       </div>
     )
   }
@@ -145,7 +158,7 @@ class ProfilePicture extends Component {
 
 ProfilePicture.propTypes = {
   actions: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -164,3 +177,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ProfilePicture);
+
+

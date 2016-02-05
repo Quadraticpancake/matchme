@@ -156,6 +156,7 @@ export function getMatchSet () {
 
             if (gender_preference === 'both') {
               prospectsQuery = `SELECT * FROM users WHERE age_min<='${roughAge}' ` +
+                `AND gender_preference='${target.gender}' `+
                 `AND age_max>='${roughAge}' `+
                 // within target's age range
                 `AND birthday<='${minBirthday.toISOString()}' `+
@@ -236,18 +237,25 @@ export function getMatchesMade (matchmaker) {
     });
 }
 
-export function getAlbum (user) {
+export function getAlbum (user_id) {
+  console.log('Got to getAlbum', user_id);
+  var getAlbumQueryStr = `select image_url from pictures where user_id = ${user_id};`;
 
+  return db.query(getAlbumQueryStr)
+  .then((rows) => {
+    return rows; // this doesn't really do anything
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 export function putPicture (user_id, image_url) {
-  console.log('Got to put picture')
-  console.log('user_id', user_id, 'image_url', image_url)
   var insertPictureQueryStr = `UPDATE users SET image_url = '${image_url}'  WHERE user_id = ${user_id};`;
 
   return db.query(insertPictureQueryStr)
   .then((rows) => {
-    return rows; // this doesn't really do anything
+    return rows; 
   })
   .catch((error) => {
     console.log(error);

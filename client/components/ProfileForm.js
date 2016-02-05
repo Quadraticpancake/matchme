@@ -31,7 +31,7 @@ class ProfileForm extends Component {
           <div>
           <img src={image_url.value} />
           <br></br>
-          <button type="button" onClick={() => {console.log('clicked')}}>Change Profile Picture</button>
+          <a href="/pictures">Change Profile Picture</a>
           </div>
         </div>
         <div>
@@ -111,7 +111,7 @@ class ProfileForm extends Component {
             <textarea
               {...description}
               value={description.value || ''} // required for reset form to work (only on textarea's)
-                                        // see: https://github.com/facebook/react/issues/2533
+              // see: https://github.com/facebook/react/issues/2533
             />
           </div>
         </div>

@@ -1,5 +1,5 @@
-import { getConnectedPairsAndMessagesForUser, addMessage, updateHeart } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture} from '../db/dbHelpers';
+import { getConnectedPairsAndMessagesForUser, addMessage } from '../db/chatHelpers'
+import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum} from '../db/dbHelpers';
 
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -51,8 +51,10 @@ export default function (app, express) {
       	});
 	});
 
-	app.get('/api/album', (req, res) => {
-
+	app.get('/api/album/:user_id', (req, res) => {
+      	getAlbum(req.params.user_id).then((output) => {
+      		res.json(output);
+      	});
 	});
 
 	app.get('/api/chats/:user_id', (req, res) => {
