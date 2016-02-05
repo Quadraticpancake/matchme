@@ -69,7 +69,7 @@ class Prospect extends Component {
   }
 
   render() {
-    const { prospect, actions, target, user_id } = this.props;
+    const { prospect, actions, target, user } = this.props;
     // prospect on line 14 should be the prospect choosen
 
     // divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
@@ -94,7 +94,7 @@ class Prospect extends Component {
     }
 
     return (
-     <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target, prospect, user_id);}}>
+     <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target, prospect, user.user_id);}}>
         <div style={divProspectStyle} >
           <img src={prospect.image_url} style={imgProspectStyle} className="img img-responsive img-rounded center-block"/>
         </div>

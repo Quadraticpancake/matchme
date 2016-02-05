@@ -16,7 +16,7 @@ export function getConnectedPairsAndMessagesForUser(user_id) {
 		from messages\n\
 		full outer join pairs on messages.pair=pairs.pair_id\n\
 		inner join users on users.user_id=pairs.user_one or users.user_id=pairs.user_two\n\
-		where pairs.user_one=${user_id} or pairs.user_two=${user_id} and pairs.connected=false;` //for testing purposes, pairs.connected=false. Set it to true for production.
+		where pairs.user_one=${user_id} or pairs.user_two=${user_id} and pairs.connected=true and pairs.closed=false;` //for testing purposes, pairs.connected=false. Set it to true for production.
 	).then((rows) => {
 		// organize messages by pair
 
@@ -101,3 +101,13 @@ export function updateHeart(user, pair, is_user_one) {
 	  });
 	}
 } 
+
+export function closeChat(pair_id) {
+  var closeChatQuery = `with d as (delete from messages where pair = ${ pair_id }) update pairs set \
+    closed = true where pair_id = ${ pair_id } returning pair_id;`
+  console.log(closeChatQuery);
+  return db.query(closeChatQuery)
+    .then((row) => {
+      return row[0].pair_id;
+    }); 
+}

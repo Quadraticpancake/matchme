@@ -1,6 +1,5 @@
-import { getConnectedPairsAndMessagesForUser, addMessage } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum} from '../db/dbHelpers';
-
+import { getConnectedPairsAndMessagesForUser, addMessage, updateHeart, closeChat } from '../db/chatHelpers'
+import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum, buyCandidate} from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -141,6 +140,20 @@ export default function (app, express) {
 	    });
 	});
 
+	app.put('/api/purchases/candidate', (req, res) => {
+	  buyCandidate(req.body)
+	    .then((score) => {
+	      res.json(score);
+	    });
+	})
+
+	app.put('/api/pairs/:pair_id/close', (req, res) => {
+	  console.log('THE PAIR_ID FOR CLOSING CHAT', req.params.pair_id);
+	  closeChat(req.params.pair_id)
+	    .then((pair_id) => {
+	      res.json(pair_id);
+	    });
+	})
 	// app.get('/api/matchSet', (req, res) => {
 	// 	getMatchSet().then((matchSet) => {
 	// 		console.log(matchSet)

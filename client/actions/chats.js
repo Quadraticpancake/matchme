@@ -4,6 +4,7 @@ export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const EXPAND_CHAT = 'EXPAND_CHAT';
 export const HEART_CONNECTION_CHANGING = 'HEART_CONNECTION_CHANGING';
 export const HEART_CONNECTION_CHANGED = 'HEART_CONNECTION_CHANGED';
+export const REMOVE_CHAT = 'REMOVE_CHAT';
 
 function setChats(chats) {
   return {
@@ -44,6 +45,26 @@ export function sendMessage(text, sender, pair_id) {
 
 }
 
+export function closeChat(pair_id) {
+  return function(dispatch) {
+    let request = new Request('/api/pairs/' + pair_id + '/close', {
+      method: 'PUT'
+    });
+    return fetch(request)
+      .then(response => response.json())
+      .then((pair_id) => {
+        dispatch(removeChat(pair_id));
+      });
+  };
+}
+
+export function removeChat(pair_id) {
+  return {
+    type: REMOVE_CHAT,
+    pair_id: pair_id
+  };
+}
+
 export function expandChat(pair_id) {
   return {
     type: EXPAND_CHAT,
@@ -70,11 +91,11 @@ export function heartConnection(pair_id, user_id, is_user_one) {
     return fetch(request)
       .then(response => response.json())
       .then((json) => {
-        console.log('got here');
         dispatch(heartConnectionChanged(pair_id, json));
       });
   }
 }
+
 
 export function heartConnectionChanging(pair_id) {
   return {

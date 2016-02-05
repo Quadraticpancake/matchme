@@ -1,4 +1,4 @@
-import { CHOOSE_MATCH, REQUEST_TRIAD, RECEIVE_TRIAD } from '../actions/matchmaker';
+import { CHOOSE_MATCH, REQUEST_TRIAD, RECEIVE_TRIAD, UPDATE_SCORE, SET_SCORE } from '../actions/matchmaker';
 
 const initialState = {
   isFetching: false,
@@ -20,10 +20,12 @@ const initialState = {
 };
 
 export default function matchmaker(state = initialState, action) {
+
+  let newState = Object.assign({}, state);
+
   switch (action.type) {
 
     case CHOOSE_MATCH:
-      let newState = Object.assign({}, state);
       return newState;
 
     case REQUEST_TRIAD:
@@ -47,6 +49,8 @@ export default function matchmaker(state = initialState, action) {
         target: target,
         prospects: prospects
       });
+
+
 
     default:
       return state;
