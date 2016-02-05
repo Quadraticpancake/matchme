@@ -78,8 +78,10 @@ class App extends Component {
     return (
       <section>
         <Header actions={actions} user={user}/>
-        {this.props.children}
-        <Scoreboard />
+        <div className="container-fluid">
+          {this.props.children}
+          <Scoreboard />
+        </div>
       </section>
     );
   }

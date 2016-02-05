@@ -45,6 +45,7 @@ export default function (app, express) {
 	});
 
 	// change profile picture
+	// /api/users/:user_id/pictures/:picturei
 	app.put('/api/pictures/:user_id', (req, res) => {
       	putPicture(req.params.user_id, req.body.image_url).then((output) => {
       		res.json(output);
@@ -57,6 +58,7 @@ export default function (app, express) {
       	});
 	});
 
+	//api/users:user_id/chats
 	app.get('/api/chats/:user_id', (req, res) => {
 		getConnectedPairsAndMessagesForUser(req.params.user_id).then((rows) => {
 			res.json(rows)
