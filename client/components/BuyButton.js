@@ -10,12 +10,18 @@ class BuyButton extends Component {
     super(props, context);
   }
 
+
+
   render() {
     console.log('PROPS', this.props);
     const { actions, person, user } = this.props;
 
+    const cost = -1000;
+    const person_id = person.user_id;
+    const user_id = user.user_id;
+
     return (
-        <button type="button" style={buttonStyle} className="center-block" onClick={() => {actions.buyCandidate(person.user_id);}} >Match with { person.first_name }? (-1000 points)</button>
+        <button type="button" style={buttonStyle} className="center-block" onClick={() => {actions.buyCandidate(person_id, user_id, cost);}} >Match with { person.first_name }? ({cost} points)</button>
     );
   }
 }

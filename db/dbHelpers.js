@@ -81,6 +81,7 @@ export function addMatch (match) {
     user_two: match.pair.target.user_id > match.pair.prospect.user_id ? match.pair.target.user_id : match.pair.prospect.user_id
   }
   /* Here is what the query below does.
+  first the matchmaker's score is increased by 10
   the "i" sees if pairs already has an entry for that pair
   If it doesn't a new entry gets insterted.
   the "p" gets the unique pair_id pertaining to that pair. This will always be one pair_id
@@ -262,4 +263,23 @@ export function putPicture (user_id, image_url) {
   .catch((error) => {
     console.log(error);
   })
+}
+
+export function buyCandidate (purchaseInfo) {
+  var user_one = purchaseInfo.user < purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
+  var user_two = purchaseInfo.user > purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
+  var buyCandidateQueryStr = `with i as (insert into pairs (user_one, user_two, connected, user_one_heart, user_two_heart) \
+    select ${ user_one }, ${ user_two }, true, false, false where not exists (select * from pairs where user_one  \
+    = ${ user_one } and user_two = ${ user_two })), p as (update pairs set connected = true  \
+    where pairs.user_one = ${ user_one } and pairs.user_two = ${ user_two }) update users set score = score + ${ purchaseInfo.scoreChange } where user_id = \
+    ${ purchaseInfo.user } returning score;`
+  console.log(buyCandidateQueryStr);
+  return db.query(buyCandidateQueryStr)
+    .then((row) => {
+      if (row.length > 0) {
+        return row[0].score;
+      } else {
+        return null;
+      }
+    })
 }

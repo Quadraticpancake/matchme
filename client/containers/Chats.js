@@ -77,7 +77,8 @@ class Chats extends Component {
         <ChatCollapsed 
           chat={chats[chatKey]} 
           addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
-          heartConnection={actions.heartConnection} 
+          heartConnection={actions.heartConnection}
+          closeChat={actions.closeChat} 
           pair_id={chatKey} 
           user_id={user_id} 
           expandChat={actions.expandChat}

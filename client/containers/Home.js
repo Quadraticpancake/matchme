@@ -14,7 +14,7 @@ const divStyle = {
 };
 class Home extends Component {
   componentWillMount(){
-    const { matchmaker, actions } = this.props;
+    const { matchmaker, actions, user } = this.props;
     if(matchmaker.target.placeholder){
       //getNewCandidates when target is currently placeholder
       actions.getNewCandidates();

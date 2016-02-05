@@ -28,7 +28,7 @@ export default function createTables () {
    .then(function(){
     console.log('pair table created');
     return db.query("CREATE TABLE IF NOT EXISTS pairs (pair_id SERIAL PRIMARY KEY, user_one INTEGER, user_two INTEGER, FOREIGN KEY (user_one) REFERENCES users(user_id),"
-      + " FOREIGN KEY (user_two) REFERENCES users(user_id), connected BOOLEAN, user_one_heart BOOLEAN, user_two_heart BOOLEAN);");
+      + " FOREIGN KEY (user_two) REFERENCES users(user_id), connected BOOLEAN, user_one_heart BOOLEAN, user_two_heart BOOLEAN, closed BOOLEAN DEFAULT false);");
    })
    .then(function(){
     console.log('pair to matchmaker join table created')

@@ -160,7 +160,7 @@ class Target extends Component {
               <p style={paraTargetStyle}>''{target.description}''</p>
           </div>
           <SkipButton style={skipButtonStyle} actions={actions}/>
-          {!user[target.user_id] && <BuyButton style={buyButtonStyle} actions={actions} person={target}/>}
+          {!user[target.user_id] && (user.userScore.score >= 1000) && <BuyButton style={buyButtonStyle} actions={actions} person={target} user={user}/>}
         </div>
 
       </Col>

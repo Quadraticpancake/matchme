@@ -25,6 +25,7 @@ export function chooseMatch(target, prospect, user_id) {
 
     // Fetch our target
     // TODO: also fetch our prospects
+    dispatch(updateScore(10)); 
     dispatch(requestTriad());
 
     let request = new Request('/api/pairs', {
@@ -69,23 +70,45 @@ export function getNewCandidates() {
   };
 }
 
-export function buyCandidate() {
+export const BUY_CANDIDATE = 'BUY_CANDIDATE';
+
+export function buyCandidate(candidate, user, scoreChange) {
+  console.log('got HERE to buyCandidate');
   return function(dispatch) {
-    let request = new Request('/api/candidates', {
-      method: 'get',
+    dispatch(updateScore(scoreChange));
+    let request = new Request('/api/purchases/candidate', {
+      method: 'put',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
+      body: JSON.stringify({candidate: candidate, user: user, scoreChange: scoreChange})
     });
-
     return fetch(request)
       .then(response => response.json())
-      .then((json) => {
-
-        dispatch(receiveTriad(json));
+      .then((score) => {
+        dispatch(setScore(score));
       });
   }
+}
+
+export const UPDATE_SCORE = 'UPDATE_SCORE';
+
+function updateScore(scoreChange) {
+  console.log("GOT INTO HERE");
+  return {
+    type: UPDATE_SCORE,
+    scoreChange: scoreChange
+  };
+}
+
+export const SET_SCORE = 'SET_SCORE';
+
+function setScore(score) {
+  return {
+    type: SET_SCORE,
+    score: score
+  };
 }
 
 ///////////////////
@@ -96,6 +119,7 @@ export function buyCandidate() {
 // TARGET
 
 export const REQUEST_TRIAD = 'REQUEST_TRIAD';
+
 function requestTriad() {
   console.log("requestTriad called");
   return {

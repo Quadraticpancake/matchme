@@ -57,9 +57,6 @@ class Header extends Component {
             {user.isAuthenticated &&
             <div className={'navbar-text'}>Points: <strong>{user.userScore.score}</strong></div>}
           </Nav>
-          <Nav>
-            <p className={'navbar-text'}>Points: ${ user.userScore.score }</p>
-          </Nav>
         </Navbar.Collapse>
       </Navbar>
     );
