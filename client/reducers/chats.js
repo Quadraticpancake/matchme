@@ -34,7 +34,7 @@ export default function user(state = initialState, action) {
          pairHeart: action.pairHeart,
          heartChanging: false
       });
-      console.log(particularChat);
+      let newState = Object.assign({}, state);
       newState.chats[action.pair_id] = particularChat;
       return newState;
 
