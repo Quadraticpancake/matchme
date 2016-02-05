@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Message } from './Message';
 import heart from '../../static/img/icons/heart'; // Heart is an SVG graphic from: http://codepen.io/sol0mka/pen/c6721c06e93b4ee6cc95a21f6a4caedc
-import { extend } from 'underscore';
+import { extend, uniqueId } from 'underscore';
 
 const heartSvg = heart();
 const heartNotFilledInStyle = {
-  width: '32px',
-  height: '32px',
+  width: '3em',
+  height: '3em',
   fill: '#ccc'
 };
-const heartFilledInStyle = extend({}, heartNotFilledInStyle, {fill: '#FE4365'});
+const heartFilledInStyle = extend({}, heartNotFilledInStyle, {fill: '#FE4365', strokeWidth: '1px', stroke:'black'});
 
 const chatStyle = {
   padding: '10px'
@@ -18,11 +18,6 @@ const chatStyle = {
 const inputStyle = {
   width: '100%'
 };
-
-const heartStyle = {
-  height: '4em',
-  width: '4em'
-}
 
 export class Chat extends Component {
   render() {
@@ -33,6 +28,7 @@ export class Chat extends Component {
     let renderedMessages = [];
     const heartButton = 'https://freeiconshop.com/files/edd/heart-compact-flat.png';
 
+    const heartId = uniqueId('heart'); //used for hover effect
 
     if (chat) {
       const is_user_one = chat.user_one.user_id === user_id;
@@ -41,17 +37,20 @@ export class Chat extends Component {
       });
       return (
         <div className='col-md-10 col-sm-11 col-xs-11 well' style={chatStyle}>
-          {/* SVG Heart: heartSVG contains the definition of a SVG heart*/}
-          { heartSvg }
-          {/* SVG Heart: the below SVG element actually places the SVG heart on the page*/}
-          <svg viewBox="0 0 32 32" style={chat.userHeart === true ? heartFilledInStyle : heartNotFilledInStyle}>
-             <g filter="url(#inset-shadow)">
-              <use xlinkHref="#heart-icon"></use>
-            </g>
-          </svg>
           <div style={{'display': 'flex'}}>
-            <img src={heartButton} style={heartStyle} onClick={() => heartConnection(pair_id, user_id, is_user_one)} />
-            Like this match? Let us know! The other user won't know you gave them a heart unless they give you one too.
+            {/* SVG Heart: heartSVG contains the definition of a SVG heart*/}
+            { heartSvg }
+            {/* SVG Heart: the below SVG element actually places the SVG heart on the page*/}
+            <svg viewBox="0 0 32 32" style={chat.userHeart === true ? heartFilledInStyle : heartNotFilledInStyle} >
+               <g filter="url(#inset-shadow)">
+                <use xlinkHref="#heart-icon" id={heartId} onClick={() => heartConnection(pair_id, user_id, is_user_one)}></use>
+              </g>
+            </svg>
+            <style>{
+            // hover uses the id generated with uniqueId, based on this example: https://jsfiddle.net/ors1vos9/ 
+            "#" + heartId + ":hover {fill: #FE4365; opacity: 0.5} "
+            }</style>
+            Click on this heart if you're happy with this match! The other user won't know you gave them a heart unless they give you one too.
           </div>
           <div>
             {renderedMessages.length > 0 ? renderedMessages : "No messages yet"}
