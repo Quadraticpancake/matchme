@@ -1,0 +1,30 @@
+.paraTargetStyle {
+  width: 400;
+  font-size: 25;
+  font-weight: 'bold';
+  color:'black';
+}
+
+.divStyle {
+  width: 400;
+  height: 400;
+  margin: 20;
+  display: 'table-cell';
+  vertical-align: 'bottom';
+  background-image: 'url(' + image_url + ')';
+  background-size: 'contain';
+  font-size: 50;
+  font-weight: 'bold';
+  color:'green';
+  font-family: 'Arial, Helvetica, sans-serif';
+  // backgroundImage: 'http://i.onionstatic.com/onion/7954/original/1200.jpg';
+  border-radius: 5;
+}
+
+.target {
+  background-color: #efefef;
+  border-radius: 1%;
+  height: 90vh;
+  border-style: solid;
+  border-width: 5px;
+}
