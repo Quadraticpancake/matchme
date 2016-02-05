@@ -42,14 +42,23 @@ class Chats extends Component {
     // }
   }
 
+  componentWillMount(){
+    const { user, routerActions } = this.props;
+    //if user isn't authenticated reroute them to the home page
+    if (!user.isAuthenticated) {
+      routerActions.push('/home');
+      return;
+    }
+  }
+
   componentDidMount() {
     const { actions, user_id, user, routerActions } = this.props;
-    routerActions.push('/home');
-    return;
-    this.fetchChatsAndTellSocket();
-    socket.on('refreshChats', () => {
+    if (user.isAuthenticated) {
       this.fetchChatsAndTellSocket();
-    }.bind(this));
+      socket.on('refreshChats', () => {
+        this.fetchChatsAndTellSocket();
+      }.bind(this));
+    }
   }
 
   componentDidUpdate() {
