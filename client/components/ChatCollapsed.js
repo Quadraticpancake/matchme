@@ -62,7 +62,7 @@ export class ChatCollapsed extends Component {
         <div style={chatCollapsedStyle}>
           <div style={ {alignSelf: 'flex-start'} }>
             <img src={userNotMe.image_url} style={smallImageStyle} />
-            <img src={heartButton} style={smallImageStyle} onClick={() => heartConnection(pair_id, user_id, is_user_one)} />
+            
             <img src={closeButton} style={smallImageStyle} onClick={() => closeChat(pair_id)} />
           </div>
           <div style={textStyle}>

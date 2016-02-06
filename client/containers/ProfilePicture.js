@@ -72,25 +72,19 @@ class ProfilePicture extends Component {
 
   handleSubmit(data){
     const {actions, user} = this.props;
-    console.log('HANDLED SUBMIT', data);
     var body = new FormData();
     // Object.keys(data).forEach(( key ) => {
     //   body.append(key, data[ key ]);
     // });
-    console.log(body);
+    
     body.append('image', data.files[0]);
+    body.append('key', 'bdf5e282d9a3835dadf37e72c76413f95ffdea1b');
     console.log(body);
-    console.log(data.files[0]);
     // actions.updatePic(item,user.user_id);
     actions.postPicture(user.user_id, body);
 
-    // fetch(`http://example.com/send/`, {
-    //   method: 'POST',
-    //   body: body,
-    // })
-    // .then(res => res.json())
-    // .then(res => console.log(res))
-    // .catch(err => console.error(err));
+    let preview = document.querySelector("#preview");
+    preview.src=data.files[0].preview;
   }
 
 
@@ -163,7 +157,6 @@ class ProfilePicture extends Component {
 
         <h3 style={divStyle}>Option 2. Upload a picture</h3>
           <FileUpload onSubmit={this.handleSubmit.bind(this)} />
-          <p>Drop file here to upload</p>
        <h3 style={divStyle}>Option 3. No good pics? Snap the perfect shot with your device camera!</h3>
 
           <div style={divStyle}>

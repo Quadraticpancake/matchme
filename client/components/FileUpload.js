@@ -17,6 +17,12 @@ class FileUpload extends Component {
       clear: 'all'
     }
 
+    const preview = {
+      height: 200,
+      width: 'auto',
+      display: 'block',
+    }
+
     const {
       fields: {files},
       handleSubmit,
@@ -24,11 +30,16 @@ class FileUpload extends Component {
       submitting
     } = this.props;
 
+    
+
     return (
       <form onSubmit={handleSubmit}>
         <div>
           <div>
-            <Dropzone { ...files } onDrop={ ( filesToUpload, e ) => files.onChange(filesToUpload) }></Dropzone>
+            <Dropzone { ...files } onDrop={ ( filesToUpload, e ) => files.onChange(filesToUpload) }>Drop file here!</Dropzone>
+          </div>
+          <div>
+            <img style={preview} id="preview" src='http://allthetickets.net/images/no-preview.png'/>
           </div>
         </div>
         <div>
