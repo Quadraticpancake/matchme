@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 
 const buttonStyle = {
-  width: '30vw'
+  width: 500,
+  marginRight: 5
 }
 
 class BuyButton extends Component {

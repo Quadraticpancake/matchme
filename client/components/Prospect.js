@@ -38,7 +38,7 @@ const divProspectNameStyle = {
 
 const imgProspectStyle = {
   marginTop: '2vh',
-  height: '30vh',
+  height: '29vmin',
 };
 
 const divStyle = {
@@ -60,7 +60,12 @@ const prospectInfoStyle = {
 };
 
 const prospectInfo = {
-  marginTop: -10
+  marginTop: -6,
+  fontSize: '2.2vmin'
+}
+
+const nameStyle = {
+  fontSize: '2.6vmin'
 }
 
 class Prospect extends Component {
@@ -100,7 +105,7 @@ class Prospect extends Component {
 
           <img src={prospect.image_url} style={imgProspectStyle} className="img img-responsive img-rounded center-block"/>
         <div style={prospectInfoStyle}>
-          <label>{prospect.first_name}, {age}</label> <img src={icon_prospect_path} style={iconProspectStyle}/>
+          <label style={nameStyle}>{prospect.first_name}, {age}</label> <img src={icon_prospect_path} style={iconProspectStyle}/>
           <p style={prospectInfo}>''{prospect.description}''</p>
         </div>
         </Row>
