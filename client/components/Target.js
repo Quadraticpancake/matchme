@@ -155,7 +155,7 @@ class Target extends Component {
   // className="img img-responsive img-rounded center-block"
     return (
 
-      <Col xs={12} sm={12} md={6} className='container' >
+      <Col xs={12} sm={12} md={6} >
         <Row className={css.target}>
           <Image src={target.image_url} className={css.targetImage} rounded responsive/>
           <div className={css.userInfo}>
@@ -167,7 +167,7 @@ class Target extends Component {
           </div>
         </Row>
         <Row className={css.buttons}>
-          {!user[target.user_id] && <BuyButton actions={actions} person={target} user={user}/>}
+          <BuyButton dis={(user.userScore.score < 1000) || (!user.isAuthenticated)} actions={actions} person={target} user={user}/>
           <SkipButton actions={actions} />
         </Row>
       </Col>

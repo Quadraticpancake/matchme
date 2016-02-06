@@ -17,14 +17,14 @@ class BuyButton extends Component {
 
   render() {
     console.log('PROPS', this.props);
-    const { actions, person, user } = this.props;
+    const { actions, person, user, dis } = this.props;
 
     const cost = -1000;
     const person_id = person.user_id;
     const user_id = user.user_id;
 
     return (
-        <Button className={css.button} responsive bsSize="large" bsStyle="info" onClick={() => {actions.buyCandidate(person_id, user_id, cost);}} >Match with { person.first_name }? ({cost} points)</Button>
+        <Button disabled={dis} className={css.button} responsive bsSize="large" bsStyle="info" onClick={() => {actions.buyCandidate(person_id, user_id, cost);}} >Match with { person.first_name }? ({cost} points)</Button>
     );
   }
 }
