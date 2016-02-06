@@ -63,7 +63,7 @@ const prospectInfoStyle = {
 
 const prospectInfo = {
   marginTop: -6,
-  fontSize: '2.3vmin'
+  fontSize: '2.2vmin'
 }
 
 const nameStyle = {
