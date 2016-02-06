@@ -38,8 +38,8 @@ const paraTargetStyle = {
   // backgroundColor: '#ccc',
   // position: 'absolute'
   // bottom: 0;
-  width: '90%',
-  fontSize: 20,
+  // width: '90%',
+  fontSize: '3vmin',
   fontWeight: 'bold',
   color:'black',
 };
@@ -68,7 +68,7 @@ const wellStyle = {
 };
 
 const iconStyle = {
-  height: 45,
+  height: '7vmin',
   width: 'auto'
 };
 
@@ -95,15 +95,15 @@ const buyButtonStyle = {
 }
 
 const userInfoStyle = {
-  marginLeft: '5vh'
+  marginLeft: '8vmin'
 }
 
 const seekingStyle = {
-  fontSize: 23
+  fontSize: '3vmin'
 }
 
 const nameStyle = {
-  fontSize: 30
+  fontSize: '5vmin'
 }
 class Target extends Component {
 
@@ -163,8 +163,8 @@ class Target extends Component {
           </div>
         </Row>
         <Row className={css.buttons}>
-          <SkipButton actions={actions} />
           {!user[target.user_id] && <BuyButton actions={actions} person={target} user={user}/>}
+          <SkipButton actions={actions} />
         </Row>
       </Col>
 

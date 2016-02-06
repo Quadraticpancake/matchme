@@ -110,7 +110,7 @@ class ProfileForm extends Component {
           <div>
             <textarea
               {...description}
-              maxLength="150"
+              maxLength="100"
               value={description.value || ''} // required for reset form to work (only on textarea's)
               // see: https://github.com/facebook/react/issues/2533
             />
