@@ -34,7 +34,7 @@ class Home extends Component {
     console.log(user, 'this is the user_id');
     return (
 
-      <div className="container-fluid">
+      <div >
           <div className="row-fluid">
             <Target target={matchmaker.target} actions={actions} user={user}/>
               <Col xs={12} sm={12} md={4} className={css.prospect} >

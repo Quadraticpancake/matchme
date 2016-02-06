@@ -155,7 +155,7 @@ class Target extends Component {
   // className="img img-responsive img-rounded center-block"
     return (
 
-      <Col xs={12} sm={12} md={6} className='container' >
+      <Col xs={12} sm={12} md={6} >
         <Row className={css.target}>
           <Image src={target.image_url} className={css.targetImage} rounded responsive/>
           <div className={css.userInfo}>

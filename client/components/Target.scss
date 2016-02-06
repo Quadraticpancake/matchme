@@ -4,8 +4,10 @@
   border-radius: 1.5%;
   height: 81vh;
   @media (max-width: 768px) {
-    background-color: #efefdd;
     height: 49vh;
+  }
+  @media screen and (max-width:320px) and (max-height:480px) {
+    margin-top: -10px;
   }
 }
 
