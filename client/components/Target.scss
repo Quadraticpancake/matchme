@@ -1,45 +1,53 @@
-.paraTargetStyle {
-  width: 400;
-  font-size: 25;
-  font-weight: 'bold';
-  color:'black';
-}
-
-.divStyle {
-  width: 400;
-  height: 400;
-  margin: 20;
-  display: 'table-cell';
-  vertical-align: 'bottom';
-  background-image: 'url(' + image_url + ')';
-  background-size: 'contain';
-  font-size: 50;
-  font-weight: 'bold';
-  color:'green';
-  font-family: 'Arial, Helvetica, sans-serif';
-  // backgroundImage: 'http://i.onionstatic.com/onion/7954/original/1200.jpg';
-  border-radius: 5;
-
-}
-
 .target {
+
   background-color: #efefef;
-  border-radius: 1%;
-  height: 80vh;
-  @media screen and ( max-width: 768px ) {
-      height: 40vh;
-      background-color: #FF69B4
+  border-radius: 1.5%;
+  height: 81vh;
+  @media (max-width: 768px) {
+    background-color: #efefdd;
+    height: 49vh;
   }
 }
 
-.image {
-  margin-top: '2vh';
-  height: '50vh';
+.buttons {
+  margin-top: 2vmin;
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
 }
 
-.buttons {
+.targetImage {
+  margin-top: 1.5vh;
+  height: 52vmin;
+  margin-left: auto;
+  margin-right: auto;
+  @media (max-width: 768px) {
+    background-color: #efefdd;
+    height: 32vh;
+  }
+}
+
+.icon {
+  margin-top: -15px;
+  height: 7vmin;
   width: auto;
-  margin-top: 2vh;
-  display: flex;
-  justify-content: space-around;
+  @media (max-width: 768px) {
+    height: 5vmin;
+  }
+
+}
+
+.button {
+  width: 50%;
+  font-size: 2.3vmin;
+  @media (max-width: 768px) {
+  	font-size: 2.4vmin;
+    padding: 1.5vmin;
+  }
+}
+
+.userInfo {
+  margin-left: 1.5vw;
+  margin-right: 1.5vw;
+  margin-right: auto;
 }

@@ -27,7 +27,7 @@ class Home extends Component {
     return (
 
       <div>
-        <div className="container">
+        <div>
           <div className="row-fluid">
             <Target target={matchmaker.target} actions={actions} user={user}/>
               <div className='col-md-4'>

@@ -55,13 +55,15 @@ const iconProspectStyle = {
 };
 
 const prospectInfoStyle = {
-  width: '90%',
-  marginLeft: 10
+  width: 'auto',
+  marginTop: 5,
+  marginLeft: '1vw',
+  marginRight: '1vw'
 };
 
 const prospectInfo = {
   marginTop: -6,
-  fontSize: '2.2vmin'
+  fontSize: '2.3vmin'
 }
 
 const nameStyle = {
