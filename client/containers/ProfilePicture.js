@@ -72,7 +72,6 @@ class ProfilePicture extends Component {
 
   handleSubmit(data){
     const {actions, user} = this.props;
-    console.log('HANDLED SUBMIT', data);
     var body = new FormData();
     // Object.keys(data).forEach(( key ) => {
     //   body.append(key, data[ key ]);
