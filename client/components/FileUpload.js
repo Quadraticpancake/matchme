@@ -10,7 +10,6 @@ export const fields = ['files'];
 
 class FileUpload extends Component {
 
-
   render() {
 
     const formStyle = {
@@ -29,8 +28,6 @@ class FileUpload extends Component {
       resetForm,
       submitting
     } = this.props;
-
-    
 
     return (
       <form onSubmit={handleSubmit}>
