@@ -6,7 +6,7 @@ import { socket } from './App'
 
 const scoreboardStyle = {
   position: 'absolute',
-  width: 210,
+  width: 230,
   right: 0,
   top: 0,
   marginTop: 50,
