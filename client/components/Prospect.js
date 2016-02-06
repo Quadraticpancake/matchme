@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { Col, Row } from 'react-bootstrap';
+import css from './Prospect.scss';
 
 const wellStyle = {
   height: '44vh',
@@ -35,9 +37,8 @@ const divProspectNameStyle = {
 };
 
 const imgProspectStyle = {
-  maxHeight: '95%',
-  maxWidth: '95%',
-  marginBottom: 10
+  marginTop: '2vh',
+  height: '30vh',
 };
 
 const divStyle = {
@@ -94,15 +95,16 @@ class Prospect extends Component {
     }
 
     return (
-     <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle} onClick={() => {actions.chooseMatch(target, prospect, user.user_id);}}>
-        <div style={divProspectStyle} >
+      <Col xs={6} sm={6} md={12} className='container' onClick={() => {actions.chooseMatch(target, prospect, user.user_id);}}>
+        <Row className={css.prospect}>
+
           <img src={prospect.image_url} style={imgProspectStyle} className="img img-responsive img-rounded center-block"/>
-        </div>
         <div style={prospectInfoStyle}>
           <label>{prospect.first_name}, {age}</label> <img src={icon_prospect_path} style={iconProspectStyle}/>
           <p style={prospectInfo}>''{prospect.description}''</p>
         </div>
-      </div>
+        </Row>
+      </Col>
     );
   }
 }

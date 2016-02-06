@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import { Button } from 'react-bootstrap';
 
 const buttonStyle = {
-
-};
+  width: '30vw'
+}
 
 class BuyButton extends Component {
 
@@ -21,7 +22,7 @@ class BuyButton extends Component {
     const user_id = user.user_id;
 
     return (
-        <button type="button" style={buttonStyle} className="center-block" onClick={() => {actions.buyCandidate(person_id, user_id, cost);}} >Match with { person.first_name }? ({cost} points)</button>
+        <button className="btn btn-primary btn-lg btn-responsive" style={buttonStyle} onClick={() => {actions.buyCandidate(person_id, user_id, cost);}} >Match with { person.first_name }? ({cost} points)</button>
     );
   }
 }

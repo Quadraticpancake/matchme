@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Button } from 'react-bootstrap';
 
 const buttonStyle = {
 
@@ -15,7 +16,7 @@ class SkipButton extends Component {
     const { actions } = this.props;
 
     return (
-        <button type="button" style={buttonStyle} className="center-block" onClick={() => {actions.getNewCandidates();}} >No good match?</button>
+        <button  className="btn btn-danger btn-lg btn-responsive" onClick={() => {actions.getNewCandidates();}} >No good match? Skip!</button>
     );
   }
 }
