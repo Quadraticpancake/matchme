@@ -167,7 +167,7 @@ class Target extends Component {
           </div>
         </Row>
         <Row className={css.buttons}>
-          {!user[target.user_id] && <BuyButton actions={actions} person={target} user={user}/>}
+          <BuyButton dis={(user.userScore.score < 1000) || (!user.isAuthenticated)} actions={actions} person={target} user={user}/>
           <SkipButton actions={actions} />
         </Row>
       </Col>
