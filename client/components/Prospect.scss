@@ -4,25 +4,22 @@
   height: 44vh;
   margin-bottom: 1vh;
   width: 30vw;
-  @media (max-width: 768px) {
+
+  @media screen and (max-width: 768px) {
     background-color: #efefdd;
     height: 36vh;
     width: 52%;
   }
-  @media (max-width: 736px) {
-    width: 52%;
+  @media screen and (max-width:414px){
+    width: 54%;
   }
-  @media (max-width: 480px) {
-    width: 40vw;
+  @media screen and (max-width:375px){
+    width: 55%;
   }
-  border: 1px solid red;
+  @media screen and (max-width:320px){
+    width: 56%;
+  }
   padding: 0;
-}
-
-.target {
-  background-color: #efefef;
-  border-radius: 1%;
-  height: 80vh;
 }
 
 .prospectImage {
