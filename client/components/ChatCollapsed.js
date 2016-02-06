@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import { uniqueId, extend } from 'underscore';
+import trash from '../../static/img/icons/trash';
+
 
 const smallImageStyle = {
   width: '4em',
-  height: '4em'
+  height: '4em',
 };
+
+const trashStyle = {
+  
+}
+
+const trashImageStyle = {
+  width: '2em',
+  height: '2em'
+}
 
 const textStyle = {
   alignSelf: 'auto',
-  paddingLeft: '1rem'
+  paddingLeft: '1rem',
 };
 
 const timeStyle = {
@@ -19,6 +30,7 @@ const timeStyle = {
 const chatCollapsedStyle = {
   display: 'flex',
   flexDirection: 'row',
+  justifyContent: 'space-between',
   flexWrap: 'nowrap',
   padding: '0.5em',
   marginBottom: '10px'
@@ -36,13 +48,13 @@ export class ChatCollapsed extends Component {
   
 
   render() {
-    const {chat, addMessageOnEnter, heartConnection, pair_id, user_id, expandChat, focus, closeChat} = this.props;
+    const {chat, addMessageOnEnter, pair_id, user_id, expandChat, focus, closeChat} = this.props;
     // messages vs. chats:
     // Chats refer to all messages between a particular pair (bob and amy)
     // messages are an individual message of text sent by one user
 
-    const heartButton = 'https://freeiconshop.com/files/edd/heart-compact-flat.png';
-    const closeButton = 'https://image.freepik.com/free-icon/close-button-with-a-cross-in-a-circle_318-26587.jpg'
+    //const closeButton = 'https://image.freepik.com/free-icon/close-button-with-a-cross-in-a-circle_318-26587.jpg'
+    const trashButton = 'https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/256/trash.png'
     const is_user_one = chat.user_one.user_id === user_id;
     const userNotMe = is_user_one ? chat.user_two : chat.user_one;
 
@@ -60,11 +72,9 @@ export class ChatCollapsed extends Component {
           "#" + id + ":hover {background-color: white} "
         }</style>
         <div style={chatCollapsedStyle}>
-          <div style={ {alignSelf: 'flex-start'} }>
+          <div>
             <img src={userNotMe.image_url} style={smallImageStyle} />
-            
-            <img src={closeButton} style={smallImageStyle} onClick={() => closeChat(pair_id)} />
-          </div>
+          </div> 
           <div style={textStyle}>
             {userNotMe.first_name} {userNotMe.last_name} 
             <div>
@@ -72,7 +82,10 @@ export class ChatCollapsed extends Component {
             </div>
           </div>
         </div>
-      </div>
+        <div style={trashStyle}>
+          <img src={trashButton} style={trashImageStyle} onClick={() => closeChat(pair_id)}/>
+        </div>
+      </div> 
     );
   }
 }

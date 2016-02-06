@@ -78,7 +78,6 @@ class Chats extends Component {
           key={chatKey}
           chat={chats[chatKey]} 
           addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
-          heartConnection={actions.heartConnection}
           closeChat={actions.closeChat} 
           pair_id={chatKey} 
           user_id={user_id} 
