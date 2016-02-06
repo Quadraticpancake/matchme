@@ -45,10 +45,8 @@ const paraTargetStyle = {
 };
 
 const imgTargetStyle = {
-  height: 400,
-  width: 400,
-  maxHeight: '100%',
-  maxWidth: '100%',
+  marginTop: '2vh',
+  height: '50vh',
 };
 
 const backgroundDivStyle = {
@@ -97,14 +95,16 @@ const buyButtonStyle = {
 }
 
 const userInfoStyle = {
-  marginLeft: 45
+  marginLeft: '5vh'
 }
 
 const seekingStyle = {
-  marginTop: -20,
   fontSize: 23
 }
 
+const nameStyle = {
+  fontSize: 30
+}
 class Target extends Component {
 
   constructor(props, context) {
@@ -151,11 +151,11 @@ class Target extends Component {
 // && (user.userScore.score >= 1000
     return (
 
-      <Col xs={12} sm={12} md={6} >
+      <Col xs={12} sm={12} md={6} className='container' >
         <Row className={css.target}>
           <img src={target.image_url} style={imgTargetStyle} className="img img-responsive img-rounded center-block"/>
           <div style={userInfoStyle}>
-              <p>{target.first_name}, {age}</p>
+              <label style={nameStyle}>{target.first_name}, {age}</label>
               <div style={seekingStyle}>
                 <img src={icon_user_path} style={iconStyle}/> seeking <img src={icon_seeking_path} style={iconStyle}/>
               </div>
