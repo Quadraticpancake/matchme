@@ -20,7 +20,7 @@ export default function (app, express) {
 	// test route, use this to get data for redux
 	app.get('/api/candidates', function(req, res) {
 		getMatchSet().then(function(rows) {
-			res.json([rows.prospects[0], rows.prospects[1], rows.target])
+			res.json(score: 10000, candidates: [rows.prospects[0], rows.prospects[1], rows.target])
 		})
 	});
 

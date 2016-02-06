@@ -64,8 +64,8 @@ export function getNewCandidates() {
     return fetch(request)
       .then(response => response.json())
       .then((json) => {
-
-        dispatch(receiveTriad(json));
+        dispatch(setScore(json.score));
+        dispatch(receiveTriad(json.candidates));
       });
   };
 }
