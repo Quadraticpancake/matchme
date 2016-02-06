@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {reduxForm} from 'redux-form';
 import * as MatchmakerActions from '../actions/matchmaker';
 export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'age_min', 'age_max', 'favoriteColor', 'employed', 'description', 'image_url', 'birthday', 'status'];
+import css from './ProfileForm.scss';
 
 class ProfileForm extends Component {
 
@@ -25,7 +26,7 @@ class ProfileForm extends Component {
     return (
       <div>
 
-      <form style={formStyle} onSubmit={handleSubmit}>
+      <form className={css.form} style={formStyle} onSubmit={handleSubmit}>
         <div>
           <label>Profile Picture</label>
           <div>
@@ -49,11 +50,13 @@ class ProfileForm extends Component {
         <div>
           <label>Gender</label>
           <div>
-            <label>
-              <input type="radio" {...gender} value="male" checked={gender.value === 'male'}/> Male
+            <label for='maleRadio'>
+              <input type="radio" {...gender} value="male" checked={gender.value === 'male'} id='maleRadio'/> 
+            <span>Male</span>
             </label>
-            <label>
-              <input type="radio" {...gender} value="female" checked={gender.value === 'female'}/> Female
+            <label for='femaleRadio'>
+              <input type="radio" {...gender} value="female" checked={gender.value === 'female'} id='femaleRadio'/> 
+            Female
             </label>
           </div>
         </div>
@@ -65,7 +68,8 @@ class ProfileForm extends Component {
           <label>Gender Preference</label>
           <div>
             <label>
-              <input type="radio" {...gender_preference} value="male" checked={gender_preference.value === 'male'}/> Male
+              <input type="radio" {...gender_preference} value="male" checked={gender_preference.value === 'male'}/> 
+              Male
             </label>
             <label>
               <input type="radio" {...gender_preference} value="female" checked={gender_preference.value === 'female'}/> Female
@@ -79,30 +83,13 @@ class ProfileForm extends Component {
           <label>Age Preference</label>
           <div>
             <input type="number" min="18"  {...age_min} placeholder="Min Age" />
-            to
+            <label>to</label>
             <input type="number" max="100" {...age_max} placeholder="Max Age" />
           </div>
         </div>
         <div>
-          <label>Favorite Color</label>
-          <div>
-            <select
-
-              {...favoriteColor}
-              value={favoriteColor.value || ''}  // required syntax for reset form to work
-                                                 // undefined will not change value to first empty option
-                                                 // when resetting
-              >
-              <option></option>
-              <option value="ff0000">Red</option>
-              <option value="00ff00">Green</option>
-              <option value="0000ff">Blue</option>
-            </select>
-          </div>
-        </div>
-        <div>
           <label>
-            <input type="checkbox" {...status} checked={status.value}/> Want to be Matched?
+            <input type="checkbox" {...status} checked={status.value} defaultChecked /> Want to be Matched?
           </label>
         </div>
         <div>
