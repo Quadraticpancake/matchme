@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: column;
   justify-content: left;
+  margin-left: 10px;
   @media (max-width: 768px) {
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+    margin-left: 0;
   }
 }
