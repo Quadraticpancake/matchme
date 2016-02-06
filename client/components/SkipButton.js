@@ -16,7 +16,7 @@ class SkipButton extends Component {
     const { actions } = this.props;
 
     return (
-        <button  className="btn btn-danger btn-lg btn-responsive" onClick={() => {actions.getNewCandidates();}} >No good match? Skip!</button>
+        <button  className="btn btn-danger btn-lg" onClick={() => {actions.getNewCandidates();}} >No good match? Skip!</button>
     );
   }
 }
