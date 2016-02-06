@@ -1,17 +1,31 @@
 .prospect {
   background-color: #efefef;
-  border-radius: 1%;
+  border-radius: 1.5%;
   height: 44vh;
   margin-bottom: 1vh;
-  @media screen and ( max-width: 768px ) {
-  	  margin-top: 2vh;
-	  height: 27vh;
-	  background-color: #FF69B4
+  width: 30vw;
+
+  @media screen and (max-width: 768px) {
+    background-color: #efefdd;
+    height: 36vh;
+    width: 52%;
   }
+  @media screen and (max-width:414px){
+    width: 54%;
+  }
+  @media screen and (max-width:375px){
+    width: 55%;
+  }
+  @media screen and (max-width:320px){
+    width: 56%;
+  }
+  padding: 0;
 }
 
-.target {
-  background-color: #efefef;
-  border-radius: 1%;
-  height: 80vh;
+.prospectImage {
+  margin-top: 1vh;
+  height: 29vmin;
+  margin-left: auto;
+  margin-right: auto;
+
 }

@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
+import css from './Target.scss';
 
 const buttonStyle = {
-  width: 500,
-  marginRight: 5,
-}
+  width: '50%',
+  fontSize: '100%'
+};
 
 class BuyButton extends Component {
 
@@ -23,7 +24,7 @@ class BuyButton extends Component {
     const user_id = user.user_id;
 
     return (
-        <button className="btn btn-info btn-lg" style={buttonStyle} onClick={() => {actions.buyCandidate(person_id, user_id, cost);}} >Match with { person.first_name }? ({cost} points)</button>
+        <Button className={css.button} responsive bsSize="large" bsStyle="info" onClick={() => {actions.buyCandidate(person_id, user_id, cost);}} >Match with { person.first_name }? ({cost} points)</Button>
     );
   }
 }

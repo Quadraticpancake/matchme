@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import SkipButton from '../components/SkipButton';
 import css from './Target.scss';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Image, ButtonGroup, Button, ButtonToolbar } from 'react-bootstrap';
 import BuyButton from '../components/BuyButton';
 
 const divStyle = {
@@ -47,6 +47,8 @@ const paraTargetStyle = {
 const imgTargetStyle = {
   marginTop: '2vh',
   height: '50vh',
+  marginLeft: 'auto',
+  marginRight: 'auto'
 };
 
 const backgroundDivStyle = {
@@ -95,7 +97,8 @@ const buyButtonStyle = {
 }
 
 const userInfoStyle = {
-  marginLeft: '8vmin'
+  marginLeft: 'auto',
+  marginRight: 'auto'
 }
 
 const seekingStyle = {
@@ -149,15 +152,16 @@ class Target extends Component {
 
     // <container className='col-md-6 col-sm-12 col-xs-12 img-rounded' style={wellStyle}>
 // && (user.userScore.score >= 1000
+  // className="img img-responsive img-rounded center-block"
     return (
 
       <Col xs={12} sm={12} md={6} className='container' >
         <Row className={css.target}>
-          <img src={target.image_url} style={imgTargetStyle} className="img img-responsive img-rounded center-block"/>
-          <div style={userInfoStyle}>
+          <Image src={target.image_url} className={css.targetImage} rounded responsive/>
+          <div className={css.userInfo}>
               <label style={nameStyle}>{target.first_name}, {age}</label>
               <div style={seekingStyle}>
-                <img src={icon_user_path} style={iconStyle}/> seeking <img src={icon_seeking_path} style={iconStyle}/>
+                <Image src={icon_user_path} className={css.icon}/> seeking <Image src={icon_seeking_path} className={css.icon}/>
               </div>
               <p style={paraTargetStyle}>''{target.description}''</p>
           </div>
