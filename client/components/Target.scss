@@ -3,11 +3,6 @@
   font-size: 25;
   font-weight: 'bold';
   color:'black';
-  
-    @media screen and ( max-width: 768px ) {
-      height: 40vh;
-      background-color: #FF69B4
-  }
 }
 
 .divStyle {
@@ -35,6 +30,11 @@
       height: 40vh;
       background-color: #FF69B4
   }
+}
+
+.image {
+  margin-top: '2vh';
+  height: '50vh';
 }
 
 .buttons {

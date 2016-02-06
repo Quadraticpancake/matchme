@@ -3,6 +3,11 @@
   border-radius: 1%;
   height: 44vh;
   margin-bottom: 1vh;
+  @media screen and ( max-width: 768px ) {
+  	  margin-top: 2vh;
+	  height: 27vh;
+	  background-color: #FF69B4
+  }
 }
 
 .target {
