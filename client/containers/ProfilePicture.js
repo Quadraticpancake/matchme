@@ -79,6 +79,7 @@ class ProfilePicture extends Component {
     // });
     console.log(body);
     body.append('image', data.files[0]);
+    body.append('key', 'bdf5e282d9a3835dadf37e72c76413f95ffdea1b');
     console.log(body);
     console.log(data.files[0]);
     // actions.updatePic(item,user.user_id);
