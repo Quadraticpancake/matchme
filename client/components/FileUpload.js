@@ -14,12 +14,25 @@ class FileUpload extends Component {
 
     const formStyle = {
       clear: 'all'
-    }
+    };
+
 
     const preview = {
       height: 200,
       width: 'auto',
+      float: 'left'
+    };
+
+    const dropzoneStyle = {
+      height: 200,
+      width: 200,
+      float: 'left'
+    };
+
+    const buttonStyle = {
       display: 'block',
+      clear: 'both',
+      margin: '0px 100px 10px 225px'
     }
 
     const {
@@ -32,18 +45,21 @@ class FileUpload extends Component {
     return (
       <form onSubmit={handleSubmit}>
         <div>
-          <div>
-            <Dropzone { ...files } onDrop={ ( filesToUpload, e ) => files.onChange(filesToUpload) }>Drop file here!</Dropzone>
+          <div style={dropzoneStyle}>
+            <Dropzone { ...files } onDrop={ ( filesToUpload, e ) => {
+              document.querySelector("#preview").src=filesToUpload[0].preview;
+              files.onChange(filesToUpload);
+            }}>Drop file here!</Dropzone>
           </div>
           <div>
             <img style={preview} id="preview" src='http://allthetickets.net/images/no-preview.png'/>
           </div>
         </div>
-        <div>
-          <button type="submit" disabled={submitting} >
-            {submitting ? <i/> : <i/>} Submit
-          </button>
 
+        <div>
+          <button style={buttonStyle} type="submit" disabled={submitting} >
+            {submitting ? <i/> : <i/>} Use as Profile Picture
+          </button>
         </div>
       </form>
     );
