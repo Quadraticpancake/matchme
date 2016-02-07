@@ -101,23 +101,10 @@ class Prospect extends Component {
       icon_prospect_path = bothIcon;
     }
 
-    //    return (
-    //   <Col xs={6} sm={6} md={12} className='container' onClick={() => {actions.chooseMatch(target, prospect, user.user_id);}}>
-    //     <Row className={css.prospect}>
-
-    //       <Image src={prospect.image_url} rounded responsive className={css.prospectImage}/>
-    //     <div style={prospectInfoStyle}>
-    //       <label style={nameStyle}>{prospect.first_name}, {age}</label> <Image src={icon_prospect_path} style={iconProspectStyle}/>
-    //       <p style={prospectInfo}>''{prospect.description}''</p>
-    //     </div>
-    //     </Row>
-    //   </Col>
-    // );
-
 
     return (
       <Row className={css.prospect} onClick={() => {actions.chooseMatch(target, prospect, user.user_id);}}>
-          <Image src={prospect.image_url} rounded responsive className={css.prospectImage}/>
+          <Image src={prospect.image_url} responsive className={css.prospectImage}/>
         <div style={prospectInfoStyle}>
           <label style={nameStyle}>{prospect.first_name}, {age}</label> <Image src={icon_prospect_path} style={iconProspectStyle}/>
           <p style={prospectInfo}>''{prospect.description}''</p>

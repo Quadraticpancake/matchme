@@ -1,32 +1,33 @@
 .target {
+  background-color: white;
+  margin-bottom: 0.5em;
+  border-radius: 1%;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  width: 30vw;
+  vertical-align: right;
 
-  background-color: #efefef;
-  border-radius: 1.5%;
-  height: 81vh;
   @media (max-width: 768px) {
-    height: 49vh;
+    width: auto;
+    height: auto;
+    display: flex;
   }
-  @media screen and (max-width:320px) and (max-height:480px) {
-    margin-top: -10px;
-  }
+}
+
+.buttonContainer {
+  
 }
 
 .buttons {
   margin-top: 2vmin;
-  @media (max-width: 768px) {
-    margin-top: 0;
-  }
 }
 
 .targetImage {
-  margin-top: 1.5vh;
-  height: 52vmin;
+  height: 50vw;
+  width: auto;
+  max-height: 50vh;
+  max-width: 50vw;
   margin-left: auto;
   margin-right: auto;
-  @media (max-width: 768px) {
-    background-color: #efefdd;
-    height: 32vh;
-  }
 }
 
 .icon {
@@ -40,7 +41,6 @@
 }
 
 .button {
-  width: 50%;
   font-size: 2.3vmin;
   @media (max-width: 768px) {
   	font-size: 2.4vmin;
