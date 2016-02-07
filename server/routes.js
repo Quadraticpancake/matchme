@@ -19,8 +19,8 @@ var genderPreference = function(input) {
 export default function (app, express) {
 	// test route, use this to get data for redux
 	app.get('/api/candidates', function(req, res) {
-		getMatchSet().then(function(rows) {
-			res.json(score: 10000, candidates: [rows.prospects[0], rows.prospects[1], rows.target])
+		getMatchSet().then(function(json) {
+			res.json(json);
 		})
 	});
 
@@ -28,8 +28,8 @@ export default function (app, express) {
 		store.dispatch({type: 'UPDATE_LATEST', latestMatch: req.body})
 		addMatch(req.body).then((row) => {
 			// STUFF CAN BE DONE HERE TO PING USER IF ROW ENTRY RETURNED BECAUSE CONNECTION WAS MADE!!!!!
-			getMatchSet().then((rows) => {
-				res.json([rows.prospects[0], rows.prospects[1], rows.target])
+			getMatchSet(req.body.matchmaker.user_id).then((json) => {
+				res.json(json);
 			})
 		})
 	});
