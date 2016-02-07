@@ -139,8 +139,6 @@ export function getMatchSet () {
                 r JOIN users USING (user_id) LIMIT  1;`)
             })
 
-
-
           .then((targetRows) => {
 
             // get target out of row results
@@ -241,16 +239,27 @@ export function getMatchesMade (matchmaker) {
 }
 
 export function getAlbum (user_id) {
-  console.log('Got to getAlbum', user_id);
   var getAlbumQueryStr = `select image_url from pictures where user_id = ${user_id};`;
 
   return db.query(getAlbumQueryStr)
   .then((rows) => {
+    return rows; 
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+
+export function postAlbum (user_id, image_url) {
+  console.log('GOT TO POST ALBUM IN DB HELPERS, INFO', user_id, image_url);
+  var postAlbumQueryStr = `INSERT INTO pictures (user_id, image_url) VALUES ('${user_id}','${image_url}') returning *;`;
+  return db.query(postAlbumQueryStr)
+    .then((rows) => {
     return rows; // this doesn't really do anything
   })
   .catch((error) => {
     console.log(error);
-  })
+  });
 }
 
 export function putPicture (user_id, image_url) {
@@ -258,11 +267,11 @@ export function putPicture (user_id, image_url) {
 
   return db.query(insertPictureQueryStr)
   .then((rows) => {
-    return rows; 
+    return rows;
   })
   .catch((error) => {
     console.log(error);
-  })
+  });
 }
 
 export function buyCandidate (purchaseInfo) {

@@ -20,26 +20,13 @@ class ProfilePicture extends Component {
     canvas.getContext('2d').drawImage(video,0,0);
   }
 
-  uploadPicture() {
+  uploadPictureCanvas() {
     let canvas = document.querySelector("#picDisplay");
     let imgData = canvas.toDataURL("img/png");
-    // console.log('url???', imgData.toString());
-    // extract data in base 64 encoded webp format
-    // console.log(imgData);
     imgData = imgData.replace('data:image/png;base64,','');
-    // console.log(imgData);
-    // let postData = JSON.stringify({imgData: imgData});
-
-    // console.log('postdata from webcam', postData)
-    // post to server
-      // ASYNC:
-      // writeFile to profilePics
-      //
 
     const {actions, user} = this.props;
-    // actions.updatePic(item,user.user_id);
     actions.postPicture(user.user_id, imgData);
-
   }
 
   componentDidMount(){
@@ -60,9 +47,7 @@ class ProfilePicture extends Component {
 
   componentWillMount(){
     const {actions, user} = this.props;
-    console.log('userID in profilePicture', user.user_id)
     actions.getAlbum(user.user_id);
-    console.log('USER IN PICTURES', user.user_id)
   }
 
   handleClick(item){
@@ -70,18 +55,27 @@ class ProfilePicture extends Component {
     actions.updatePic(item,user.user_id);
   }
 
-  handleSubmit(data){
+  handleUploadSubmit(data){
+    console.log('handle submit', typeof data.files[0])
     const {actions, user} = this.props;
-    var body = new FormData();
-    // Object.keys(data).forEach(( key ) => {
-    //   body.append(key, data[ key ]);
-    // });
     
-    body.append('image', data.files[0]);
-    body.append('key', 'bdf5e282d9a3835dadf37e72c76413f95ffdea1b');
-    console.log(body);
-    // actions.updatePic(item,user.user_id);
-    actions.postPicture(user.user_id, body);
+    let fileToLoad = data.files[0];
+    var fileReader = new FileReader();
+
+    fileReader.onload = function(e, file) {
+      let file64 = e.target.result;
+      // file64 = file64.replace('data:image/jpeg;base64,','')
+      file64 = file64.replace(/(^[^,]*)\w/, '').slice(1);
+      actions.postPicture(user.user_id, file64);
+    }
+
+    fileReader.onerror = function(err) {
+      console.log('error', err)
+    }
+ 
+    fileReader.readAsDataURL(fileToLoad);
+    
+    /////////////////
 
     let preview = document.querySelector("#preview");
     preview.src=data.files[0].preview;
@@ -156,7 +150,7 @@ class ProfilePicture extends Component {
           <div>{photosMap}</div>
 
         <h3 style={divStyle}>Option 2. Upload a picture</h3>
-          <FileUpload onSubmit={this.handleSubmit.bind(this)} />
+          <FileUpload onSubmit={this.handleUploadSubmit.bind(this)} />
        <h3 style={divStyle}>Option 3. No good pics? Snap the perfect shot with your device camera!</h3>
 
           <div style={divStyle}>
@@ -165,7 +159,7 @@ class ProfilePicture extends Component {
           </div>
 
           <button type="button" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
-          <button type="button" style={picButtonStyle} onClick={() => {this.uploadPicture()}}>Use as Profile Picture</button>
+          <button type="button" style={picButtonStyle} onClick={() => {this.uploadPictureCanvas()}}>Use as Profile Picture</button>
 
         <br></br>
         <br></br>
