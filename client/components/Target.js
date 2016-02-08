@@ -155,11 +155,11 @@ class Target extends Component {
   // className="img img-responsive img-rounded center-block"
     return (
 
-      <Col xs={12} sm={12} md={4} >
+      <Col xs={12} sm={12} md={5} >
         <Row className={css.target}>
           <Image src={target.image_url} className={css.targetImage} />
           <div className={css.userInfo}>
-            <label style={nameStyle}>{target.first_name}, {age}</label>
+            <h1 style={nameStyle}>{target.first_name}, {age}</h1>
             <div style={seekingStyle}>
               <Image src={icon_user_path} className={css.icon}/> seeking <Image src={icon_seeking_path} className={css.icon}/>
             </div>
