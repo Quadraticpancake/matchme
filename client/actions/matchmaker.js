@@ -42,8 +42,9 @@ export function chooseMatch(target, prospect, user_id) {
       .then((json) => {
         // We can dispatch many times!
         // Here, we update the app state with the results of the API call.
+        dispatch(setScore(json.score));
         console.log(json);
-        dispatch(receiveTriad(json));
+        dispatch(receiveTriad(json.candidates));
       });
   };
 }
@@ -64,8 +65,8 @@ export function getNewCandidates() {
     return fetch(request)
       .then(response => response.json())
       .then((json) => {
-
-        dispatch(receiveTriad(json));
+        dispatch(setScore(json.score));
+        dispatch(receiveTriad(json.candidates));
       });
   };
 }

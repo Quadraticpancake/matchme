@@ -3,6 +3,8 @@ var request = require('request');
 var zipcodes = require('zipcodes');
 var _ = require('underscore');
 
+var userCount = null;
+
 ///////////////// DB helpers /////////////////////
 
 export function getUser (facebook_id) {
@@ -21,7 +23,7 @@ export function postUser (user) {
 
   return db.query(insertUserQueryStr)
   .then((rows) => {
-    console.log(rows);
+    userCount++;
     userInfo = rows[0];
     return rows[0];
   })
@@ -125,10 +127,110 @@ export function addMatch (match) {
 }
 
 // get one target and two suitable prospects
-export function getMatchSet () {
+export function getMatchSet (user_id) {
+  var func = function (user_id) {
+        var randomUserId = Math.floor(Math.random() * userCount) + 1;
+        console.log(userCount);
+        /*
+        while (randomUserId === user_id) {
+          randomUserId = Math.floor((Math.random() * userCount) + 1;
+        }
+        */
+        var date = new Date();
+        var month = date.getMonth();
+        var day = date.getDate()
+        month = month.length < 2 ? '0' + month : month;
+        day = day.length < 2 ? '0' + day : day;
+        var dateStr = '' + month + '/' + day + '/' + date.getFullYear();
+        var q = `with target as (select * from users where user_id = ${ randomUserId }) select * from users  \
+          where ('${dateStr}' - birthday) > (365.25 * (select age_min from target)) and ('${dateStr}' - birthday) <  \
+          (365.25 * (select age_max from target)) and ('${dateStr}' - (select birthday from target)) > \
+          (365.25 * age_min) and ('${dateStr}' - (select birthday from target)) < (365.25 * age_max) and \
+          user_id <> (select user_id from target) and (gender = (select  \
+          gender_preference from target) or (select gender_preference from target) = 'both')  \
+          and (gender_preference = (select gender from target) or gender_preference = 'both') union all  \
+          (select * from target) union all (select * from users where user_id = ${ user_id });`
+        console.log(q);
+        return db.query(q)
+          .then((rows) => {
+            var matchmaker = rows.pop();
+            var target;
+            var score;
+            if (matchmaker.user_id !== user_id) {
+              target = matchmaker;
+              score = -1 // or null
+            } else {
+              target = rows.pop();
+              score = matchmaker.score;
+            }
+            var prospects = _.shuffle(rows).slice(0,2);
+            console.log("score =", score, "target =", target.first_name);
+            console.log(prospects[0].first_name, prospects[1].first_name);
+            prospects.push(target);
+            console.log(prospects);
+            return {score: score, candidates: prospects};
+          });
+  }
+ // let matchSet = {};
+  if(!user_id) {
+    user_id = 0;
+  }
+  if (!userCount) {
+    return db.query('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;')
+      .then((row) => {
+        userCount = row[0].user_id;
+        return func(user_id);
+    });
+  } else {
+    return func(user_id);
+  }/*
+    return db.query('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;')
+      .then((row) => {
+        userCount = row[0].user_id;
+        var randomUserId = Math.floor(Math.random() * userCount) + 1;
 
-  let matchSet = {};
+        while (randomUserId === user_id) {
+          randomUserId = Math.floor((Math.random() * userCount) + 1;
+        }
+        var date = new Date();
+        var month = date.getMonth();
+        var day = date.getDate()
+        month = month.length < 2 ? '0' + month : month;
+        day = day.length < 2 ? '0' + day : day;
+        var dateStr = '' + month + '/' + day + '/' + date.getFullYear();
+        var q = `with target as (select * from users where user_id = ${ randomUserId }) select * from users  \
+          where ('${dateStr}' - birthday) > (365.25 * (select age_min from target)) and ('${dateStr}' - birthday) <  \
+          (365.25 * (select age_max from target)) and ('${dateStr}' - (select birthday from target)) > \
+          (365.25 * age_min) and ('${dateStr}' - (select birthday from target)) < (365.25 * age_max) and \
+          user_id <> (select user_id from target) and (gender = (select  \
+          gender_preference from target) or (select gender_preference from target) = 'both')  \
+          and (gender_preference = (select gender from target) or gender_preference = 'both') union all  \
+          (select * from target) union all (select * from users where user_id = ${ user_id });`
+        console.log(q);
+        return db.query(q)
+          .then((rows) => {
+            var matchmaker = rows.pop();
+            var target;
+            var score;
+            if (matchmaker.user_id !== user_id) {
+              target = matchmaker;
+              score = -1 // or null
+            } else {
+              target = rows.pop();
+              score = matchmaker.score;
+            }
+            var prospects = _.shuffle(rows).slice(0,2);
+            console.log("score =", score, "target =", target.first_name);
+            console.log(prospects[0].first_name, prospects[1].first_name);
+            prospects.push(target);
+            console.log(prospects);
+            return {score: score, candidates: prospects};
+          });
 
+      });
+  }
+  */
+  /*
   // gets a random user to be a match target
   return db.query("SELECT count(*) AS ct, min(user_id) AS min_id, max(user_id) AS max_id, max(user_id) - min(user_id) AS id_span FROM users;")
          .then((rows) => {
@@ -186,6 +288,7 @@ export function getMatchSet () {
             return matchSet;
 
           })
+*/
 }
 
 export function getMatchesMade (matchmaker) {

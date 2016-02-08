@@ -47,6 +47,7 @@ export function sendMessage(text, sender, pair_id) {
 
 export function closeChat(pair_id) {
   return function(dispatch) {
+    dispatch(removeChat(pair_id));
     let request = new Request('/api/pairs/' + pair_id + '/close', {
       method: 'PUT'
     });
