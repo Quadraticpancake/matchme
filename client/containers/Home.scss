@@ -15,4 +15,7 @@
 	border-radius: 1%;
 	background-color: white;
 	margin: 0.5em;
+	@media (min-width: 768px) {
+		display: none;
+	}
 }
