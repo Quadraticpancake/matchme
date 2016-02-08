@@ -379,8 +379,19 @@ export function putPicture (user_id, image_url) {
 }
 
 export function getBestMatch (user_id) {
- // query to get the four numbers for the target
- 
+ // query to get the best match based on matching algorithm
+}
+
+export function putAnalytics (user_id, analytics) {
+  var insertAnalyticsQueryStr = `INSERT INTO analytics (user_id, age, coloring, expression, faceShape) VALUES ('${user_id}','${analytics.age}','${analytics.coloring}','${analytics.expression}','${analytics.faceShape}') returning *;`;
+
+  return db.query(insertAnalyticsQueryStr)
+  .then((rows) => {
+    return rows;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 }
 
 export function buyCandidate (purchaseInfo) {

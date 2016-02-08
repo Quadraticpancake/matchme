@@ -58,12 +58,10 @@ export default function createTables () {
   .then(function(){
     console.log('face anaytics table created')
     return db.query("CREATE TABLE IF NOT EXISTS analytics (analytics_id SERIAL PRIMARY KEY, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES users(user_id),"
-      + " image_url VARCHAR(255),"
       + "age INTEGER,"
-      + "race VARCHAR(40),"
-      + "smiling VARCHAR(40),"
-      + "height INTEGER,"
-      + "width INTEGER,"
+      + "coloring VARCHAR(40),"
+      + "expression DECIMAL,"
+      + "faceShape DECIMAL,"
       + " created_at TIMESTAMP NOT NULL DEFAULT NOW());");
   })
   .then(function(){
