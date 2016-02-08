@@ -378,6 +378,11 @@ export function putPicture (user_id, image_url) {
   });
 }
 
+export function getBestMatch (user_id) {
+ // query to get the four numbers for the target
+ 
+}
+
 export function buyCandidate (purchaseInfo) {
   var user_one = purchaseInfo.user < purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
   var user_two = purchaseInfo.user > purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
