@@ -131,6 +131,7 @@ export function getMatchSet (user_id) {
   var func = function (user_id) {
         var randomUserId = Math.floor(Math.random() * userCount) + 1;
         console.log(userCount);
+        console.log(user_id, "user_id 1");
         /*
         while (randomUserId === user_id) {
           randomUserId = Math.floor((Math.random() * userCount) + 1;
@@ -156,6 +157,7 @@ export function getMatchSet (user_id) {
             var matchmaker = rows.pop();
             var target;
             var score;
+            console.log(matchmaker.user_id, "!==", user_id);
             if (matchmaker.user_id !== user_id) {
               target = matchmaker;
               score = -1 // or null

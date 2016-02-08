@@ -105,10 +105,29 @@ class UserScore extends Component {
       }
     }
 
+    var index = 0
 
     return (
       <section>
-        {<div><div className='col-md-8 col-sm-8 col-xs-8' style={divStyle}><div className='text-center'>Your score is { score } </div><div className='text-center'>These are the wonderful connections you helped create</div></div><div>{renderedConnectionsMade}</div></div>}
+        {<div>
+          <div className='col-md-8 col-sm-8 col-xs-8' style={divStyle}>
+            <div className='text-center'>
+              Your score is { score } 
+            </div>
+            <div className='text-center'>
+              You have helped create { renderedConnectionsMade.length } connections
+            </div>
+          </div>
+          <div className='col-md-10'>
+            <button className='col-md-1' onClick={()=> { index = index > 0 ? index-- : index}}>
+              LEFT
+            </button>
+            {renderedConnectionsMade[index]}
+            <button className='col-md-1' onClick={()=> { index = index < renderedConnectionsMade.length - 1 ? index++ : index}}>
+              RIGHT
+            </button>
+          </div>
+        </div>}
       </section>
     );
   }
@@ -119,6 +138,7 @@ function mapStateToProps(state) {
     user_id: state.user.user_id,
     userScore: state.user.userScore,
     user: state.user
+    //index: state.user.userScore.index
   };
 }
 
