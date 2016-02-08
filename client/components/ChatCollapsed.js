@@ -55,6 +55,7 @@ export class ChatCollapsed extends Component {
 
     //const closeButton = 'https://image.freepik.com/free-icon/close-button-with-a-cross-in-a-circle_318-26587.jpg'
     const trashButton = 'https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/256/trash.png'
+    const xButton = 'http://vignette4.wikia.nocookie.net/education/images/d/d3/Icon-x.svg/revision/latest?cb=20090630172726'
     const is_user_one = chat.user_one.user_id === user_id;
     const userNotMe = is_user_one ? chat.user_two : chat.user_one;
 
@@ -83,7 +84,7 @@ export class ChatCollapsed extends Component {
           </div>
         </div>
         <div style={trashStyle}>
-          <img src={trashButton} style={trashImageStyle} onClick={() => closeChat(pair_id)}/>
+          <img src={xButton} style={trashImageStyle} onClick={() => closeChat(pair_id)}/>
         </div>
       </div> 
     );

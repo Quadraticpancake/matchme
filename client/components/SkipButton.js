@@ -15,10 +15,10 @@ class SkipButton extends Component {
 
   render() {
     console.log('PROPS', this.props);
-    const { actions } = this.props;
+    const { actions, user_id } = this.props;
 
     return (
-        <Button responsive className={css.button} bsStyle="danger" bsSize="large" onClick={() => {actions.getNewCandidates();}} >No good match? Skip!</Button>
+        <Button responsive className={css.button} bsStyle="danger" bsSize="large" onClick={() => {actions.getNewCandidates(user_id);}} >No good match? Skip!</Button>
     );
   }
 }

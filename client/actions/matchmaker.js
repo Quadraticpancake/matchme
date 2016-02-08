@@ -51,10 +51,10 @@ export function chooseMatch(target, prospect, user_id) {
 
 export const GET_NEW_CANDIDATES = 'GET_NEW_CANDIDATES';
 
-export function getNewCandidates() {
+export function getNewCandidates(user_id) {
+  user_id = user_id || 0;
   return function(dispatch) {
-
-    let request = new Request('/api/candidates', {
+    let request = new Request('/api/candidates/' + user_id, {
       method: 'get',
       headers: {
         'Accept': 'application/json',
@@ -74,9 +74,9 @@ export function getNewCandidates() {
 export const BUY_CANDIDATE = 'BUY_CANDIDATE';
 
 export function buyCandidate(candidate, user, scoreChange) {
-  console.log('got HERE to buyCandidate');
   return function(dispatch) {
     dispatch(updateScore(scoreChange));
+    dispatch(getNewCandidates(user));
     let request = new Request('/api/purchases/candidate', {
       method: 'put',
       headers: {
