@@ -15,12 +15,9 @@ import fetch from 'isomorphic-fetch';
 export const CHOOSE_MATCH = 'CHOOSE_MATCH';
 
 export function chooseMatch(target, prospect, user_id) {
-  console.log('chooseMatch called');
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
-
-  console.log(user_id);
   return function(dispatch) {
 
     // Fetch our target
@@ -48,6 +45,8 @@ export function chooseMatch(target, prospect, user_id) {
       });
   };
 }
+
+
 
 export const GET_NEW_CANDIDATES = 'GET_NEW_CANDIDATES';
 
@@ -139,3 +138,19 @@ function receiveTriad(json) {
   };
 }
 
+
+// The code below is a workaround do to something odd with redux
+export const CHANGE_INDEX = 'CHANGE_INDEX';
+
+export const changeIndex = (newIndex) => {
+  return dispatch => {
+    dispatch(changeIndexAction(newIndex));
+  }
+}
+
+export const changeIndexAction = (newIndex) => {
+  return {
+    type: CHANGE_INDEX,
+    index: newIndex
+  }
+}

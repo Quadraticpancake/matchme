@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Prospect from '../components/Prospect';
 import Target from '../components/Target';
 import * as MatchmakerActions from '../actions/matchmaker';
+import * as UserActions from '../actions/user'
 import { Col, Row, Image} from 'react-bootstrap';
 import css from './Home.scss';
 
@@ -34,10 +35,10 @@ class Home extends Component {
     console.log(user, 'this is the user_id');
     return (
 
-      <div >
+      <div>
           <div className="row-fluid">
             <Target target={matchmaker.target} actions={actions} user={user}/>
-              <Col xs={12} sm={12} md={4} className={css.prospect} >
+              <Col xs={12} sm={12} md={5} className={css.prospect} >
               <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} user={user} />
               <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} user={user} />
               </Col>
@@ -62,6 +63,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MatchmakerActions, dispatch)
+    
   };
 }
 

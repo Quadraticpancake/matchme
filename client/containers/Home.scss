@@ -9,3 +9,13 @@
     margin-left: 0;
   }
 }
+
+.dividingBar {
+	padding: 0.5em;
+	border-radius: 1%;
+	background-color: white;
+	margin: 0.5em;
+	@media (min-width: 768px) {
+		display: none;
+	}
+}
