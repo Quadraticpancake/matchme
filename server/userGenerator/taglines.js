@@ -9,7 +9,6 @@ var possibleZipcodes = zipcodes.radius(94114, 60); // SF to San Jose seemed reas
 
 var femalePath = path.join(__dirname, '..', '..', 'static', 'img', 'profilePics', 'female');
 var malePath = path.join(__dirname, '..', '..', 'static', 'img', 'profilePics', 'male');
-console.log(femalePath);
 var femaleImages = fs.readdirSync(femalePath);
 var maleImages = fs.readdirSync(malePath);
 
@@ -71,30 +70,6 @@ export default function generateUser() {
 
   var gender = gender();
 
-  // var Bing = require('node-bing-api')({ accKey: "yc1qnJqokiEdeGaDnw98TrJ99KwLDz/3SF1Xsk4gGPA" });
-
-  // var cleanBingImages = function(bingResults) {
-  //   var resultsArray = bingResults['d']['results'];
-  //   return resultsArray.map(function(item) {
-  //     return item.MediaUrl
-  //   });
-  // }
-
-  // TODO async
-  // var getImages = function(gender) {
-  //   Bing.images('headshot woman', {top: 50}, function(err, response, bingImageResults) {
-  //     var femaleImageArray = cleanBingImages(bingImageResults);
-
-  //     Bing.images('headshot man', {top: 50}, function(err, response, bingImageResults) {
-  //     var maleImageArray = cleanBingImages(bingImageResults);
-
-  //     });
-
-  //   });
-    
-  // };
-
-
   var fakeUser = {
     facebook_id: 12345,
     first_name: random_name({ first: true, gender: gender, seed: String(Math.random() * Date.now()) }),
@@ -113,6 +88,5 @@ export default function generateUser() {
   }
 
   return fakeUser;
-  
-  
+
 }

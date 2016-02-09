@@ -2,7 +2,9 @@ import {expect} from 'chai';
 import db from '../db/config';
 import createTables from  '../db/schemas';
 import generateUser from '../server/userGenerator/taglines';
+import generateFakeAnalytics from '../server/faceAnalysis/fakeAnalysis';
 import { getRandomUsers, addMatch, getMatchSet, getMatchesMade } from '../db/dbHelpers';
+
 
 describe('database helpers', () => {
 	describe('getRandomUsers', () => {
@@ -27,23 +29,30 @@ describe('database helpers', () => {
 			})
 			.then(() => {
 
-				for (var i = 0; i < 1000; i++) {
+				const NUM_PROFILES = 100;
+				let profilesGenerated = 0;
+				for (var i = 0; i < NUM_PROFILES; i++) {
 
 					var fakeUser = generateUser();
 					var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
 							location_preference,description,image_url,score) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
 							'${fakeUser.birthdayStr}','${fakeUser.zipcode}','${fakeUser.status}',${fakeUser.age_min},${fakeUser.age_max},\
-							'${fakeUser.gender_preference}',${fakeUser.location_preference},'${fakeUser.description}','${fakeUser.image_url}',0);`;
-					
-				// run done() after the 500th user is generated to end the before block, otherwise run the query without resolving the promise
-					if (i === 999) {
-						db.query(insertUserQueryStr)
-					  .then(() => {
-					  	done();
-					  });
-					} else {
-						db.query(insertUserQueryStr);
-					}
+							'${fakeUser.gender_preference}',${fakeUser.location_preference},'${fakeUser.description}','${fakeUser.image_url}',0) RETURNING user_id;`;
+
+					// run done() after the last user is generated to end the before block, otherwise run the query without resolving the promise
+
+					db.query(insertUserQueryStr)
+					.then((row) =>{
+						profilesGenerated += 1;
+						let user_id = row[0].user_id;
+						var fakeAnalytics = generateFakeAnalytics(user_id);
+						var insertUserAnalyticsQueryStr = `INSERT INTO analytics (user_id, age, coloring, expression, faceShape) VALUES (${fakeAnalytics.user_id},${fakeAnalytics.age},'${fakeAnalytics.coloring}', ${fakeAnalytics.expression} , ${fakeAnalytics.faceShape});`;
+						return db.query(insertUserAnalyticsQueryStr);
+					}).then(() => {
+						if (profilesGenerated === NUM_PROFILES-1) {
+							done();	
+						}
+				  	});
 				}
 				
 				console.log('tables dropped and recreated; fake users generated');

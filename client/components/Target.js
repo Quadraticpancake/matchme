@@ -5,40 +5,19 @@ import { Col, Row, Image, ButtonGroup, Button, ButtonToolbar } from 'react-boots
 import BuyButton from '../components/BuyButton';
 
 const divStyle = {
-  // width: 400,
   height: 600,
   width: 'auto',
   paddingTop: 10,
-  // marginTop: 40,
   borderWidth: 1,
   borderColor: 'black',
-  // opacity: .5,
-  // backgroundColor: '#ccc',
-
-  // display: 'block',
-  // position:'relative',
-  // verticalAlign: 'bottom',
-
-  // backgroundImage: 'url(' + image_url + ')',
-  // backgroundSize: 'cover',
-
   fontSize: 30,
   fontWeight: 'bold',
   fontFamily: 'Helvetica, sans-serif',
-  // backgroundImage: 'http://i.onionstatic.com/onion/7954/original/1200.jpg',
-  // WebkitTextFillColor: 'white',  Will override color (regardless of order)
-  // WebkitTextStrokeWidth: 2,
-  // WebkitTextStrokeColor: 'black',
-
   borderRadius: 5,
   zIndex: 1
 };
 
 const paraTargetStyle = {
-  // backgroundColor: '#ccc',
-  // position: 'absolute'
-  // bottom: 0;
-  // width: '90%',
   fontSize: '3vmin',
   color:'black',
 };
@@ -63,7 +42,6 @@ const backgroundDivStyle = {
 };
 
 const wellStyle = {
-  // marginTop: 20
   border: 'black',
   backgroundColor: '#eee'
 };
@@ -136,7 +114,6 @@ class Target extends Component {
     if (target.gender_preference === 'female') {
       icon_seeking_path = femaleIcon;
     } else if (target.gender_preference === 'both') {
-      // http://icons.iconarchive.com/icons/aha-soft/free-large-love/512/Sex-icon.png
       icon_seeking_path = bothIcon;
     }
 
@@ -149,9 +126,6 @@ class Target extends Component {
 
     let age = calculateAge(target.birthday);
 
-    // <container className='col-md-6 col-sm-12 col-xs-12 img-rounded' style={wellStyle}>
-// && (user.userScore.score >= 1000
-  // className="img img-responsive img-rounded center-block"
     return (
 
       <Col xs={12} sm={12} md={6} >
@@ -180,7 +154,5 @@ Target.propTypes = {
   target: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
-
-
 
 export default Target;
