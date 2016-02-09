@@ -57,7 +57,7 @@ class Chats extends Component {
       this.fetchChatsAndTellSocket();
       socket.on('refreshChats', () => {
         this.fetchChatsAndTellSocket();
-      }.bind(this));
+      });
     }
   }
 
@@ -74,15 +74,15 @@ class Chats extends Component {
     Object.keys(chats).map((chatKey) => {
       //chatKey is the pair_id
       renderedChats.push(
-        <ChatCollapsed 
+        <ChatCollapsed
           key={chatKey}
-          chat={chats[chatKey]} 
-          addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
-          closeChat={actions.closeChat} 
-          pair_id={chatKey} 
-          user_id={user_id} 
+          chat={chats[chatKey]}
+          addMessageOnEnter={this.addMessageOnEnter.bind(this)}
+          closeChat={actions.closeChat}
+          pair_id={chatKey}
+          user_id={user_id}
           expandChat={actions.expandChat}
-          focus={focus} 
+          focus={focus}
           userHeart={chats[chatKey].userHeart}
         />);
     });
@@ -93,7 +93,7 @@ class Chats extends Component {
           {renderedChats}
         </div>
         <div className="col-md-8 col-sm-8 col-xs-8" style={chatStyle}>
-          <Chat 
+          <Chat
             key={focus}
             chat={focusedChat} 
             addMessageOnEnter={this.addMessageOnEnter.bind(this)} 

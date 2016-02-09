@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Message } from './Message';
-import heart from '../../static/img/icons/heart'; // Heart is an SVG graphic from: http://codepen.io/sol0mka/pen/c6721c06e93b4ee6cc95a21f6a4caedc
+import heart from './Heart'; // '../../static/img/icons/heart'; // Heart is an SVG graphic from: http://codepen.io/sol0mka/pen/c6721c06e93b4ee6cc95a21f6a4caedc
 import { extend, uniqueId } from 'underscore';
 
 const smallImageStyle = {
@@ -57,7 +57,7 @@ export class Chat extends Component {
               </g>
             </svg>
             <style>{
-            // hover uses the id generated with uniqueId, based on this example: https://jsfiddle.net/ors1vos9/ 
+            // hover uses the id generated with uniqueId, based on this example: https://jsfiddle.net/ors1vos9/
             "#" + heartId + ":hover {fill: #FE4365; opacity: 0.5} "
             }</style>
             Click on this heart if you're happy with this match! The other user won't know you gave them a heart unless they give you one too.
@@ -72,7 +72,7 @@ export class Chat extends Component {
           </div>
         </div>
       );
-      
+
     } else {
       return (<div />)
     }

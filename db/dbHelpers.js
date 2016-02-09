@@ -1,6 +1,5 @@
 import db from './config';
 var request = require('request');
-var zipcodes = require('zipcodes');
 var _ = require('underscore');
 
 var userCount = null;
@@ -326,7 +325,7 @@ export function getMatchesMade (matchmaker) {
               obj.user_two[key.substr(0, key.length - 1)] = rows[i][key];
             } else if (key.charAt(key.length - 1) === '1') {
               obj.user_one[key.substr(0, key.length - 1)] = rows[i][key];
-            } 
+            }
           }
           obj.pairHeart = rows[i].user_one_heart && rows[i].user_two_heart;
           output.push(obj);
@@ -348,7 +347,7 @@ export function getAlbum (user_id) {
 
   return db.query(getAlbumQueryStr)
   .then((rows) => {
-    return rows; 
+    return rows;
   })
   .catch((error) => {
     console.log(error);
