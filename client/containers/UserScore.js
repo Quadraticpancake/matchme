@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import * as UserActions from '../actions/user';
 import Matchee from '../components/Matchee';
 import { routeActions } from 'react-router-redux';
+//var hotkey = require('react-hotkey');
 //import {Chat} from '../components/Chat';
+
+//hotkey.activate();
 
 // @connect(
 //   state => state.items,
@@ -51,13 +54,28 @@ const smallImageStyle = {
   height: '10em'
 };
 
+const leftArrowStyle = {
+  width: '5em',
+  height: '5em',
+  marginTop: 120,
+  marginLeft: 40
+};
+
+const rightArrowStyle = {
+  width: '5em',
+  height: '5em',
+  marginTop: 120,
+  marginLeft: -40
+}
+
 
 class UserScore extends Component {
   // constructor(props) {
   //   super(props);
   // }
 
-  componentWillMount(){
+
+  componentWillMount() {
     const { user, routerActions } = this.props;
     //if user isn't authenticated reroute them to the home page
     if (!user.isAuthenticated) {
@@ -68,16 +86,33 @@ class UserScore extends Component {
 
   componentDidMount() {
     const { actions, user_id, user} = this.props;
+    console.log(actions);
     if (user.isAuthenticated) {
       actions.fetchUserScore(user_id);
     }
+    actions.listenToArrowPress
+    window.addEventListener('keyup', actions.changeIndex);
   }
 
+  componentWillUnmount() {
+    const { actions } = this.props;
+    window.removeEventListener('keyup', actions.changeIndex);
+  }
+
+/*
+  onKeyUP() {
+    const { actions, index } = this.props;
+    console.log("TESTING MOTHERFUCKER")
+    actions.changeIndex(index - 1);
+  }
+*/
+
   render() {
-    const { userScore } = this.props;
+    const { userScore, index, actions } = this.props;
 
     // for testing purposes
-
+    let rightArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/right_arrow.png'
+    let leftArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/.cache/left_arrow.png'
     let heartButton = <div className="col-md-2"><img src={'https://freeiconshop.com/files/edd/heart-compact-flat.png'} style={smallImageStyle} /></div>
     let renderedConnectionsMade = [];
     let score = 0;
@@ -90,11 +125,11 @@ class UserScore extends Component {
         }
         renderedConnectionsMade.push(<div className="container" style={{marginBottom: 100}}>
                                        <div className="row-fluid">
-                                         <div className="col-md-12">
-                                           <div className="col-md-4" style={{marginRight: -15}}>
+                                         <div>
+                                           <div className="col-md-4" style={{marginLeft: 15}}>
                                              <Matchee matchee={userScore.pairs[i].user_one} />
                                            </div> 
-                                           <div className="col-md-4" style={{marginLeft: -15}}>
+                                           <div className="col-md-4" style={{marginLeft: -30}}>
                                              <Matchee matchee={userScore.pairs[i].user_two} />
                                            </div> 
                                              {heartButton}                                          
@@ -105,7 +140,10 @@ class UserScore extends Component {
       }
     }
 
-    var index = 0
+  
+
+    let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
+    let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
 
     return (
       <section>
@@ -118,14 +156,16 @@ class UserScore extends Component {
               You have helped create { renderedConnectionsMade.length } connections
             </div>
           </div>
-          <div className='col-md-10'>
-            <button className='col-md-1' onClick={()=> { index = index > 0 ? index-- : index}}>
-              LEFT
-            </button>
-            {renderedConnectionsMade[index]}
-            <button className='col-md-1' onClick={()=> { index = index < renderedConnectionsMade.length - 1 ? index++ : index}}>
-              RIGHT
-            </button>
+          <div className='col-md-12'>
+            <div className='col-md-1'> 
+              {index > 0 && leftArrow}
+            </div>
+            <div className='col-md-8'>
+              {renderedConnectionsMade[index] || 'You have yet to help create a connection'}
+            </div>
+            <div className='col-md-1'> 
+              {(index < renderedConnectionsMade.length - 1) && rightArrow}
+            </div>
           </div>
         </div>}
       </section>
@@ -137,8 +177,8 @@ function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
     userScore: state.user.userScore,
-    user: state.user
-    //index: state.user.userScore.index
+    user: state.user,
+    index: state.user.userScore.index
   };
 }
 

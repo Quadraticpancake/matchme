@@ -1,13 +1,13 @@
-import { SET_USER_SCORE, SET_USER_INFO, UPDATE_USER_INFO} from '../actions/user';
+import { SET_USER_SCORE, SET_USER_INFO, UPDATE_USER_INFO, CHANGE_INDEX} from '../actions/user';
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST } from '../actions/authentication';
 import { GET_ALBUM, RECEIVE_ALBUM } from '../actions/pictureActions.js';
-import { SET_SCORE, UPDATE_SCORE } from '../actions/matchmaker';
+import { SET_SCORE, UPDATE_SCORE} from '../actions/matchmaker';
 
 
 // FB.getLoginStatus()
 const initialState = {
   user_id: null,
-  userScore: {score: null, pairs: []},
+  userScore: {score: null, pairs: [], index: 0},
   album: {}
 
 };
@@ -37,9 +37,8 @@ export default function user(state = initialState, action) {
         isAuthenticated: false
       });
     case SET_USER_SCORE:
-      return Object.assign({}, state, {
-        userScore: action.userScore
-      });
+      newState.userScore = Object.assign({}, newState.userScore, action.userScore);
+      return newState;
     case SET_USER_INFO:
       return {
         ...state,
@@ -72,6 +71,15 @@ export default function user(state = initialState, action) {
 
     case UPDATE_SCORE:
       newState.userScore.score += action.scoreChange;
+      return newState;
+
+    case CHANGE_INDEX: 
+      newState.userScore.index += action.indexChange;
+      if (newState.userScore.index === -1) {
+        newState.userScore.index += 1;
+      } else if (newState.userScore.index === newState.userScore.pairs.length) {
+        newState.userScore.index -= 1;
+      }
       return newState;
 
     default:
