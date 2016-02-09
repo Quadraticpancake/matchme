@@ -40,7 +40,6 @@ const paraTargetStyle = {
   // bottom: 0;
   // width: '90%',
   fontSize: '3vmin',
-  fontWeight: 'bold',
   color:'black',
 };
 
@@ -102,7 +101,7 @@ const userInfoStyle = {
 }
 
 const seekingStyle = {
-  fontSize: '3vmin'
+  fontSize: '2vmin'
 }
 
 const nameStyle = {
@@ -157,18 +156,18 @@ class Target extends Component {
 
       <Col xs={12} sm={12} md={6} >
         <Row className={css.target}>
-          <Image src={target.image_url} className={css.targetImage} rounded responsive/>
+          <Image src={target.image_url} responsive className={css.targetImage} />
           <div className={css.userInfo}>
-              <label style={nameStyle}>{target.first_name}, {age}</label>
-              <div style={seekingStyle}>
-                <Image src={icon_user_path} className={css.icon}/> seeking <Image src={icon_seeking_path} className={css.icon}/>
-              </div>
-              <p style={paraTargetStyle}>''{target.description}''</p>
+            <h1 style={nameStyle}>{target.first_name}, {age}</h1>
+            <div style={seekingStyle}>
+              <Image src={icon_user_path} className={css.icon}/> seeking <Image src={icon_seeking_path} className={css.icon}/>
+            </div>
+            <p style={paraTargetStyle}>''{target.description}''</p>
           </div>
         </Row>
         <Row className={css.buttons}>
-          <BuyButton dis={(user.userScore.score < 1000) || (!user.isAuthenticated) || (target.gender_preference !== user.userInfo.gender && target.gender_preference !== 'both')} actions={actions} person={target} user={user}/>
-          <SkipButton actions={actions} user_id={user.user_id}/>
+            <BuyButton dis={(user.userScore.score < 1000) || (!user.isAuthenticated) || (target.gender_preference !== user.userInfo.gender && target.gender_preference !== 'both')} actions={actions} person={target} user={user}/>
+            <SkipButton actions={actions} user_id={user.user_id}/>
         </Row>
       </Col>
 

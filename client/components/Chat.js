@@ -3,10 +3,16 @@ import { Message } from './Message';
 import heart from '../../static/img/icons/heart'; // Heart is an SVG graphic from: http://codepen.io/sol0mka/pen/c6721c06e93b4ee6cc95a21f6a4caedc
 import { extend, uniqueId } from 'underscore';
 
+const smallImageStyle = {
+  width: '4em',
+  height: '4em'
+};
+
 const heartSvg = heart();
 const heartNotFilledInStyle = {
-  width: '3em',
-  height: '3em',
+  width: '50px',
+  height: '50px',
+  minWidth: '5vh',
   fill: '#ccc'
 };
 const heartFilledInStyle = extend({}, heartNotFilledInStyle, {fill: '#FE4365', strokeWidth: '1px', stroke:'black'});
@@ -21,12 +27,13 @@ const inputStyle = {
 
 export class Chat extends Component {
   render() {
-    const {chat, addMessageOnEnter, pair_id, user_id, heartConnection, userHeart} = this.props;
+    const {chat, addMessageOnEnter, pair_id, user_id, heartConnection, userHeart, closeChat} = this.props;
     // messages vs. chats:
     // Chats refer to all messages between a particular pair (bob and amy)
     // messages are an individual message of text sent by one user
     let renderedMessages = [];
     const heartButton = 'https://freeiconshop.com/files/edd/heart-compact-flat.png';
+    const closeButton = 'https://image.freepik.com/free-icon/close-button-with-a-cross-in-a-circle_318-26587.jpg'
 
     const heartId = uniqueId('heart'); //used for hover effect
 
@@ -37,7 +44,10 @@ export class Chat extends Component {
       });
       return (
         <div className='col-md-10 col-sm-11 col-xs-11 well' style={chatStyle}>
+          <img src={closeButton} style={smallImageStyle} onClick={() => closeChat(pair_id)} /> Close Chat
           <div style={{'display': 'flex'}}>
+        {/* close chat button (X) */}
+
             {/* SVG Heart: heartSVG contains the definition of a SVG heart*/}
             { heartSvg }
             {/* SVG Heart: the below SVG element actually places the SVG heart on the page*/}
