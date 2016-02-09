@@ -11,7 +11,7 @@ $gray: #ddd;
 
 $thin: 300;
 $normal: 400;
-$bold: 600;
+$bold: 500;
 $br: 4px;
 
 *, *:before, *:after {
@@ -23,7 +23,7 @@ html {
 }
 
 body {
-  background: #F7E4BE;
+  background: rgb(255,251,240);
   font-family: 'Titillium Web', sans-serif;
 }
 
@@ -84,7 +84,7 @@ a {
 
 h1 {
   color:#601848;
-  font-weight:$thin;
+  font-weight:$bold;
 }
 
 label {
@@ -235,7 +235,7 @@ input[type="radio"]:checked:before {
   box-shadow: inset 0 0 0 0.2em white, inset 0 0 0 1em #AB526B;
 }
 input[type="checkbox"]:before {
-  content: '✗';
+  content: '✔';
   border-radius: 4px;
   background-color: white;
   color: white;

@@ -4,8 +4,13 @@ import trash from '../../static/img/icons/trash';
 
 
 const smallImageStyle = {
+<<<<<<< 05ce73fc3b848816454df0847cb7607d25615f7b
   width: '4em',
   height: '4em',
+=======
+  height: '100%',
+  width: 'auto'
+>>>>>>> home page styling significant progress
 };
 
 const trashStyle = {
@@ -30,10 +35,14 @@ const timeStyle = {
 const chatCollapsedStyle = {
   display: 'flex',
   flexDirection: 'row',
+<<<<<<< 05ce73fc3b848816454df0847cb7607d25615f7b
   justifyContent: 'space-between',
   flexWrap: 'nowrap',
+=======
+>>>>>>> home page styling significant progress
   padding: '0.5em',
-  marginBottom: '0.2em'
+  marginBottom: '0.2em',
+  height: '10vh'
 }
 
 const chatCollapsedStyleIfSelected = extend({}, chatCollapsedStyle, {backgroundColor: 'white', borderColor: '#838b8b'});
@@ -73,9 +82,7 @@ export class ChatCollapsed extends Component {
           "#" + id + ":hover {background-color: white} "
         }</style>
         <div style={chatCollapsedStyle}>
-          <div>
-            <img src={userNotMe.image_url} style={smallImageStyle} />
-          </div> 
+          <img src={userNotMe.image_url} style={smallImageStyle} />
           <div style={textStyle}>
             {userNotMe.first_name} {userNotMe.last_name} 
             <div>

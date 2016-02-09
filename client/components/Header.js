@@ -13,23 +13,28 @@ import css from './Header.scss';
 
 class Header extends Component {
 
+  componentDidUpdate() {
+    console.log('componentDidUpdate')
+  }
+
   render() {
     window.HeaderProps = this.props;
     const {user, actions} = this.props;
     return (
-      <Navbar staticTop className={css.header} bsStyle='inverse'>
+      <Navbar staticTop className={css.header} bsStyle='default'>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/home" activeStyle={{color: '#33e0ff'}}>
+            <Link to="/home">
               <div />
-              <span style={{color: '#F7E4BE', fontFamily: 'Coming Soon'}}>Home</span>
+              {/* Sunset yellow: #FFC107 */}
+              <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large'}}>Home</span>
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
 
         <Navbar.Collapse eventKey={0}>
-          <Nav navbar style={{color: '#F7E4BE'}}  activeStyle={{backgroundColor: 'black !important'}}>
+          <Nav navbar style={{color: '#601848'}}>
             {user.isAuthenticated &&
             <LinkContainer to="/chats">
               <NavItem eventKey={1}>Chats</NavItem>
