@@ -2,7 +2,9 @@ import {expect} from 'chai';
 import db from '../db/config';
 import createTables from  '../db/schemas';
 import generateUser from '../server/userGenerator/taglines';
+import generateUserAnalysis from '../server/faceAnalysis/faceAnalysis';
 import { getRandomUsers, addMatch, getMatchSet, getMatchesMade } from '../db/dbHelpers';
+
 
 describe('database helpers', () => {
 	describe('getRandomUsers', () => {
@@ -34,17 +36,28 @@ describe('database helpers', () => {
 							location_preference,description,image_url,score) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
 							'${fakeUser.birthdayStr}','${fakeUser.zipcode}','${fakeUser.status}',${fakeUser.age_min},${fakeUser.age_max},\
 							'${fakeUser.gender_preference}',${fakeUser.location_preference},'${fakeUser.description}','${fakeUser.image_url}',0);`;
-					
-				// run done() after the 500th user is generated to end the before block, otherwise run the query without resolving the promise
+
+					// this is fucked but let's just use it for now
+					var insertUserAnalyticsQueryStr = `INSERT INTO analytics (user_id, age, coloring, expression, faceShape) VALUES ('${i}',25,'white', 50.5 , 1);`;
+					// run done() after the last user is generated to end the before block, otherwise run the query without resolving the promise
+
 					if (i === 999) {
-						db.query(insertUserQueryStr)
-					  .then(() => {
-					  	done();
-					  });
+					db.query(insertUserQueryStr)
+					.then(() =>{
+						return db.query(insertUserAnalyticsQueryStr);
+					}).then(() => {
+				  		done();
+				  	});
+
 					} else {
-						db.query(insertUserQueryStr);
+						db.query(insertUserQueryStr)
+						.then(() =>{
+						return db.query(insertUserAnalyticsQueryStr);
+						});
 					}
 				}
+
+
 				
 				console.log('tables dropped and recreated; fake users generated');
 			})

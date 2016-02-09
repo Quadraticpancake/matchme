@@ -1,9 +1,8 @@
 var request = require('request');
-var url = 'http://i.imgur.com/76tI0oc.jpg';
-import { faceAnalytics } from '../db/dbHelpers';
-var user_id = 1;
 
-function analyzeFace() {
+export default function generateUserAnalytics() {
+	let url = 'http://i.imgur.com/CQ8vAZP.jpg';
+
 	var options = {
 	  url: 'https://faceplusplus-faceplusplus.p.mashape.com/detection/detect?url=' + url,
 	  headers: {
@@ -31,20 +30,15 @@ function analyzeFace() {
 		    };	
 	    }; 
 
-	    console.log('info from face analysis request', faceAnalytics);
-	    putAnalytics(user_id, faceAnalytics);
-
+	    console.log('finished getting picture analytics', faceAnalytics);
+	    return faceAnalytics;
 	  }
 	}
 
-	request(options, callback);
+
+	return request(options, callback);
 };
 
+// generateUser(1, 'http://i.imgur.com/CQ8vAZP.jpg')
 
-// analyzeFace();
 
-// analytics
-// 
-// attribute.race.value
-// attribute.smiling.value
-// position.height / position.width
