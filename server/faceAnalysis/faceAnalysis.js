@@ -47,6 +47,6 @@ export default function generateUserAnalytics(id, url) {
 	return request(options, callback);
 };
 
-// generateUserAnalytics(1, "https://scontent.fsnc1-1.fna.fbcdn.net/hphotos-xfa1/v/t1.0-9/12376423_10205626501086765_5111400853167845939_n.jpg?oh=b653caef995bb365c0bba94a54612d85&oe=576ADD93");
+
 
 
