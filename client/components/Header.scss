@@ -1,15 +1,19 @@
 @import url(https://fonts.googleapis.com/css?family=Coming+Soon);
+@import url(https://fonts.googleapis.com/css?family=Lobster);
+
+/*background-color: rgb(254,67,101);*/
 
 .header {
   z-index: 1;
   width: 100%;
   margin: 0 0 10px 0;
-  background-color: #AB526B;
+  background-color: #601848;
 }
 
 .header a {
-	font-family: 'Coming Soon', cursive !important;
-	color: #F7E4BE !important;	
+	font-family: 'Lobster', cursive !important;
+	color: rgb(254,67,80) !important;	
+	font-size: large;
 }
 
 .header .active a {
@@ -18,11 +22,11 @@
 
 .header span {
 	font-family: 'Helvetica Neue';
-	color: #F7E4BE;		
+	color: white;
 }
 
 .header strong {
-	color: #F7E4BE;		
+	color: white;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {

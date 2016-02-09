@@ -56,7 +56,7 @@ const iconProspectStyle = {
 
 const prospectInfoStyle = {
   width: 'auto',
-  marginTop: 5,
+  marginTop: '1vw',
   marginLeft: '1vw',
   marginRight: '1vw'
 };

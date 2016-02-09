@@ -12,7 +12,7 @@ const heartSvg = heart();
 const heartNotFilledInStyle = {
   width: '50px',
   height: '50px',
-  minWidth: '10vh',
+  minWidth: '5vh',
   fill: '#ccc'
 };
 const heartFilledInStyle = extend({}, heartNotFilledInStyle, {fill: '#FE4365', strokeWidth: '1px', stroke:'black'});

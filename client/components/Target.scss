@@ -1,22 +1,24 @@
 .target {
+  padding-top: 5px;
   margin-left: auto;
+  margin-right: auto;
   background-color: white;
-  margin-bottom: 0.5em;
+  margin-bottom: 1.2em;
   border-radius: 0.5%;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 10px 30px 5px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   width: 40vw;
   height: 80vh;
 
   @media (max-width: 995px) {
     width: auto;
-    height: auto;
-    display: flex;
+    height: 40vh;
   }
 }
 
 .buttons {
-  margin-top: 2vmin;
-  margin-left: 10em;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vmin;
 }
 
 .targetImage {
@@ -26,8 +28,9 @@
   max-width: auto;
   margin-left: auto;
   margin-right: auto;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   @media (max-width: 995px) {
-    height: auto;
+    height: 25vh;
     width: auto;
   }
 }
@@ -51,6 +54,8 @@
 }
 
 .userInfo {
+  padding-right: 0.5em;
+  margin-top: 1.5vw;
   margin-left: 1.5vw;
   margin-right: 1.5vw;
   margin-right: auto;

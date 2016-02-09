@@ -37,9 +37,6 @@ class Home extends Component {
       <div >
           <div className="row-fluid">
             <Target target={matchmaker.target} actions={actions} user={user}/>
-          <div className={css.dividingBar}>
-            Should be matched with: 
-          </div>
               <Col xs={12} sm={12} md={5} className={css.prospect} >
               <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} user={user} />
               <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} user={user} />
