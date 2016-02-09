@@ -58,14 +58,14 @@ const leftArrowStyle = {
   width: '5em',
   height: '5em',
   marginTop: 120,
-  marginLeft: 40
+  marginLeft: 0
 };
 
 const rightArrowStyle = {
   width: '5em',
   height: '5em',
   marginTop: 120,
-  marginLeft: -40
+  marginLeft: 380
 }
 
 
@@ -144,24 +144,31 @@ class UserScore extends Component {
 
     let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
     let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
+    let connectionCount = renderedConnectionsMade.length > 0 ?
+      <div className='text-center' style={{marginLeft: 0}}>
+              You have helped create { renderedConnectionsMade.length } connections
+            </div> :
+            <div className='text-center' style={{marginLeft: 0}}>
+              You have yet to help create any connections
+            </div>
 
     return (
       <section>
         {<div>
           <div className='col-md-8 col-sm-8 col-xs-8' style={divStyle}>
-            <div className='text-center'>
+            <div className='text-center' style={{marginLeft: 200}}>
               Your score is { score } 
             </div>
-            <div className='text-center'>
-              You have helped create { renderedConnectionsMade.length } connections
+            <div className='text-center' style={{marginLeft: 200}}>
+              {connectionCount}
             </div>
           </div>
-          <div className='col-md-12'>
+          <div className='col-md-8'>
             <div className='col-md-1'> 
               {index > 0 && leftArrow}
             </div>
-            <div className='col-md-8'>
-              {renderedConnectionsMade[index] || 'You have yet to help create a connection'}
+            <div className='col-md-6'>
+              {renderedConnectionsMade[index]}
             </div>
             <div className='col-md-1'> 
               {(index < renderedConnectionsMade.length - 1) && rightArrow}
