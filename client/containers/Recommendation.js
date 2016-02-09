@@ -4,17 +4,8 @@ import { connect } from 'react-redux';
 import * as ProfilePictureActions from '../actions/pictureActions';
 
 class Recommendation extends Component {
-  // handleClick(item){
-  //   const {actions, user} = this.props;
-  //   actions.updatePic(item,user.user_id);
-  // }
 
   render() {
-    // const style = {
-    //   width: 200,
-    //   height: 'auto',
-    //   clear: 'all'
-    // }
 
     const {
       actions,
@@ -23,7 +14,8 @@ class Recommendation extends Component {
 
     return (
       <div>
-        <h1>Here is our incredibly superficial recommnedation!</h1>
+        <h1>Here is our incredibly superficial recommendation!</h1>
+        <img src='http://i.imgur.com/nTpf2tW.gif'/>
       </div>
     )
   }
