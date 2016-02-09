@@ -113,7 +113,7 @@ export function addMatch (match) {
           ${ match.matchmaker.user_id }), allscore as (update users set score = score + 100 where user_id in \
           (${ matchmakersStr })) update pairs set connected = true where pair_id = \
           ${ rows[0].pair } returning *;`
-        console.log(onConnectionQuery);
+        
         return db.query(onConnectionQuery);
       } else {
         return false; // No connection occured
@@ -125,8 +125,8 @@ export function addMatch (match) {
 export function getMatchSet (user_id) {
   var func = function (user_id) {
         var randomUserId = Math.floor(Math.random() * userCount) + 1;
-        console.log(userCount);
-        console.log(user_id, "user_id 1");
+        // console.log(userCount);
+        // console.log(user_id, "user_id 1");
         /*
         while (randomUserId === user_id) {
           randomUserId = Math.floor((Math.random() * userCount) + 1;
@@ -146,13 +146,13 @@ export function getMatchSet (user_id) {
           gender_preference from target) or (select gender_preference from target) = 'both')  \
           and (gender_preference = (select gender from target) or gender_preference = 'both') union all  \
           (select * from target) union all (select * from users where user_id = ${ user_id });`
-        console.log(q);
+        // console.log(q);
         return db.query(q)
           .then((rows) => {
             var matchmaker = rows.pop();
             var target;
             var score;
-            console.log(matchmaker.user_id, "!==", user_id);
+            // console.log(matchmaker.user_id, "!==", user_id);
             if (matchmaker.user_id !== user_id) {
               target = matchmaker;
               score = -1 // or null
@@ -161,10 +161,10 @@ export function getMatchSet (user_id) {
               score = matchmaker.score;
             }
             var prospects = _.shuffle(rows).slice(0,2);
-            console.log("score =", score, "target =", target.first_name);
-            console.log(prospects[0].first_name, prospects[1].first_name);
+            // console.log("score =", score, "target =", target.first_name);
+            // console.log(prospects[0].first_name, prospects[1].first_name);
             prospects.push(target);
-            console.log(prospects);
+            // console.log(prospects);
             return {score: score, candidates: prospects};
           });
   }
@@ -246,7 +246,6 @@ export function getAlbum (user_id) {
 }
 
 export function postAlbum (user_id, image_url) {
-  console.log('GOT TO POST ALBUM IN DB HELPERS, INFO', user_id, image_url);
   var postAlbumQueryStr = `INSERT INTO pictures (user_id, image_url) VALUES ('${user_id}','${image_url}') returning *;`;
   return db.query(postAlbumQueryStr)
     .then((rows) => {
@@ -384,7 +383,7 @@ export function buyCandidate (purchaseInfo) {
     = ${ user_one } and user_two = ${ user_two })), p as (update pairs set connected = true  \
     where pairs.user_one = ${ user_one } and pairs.user_two = ${ user_two }) update users set score = score + ${ purchaseInfo.scoreChange } where user_id = \
     ${ purchaseInfo.user } returning score;`
-  console.log(buyCandidateQueryStr);
+  
   return db.query(buyCandidateQueryStr)
     .then((row) => {
       if (row.length > 0) {
