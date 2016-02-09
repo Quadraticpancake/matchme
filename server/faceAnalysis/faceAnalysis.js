@@ -1,7 +1,7 @@
 'use strict';
 
-
 var request = require('request');
+import db from '../../db/config.js';
 
 export default function generateUserAnalytics(id, url) {
 
@@ -17,8 +17,8 @@ export default function generateUserAnalytics(id, url) {
 
 	function callback(error, response, body) {
 	  if (!error && response.statusCode == 200) {
-	  	console.log(body);
-	  	console.log(error);
+	  	// console.log(body);
+	  	// console.log(error);
 	    var info = JSON.parse(body);
 	    var faceAnalytics = {
 	    	user_id: null,
@@ -38,8 +38,8 @@ export default function generateUserAnalytics(id, url) {
 		    };	
 	    }; 
 
-	    console.log('finished getting picture analytics', faceAnalytics);
-	    return faceAnalytics;
+	    var insertAnalyticsQueryStr = `INSERT INTO analytics (user_id, age, coloring, expression, faceShape) VALUES ('${faceAnalytics.user_id}','${faceAnalytics.age}','${faceAnalytics.coloring}','${faceAnalytics.expression}','${faceAnalytics.faceShape}') returning *;`;
+	  	return db.query(insertAnalyticsQueryStr);
 	  }
 	}
 

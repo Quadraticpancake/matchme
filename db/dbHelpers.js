@@ -1,6 +1,7 @@
 import db from './config';
 var request = require('request');
 var _ = require('underscore');
+import generateUserAnalytics from '../server/faceAnalysis/faceAnalysis';
 
 var userCount = null;
 
@@ -30,6 +31,10 @@ export function postUser (user) {
     return db.query(insertPictureQueryStr);
   })
   .then((rows) => {
+    return generateUserAnalytics(rows[0].user_id, rows[0].image_url);
+  })
+  .then((rows) => {
+    console.log('RETURNING USER INFO in DB HELPERS')
     return userInfo;
   })
   .catch((error) => {
@@ -49,7 +54,7 @@ export const putUser = (userID, userInfo) => {
 
   return db.query(queryStr)
     .then((rows) => {
-      return rows[0];
+      return rows;
     })
     .catch((error) => {
       console.log(error);
@@ -268,24 +273,6 @@ export function putPicture (user_id, image_url) {
   });
 }
 
-export function getBestMatch (user_id) {
- // query to get the best match based on matching algorithm
-}
-
-// add reuslts of image analytics to databas
-export function putAnalytics (user_id, analytics) {
-  console.log('inserting face analytics into anaytics table')
-  var insertAnalyticsQueryStr = `INSERT INTO analytics (user_id, age, coloring, expression, faceShape) VALUES ('${user_id}','${analytics.age}','${analytics.coloring}','${analytics.expression}','${analytics.faceShape}') returning *;`;
-
-  return db.query(insertAnalyticsQueryStr)
-  .then((rows) => {
-    return rows;
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-}
-
 // get the user_ids of the people the user likes
 export function getHearted (user_id) {
   var getLikesQuery = `select * from pairs where user_one = ${ user_id } and user_one_heart =true or user_two = ${ user_id } and user_two_heart =true`;
@@ -310,7 +297,7 @@ export function getIdeal (user_id, liked) {
     queryIds += ' OR user_id= ' + item;
   });
 
-  var getLikedSetQuery = `select * from pairs where ` + queryIds + `;`;
+  var getLikedSetQuery = `select * from analytics where ` + queryIds + `;`;
   return db.query(getLikedSetQuery) 
   .then((rows) => {
 
@@ -334,7 +321,6 @@ export function getIdeal (user_id, liked) {
     };
 
     return ideal;
-
   });
 }
 
@@ -342,23 +328,37 @@ export function getIdeal (user_id, liked) {
 export function getRecommendation (user_id, ideal, liked) {
   // ideal is an object with characteristics, likes is an array of user_ids
 
-  // make a lookup string for race
-  // make a lookup string to exclude liked ids
-
   let idealAgeMin = ideal.age - 5;
   let idealAgeMax = ideal. age + 5;
-  let idealExpressionMin = ideal.expression - 10;
-  let idealExpressionMax = ideal.expression + 10;
-  let idealFaceMin = ideal.faceShape - .3;
-  let idealFaceMax = ideal.faceShape + .3;
+  let idealExpressionMin = ideal.expression - 15;
+  let idealExpressionMax = ideal.expression + 15;
+  let idealFaceMin = ideal.faceShape - .4;
+  let idealFaceMax = ideal.faceShape + .4;
 
-  let queryColors = ' AND coloring = ' + ideal.coloring[0];
-  ideal.coloring.slice(1).forEach(function(item) {
-    queryColors += ' OR coloring = ' + item;
-  }); 
+  function mode(array) {
+      if(array.length === 0)
+        return null;
+      var modeMap = {};
+      var maxEl = array[0], maxCount = 1;
+      for(var i = 0; i < array.length; i++) {
+        var el = array[i];
+        if(modeMap[el] == null)
+          modeMap[el] = 1;
+        else
+          modeMap[el]++;  
+        if(modeMap[el] > maxCount)
+        {
+          maxEl = el;
+          maxCount = modeMap[el];
+        }
+      }
+      return maxEl;
+  };
 
-  let queryAlreadyConnected = ' AND user_id <> ' + liked[0];
-  liked.slice(1).forEach(function(item) {
+  let idealColoring = mode(ideal.coloring);
+
+  let queryAlreadyConnected = '';
+  liked.orEach(function(item) {
     queryAlreadyConnected += ' AND user_id <> ' + item;
   }); 
 
@@ -366,12 +366,20 @@ export function getRecommendation (user_id, ideal, liked) {
     ` age < ${ idealAgeMax } and age > ${ idealAgeMin }` +
     ` and expression < ${ idealExpressionMax } and expression > ${ idealExpressionMin }` +
     ` and faceShape < ${ idealFaceMax } and faceShape > ${ idealFaceMin }` +
-    ` and user_id <> ${ user_id }` +
-    queryColors + queryAlreadyConnected + ';';
+    ` and coloring = ${ idealColoring }` +
+    ` and user_id <> ${ user_id }`
+    + queryAlreadyConnected + ';';
 
   return db.query(getRecQuery)
   .then((rows) => {
-    return _.shuffle(rows).pop();
+    // rows is an array of potential user_ids
+    let userQueryString = '';
+    rows.forEach(function(item) {
+      userQueryString += ' and user_id=' + item;
+    });
+
+    let preferencesQuery = `select * from users where gender=${gender} and gender_preference=${gender_preference}` + userQueryString;
+    return db.query(preferencesQuery);
   });
 }
 
@@ -391,7 +399,7 @@ export function buyCandidate (purchaseInfo) {
       } else {
         return null;
       }
-    })
+    });
 }
 
 

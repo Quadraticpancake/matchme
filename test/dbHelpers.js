@@ -29,7 +29,7 @@ describe('database helpers', () => {
 			})
 			.then(() => {
 
-				const NUM_PROFILES = 20;
+				const NUM_PROFILES = 100;
 				let profilesGenerated = 0;
 				for (var i = 0; i < NUM_PROFILES; i++) {
 
@@ -49,7 +49,7 @@ describe('database helpers', () => {
 						var insertUserAnalyticsQueryStr = `INSERT INTO analytics (user_id, age, coloring, expression, faceShape) VALUES (${fakeAnalytics.user_id},${fakeAnalytics.age},'${fakeAnalytics.coloring}', ${fakeAnalytics.expression} , ${fakeAnalytics.faceShape});`;
 						return db.query(insertUserAnalyticsQueryStr);
 					}).then(() => {
-						if (profilesGenerated === 19) {
+						if (profilesGenerated === NUM_PROFILES-1) {
 							done();	
 						}
 				  	});
