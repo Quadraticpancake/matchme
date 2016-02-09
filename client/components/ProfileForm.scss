@@ -1,0 +1,265 @@
+$body-bg: #c1bdba;
+$form-bg: #13232f;
+$white: #ffffff;
+
+$main: #AB526B;
+$main-light: lighten($main,5%);
+$main-dark: darken($main,5%);
+
+$gray-light: #a0b3b0;
+$gray: #ddd;
+
+$thin: 300;
+$normal: 400;
+$bold: 500;
+$br: 4px;
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+html {
+	overflow-y: scroll; 
+}
+
+body {
+  background: rgb(255,251,240);
+  font-family: 'Titillium Web', sans-serif;
+}
+
+a {
+  text-decoration:none;
+  color:$main;
+  transition:.5s ease;
+  &:hover {
+    color:$main-dark;
+  }
+}
+
+.form {
+  background:white;
+  padding: 40px;
+  max-width:600px;
+  margin:40px auto;
+  border-radius:$br;
+  box-shadow:0 4px 10px 4px rgba($form-bg,.3);
+}
+
+.tab-group {
+  list-style:none;
+  padding:0;
+  margin:0 0 40px 0;
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  li a {
+    display:block;
+    text-decoration:none;
+    padding:15px;
+    background:rgba($gray-light,.25);
+    color:$gray-light;
+    font-size:20px;
+    float:left;
+    width:50%;
+    text-align:center;
+    cursor:pointer;
+    transition:.5s ease;
+    &:hover {
+      background:$main-dark;
+      color:$white;
+    }
+  }
+  .active a {
+    background:$main;
+    color:$white;
+  }
+}
+
+.tab-content > div:last-child {
+  display:none;
+}
+
+
+h1 {
+  color:#601848;
+  font-weight:$bold;
+}
+
+label {
+  /*position:absolute;*/
+  transform:translateY(6px);
+  left:13px;
+  color:#601848;
+  transition:all 0.25s ease;
+  -webkit-backface-visibility: hidden;
+  /*pointer-events: none;*/
+  font-size:22px;
+  font-weight: lighter;
+}
+
+label.active {
+  transform:translateY(50px);
+  left:2px;
+  font-size:14px;
+}
+
+label.highlight {
+	color:$white;
+}
+
+input, textarea {
+  font-size:22px;
+  display:block;
+  width:100%;
+  height:100%;
+  padding:5px 10px;
+  background:none;
+  background-image:none;
+  border:1px solid $gray-light;
+  color:#BCA297;
+  border-radius:0;
+  margin-bottom:0.5em;
+  transition:border-color .25s ease, box-shadow .25s ease;
+  &:focus {
+		outline:0;
+		border-color:$main;
+  }
+}
+
+textarea {
+  border:2px solid $gray-light;
+  resize: vertical;
+}
+
+.field-wrap {
+  position:relative;
+  margin-bottom:40px;
+}
+
+.top-row {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  > div {
+    float:left;
+    width:48%;
+    margin-right:4%;
+    &:last-child { 
+      margin:0;
+    }
+  }
+}
+
+.button {
+  border:0;
+  outline:none;
+  border-radius:0;
+  padding:15px 0;
+  font-size:2rem;
+  font-weight:$bold;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  background:$main;
+  color:$white;
+  transition:all.5s ease;
+  -webkit-appearance: none;
+  &:hover, &:focus {
+    background:$main-dark;
+  }
+}
+
+.button-block {
+  display:block;
+  width:100%;
+}
+
+.forgot {
+  margin-top:-20px;
+  text-align:right;
+}
+
+
+input[type="radio"],
+input[type="checkbox"] {
+  display: none;
+}
+input[type="radio"],
+input[type="checkbox"] {
+  top: -1em;
+  position: relative;
+  display: inline-block;
+  padding-left: 1.5em;
+  cursor: pointer;
+  line-height: 1em;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+span {
+  top: -1em;
+}
+input[type="radio"]:before,
+input[type="checkbox"]:before,
+input[type="radio"]:after,
+input[type="checkbox"]:after {
+  content: '';
+  position: absolute;
+  top: 0em;
+  left: 0;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  color: white;
+  font-family: Times;
+  border-radius: 50%;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+}
+input[type="radio"]:before {
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  box-shadow: inset 0 0 0 0.2em white, inset 0 0 0 1em white;
+}
+input[type="radio"]:hover:before {
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  box-shadow: inset 0 0 0 0.3em white, inset 0 0 0 1em #c6c6c6;
+}
+input[type="radio"]:checked:before {
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  box-shadow: inset 0 0 0 0.2em white, inset 0 0 0 1em #AB526B;
+}
+input[type="checkbox"]:before {
+  content: '✔';
+  border-radius: 4px;
+  background-color: white;
+  color: white;
+}
+input[type="checkbox"]:hover:before {
+  color: #f0f0f0;
+}
+input[type="checkbox"]:checked:before {
+  background-color: white;
+  color: black;
+}
+input[type="radio"] + span,
+input[type="checkbox"] + span {
+  top: -1.5em;
+  position: relative;
+  display: inline-block;
+  padding-left: 1.5em;
+  margin-right: 2em;
+  cursor: pointer;
+  line-height: 1em;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.clickThrough {
+  pointer-events: none;
+}

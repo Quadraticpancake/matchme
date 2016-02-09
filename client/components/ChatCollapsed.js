@@ -4,8 +4,8 @@ import trash from '../../static/img/icons/trash';
 
 
 const smallImageStyle = {
-  width: '4em',
-  height: '4em',
+  height: '100%',
+  width: 'auto'
 };
 
 const trashStyle = {
@@ -30,10 +30,9 @@ const timeStyle = {
 const chatCollapsedStyle = {
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
-  flexWrap: 'nowrap',
   padding: '0.5em',
-  marginBottom: '10px'
+  marginBottom: '0.2em',
+  height: '10vh'
 }
 
 const chatCollapsedStyleIfSelected = extend({}, chatCollapsedStyle, {backgroundColor: 'white', borderColor: '#838b8b'});
@@ -73,9 +72,7 @@ export class ChatCollapsed extends Component {
           "#" + id + ":hover {background-color: white} "
         }</style>
         <div style={chatCollapsedStyle}>
-          <div>
-            <img src={userNotMe.image_url} style={smallImageStyle} />
-          </div> 
+          <img src={userNotMe.image_url} style={smallImageStyle} />
           <div style={textStyle}>
             {userNotMe.first_name} {userNotMe.last_name} 
             <div>

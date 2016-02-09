@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as ScoreboardActions from '../actions/scoreboard';
-import { socket } from './App'
+import { socket } from './App';
+import heart from '../../static/img/icons/heart';
 
 const scoreboardStyle = {
   position: 'absolute',
@@ -11,11 +12,30 @@ const scoreboardStyle = {
   top: 0,
   marginTop: 50,
   bottom: 0,
-  backgroundColor: '#eee',
-  height: '100%'
+  height: '100%',
   // borderRight: '1px solid #333',
   // padding: 16
+  backgroundImage:
+    '-webkit-linear-gradient(#C6E4EE 0%, #C6E4EE 40%, #FED1AE 60%, #FAA0B9 80%, rgb(254,67,101) 90%, #757ECB 95%)',
+  backgroundImage:
+    '-moz-linear-gradient(#C6E4EE 0%, #C6E4EE 40%, #FED1AE 60%, #FAA0B9 80%, rgb(254,67,101) 90%, #757ECB 95%)',
+  backgroundImage:
+    '-o-linear-gradient(#C6E4EE 0%, #C6E4EE 40%, #FED1AE 60%, #FAA0B9 80%, rgb(254,67,101) 90%, #757ECB 95%)',
+  backgroundImage:
+    'linear-gradient(#C6E4EE 0%, #C6E4EE 40%, #FED1AE 60%, #FAA0B9 80%, rgb(254,67,101) 90%, #757ECB 95%)',
 }
+
+const heartSvg = heart();
+const heartFilledInStyle = {
+  marginLeft: 'auto',
+  paddingTop: '2px',
+  width: '2em',
+  height: '2em',
+  minWidth: '5vh',
+  fill: '#FE4365', 
+  strokeWidth: '1px', 
+  stroke:'black'
+};
 
 class Scoreboard extends Component {
 	componentDidMount() {
@@ -45,15 +65,17 @@ class Scoreboard extends Component {
 }
 
 const entryStyle = {
+  backgroundColor: 'rgba(255, 255, 255, 0.7)',
   marginTop: 10,
   marginBottom: -5
 }
 
 const thumbnailStyle = {
+  marginLeft: '1vw',
   height: 60,
   width: 60,
-  borderRadius: 5,
-  marginRight: 10
+  marginRight: 10,
+  boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'
 }
 
 const heartIconStyle = {
@@ -70,8 +92,17 @@ const ScoreboardEntry = (props) => {
       <img src={props.pair.target.image_url} style={thumbnailStyle}/>
       <img src={props.pair.prospect.image_url} style={thumbnailStyle}/>
       <br></br>
-      <img style={heartIconStyle} src={heartIcon}/>
-      {props ? props.pair.target.first_name : ''} was just matched with {props ? props.pair.prospect.first_name : ''}
+      {/* SVG Heart: heartSVG contains the definition of a SVG heart*/}
+      <div style={{display: 'flex', marginTop: '10px'}}>
+        { heartSvg }
+        {/* SVG Heart: the below SVG element actually places the SVG heart on the page*/}
+        <svg viewBox="0 0 32 32" style={heartFilledInStyle} >
+           <g filter="url(#inset-shadow)">
+            <use xlinkHref="#heart-icon"></use>
+          </g>
+        </svg>
+        <span>{props ? props.pair.target.first_name : ''} was just matched with {props ? props.pair.prospect.first_name : ''}</span>
+      </div>
     </div>
   )
 }
