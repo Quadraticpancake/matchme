@@ -17,19 +17,19 @@ class Header extends Component {
     window.HeaderProps = this.props;
     const {user, actions} = this.props;
     return (
-      <Navbar staticTop className={css.header}>
+      <Navbar staticTop className={css.header} bsStyle='inverse'>
         <Navbar.Header>
           <Navbar.Brand>
             <Link to="/home" activeStyle={{color: '#33e0ff'}}>
               <div />
-              <span>Home</span>
+              <span style={{color: '#F7E4BE', fontFamily: 'Coming Soon'}}>Home</span>
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
 
         <Navbar.Collapse eventKey={0}>
-          <Nav navbar>
+          <Nav navbar style={{color: '#F7E4BE'}}  activeStyle={{backgroundColor: 'black !important'}}>
             {user.isAuthenticated &&
             <LinkContainer to="/chats">
               <NavItem eventKey={1}>Chats</NavItem>

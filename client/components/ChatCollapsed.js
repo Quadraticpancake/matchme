@@ -33,7 +33,7 @@ const chatCollapsedStyle = {
   justifyContent: 'space-between',
   flexWrap: 'nowrap',
   padding: '0.5em',
-  marginBottom: '10px'
+  marginBottom: '0.2em'
 }
 
 const chatCollapsedStyleIfSelected = extend({}, chatCollapsedStyle, {backgroundColor: 'white', borderColor: '#838b8b'});

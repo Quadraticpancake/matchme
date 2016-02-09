@@ -5,8 +5,9 @@ import { extend, uniqueId } from 'underscore';
 
 const heartSvg = heart();
 const heartNotFilledInStyle = {
-  width: '3em',
-  height: '3em',
+  width: '50px',
+  height: '50px',
+  minWidth: '10vh',
   fill: '#ccc'
 };
 const heartFilledInStyle = extend({}, heartNotFilledInStyle, {fill: '#FE4365', strokeWidth: '1px', stroke:'black'});
