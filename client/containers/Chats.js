@@ -100,6 +100,7 @@ class Chats extends Component {
             pair_id={focus} 
             user_id={user_id} 
             heartConnection={actions.heartConnection} 
+            closeChat={actions.closeChat}
           />
         </div>
       </div>
