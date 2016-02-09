@@ -139,3 +139,19 @@ function receiveTriad(json) {
   };
 }
 
+
+// The code below is a workaround do to something odd with redux
+export const CHANGE_INDEX = 'CHANGE_INDEX';
+
+export const changeIndex = (newIndex) => {
+  return dispatch => {
+    dispatch(changeIndexAction(newIndex));
+  }
+}
+
+export const changeIndexAction = (newIndex) => {
+  return {
+    type: CHANGE_INDEX,
+    index: newIndex
+  }
+}
