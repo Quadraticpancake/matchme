@@ -14,6 +14,8 @@ var server = require('http').Server(app);
 
 var io = require('socket.io')(server);
 
+var createTables = require('../db/schemas.js').default;
+createTables();
 module.exports = {app: app, io: io};
 require('./sockets');
 
