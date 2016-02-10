@@ -273,9 +273,11 @@ export function putPicture (user_id, image_url) {
   });
 }
 
-// get the user_ids of the people the user likes
-export function getHearted (user_id) {
-  var getLikesQuery = `select * from pairs where user_one = ${ user_id } and user_one_heart =true or user_two = ${ user_id } and user_two_heart =true`;
+// get recommendation
+export function postRecommendation(user_id, user_gender, user_preference) {
+// get the user ids of the matches the user has hearted
+
+  let getLikesQuery = `select * from pairs where user_one = ${ user_id } and user_one_heart =true or user_two = ${ user_id } and user_two_heart =true`;
   return db.query(getLikesQuery)
   .then((rows) => {
     let result = [];
@@ -283,105 +285,109 @@ export function getHearted (user_id) {
       result.push(rows[i].user_one);
       result.push(rows[i].user_two);
     }
-    return result; // returns an array containing many instances of the target user_id
-  });
+    return _.without(result, parseInt(user_id)); // returns an array containing many instances of the target user_id
+  })
 
-}
-
-// derive the user's ideal based on the liked ids
-export function getIdeal (user_id, liked) {
-  let options = _.without(liked, user_id);
-  let queryIds = ' user_id = ' + options[0];
-
-  options.slice(1).forEach(function(item) {
-    queryIds += ' OR user_id= ' + item;
-  });
-
-  var getLikedSetQuery = `select * from analytics where ` + queryIds + `;`;
-  return db.query(getLikedSetQuery) 
-  .then((rows) => {
-
-    let totalAge = 0;
-    let totalColoring = [];
-    let totalExpression = 0;
-    let totalFaceShape = 0;
-
-    rows.forEach(function(item) {
-      totalAge += item.age;
-      totalExpression += item.expression;
-      totalFaceShape += item.faceShape;
-      totalColoring.push(item.coloring);
+  .then((liked) => {
+    // get the analytics info of the hearted users, compile into the ideal
+    let queryIds = ' user_id = ' + liked[0];
+    liked.slice(1).forEach(function(item) {
+      queryIds += ' OR user_id= ' + item;
     });
 
-    let ideal = {
-      age: totalAge / rows.length,
-      coloring: totalColoring,
-      expression: totalExpression / rows.length,
-      faceShape: totalFaceShape / rows.length
-    };
+    let getLikedSetQuery = `select * from analytics where ` + queryIds + `;`;
+    return db.query(getLikedSetQuery) 
+    .then((rows) => {
 
-    return ideal;
-  });
-}
+      let totalAge = 0;
+      let totalColoring = [];
+      let totalExpression = 0;
+      let totalFaceShape = 0;
 
-// query the database for the best match based on the ideal user
-export function getRecommendation (user_id, ideal, liked) {
-  // ideal is an object with characteristics, likes is an array of user_ids
+      rows.forEach(function(item) {
+        totalAge += item.age;
+        totalExpression += parseInt(item.expression);
+        totalFaceShape += parseInt(item.faceshape);
+        totalColoring.push(item.coloring);
+      });
 
-  let idealAgeMin = ideal.age - 5;
-  let idealAgeMax = ideal. age + 5;
-  let idealExpressionMin = ideal.expression - 15;
-  let idealExpressionMax = ideal.expression + 15;
-  let idealFaceMin = ideal.faceShape - .4;
-  let idealFaceMax = ideal.faceShape + .4;
+      function mode(array) {
+          if(array.length === 0)
+            return null;
+          var modeMap = {};
+          var maxEl = array[0], maxCount = 1;
+          for(var i = 0; i < array.length; i++) {
+            var el = array[i];
+            if(modeMap[el] == null)
+              modeMap[el] = 1;
+            else
+              modeMap[el]++;  
+            if(modeMap[el] > maxCount)
+            {
+              maxEl = el;
+              maxCount = modeMap[el];
+            }
+          }
+          return maxEl;
+      };
 
-  function mode(array) {
-      if(array.length === 0)
-        return null;
-      var modeMap = {};
-      var maxEl = array[0], maxCount = 1;
-      for(var i = 0; i < array.length; i++) {
-        var el = array[i];
-        if(modeMap[el] == null)
-          modeMap[el] = 1;
-        else
-          modeMap[el]++;  
-        if(modeMap[el] > maxCount)
-        {
-          maxEl = el;
-          maxCount = modeMap[el];
-        }
-      }
-      return maxEl;
-  };
-
-  let idealColoring = mode(ideal.coloring);
-
-  let queryAlreadyConnected = '';
-  liked.orEach(function(item) {
-    queryAlreadyConnected += ' AND user_id <> ' + item;
-  }); 
-
- let getRecQuery = `select user_id from analytics where` +
-    ` age < ${ idealAgeMax } and age > ${ idealAgeMin }` +
-    ` and expression < ${ idealExpressionMax } and expression > ${ idealExpressionMin }` +
-    ` and faceShape < ${ idealFaceMax } and faceShape > ${ idealFaceMin }` +
-    ` and coloring = ${ idealColoring }` +
-    ` and user_id <> ${ user_id }`
-    + queryAlreadyConnected + ';';
-
-  return db.query(getRecQuery)
-  .then((rows) => {
-    // rows is an array of potential user_ids
-    let userQueryString = '';
-    rows.forEach(function(item) {
-      userQueryString += ' and user_id=' + item;
+      let ideal = {
+        age: totalAge / rows.length,
+        coloring: mode(totalColoring),
+        expression: totalExpression / rows.length,
+        faceShape: totalFaceShape / rows.length
+      };
+      return {ideal: ideal, liked: liked, user_id: user_id};
     });
+  })
+  .then((result) => {
+    // get a set of recommendations
+    let idealAgeMin = result.ideal.age - 5;
+    let idealAgeMax = result.ideal. age + 5;
+    let idealExpressionMin = result.ideal.expression - 10;
+    let idealExpressionMax = result.ideal.expression + 10;
+    let idealFaceMin = result.ideal.faceShape - .2;
+    let idealFaceMax = result.ideal.faceShape + .2;
+    let idealColoring = result.ideal.coloring;
 
-    let preferencesQuery = `select * from users where gender=${gender} and gender_preference=${gender_preference}` + userQueryString;
-    return db.query(preferencesQuery);
+    let queryAlreadyConnected = '';
+    result.liked.forEach(function(item) {
+      queryAlreadyConnected += ' AND user_id <> ' + item;
+    }); 
+
+    let getRecQuery = `select user_id from analytics where` +
+       ` age < ${ idealAgeMax } and age > ${ idealAgeMin }` +
+       ` and expression < ${ idealExpressionMax } and expression > ${ idealExpressionMin }` +
+       ` and faceShape < ${ idealFaceMax } and faceShape > ${ idealFaceMin }` +
+       ` and coloring = '${ idealColoring }'` +
+       ` and user_id <> ${ result.user_id }`
+       + queryAlreadyConnected + ';';
+
+     return db.query(getRecQuery)
+
+     .then((rows) => {
+       // rows is an array of potential user_ids
+       let userQueryString = '';
+       rows.forEach(function(item) {
+         userQueryString += ' or user_id=' + item.user_id;
+       });
+
+       let preferencesQuery = `select * from users where gender='${user_preference}' and gender_preference='${user_gender}'` + userQueryString;
+       if (user_preference = 'none') {
+        preferencesQuery = `select * from users where gender_preference='${user_gender}'` + userQueryString;
+       }
+       return db.query(preferencesQuery);
+     })
+     .then((rows) => {
+       return _.shuffle(rows)[0];
+     })
+     .catch((error) => {
+       console.log(error);
+     });
   });
-}
+
+};
+
 
 export function buyCandidate (purchaseInfo) {
   var user_one = purchaseInfo.user < purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
