@@ -3,6 +3,32 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as RecommendationActions from '../actions/recommendationActions';
 
+const description = {
+  width: '70%',
+  border: '0 solid #ccc',
+}
+
+const robotDivStyle = {
+  float: 'left',
+  margin: 20,
+  marginRight: 50
+}
+
+const robotStyle = {
+  height: 250,
+  width: 'auto',
+
+}
+
+const recommendationStyle = {
+  paddingTop: 30,
+  width: '20%',
+  float: 'left',
+  // backgroundColor: 'red',
+  paddingLeft: 20
+  
+}
+
 class Recommendation extends Component {
 
   getRecommendation() {
@@ -18,15 +44,18 @@ class Recommendation extends Component {
   
     return (
       <div>
-        <h1>Here is our incredibly superficial recommendation!</h1>
-        <p>Our sophisticated matching algorithm takes into account not only who you get matched with, but also who you connect with to find you the perfect match!</p>
-        
-        <img src='http://i.imgur.com/OGG5Hka.png'/>
-        <button onClick={() => {this.getRecommendation()}}> Get our match for you! </button>
-        <div>
+        <div style={description}>
+          <h1>Let our algorithm help you find the perfect match...</h1>
+          <h3>Looks are important. Our algorithm analyzes your matches and conducts facial image analysis on their pictures, calculating scores for characteristics such as age, coloring, and expression as well as detailed facial feature analysis. We use this data to find other users you may like the look of. Try it now and let math be your matchmaker!</h3>
+        </div>
+        <div style={robotDivStyle}>
+          <img style={robotStyle} src='http://i.imgur.com/20Whp63.gif'/>
+          <button onClick={() => {this.getRecommendation()}}> Get our match for you! </button>
+        </div>
+        <div style={recommendationStyle}>
           <img src={recommendation.image_url}/>
-          <h4>Name: {recommendation.first_name}</h4>
-          <h5>{recommendation.description}</h5>
+            <h4>{recommendation.first_name}</h4>
+            <h5>{recommendation.description}</h5>
         </div>
       </div>
     );
