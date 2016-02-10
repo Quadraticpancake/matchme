@@ -16,9 +16,9 @@ export function getUser (facebook_id) {
 export function postUser (user) {
   var userInfo = null;
   var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,zipcode,status,age_min,age_max,gender_preference,\
-              location_preference,description,image_url,score) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}', \
+              location_preference,description,image_url,score, real) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}', \
               '${user.gender}', '${user.zipcode}','${user.status}',${user.age_min},${user.age_max},\
-              '${user.gender_preference}',${user.location_preference},'${user.description}','${user.image_url}',0) returning *;`;
+              '${user.gender_preference}',${user.location_preference},'${user.description}','${user.image_url}',0, true) returning *;`;
 
   return db.query(insertUserQueryStr)
   .then((rows) => {
