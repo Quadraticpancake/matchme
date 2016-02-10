@@ -29,6 +29,14 @@ const timeStyle = {
 
 export class ChatCollapsed extends Component {
 
+  closeChatWithConfirmation(pair_id) {
+    const {closeChat} = this.props;
+
+    if (window.confirm("Permanently delete chat with this user? You won't be matched with them again.")) {
+      closeChat(pair_id);
+    }
+  }
+
   render() {
     const {chat, addMessageOnEnter, pair_id, user_id, expandChat, focus, closeChat} = this.props;
     // messages vs. chats:
@@ -64,7 +72,7 @@ export class ChatCollapsed extends Component {
           </div>
         </div>
         <div style={trashStyle}>
-          <img src={xButton} style={trashImageStyle} onClick={() => closeChat(pair_id)}/>
+          <img src={xButton} style={trashImageStyle} onClick={() => this.closeChatWithConfirmation(pair_id)}/>
         </div>
       </div> 
     );
