@@ -1,4 +1,4 @@
-import { CHOOSE_MATCH, REQUEST_TRIAD, RECEIVE_TRIAD, UPDATE_SCORE, SET_SCORE } from '../actions/matchmaker';
+import { CHOOSE_MATCH, REQUEST_TRIAD, RECEIVE_TRIADS, UPDATE_SCORE, SET_SCORE } from '../actions/matchmaker';
 
 const initialState = {
   isFetching: false,
@@ -16,7 +16,8 @@ const initialState = {
       user_id: 5,
       first_name: 'matchmaker.js'
     }
-  ]
+  ],
+  triads: []
 };
 
 export default function matchmaker(state = initialState, action) {
@@ -29,26 +30,36 @@ export default function matchmaker(state = initialState, action) {
       return newState;
 
     case REQUEST_TRIAD:
-      return Object.assign({}, state, {
-        isFetching: true,
-      });
-
-    case RECEIVE_TRIAD:
-
-      // let newTriad = Object.assign({}, action.triad, {
-      //   isFetching: false,
-      //   lastUpdated: action.receivedAt
-      // })
-      let target = action.triad.pop();
-      let prospects = action.triad;
-
-      console.log('NEW TRIAD');
-      return Object.assign({}, state, {
-        isFetching: false,
-        lastUpdated: action.receivedAt,
-        target: target,
-        prospects: prospects
-      });
+      if (newState.triads && newState.triads.length === 0) {
+        return Object.assign({}, state, {
+          isFetching: true,
+        });
+      } else {
+        let triad = newState.triads.pop();
+        newState.target = triad.target;
+        newState.prospects = triad.prospects;
+        return newState;
+      }
+      
+    case RECEIVE_TRIADS:
+      let triads = (action.triads).concat(newState.triads);
+      console.log('WE RECIEVED TRIADS AND HERE THEY ARE', triads);
+      if (newState.triads.length === 0) {
+        let t = triads.pop();
+        newState.triads = triads;
+        newState.target = t.target;
+        newState.prospects = t.prospects;
+        newState.lastUpdated = action.receivedAt;
+        newState.isFetching = false;
+        return newState;
+      } else {
+        return Object.assign({}, state, {
+          isFetching: false,
+          lastUpdated: action.receivedAt,
+          triads: triads
+        });
+      }
+      
 
 
 
