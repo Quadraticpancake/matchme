@@ -92,7 +92,7 @@ class Target extends Component {
   }
 
   render() {
-    const { target, actions, user } = this.props;
+    const { target, actions, user, triads } = this.props;
 
     let targetHeight = '90vh';
 
@@ -140,8 +140,8 @@ class Target extends Component {
           </div>
         </Row>
         <Row className={css.buttons}>
-            <BuyButton dis={(user.userScore.score < 1000) || (!user.isAuthenticated) || (target.gender_preference !== user.userInfo.gender && target.gender_preference !== 'both')} actions={actions} person={target} user={user}/>
-            <SkipButton actions={actions} user_id={user.user_id}/>
+            <BuyButton dis={(user.userScore.score < 1000) || (!user.isAuthenticated) || (target.gender_preference !== user.userInfo.gender && target.gender_preference !== 'both')} actions={actions} triads={triads} person={target} user={user}/>
+            <SkipButton actions={actions} user_id={user.user_id} triads={triads}/>
         </Row>
       </Col>
 

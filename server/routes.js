@@ -29,9 +29,12 @@ module.exports = function (app, express) {
 		store.dispatch({type: 'UPDATE_LATEST', latestMatch: req.body})
 		addMatch(req.body).then((row) => {
 			// STUFF CAN BE DONE HERE TO PING USER IF ROW ENTRY RETURNED BECAUSE CONNECTION WAS MADE!!!!!
+			/*
 			getMatchSet(req.body.matchmaker.user_id).then((json) => {
 				res.json(json);
 			})
+        */
+          res.json()
 		})
 	});
 
