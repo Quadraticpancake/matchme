@@ -8,7 +8,7 @@ var db = pgp(connectionString);
 module.exports = db;
 
 // install postgres: https://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/
-// to test locally you must create a database 'matchmaker' in postgres 
+// to test locally you must create a database 'matchmaker' in postgres
 // and set up your postgres user to have password 'test'
     // alter role postgres with password 'test';
 	// CREATE DATABASE matchmaker;
