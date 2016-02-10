@@ -194,7 +194,7 @@ class UserScore extends Component {
               {(index < renderedConnectionsMade.length - 1) && rightArrow}
             </div>
           </div>
-          { userScore.pairs[index].pairHeart 
+          { userScore.pairs[index] && userScore.pairs[index].pairHeart 
             && <div className='col-md-8' style={divStyle}>
               <div className='text-center' style={{marginTop: -100, marginLeft: 170}}>
               <span> 
