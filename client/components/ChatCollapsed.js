@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { uniqueId, extend } from 'underscore';
 import trash from '../../static/img/icons/trash';
-
+import css from './ChatCollapsed.scss';
+import moment from 'moment';
 
 const smallImageStyle = {
-  height: '100%',
-  width: 'auto'
+  height: '4em',
+  width: '4em'
 };
 
 const trashStyle = {
@@ -18,7 +19,6 @@ const trashImageStyle = {
 }
 
 const textStyle = {
-  alignSelf: 'auto',
   paddingLeft: '1rem',
 };
 
@@ -27,24 +27,15 @@ const timeStyle = {
   marginLeft: 'auto',
 }
 
-const chatCollapsedStyle = {
-  display: 'flex',
-  flexDirection: 'row',
-  padding: '0.5em',
-  marginBottom: '0.2em',
-  height: '10vh'
-}
-
-const chatCollapsedStyleIfSelected = extend({}, chatCollapsedStyle, {backgroundColor: 'white', borderColor: '#838b8b'});
-
-var test = function () {
-  console.log('this heart was clicked');
-}
-
-
 export class ChatCollapsed extends Component {
 
-  
+  closeChatWithConfirmation(pair_id) {
+    const {closeChat} = this.props;
+
+    if (window.confirm("Permanently delete chat with this user? You won't be matched with them again.")) {
+      closeChat(pair_id);
+    }
+  }
 
   render() {
     const {chat, addMessageOnEnter, pair_id, user_id, expandChat, focus, closeChat} = this.props;
@@ -62,26 +53,26 @@ export class ChatCollapsed extends Component {
 
     return (
       <div 
-        className='well well-sm' 
+        className={css.chatCollapsed}
         id={id} 
-        style={focus === pair_id ? chatCollapsedStyleIfSelected : chatCollapsedStyle} 
         onClick={() => expandChat(pair_id)}
       >
         <style>{
           // hover uses the id generated with uniqueId, based on this example: https://jsfiddle.net/ors1vos9/ 
-          "#" + id + ":hover {background-color: white} "
+          "#" + id + ":hover {background-color: #fdd9e3} "
         }</style>
-        <div style={chatCollapsedStyle}>
-          <img src={userNotMe.image_url} style={smallImageStyle} />
-          <div style={textStyle}>
-            {userNotMe.first_name} {userNotMe.last_name} 
-            <div>
-              {chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].text : 'No messages yet'}
-            </div>
+        <img src={userNotMe.image_url} style={smallImageStyle} />
+        <div style={textStyle}>
+          {userNotMe.first_name} {userNotMe.last_name}
+          <div>
+            {chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].text : 'No messages yet'}
+          </div>
+          <div>
+            {chat.messages.length > 0 ? moment.utc(chat.messages[chat.messages.length - 1].created_at).local().fromNow() : ''}
           </div>
         </div>
         <div style={trashStyle}>
-          <img src={xButton} style={trashImageStyle} onClick={() => closeChat(pair_id)}/>
+          <img src={xButton} style={trashImageStyle} onClick={() => this.closeChatWithConfirmation(pair_id)}/>
         </div>
       </div> 
     );

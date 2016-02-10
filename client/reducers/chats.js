@@ -42,7 +42,13 @@ export default function user(state = initialState, action) {
       let chats = Object.assign({}, newState.chats);
       delete chats[action.pair_id];
       newState.chats = chats;
+      newState.focus = null;
       return newState;
+
+    case ChatsActions.COLLAPSE_CHAT:
+      return Object.assign({}, state, {
+        focus: null
+      });
 
     default:
       return state;
