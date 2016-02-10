@@ -19,7 +19,6 @@ render(
     <Router history={browserHistory}>
       {routes}
     </Router>
-      <DevTools />
     </div>
   </Provider>,
   document.getElementById('root')
