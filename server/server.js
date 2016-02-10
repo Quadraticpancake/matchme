@@ -28,7 +28,7 @@ app.use(webpackHotMiddleware(compiler))
 //Set up routes
 require('./routes')(app, express);
 
-app.use(express.static(path.join(__dirname , '..')));
+app.use(express.static(path.join(__dirname , '../static')));
 
 //Set up static files
 // app.use(function(req, res) {
