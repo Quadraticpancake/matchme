@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Be the best matchmaker ever",
   "main": "server/server.js",
+  "engines": {
+    "npm": "3.7.x"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
