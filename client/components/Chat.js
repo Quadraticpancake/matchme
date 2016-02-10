@@ -30,12 +30,12 @@ export class Chat extends Component {
     // messages are an individual message of text sent by one user
     let renderedMessages = [];
     const heartButton = 'https://freeiconshop.com/files/edd/heart-compact-flat.png';
-    const closeButton = 'https://image.freepik.com/free-icon/close-button-with-a-cross-in-a-circle_318-26587.jpg'
-
     const heartId = uniqueId('heart'); //used for hover effect
 
     if (chat) {
       const is_user_one = chat.user_one.user_id === user_id;
+      const userNotMe = is_user_one ? chat.user_two : chat.user_one;
+
       chat.messages.forEach((message, index) => {
         renderedMessages.push(<Message key={index} message={message} chat={chat} sender={message.sender === chat.user_one.user_id ? chat.user_one : chat.user_two}/>);
       });
@@ -43,8 +43,9 @@ export class Chat extends Component {
         <div className={css.chat}>
           {/* Close chat actually deletes the chat from the server. Collapse chat takes you from the expanded chat view back to the 
           view with all the collapsed chats*/}
-          <div onClick={collapseChat}>Back</div>
-          <img src={closeButton} style={smallImageStyle} onClick={() => closeChat(pair_id)} /> Close Chat
+          <a onClick={collapseChat}>Back</a>
+          <h3>Chat with {userNotMe.first_name} {userNotMe.last_name} </h3>
+          <img src={userNotMe.image_url} style={{width: '20vh'}}></img>
           <div style={{'display': 'flex'}}>
 
             {/* SVG Heart: heartSVG contains the definition of a SVG heart*/}
