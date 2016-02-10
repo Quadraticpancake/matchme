@@ -49,7 +49,7 @@ class Header extends Component {
             </LinkContainer>}
             {
             <LinkContainer to="/landing">
-              <NavItem eventKey={4}>My Score</NavItem>
+              <NavItem eventKey={4}>Landing</NavItem>
             </LinkContainer>}
           </Nav>
           <Nav>
