@@ -1,5 +1,5 @@
 import { getConnectedPairsAndMessagesForUser, addMessage, updateHeart, closeChat } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum, buyCandidate, postAlbum} from '../db/dbHelpers';
+import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum, buyCandidate, postAlbum, postRecommendation} from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -57,8 +57,13 @@ module.exports = function (app, express) {
       	});
 	});
 
+	app.post('/api/users/:user_id/recommendation', (req, res) => {
+		postRecommendation(req.params.user_id, req.body.gender, req.body.preference).then((output) => {
+			res.json(output);
+		});
+	});
+
 	app.post('/api/users/:user_id/album', (req, res) => {
-		console.log('INSIDE POST ALBUM ROUTE')
       	postAlbum(req.params.user_id, req.body.image_url).then((output) => {
       		res.json(output);
       	});
@@ -67,7 +72,6 @@ module.exports = function (app, express) {
 	//api/users:user_id/chats
 	app.get('/api/chats/:user_id', (req, res) => {
 		getConnectedPairsAndMessagesForUser(req.params.user_id).then((rows) => {
-			console.log('chats', rows)
 			res.json(rows)
 		});
 	});
@@ -153,6 +157,7 @@ module.exports = function (app, express) {
 	      res.json(pair_id);
 	    });
 	})
+
 	// app.get('/api/matchSet', (req, res) => {
 	// 	getMatchSet().then((matchSet) => {
 	// 		console.log(matchSet)
