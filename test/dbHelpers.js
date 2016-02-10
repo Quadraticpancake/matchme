@@ -29,7 +29,7 @@ describe('database helpers', () => {
 			})
 			.then(() => {
 
-				const NUM_PROFILES = 100;
+				const NUM_PROFILES = 1000;
 				let profilesGenerated = 0;
 				for (var i = 0; i < NUM_PROFILES; i++) {
 

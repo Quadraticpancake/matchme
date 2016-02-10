@@ -104,12 +104,12 @@ class Prospect extends Component {
 
     return (
       <Row className={css.prospect} onClick={() => {actions.chooseMatch(target, prospect, user.user_id);}}>
-          <Image src={prospect.image_url} responsive className={css.prospectImage}/>
+        <Image src={prospect.image_url} responsive className={css.prospectImage}/>
         <div style={prospectInfoStyle}>
           <h1 style={nameStyle}>{prospect.first_name}, {age} <Image src={icon_prospect_path} style={iconProspectStyle}/> </h1>
           <p style={prospectInfo}>''{prospect.description}''</p>
         </div>
-        </Row>
+      </Row>
     );
   }
 }
