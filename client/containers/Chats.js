@@ -6,14 +6,15 @@ import { Chat } from '../components/Chat';
 import { ChatCollapsed } from '../components/ChatCollapsed';
 import { socket } from './App';
 import { routeActions } from 'react-router-redux';
-
+import css from './Chats.scss';
 
 // @connect(
 //   state => state.items,
 //   dispatch => bindActionCreators(actionCreators, dispatch)
 // )
 
-const rowStyle = {
+const collapsedChatContainer = {
+  backgroundColor: 'white',
   marginLeft: '0px',
   marginRight: '0px'
 };
@@ -87,24 +88,29 @@ class Chats extends Component {
         />);
     });
 
-    return (
-      <div className='row' style={rowStyle}>
-        <div className='col-md-3 col-sm-4 col-xs-4'>
+    // display either the list of collapsed chats, or the focused expanded chat
+    if (focus === null) {
+      return (
+        <div className={css.collapsedChatContainer}>
+          <div style={{fontFamily: 'Lobster', fontSize: 'x-large'}}>Chats</div>
           {renderedChats}
         </div>
-        <div className="col-md-8 col-sm-8 col-xs-8" style={chatStyle}>
-          <Chat
-            key={focus}
-            chat={focusedChat} 
-            addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
-            pair_id={focus} 
-            user_id={user_id} 
-            heartConnection={actions.heartConnection} 
-            closeChat={actions.closeChat}
-          />
-        </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <Chat 
+          key={focus}
+          chat={focusedChat} 
+          addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
+          pair_id={focus} 
+          user_id={user_id} 
+          heartConnection={actions.heartConnection} 
+          closeChat={actions.closeChat}
+          collapseChat={actions.collapseChat}
+        />
+      );
+    }
+
   }
 }
 
