@@ -22,8 +22,8 @@ const heartFilledInStyle = {
   width: '2em',
   height: '2em',
   minWidth: '5vh',
-  fill: '#FE4365', 
-  strokeWidth: '1px', 
+  fill: '#FE4365',
+  strokeWidth: '1px',
   stroke:'black'
 };
 
@@ -95,12 +95,12 @@ class UserScore extends Component {
 
 
   componentWillMount() {
-    const { user, routerActions } = this.props;
-    //if user isn't authenticated reroute them to the home page
-    if (!user.isAuthenticated) {
-      routerActions.push('/home');
-      return;
-    }
+    // const { user, routerActions } = this.props;
+    // //if user isn't authenticated reroute them to the home page
+    // if (!user.isAuthenticated) {
+    //   routerActions.push('/home');
+    //   return;
+    // }
   }
 
   componentDidMount() {
@@ -144,10 +144,10 @@ class UserScore extends Component {
                                          <div>
                                            <div className="col-md-4" style={{marginLeft: 15}}>
                                              <Matchee matchee={userScore.pairs[i].user_one} />
-                                           </div> 
+                                           </div>
                                            <div className="col-md-4" style={{marginLeft: -30}}>
                                              <Matchee matchee={userScore.pairs[i].user_two} />
-                                           </div>                                          
+                                           </div>
                                          </div>
                                        </div>
                                      </div>
@@ -155,7 +155,7 @@ class UserScore extends Component {
       }
     }
 
-  
+
 
     let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
     let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
@@ -172,7 +172,7 @@ class UserScore extends Component {
         {<div>
           <div className='col-md-8 col-sm-8 col-xs-8' style={divStyle}>
             <div className='text-center' style={{marginLeft: 200}}>
-              Your score is { score } 
+              Your score is { score }
             </div>
             <div className='text-center' style={{marginLeft: 200}}>
               {connectionCount}
@@ -180,37 +180,37 @@ class UserScore extends Component {
           </div>
           <div className='col-md-8' style={divStyle}>
             <div className='text-center' style={{marginLeft: 200}}>
-              
+
             </div>
           </div>
           <div className='col-md-8'>
-            <div className='col-md-1'> 
+            <div className='col-md-1'>.
               {index > 0 && leftArrow}
             </div>
             <div className='col-md-6'>
               {renderedConnectionsMade[index]}
             </div>
-            <div className='col-md-1'> 
+            <div className='col-md-1'>
               {(index < renderedConnectionsMade.length - 1) && rightArrow}
             </div>
           </div>
-          { userScore.pairs[index].pairHeart 
+          { userScore.pairs[index].pairHeart
             && <div className='col-md-8' style={divStyle}>
               <div className='text-center' style={{marginTop: -100, marginLeft: 170}}>
-              <span> 
-                {heartSvg}  
+              <span>
+                {heartSvg}
                 <svg viewBox="0 0 32 32" style={heartFilledInStyle} >
                   <g filter="url(#inset-shadow)">
                     <use xlinkHref="#heart-icon"></use>
                   </g>
-                </svg> 
-                {userScore.pairs[index].user_one.first_name} and {userScore.pairs[index].user_two.first_name} liked each other! 
-                {heartSvg}  
+                </svg>
+                {userScore.pairs[index].user_one.first_name} and {userScore.pairs[index].user_two.first_name} liked each other!
+                {heartSvg}
                 <svg viewBox="0 0 32 32" style={heartFilledInStyle} >
                   <g filter="url(#inset-shadow)">
                     <use xlinkHref="#heart-icon"></use>
                   </g>
-                </svg> </span> 
+                </svg> </span>
               </div>
             </div> }
         </div>}
