@@ -9,7 +9,7 @@ import Chats from './containers/Chats.js';
 import Score from './containers/UserScore.js';
 import ProfilePicture from './containers/ProfilePicture.js';
 import Recommendation from './containers/Recommendation.js';
-import Landing from './containers/Landing.js'
+import Landing from './containers/Landing.js';
 
 export default (
   <Route path="/" component={App}>
