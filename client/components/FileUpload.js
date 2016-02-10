@@ -29,6 +29,11 @@ class FileUpload extends Component {
       float: 'left'
     };
 
+    const dropzoneInfoStyle = {
+      textAlign: 'center',
+      marginTop: 75
+    }
+
     const buttonStyle = {
       display: 'block',
       clear: 'both',
@@ -49,7 +54,7 @@ class FileUpload extends Component {
             <Dropzone { ...files } onDrop={ ( filesToUpload, e ) => {
               document.querySelector("#preview").src=filesToUpload[0].preview;
               files.onChange(filesToUpload);
-            }}>Drop file here!</Dropzone>
+            }}><div style={dropzoneInfoStyle}>Drop an image file here to upload</div></Dropzone>
           </div>
           <div>
             <img style={preview} id="preview" src='http://allthetickets.net/images/no-preview.png'/>
