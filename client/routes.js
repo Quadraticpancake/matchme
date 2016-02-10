@@ -13,7 +13,7 @@ import Landing from './containers/Landing.js'
 
 export default (
   <Route path="/" component={App}>
-    <Route path="landing" component={Landing}
+    <Route path="landing" component={Landing} />
     <Route path="home" component={Home} />
     <Route path="landing" component={Landing} />
     <Route path="profile" component={Profile} />
