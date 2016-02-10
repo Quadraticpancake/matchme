@@ -76,12 +76,12 @@ class UserScore extends Component {
 
 
   componentWillMount() {
-    const { user, routerActions } = this.props;
-    //if user isn't authenticated reroute them to the home page
-    if (!user.isAuthenticated) {
-      routerActions.push('/home');
-      return;
-    }
+    // const { user, routerActions } = this.props;
+    // //if user isn't authenticated reroute them to the home page
+    // if (!user.isAuthenticated) {
+    //   routerActions.push('/home');
+    //   return;
+    // }
   }
 
   componentDidMount() {
@@ -128,11 +128,11 @@ class UserScore extends Component {
                                          <div>
                                            <div className="col-md-4" style={{marginLeft: 15}}>
                                              <Matchee matchee={userScore.pairs[i].user_one} />
-                                           </div> 
+                                           </div>
                                            <div className="col-md-4" style={{marginLeft: -30}}>
                                              <Matchee matchee={userScore.pairs[i].user_two} />
-                                           </div> 
-                                             {heartButton}                                          
+                                           </div>
+                                             {heartButton}
                                          </div>
                                        </div>
                                      </div>
@@ -140,7 +140,7 @@ class UserScore extends Component {
       }
     }
 
-  
+
 
     let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
     let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
@@ -150,20 +150,20 @@ class UserScore extends Component {
         {<div>
           <div className='col-md-8 col-sm-8 col-xs-8' style={divStyle}>
             <div className='text-center'>
-              Your score is { score } 
+              Your score is { score }
             </div>
             <div className='text-center'>
               You have helped create { renderedConnectionsMade.length } connections
             </div>
           </div>
           <div className='col-md-12'>
-            <div className='col-md-1'> 
+            <div className='col-md-1'>
               {index > 0 && leftArrow}
             </div>
             <div className='col-md-8'>
               {renderedConnectionsMade[index] || 'You have yet to help create a connection'}
             </div>
-            <div className='col-md-1'> 
+            <div className='col-md-1'>
               {(index < renderedConnectionsMade.length - 1) && rightArrow}
             </div>
           </div>
