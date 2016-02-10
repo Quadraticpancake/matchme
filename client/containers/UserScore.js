@@ -172,6 +172,7 @@ class UserScore extends Component {
         {<div>
           <div className='col-md-8 col-sm-8 col-xs-8' style={divStyle}>
             <div className='text-center' style={{marginLeft: 200}}>
+
               Your score is { score }
             </div>
             <div className='text-center' style={{marginLeft: 200}}>
@@ -185,6 +186,7 @@ class UserScore extends Component {
           </div>
           <div className='col-md-8'>
             <div className='col-md-1'>.
+
               {index > 0 && leftArrow}
             </div>
             <div className='col-md-6'>
