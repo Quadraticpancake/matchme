@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {reduxForm} from 'redux-form';
 import * as ProfilePictureActions from '../actions/pictureActions';
 import FileUpload from '../components/FileUpload';
+import * as css from './ProfilePicture.scss'; 
 
 class ProfilePicture extends Component {
 
@@ -145,22 +146,23 @@ class ProfilePicture extends Component {
         <h3 style={divStyle}>Option 1. Choose from your existing photos</h3>
           <div>{photosMap}</div>
 
-        <h3 style={divStyle}>Option 2. Upload a picture</h3>
-          <FileUpload onSubmit={this.handleUploadSubmit.bind(this)} />
+        <div className={css.hideSmall}>
+          <h3 style={divStyle}>Option 2. Upload a picture</h3>
+            <FileUpload onSubmit={this.handleUploadSubmit.bind(this)} />
 
-        <h3 style={divStyle}>Option 3. No good pics? Snap the perfect shot now!</h3>
+          <h3 style={divStyle}>Option 3. No good pics? Snap the perfect shot now!</h3>
 
-          <div style={divStyle}>
-            <video style={videoElementStyle} autoPlay="true" id="videoElement"></video>
-            <canvas style={displayElementStyle} id="picDisplay"></canvas>
-          </div>
+            <div style={divStyle}>
+              <video style={videoElementStyle} autoPlay="true" id="videoElement"></video>
+              <canvas style={displayElementStyle} id="picDisplay"></canvas>
+            </div>
 
-          <button type="button" class="btn btn-secondary" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
-          <button type="button" class="btn btn-secondary" style={picButtonStyle} onClick={() => {this.uploadPictureCanvas()}}>Use as Profile Picture</button>
+            <button type="button" class="btn btn-secondary" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
+            <button type="button" class="btn btn-secondary" style={picButtonStyle} onClick={() => {this.uploadPictureCanvas()}}>Use as Profile Picture</button>
 
-        <br></br>
-        <br></br>
-
+          <br></br>
+          <br></br>
+        </div>
       </div>
     )
   }
