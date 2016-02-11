@@ -43,14 +43,14 @@ class Chats extends Component {
     // }
   }
 
-  componentWillMount(){
-    const { user, routerActions } = this.props;
-    //if user isn't authenticated reroute them to the home page
-    if (!user.isAuthenticated) {
-      routerActions.push('/home');
-      return;
-    }
-  }
+  // componentWillMount(){
+  //   const { user, routerActions } = this.props;
+  //   //if user isn't authenticated reroute them to the home page
+  //   if (!user.isAuthenticated) {
+  //     routerActions.push('/home');
+  //     return;
+  //   }
+  // }
 
   componentDidMount() {
     const { actions, user_id, user, routerActions } = this.props;
@@ -98,13 +98,13 @@ class Chats extends Component {
       );
     } else {
       return (
-        <Chat 
+        <Chat
           key={focus}
-          chat={focusedChat} 
-          addMessageOnEnter={this.addMessageOnEnter.bind(this)} 
-          pair_id={focus} 
-          user_id={user_id} 
-          heartConnection={actions.heartConnection} 
+          chat={focusedChat}
+          addMessageOnEnter={this.addMessageOnEnter.bind(this)}
+          pair_id={focus}
+          user_id={user_id}
+          heartConnection={actions.heartConnection}
           closeChat={actions.closeChat}
           collapseChat={actions.collapseChat}
         />

@@ -8,13 +8,13 @@ import { routeActions } from 'react-router-redux';
 
 class Profile extends Component {
 
-  componentWillMount(){
-    const {user, routerActions } = this.props;
-    if (!user.isAuthenticated) {
-      routerActions.push('/home');
-      return;
-    }
-  }
+  // componentWillMount(){
+  //   const {user, routerActions } = this.props;
+  //   if (!user.isAuthenticated) {
+  //     routerActions.push('/home');
+  //     return;
+  //   }
+  // }
 
   handleSubmit(data){
     const {actions, user} = this.props;
