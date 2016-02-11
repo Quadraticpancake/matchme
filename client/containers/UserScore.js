@@ -89,7 +89,7 @@ const rightArrowStyle = {
 
 
 class UserScore extends Component {
-  
+
   componentDidMount() {
     const { actions, user_id, user} = this.props;
     console.log(actions);
@@ -141,7 +141,7 @@ class UserScore extends Component {
 
     let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
     let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
-    
+
     let connectionCount;
     if (renderedConnectionsMade.length > 1) {
       connectionCount =
@@ -182,7 +182,7 @@ class UserScore extends Component {
               {(index < renderedConnectionsMade.length - 1) && rightArrow}
             </div>
           </div>
-          { userScore.pairs[index] && userScore.pairs[index].pairHeart && 
+          { userScore.pairs[index] && userScore.pairs[index].pairHeart &&
           <div className='col-md-8' style={divStyle}>
             <div className='text-center' style={{marginLeft: 170}}>
               <span>
