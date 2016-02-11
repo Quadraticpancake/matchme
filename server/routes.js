@@ -18,23 +18,22 @@ var genderPreference = function(input) {
 
 module.exports = function (app, express) {
 	// test route, use this to get data for redux
+	var TESTINGCOUNT = 0;
 	app.get('/api/candidates/:user_id', function(req, res) {
 		var user_id = Number(req.params.user_id) > 0 ? Number(req.params.user_id) : null;
-		getMatchSet(user_id).then(function(json) {
-			res.json(json);
-		})
+		console.log(++TESTINGCOUNT);		
+		res.json(getMatchSet(user_id));
 	});
 
 	app.post('/api/pairs', (req, res) => {
 		store.dispatch({type: 'UPDATE_LATEST', latestMatch: req.body})
 		addMatch(req.body).then((row) => {
-			// STUFF CAN BE DONE HERE TO PING USER IF ROW ENTRY RETURNED BECAUSE CONNECTION WAS MADE!!!!!
-			/*
-			getMatchSet(req.body.matchmaker.user_id).then((json) => {
-				res.json(json);
-			})
-        */
-          res.json()
+			if (row && row[0]) {
+			  // return a 200 point bonus because a connection was created
+			  res.json({score: 200}); 
+			} else {
+			  res.json({});
+			}
 		})
 	});
 
@@ -120,7 +119,6 @@ module.exports = function (app, express) {
                     image_url: fbResult.picture.data.url
                 }
                 postUser(userData).then((rows) => {
-                  console.log(rows);
                   res.json(rows);
                 });
             } catch (e) {
