@@ -159,13 +159,23 @@ class UserScore extends Component {
 
     let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
     let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
-    let connectionCount = renderedConnectionsMade.length > 0 ?
-      <div className='text-center' style={{marginLeft: 0}}>
-              You have helped create { renderedConnectionsMade.length } connections
-            </div> :
-            <div className='text-center' style={{marginLeft: 0}}>
-              You have yet to help create any connections
-            </div>
+    let connectionCount; 
+    if (renderedConnectionsMade.length > 1) {
+    connectionCount = 
+    <div className='text-center' style={{marginLeft: 0}}>
+       You have helped create { renderedConnectionsMade.length } connections
+    </div> 
+    } else if (renderedConnectionsMade.length === 1) {
+    connectionCount =
+    <div className='text-center' style={{marginLeft: 0}}>
+       You have helped create { renderedConnectionsMade.length } connection
+    </div> 
+    } else {
+    connectionCount =
+    <div className='text-center' style={{marginLeft: 0}}>
+      You have yet to help create any connections
+    </div>
+    }
 
     return (
       <section>

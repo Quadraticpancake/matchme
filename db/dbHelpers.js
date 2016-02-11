@@ -3,7 +3,11 @@ var request = require('request');
 var _ = require('underscore');
 import generateUserAnalytics from '../server/faceAnalysis/faceAnalysis';
 
-var userCount = null;
+var triadsStore = [];
+
+var replenishingTriads = false;
+
+getMatchSet();
 
 ///////////////// DB helpers /////////////////////
 
@@ -22,7 +26,6 @@ export function postUser (user) {
 
   return db.query(insertUserQueryStr)
   .then((rows) => {
-    userCount++;
     userInfo = rows[0];
     return rows[0];
   })
@@ -34,7 +37,6 @@ export function postUser (user) {
     return generateUserAnalytics(rows[0].user_id, rows[0].image_url);
   })
   .then((rows) => {
-    console.log('RETURNING USER INFO in DB HELPERS')
     return userInfo;
   })
   .catch((error) => {
@@ -105,7 +107,6 @@ export function addMatch (match) {
     ${ pairFormatted.user_two }), temp as (insert into matches_made (matchmaker, pair) values \
     (${ match.matchmaker.user_id }, (select pair_id from p union all select pair_id from i))) \
     select matches_made.matchmaker, matches_made.pair from matches_made join p on p.pair_id = matches_made.pair;`;
-    //console.log(matchQuery);
   return db.query(matchQuery)
     .then((rows) => {
       var threshold = 1;
@@ -129,19 +130,21 @@ export function addMatch (match) {
 // get one target and two suitable prospects
 export function getMatchSet (user_id) {
 
-
-  var func = function (user_id) {
-
-        var randomUserIdsStr = '' + user_id;
-        for (var i = 0; i < 10; i++) {
+  var func = function () {
+    return db.query('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;')
+      .then((row) => {
+        var userCount = row[0].user_id
+        var randomUserIdsStr = '' + Math.floor(Math.random() * userCount) + 1;
+        for (var i = 0; i < 100; i++) {
           randomUserIdsStr += ', ' + (Math.floor(Math.random() * userCount) + 1); 
         }
         var sample_min = Math.floor(Math.random() * userCount) + 1;
-        var prospectRangeStr = ' user_id >= ' + sample_min + ' and user_id <= ';
-        if (sample_min + 200 <= userCount) {
-          prospectRangeStr += (sample_min + 200);
+        var prospectRangeStr = ' user_id >= ' + sample_min + ' or user_id <= ';
+        var prospectCount = 1000;
+        if (sample_min + prospectCount <= userCount) {
+          prospectRangeStr += (sample_min + prospectCount);
         } else {
-          prospectRangeStr += (sample_min - userCount + 200);
+          prospectRangeStr += (sample_min - userCount + prospectCount);
         }       
         var date = new Date();
         var month = date.getMonth();
@@ -150,16 +153,13 @@ export function getMatchSet (user_id) {
         day = day.length < 2 ? '0' + day : day;
         var dateStr = '' + month + '/' + day + '/' + date.getFullYear();
         var targetsAndUserQuery = `select * from users where user_id in ( ${randomUserIdsStr} );`
-        console.log(targetsAndUserQuery);
         var prospectsQuery = `select * from users where ${ prospectRangeStr };`;
         var age = function(person) {
-          console.log(person.birthday);
           if (person.birthday) {
             var date = new Date();
             var month = person.birthday.getMonth();
             var day = person.birthday.getDate();
             var year = person.birthday.getFullYear();
-            console.log(month, day, year);
             var output = date.getFullYear() - year;
             if (month > date.getMonth()) {
               return output;
@@ -176,58 +176,63 @@ export function getMatchSet (user_id) {
         }
 
         var match = function (p1, p2) {
-          console.log()
           return (p1.gender === p2.gender_preference || p2.gender_preference === 'both') 
             && (p2.gender === p1.gender_preference || p1.gender_preference === 'both') 
             && p1.user_id !== p2.user_id && age(p2) !== false && age(p1) !== false 
             && p1.age_min <= age(p2) && p2.age_min <= age(p1) && p2.age_max >= age(p1) && p1.age_max >= age(p2);
         }
-
+        //console.log(targetsAndUserQuery);
+        //console.log(prospectsQuery);
         return db.query(targetsAndUserQuery)
           .then((targetRows) => {
             return db.query(prospectsQuery)
               .then((prospectRows) => {
-                var score = null;
-                var triads = [];
                 var target;
                 var prospects = [];
-
+                var prospectIterator = 0;
                 for (var i = 0; i < targetRows.length; i++) {
-                  if (targetRows[i].user_id === user_id) {
-                    score = targetRows[i].score;
-                  } else {
-                    target = targetRows[i];
-                    console.log(target);
-                    for (var j = 0; (j < prospectRows.length && prospects.length < 2); j++) {
-                      //console.log(prospectRows[j], prospectRows[j].user_id !== user_id, match(target, prospectRows[j]));
-                      if (prospectRows[j] && prospectRows[j].user_id !== user_id && match(target, prospectRows[j])) {
-                        prospects.push(prospectRows[j]);
-                        prospectRows[j] = null;
-                      }
-                    }
-                    console.log("GOT HERE");
-                    if (prospects.length === 2) {
-                      triads.push({target: target, prospects: prospects})
-                      prospects = [];
+                  target = targetRows[i];
+                  for (prospectIterator; (prospectIterator < prospectRows.length && prospects.length < 2); prospectIterator++) {                      
+                    if (prospectRows[prospectIterator] && match(target, prospectRows[prospectIterator])) {
+                      prospects.push(prospectRows[prospectIterator]);
+                      prospectRows[prospectIterator] = null;
                     }
                   }
+                  if (prospectIterator === prospectRows.length) {
+                    prospectIterator = 0;
+                  }                                 
+                  if (prospects.length === 2) {
+                    triadsStore.push({target: target, prospects: prospects})
+                    prospects = [];
+                  }
                 }
-                return {score: score, triads: triads};
-              })
-          })
+                replenishingTriads = false;
+                return;
+              });
+          });
+      });
   };
-  if(!user_id) {
-    user_id = 0;
+
+  var getTriads = function (user_id) {
+    var count = 0;
+    var output = [];
+    while(count < 10) {
+      var triad = triadsStore.pop();
+      if (triad && triad.target.user_id !== user_id && triad.prospects[0].user_id !== user_id && triad.prospects[1].user_id !== user_id) {
+        output.push(triad);
+        count++;
+      } else if (!triad) {
+        count++;
+      }
+    }
+    return output;
   }
-  if (!userCount) {
-    return db.query('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;')
-      .then((row) => {
-        userCount = row[0].user_id;
-        return func(user_id);
-    });
-  } else {
-    return func(user_id);
-  }
+  
+  if (triadsStore.length < 300 && replenishingTriads === false) {
+    replenishingTriads = true;
+    func();
+  } 
+  return getTriads();
 }
 
 export function getMatchesMade (matchmaker) {
@@ -435,11 +440,10 @@ export function buyCandidate (purchaseInfo) {
   var user_one = purchaseInfo.user < purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
   var user_two = purchaseInfo.user > purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
   var buyCandidateQueryStr = `with i as (insert into pairs (user_one, user_two, connected, user_one_heart, user_two_heart) \
-    select ${ user_one }, ${ user_two }, true, false, false where not exists (select * from pairs where user_one  \
+    values ${ user_one }, ${ user_two }, true, false, false where not exists (select * from pairs where user_one  \
     = ${ user_one } and user_two = ${ user_two })), p as (update pairs set connected = true  \
     where pairs.user_one = ${ user_one } and pairs.user_two = ${ user_two }) update users set score = score + ${ purchaseInfo.scoreChange } where user_id = \
     ${ purchaseInfo.user } returning score;`
-  
   return db.query(buyCandidateQueryStr)
     .then((row) => {
       if (row.length > 0) {
