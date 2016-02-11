@@ -511,4 +511,3 @@ export function buyCandidate (purchaseInfo) {
     });
 }
 
-

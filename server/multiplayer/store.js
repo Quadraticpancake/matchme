@@ -1,6 +1,6 @@
-import {createStore} from 'redux'
-import reducer from './reducers'
+import {createStore} from 'redux';
+import reducer from './reducers';
 
 export default function makeStore() {
-	return createStore(reducer)
+	return createStore(reducer);
 }

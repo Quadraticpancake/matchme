@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Prospect from '../components/Prospect';
+import ProspectMultiplayer from '../components/ProspectMultiplayer';
 import Target from '../components/Target';
-import * as MatchmakerActions from '../actions/matchmaker';
+import * as MultiplayerActions from '../actions/multiplayer';
 import * as UserActions from '../actions/user'
 import { Col, Row, Image} from 'react-bootstrap';
 import css from './Home.scss';
+import { socket } from './App';
 
            // <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
            //    <Scoreboard />
@@ -22,25 +23,42 @@ const parent = {
   justifyContent: 'center'
 }
 class MultiplayerHome extends Component {
-  componentWillMount(){
-    const { matchmaker, actions, user } = this.props;
-    if(matchmaker.target.placeholder){
-      //getNewCandidates when target is currently placeholder
-      actions.getNewCandidates();
-    }
-  }
-  render() {
-    const { matchmaker, actions, user } = this.props;
-    window.props = this.props;
-    console.log(user, 'this is the user_id');
-    return (
 
+  chooseMatchMP(target, prospect, voter, triads) {
+    socket.emit('vote', {voter: voter, prospect: prospect});
+  }
+
+  componentDidMount() {
+    const { actions, user } = this.props;
+
+    if (user.user_id !== null) {
+      socket.emit('joinGame', { newPlayer: user.user_id });
+    }
+
+    socket.on('gameState', (gameState) => {
+      actions.updateGameState(gameState);
+    });
+  }
+
+  render() {
+    const { multiplayer, actions, user, matchmaker } = this.props;
+    console.log('chooseMatchMP', this.chooseMatchMP);
+
+    return (
       <div>
           <div className="row-fluid">
-            <Target target={matchmaker.target} actions={actions} user={user}/>
+            <Target target={multiplayer.target} actions={actions} user={user}/>
               <Col xs={12} sm={12} md={5} className={css.prospect} >
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} user={user} />
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} user={user} />
+                <ProspectMultiplayer 
+                  target={multiplayer.target} 
+                  prospect={multiplayer.prospects[0]} 
+                  chooseMatch={this.chooseMatchMP}
+                  user={user} />
+                <ProspectMultiplayer 
+                  target={multiplayer.target} 
+                  prospect={multiplayer.prospects[1]} 
+                  chooseMatch={this.chooseMatchMP}
+                  user={user} />
               </Col>
           </div>
       </div>
@@ -56,14 +74,15 @@ MultiplayerHome.propTypes = {
 function mapStateToProps(state) {
   return {
     matchmaker: state.matchmaker,
-    user: state.user
+    user: state.user,
+    multiplayer: state.multiplayer
+
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(MatchmakerActions, dispatch)
-    
+    actions: bindActionCreators(MultiplayerActions, dispatch)
   };
 }
 
