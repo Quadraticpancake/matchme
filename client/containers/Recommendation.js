@@ -7,12 +7,12 @@ import * as MatchmakerActions from '../actions/matchmaker.js';
 import css from './Recommendation.scss';
 import BuyRecommendation from '../components/BuyRecommendation.js';
 
-const description = {
+const algorithmDescription = {
   width: '70%',
   border: '0 solid #ccc',
 }
 
-const robotStyle = {
+const robotsStyle = {
   height: 250,
   width: 'auto',
   marginTop: 80
@@ -109,12 +109,12 @@ class Recommendation extends Component {
     return (
 
       <div style={{marginLeft: '5vh'}}>
-        <div style={description}>
+        <div style={algorithmDescription}>
           <h1>Let our algorithm help you find the perfect match...</h1>
           <h3>Looks are important. Our algorithm analyzes the matches that you've 'hearted' and conducts facial image analysis on their pictures to find other users you may like the look of. Try it now!</h3>
         </div>
         <div className={css.robotDivStyle}>
-          <img style={robotStyle} src='http://i.imgur.com/20Whp63.gif'/>
+          <img style={robotsStyle} src='http://i.imgur.com/20Whp63.gif'/>
           <Button className={css.recommendationButton} type="button" onClick={() => {this.getRecommendation()}}> Get Matched! </Button>
         </div>
         <div className={css.recommendation}>

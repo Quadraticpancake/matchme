@@ -47,10 +47,9 @@ class Header extends Component {
             <LinkContainer to="/score">
               <NavItem eventKey={3}>My Score</NavItem>
             </LinkContainer>}
-            {user.isAuthenticated && !user.isAuthenticated &&
-            <LinkContainer to="/landing">
-              <NavItem eventKey={4}>Landing</NavItem>
-
+            {user.isAuthenticated &&
+            <LinkContainer to="/recommendation">
+              <NavItem eventKey={5}>Recommended Match</NavItem>
             </LinkContainer>}
           </Nav>
           <Nav>
