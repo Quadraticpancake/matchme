@@ -6,7 +6,7 @@ export const CHANGE_INDEX = 'CHANGE_INDEX';
 
 export function fetchUserScore (user_id) {
   return function (dispatch) {
-    let request = new Request(`/api/matchmakerScore/${user_id}`, {method: 'GET'});
+    let request = new Request(`/api/users/${user_id}/matchmakerScore`, {method: 'GET'});
     return fetch(request)
       .then(response => response.json())
       .then(json => dispatch(setUserScore(json)));
@@ -59,12 +59,12 @@ export const changeIndex = (e) => {
     indexChange = 1;
   } else if (e.keyCode === 37) {
     indexChange = -1;
-  } else { 
+  } else {
     indexChange = 0;
   }
   return dispatch => {
     dispatch(changeIndexAction(indexChange));
-  } 
+  }
 }
 
 export const changeIndexAction = (indexChange) => {

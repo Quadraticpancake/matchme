@@ -14,7 +14,7 @@ export default function createTables () {
       + " gender VARCHAR(20),"
       + " birthday DATE,"
     // user inputs
-     	+ " zipcode VARCHAR(5)," 
+     	+ " zipcode VARCHAR(5),"
       + " status VARCHAR(20),"
       + " age_min INTEGER,"
       + " age_max INTEGER,"
@@ -32,7 +32,7 @@ export default function createTables () {
    })
    .then(function(){
     console.log('pair to matchmaker join table created')
-    return db.query("CREATE TABLE IF NOT EXISTS matches_made (match_id SERIAL PRIMARY KEY, matchmaker INTEGER, pair INTEGER, FOREIGN KEY (matchmaker) REFERENCES users(user_id)," 
+    return db.query("CREATE TABLE IF NOT EXISTS matches_made (match_id SERIAL PRIMARY KEY, matchmaker INTEGER, pair INTEGER, FOREIGN KEY (matchmaker) REFERENCES users(user_id),"
       + " FOREIGN KEY (pair) REFERENCES pairs(pair_id), created_at TIMESTAMP NOT NULL DEFAULT NOW());");
    })
    .then(function(){
@@ -64,20 +64,20 @@ export default function createTables () {
       + "faceShape DECIMAL,"
       + " created_at TIMESTAMP NOT NULL DEFAULT NOW());");
   })
-  .then(function(){
-    console.log('creating trigger to expire old matches')
-    return db.query("CREATE FUNCTION matches_made_delete_old() RETURNS trigger "
-   + "LANGUAGE plpgsql "
-   + "AS $$ " 
-   + "BEGIN "
-   + "DELETE FROM matches_made WHERE created_at < NOW() - INTERVAL '1 month'; "
-   + "RETURN NEW; "
-   + "END; "
-   + "$$; "
-   + "CREATE TRIGGER matches_made_delete_trigger "
-   + "AFTER INSERT ON matches_made "
-   + "EXECUTE PROCEDURE matches_made_delete_old();");
-  })
+  // .then(function(){
+  //   console.log('creating trigger to expire old matches')
+  //   return db.query("CREATE FUNCTION matches_made_delete_old() RETURNS trigger "
+  //  + "LANGUAGE plpgsql "
+  //  + "AS $$ "
+  //  + "BEGIN "
+  //  + "DELETE FROM matches_made WHERE created_at < NOW() - INTERVAL '1 month'; "
+  //  + "RETURN NEW; "
+  //  + "END; "
+  //  + "$$; "
+  //  + "CREATE TRIGGER matches_made_delete_trigger "
+  //  + "AFTER INSERT ON matches_made "
+  //  + "EXECUTE PROCEDURE matches_made_delete_old();");
+  // })
   .catch(function(error){
     console.log('error creating matches deletion function');
     console.log(error);

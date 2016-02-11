@@ -16,7 +16,7 @@ describe('database helpers', () => {
 				return db.query('CREATE SCHEMA public;');
 			})
 			.then(() => {
-				return db.query('GRANT ALL ON SCHEMA public TO postgres;');
+				return db.query('GRANT ALL ON SCHEMA public TO matchmaker;');
 			})
 			.then(() => {
 				return db.query('GRANT ALL ON SCHEMA public TO public;');
@@ -27,9 +27,9 @@ describe('database helpers', () => {
 			.then(() => {
 				return createTables();
 			})
-			.then(() => {
-
-				const NUM_PROFILES = 1000;
+			.then((result) => {
+				console.log(result, result)
+				const NUM_PROFILES = 100;
 				let profilesGenerated = 0;
 				for (var i = 0; i < NUM_PROFILES; i++) {
 
@@ -139,24 +139,24 @@ describe('database helpers', () => {
 		})
 	});
 
-	describe('getMatchSet', () => {
-		it('should get a match set', () => {
-			return getMatchSet()
-			.then((rows) => {
+	// describe('getMatchSet', () => {
+	// 	it('should get a match set', () => {
+	// 		return getMatchSet()
+	// 		.then((rows) => {
 
-				expect(rows.target).to.have.property('first_name')
-				expect(rows.target).to.have.property('gender_preference')
+	// 			expect(rows.target).to.have.property('first_name')
+	// 			expect(rows.target).to.have.property('gender_preference')
 
-				expect(rows.prospects).to.have.length(2)
-				expect(rows.prospects[0]).to.not.equal(rows[1])
-				expect(rows.prospects[0]).to.have.property('first_name')
-				expect(rows.prospects[1]).to.have.property('gender_preference')
-			})
-			.catch((err) => {
-				throw new Error(err);
-			});
-		});
-	});
+	// 			expect(rows.prospects).to.have.length(2)
+	// 			expect(rows.prospects[0]).to.not.equal(rows[1])
+	// 			expect(rows.prospects[0]).to.have.property('first_name')
+	// 			expect(rows.prospects[1]).to.have.property('gender_preference')
+	// 		})
+	// 		.catch((err) => {
+	// 			throw new Error(err);
+	// 		});
+	// 	});
+	// });
 
 	describe('getMatchesMade', () => {
 		it('should get a pair that connected in part due to the matchmaker made', () => {

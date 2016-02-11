@@ -31,7 +31,7 @@ export function chooseMatch(target, prospect, user_id, triads) {
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
-  
+
   if (clickTracker()) {
     return function (dispatch) {
 
@@ -53,7 +53,7 @@ export function chooseMatch(target, prospect, user_id, triads) {
           if (json && json.score) {
             dispatch(updateScore(json.score));
           }
-                    
+
         });
     }
   } else {
@@ -85,7 +85,7 @@ export function getNewCandidates(user_id, triads) {
     dispatch(requestTriad())
     // triads array version of the app
     //if (triads.length < 3 && triadTracker()) {
-      let request = new Request('/api/candidates/' + user_id, {
+      let request = new Request(`/api/users/:${user_id}/candidates`, {
         method: 'get',
         headers: {
           'Accept': 'application/json',

@@ -18,8 +18,8 @@ var genderPreference = function(input) {
 
 module.exports = function (app, express) {
 	// test route, use this to get data for redux
-	app.get('/api/candidates/:user_id', function(req, res) {
-		var user_id = Number(req.params.user_id) > 0 ? Number(req.params.user_id) : 0;				
+	app.get('/api/users/:user_id/candidates', function(req, res) {
+		var user_id = Number(req.params.user_id) > 0 ? Number(req.params.user_id) : 0;
 		res.json(getMatchSet(user_id));
 	});
 
@@ -28,7 +28,7 @@ module.exports = function (app, express) {
 		addMatch(req.body).then((row) => {
 			if (row && row[0]) {
 			  // return a 200 point bonus because a connection was created
-			  res.json({score: 200}); 
+			  res.json({score: 200});
 			} else {
 			  res.json({});
 			}
@@ -37,7 +37,7 @@ module.exports = function (app, express) {
 
 
 	// This function should eventually get other things such as a score.
-	app.get('/api/matchmakerScore/:user_id', (req, res) => {
+	app.get('/api/users/:user_id/matchmakerScore', (req, res) => {
       	getMatchesMade(req.params.user_id).then((output) => {
         	res.json(output);
     	});
@@ -45,13 +45,13 @@ module.exports = function (app, express) {
 
 	// change profile picture
 	// /api/users/:user_id/pictures/:picture
-	app.put('/api/pictures/:user_id', (req, res) => {
+	app.put('api/users/:user_id/pictures', (req, res) => {
       	putPicture(req.params.user_id, req.body.image_url).then((output) => {
       		res.json(output);
       	});
 	});
 
-	app.get('/api/album/:user_id', (req, res) => {
+	app.get('/api/users/:user_id/album', (req, res) => {
       	getAlbum(req.params.user_id).then((output) => {
       		res.json(output);
       	});
@@ -128,8 +128,8 @@ module.exports = function (app, express) {
 	})
 
 
-	app.put('/api/users/:userID', (req, res) => {
-	  let userID = req.params.userID;
+	app.put('/api/users/:user_id', (req, res) => {
+	  let userID = req.params.user_id;
 	  let userInfo = req.body;
 	  putUser(userID, userInfo)
 	    .then((rows)=> {
