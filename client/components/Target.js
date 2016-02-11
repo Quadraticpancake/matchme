@@ -92,6 +92,14 @@ class Target extends Component {
   }
 
   render() {
+    if(!target){
+      return (
+        <Col xs={12} sm={12} md={6} >
+          <Row className={css.target}>
+          </Row>
+        </Col>
+      );
+    }
     const { target, actions, user, triads } = this.props;
 
     let targetHeight = '90vh';
@@ -118,10 +126,17 @@ class Target extends Component {
     }
 
     function calculateAge(birthdate) {
-
+      if(birthdate === null){
+        return null;
+      }
       let difference = +Date.now() - +new Date(birthdate);
       let ageDate = new Date(difference); // miliseconds from epoch
-      return Math.abs(ageDate.getUTCFullYear() - 1970);
+      let age = Math.abs(ageDate.getUTCFullYear() - 1970);
+      if(isNaN(age)){
+        return null;
+      } else {
+        return age;
+      }
     }
 
     let age = calculateAge(target.birthday);
