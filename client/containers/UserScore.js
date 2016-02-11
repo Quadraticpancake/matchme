@@ -89,20 +89,7 @@ const rightArrowStyle = {
 
 
 class UserScore extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-
-
-  // componentWillMount() {
-  //   const { user, routerActions } = this.props;
-  //   //if user isn't authenticated reroute them to the home page
-  //   if (!user.isAuthenticated) {
-  //     routerActions.push('/home');
-  //     return;
-  //   }
-  // }
-
+  
   componentDidMount() {
     const { actions, user_id, user} = this.props;
     console.log(actions);
@@ -118,28 +105,23 @@ class UserScore extends Component {
     window.removeEventListener('keyup', actions.changeIndex);
   }
 
-/*
-  onKeyUP() {
-    const { actions, index } = this.props;
-    console.log("TESTING MOTHERFUCKER")
-    actions.changeIndex(index - 1);
-  }
-*/
-
   render() {
     const { userScore, index, actions } = this.props;
 
-    // for testing purposes
-    let rightArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/right_arrow.png'
-    let leftArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/.cache/left_arrow.png'
-    let heartButton = <div className="col-md-2"><img src={'https://freeiconshop.com/files/edd/heart-compact-flat.png'} style={smallImageStyle} /></div>
+    let rightArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/right_arrow.png';
+    let leftArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/.cache/left_arrow.png';
+    let heartImg = <span>{heartSvg}
+                <svg viewBox="0 0 32 32" style={heartFilledInStyle}>
+                  <g filter="url(#inset-shadow)">
+                    <use xlinkHref="#heart-icon"></use>
+                  </g>
+                </svg></span>;
     let renderedConnectionsMade = [];
     let score = 0;
     if (userScore) {
-      console.log(userScore);
       score = userScore.score;
       for (var i = 0; i < userScore.pairs.length; i++) {
-        renderedConnectionsMade.push(<div className="container" style={{marginBottom: 100}}>
+        renderedConnectionsMade.push(<div className="container">
                                        <div className="row-fluid">
                                          <div>
                                            <div className="col-md-4" style={{marginLeft: 15}}>
@@ -159,22 +141,23 @@ class UserScore extends Component {
 
     let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
     let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
+    
     let connectionCount;
     if (renderedConnectionsMade.length > 1) {
-    connectionCount =
-    <div className='text-center' style={{marginLeft: 0}}>
-       You have helped create { renderedConnectionsMade.length } connections
-    </div>
+      connectionCount =
+      <div className='text-center' style={{marginLeft: 0}}>
+         You have helped create { renderedConnectionsMade.length } connections
+      </div>;
     } else if (renderedConnectionsMade.length === 1) {
-    connectionCount =
-    <div className='text-center' style={{marginLeft: 0}}>
-       You have helped create { renderedConnectionsMade.length } connection
-    </div>
+      connectionCount =
+      <div className='text-center' style={{marginLeft: 0}}>
+         You have helped create { renderedConnectionsMade.length } connection
+      </div>;
     } else {
-    connectionCount =
-    <div className='text-center' style={{marginLeft: 0}}>
-      You have yet to help create any connections
-    </div>
+      connectionCount =
+      <div className='text-center' style={{marginLeft: 0}}>
+        You have yet to help create any connections
+      </div>;
     }
 
     return (
@@ -188,11 +171,6 @@ class UserScore extends Component {
               {connectionCount}
             </div>
           </div>
-          <div className='col-md-8' style={divStyle}>
-            <div className='text-center' style={{marginLeft: 200}}>
-
-            </div>
-          </div>
           <div className='col-md-8'>
             <div className='col-md-1'>
               {index > 0 && leftArrow}
@@ -204,25 +182,16 @@ class UserScore extends Component {
               {(index < renderedConnectionsMade.length - 1) && rightArrow}
             </div>
           </div>
-          { userScore.pairs[index] && userScore.pairs[index].pairHeart
-            && <div className='col-md-8' style={divStyle}>
-              <div className='text-center' style={{marginTop: -100, marginLeft: 170}}>
+          { userScore.pairs[index] && userScore.pairs[index].pairHeart && 
+          <div className='col-md-8' style={divStyle}>
+            <div className='text-center' style={{marginLeft: 170}}>
               <span>
-                {heartSvg}
-                <svg viewBox="0 0 32 32" style={heartFilledInStyle} >
-                  <g filter="url(#inset-shadow)">
-                    <use xlinkHref="#heart-icon"></use>
-                  </g>
-                </svg>
+                {heartImg}
                 {userScore.pairs[index].user_one.first_name} and {userScore.pairs[index].user_two.first_name} liked each other!
-                {heartSvg}
-                <svg viewBox="0 0 32 32" style={heartFilledInStyle} >
-                  <g filter="url(#inset-shadow)">
-                    <use xlinkHref="#heart-icon"></use>
-                  </g>
-                </svg> </span>
-              </div>
-            </div> }
+                {heartImg}
+              </span>
+            </div>
+          </div> }
         </div>}
       </section>
     );
@@ -236,14 +205,14 @@ function mapStateToProps(state) {
     user: state.user,
     index: state.user.userScore.index
   };
-}
+};
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(UserActions, dispatch),
     routerActions: bindActionCreators(routeActions, dispatch)
   };
-}
+};
 
 
 export default connect(

@@ -37,7 +37,7 @@ module.exports = function (app, express) {
 
 
 	// This function should eventually get other things such as a score.
-	app.get('/api/users/:user_id/matchmakerScore', (req, res) => {
+	app.get('/api/users/:user_id/results', (req, res) => {
       	getMatchesMade(req.params.user_id).then((output) => {
         	res.json(output);
     	});

@@ -1,11 +1,5 @@
 import fetch from 'isomorphic-fetch';
 
-////////////////////////
-// Login Related Code //
-////////////////////////
-
-// There are three possible states for our login
-// process and we need actions for each of them
 
 // Function creates closure for the mostRecent click to add rate limiter to actions
 var createClickTracker = function (miliseconds) {
@@ -19,10 +13,6 @@ var createClickTracker = function (miliseconds) {
   }
 }
 
-//////////////////
-// User actions //
-//////////////////
-
 // Rate limits matchChoosing to no more than 1 per second
 var matchClickTracker = createClickTracker(1000);
 
@@ -35,9 +25,6 @@ export function chooseMatch(target, prospect, user_id, triads) {
   // thus making it able to dispatch actions itself.
   return function (dispatch) {
     if (matchClickTracker()) {
-    
-    // Fetch our target
-    // TODO: also fetch our prospects
       dispatch(updateScore(10));
       dispatch(getNewCandidates(user_id, triads));
       let request = new Request('/api/pairs/', {
@@ -139,8 +126,6 @@ function setScore(score) {
   };
 }
 
-
-
 export const REQUEST_TRIAD = 'REQUEST_TRIAD';
 
 // Tells the state that the app is requesting a new triad
@@ -151,6 +136,7 @@ function requestTriad() {
     isFetching: true
   };
 }
+
 export const RECEIVE_TRIADS = 'RECEIVE_TRIADS';
 
 // updates the state to have the new triad and not that the fetching is complete
