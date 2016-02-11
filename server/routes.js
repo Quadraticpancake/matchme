@@ -18,8 +18,8 @@ var genderPreference = function(input) {
 
 module.exports = function (app, express) {
 	// test route, use this to get data for redux
-	app.get('/api/candidates/:user_id', function(req, res) {
-		var user_id = Number(req.params.user_id) > 0 ? Number(req.params.user_id) : 0;				
+	app.get('/api/users/:user_id/candidates', function(req, res) {
+		var user_id = Number(req.params.user_id) > 0 ? Number(req.params.user_id) : 0;
 		res.json(getMatchSet(user_id));
 	});
 
@@ -28,7 +28,7 @@ module.exports = function (app, express) {
 		addMatch(req.body).then((row) => {
 			if (row && row[0]) {
 			  // return a 200 point bonus because a connection was created
-			  res.json({score: 200}); 
+			  res.json({score: 200});
 			} else {
 			  res.json({});
 			}
