@@ -105,7 +105,7 @@ export function addMatch (match) {
     user_two = ${ pairFormatted.user_two }) returning pair_id), p as (select pair_id from  \
     pairs where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = \
     ${ pairFormatted.user_two }), temp as (insert into matches_made (matchmaker, pair) values \
-    (${ match.matchmaker.user_id }, (select pair_id from p union all select pair_id from i))) \
+    (${ match.matchmaker.user_id }, (select pair_id from p ))) \
     select matches_made.matchmaker, matches_made.pair from matches_made join p on p.pair_id = matches_made.pair;`;
   return db.query(matchQuery)
     .then((rows) => {
@@ -119,7 +119,7 @@ export function addMatch (match) {
           ${ match.matchmaker.user_id }), allscore as (update users set score = score + 100 where user_id in \
           (${ matchmakersStr })) update pairs set connected = true where pair_id = \
           ${ rows[0].pair } returning *;`
-        
+
         return db.query(onConnectionQuery);
       } else {
         return false; // No connection occured
@@ -136,7 +136,7 @@ export function getMatchSet (user_id) {
         var userCount = row[0].user_id
         var randomUserIdsStr = '' + Math.floor(Math.random() * userCount) + 1;
         for (var i = 0; i < 100; i++) {
-          randomUserIdsStr += ', ' + (Math.floor(Math.random() * userCount) + 1); 
+          randomUserIdsStr += ', ' + (Math.floor(Math.random() * userCount) + 1);
         }
         var sample_min = Math.floor(Math.random() * userCount) + 1;
         var prospectRangeStr = ' user_id >= ' + sample_min + ' or user_id <= ';
@@ -145,7 +145,7 @@ export function getMatchSet (user_id) {
           prospectRangeStr += (sample_min + prospectCount);
         } else {
           prospectRangeStr += (sample_min - userCount + prospectCount);
-        }       
+        }
         var date = new Date();
         var month = date.getMonth();
         var day = date.getDate()
@@ -176,9 +176,9 @@ export function getMatchSet (user_id) {
         }
 
         var match = function (p1, p2) {
-          return (p1.gender === p2.gender_preference || p2.gender_preference === 'both') 
-            && (p2.gender === p1.gender_preference || p1.gender_preference === 'both') 
-            && p1.user_id !== p2.user_id && age(p2) !== false && age(p1) !== false 
+          return (p1.gender === p2.gender_preference || p2.gender_preference === 'both')
+            && (p2.gender === p1.gender_preference || p1.gender_preference === 'both')
+            && p1.user_id !== p2.user_id && age(p2) !== false && age(p1) !== false
             && p1.age_min <= age(p2) && p2.age_min <= age(p1) && p2.age_max >= age(p1) && p1.age_max >= age(p2);
         }
         //console.log(targetsAndUserQuery);
@@ -192,7 +192,7 @@ export function getMatchSet (user_id) {
                 var prospectIterator = 0;
                 for (var i = 0; i < targetRows.length; i++) {
                   target = targetRows[i];
-                  for (prospectIterator; (prospectIterator < prospectRows.length && prospects.length < 2); prospectIterator++) {                      
+                  for (prospectIterator; (prospectIterator < prospectRows.length && prospects.length < 2); prospectIterator++) {
                     if (prospectRows[prospectIterator] && match(target, prospectRows[prospectIterator])) {
                       prospects.push(prospectRows[prospectIterator]);
                       prospectRows[prospectIterator] = null;
@@ -200,7 +200,7 @@ export function getMatchSet (user_id) {
                   }
                   if (prospectIterator === prospectRows.length) {
                     prospectIterator = 0;
-                  }                                 
+                  }
                   if (prospects.length === 2) {
                     triadsStore.push({target: target, prospects: prospects})
                     prospects = [];
@@ -245,7 +245,7 @@ export function getMatchSet (user_id) {
   if (triadsStore.length < 300 && replenishingTriads === false) {
     replenishingTriads = true;
     func();
-  } 
+  }
   return getTriads();
 }
 
@@ -357,7 +357,7 @@ export function postRecommendation(user_id, user_gender, user_preference) {
     });
 
     let getLikedSetQuery = `select * from analytics where ` + queryIds + `;`;
-    return db.query(getLikedSetQuery) 
+    return db.query(getLikedSetQuery)
     .then((rows) => {
 
       let totalAge = 0;
@@ -382,7 +382,7 @@ export function postRecommendation(user_id, user_gender, user_preference) {
             if(modeMap[el] == null)
               modeMap[el] = 1;
             else
-              modeMap[el]++;  
+              modeMap[el]++;
             if(modeMap[el] > maxCount)
             {
               maxEl = el;
@@ -414,7 +414,7 @@ export function postRecommendation(user_id, user_gender, user_preference) {
     let queryAlreadyConnected = '';
     result.liked.forEach(function(item) {
       queryAlreadyConnected += ' AND user_id <> ' + item;
-    }); 
+    });
 
     let getRecQuery = `select user_id from analytics where` +
        ` age < ${ idealAgeMax } and age > ${ idealAgeMin }` +
