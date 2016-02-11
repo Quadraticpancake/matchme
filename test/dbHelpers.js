@@ -16,7 +16,7 @@ describe('database helpers', () => {
 				return db.query('CREATE SCHEMA public;');
 			})
 			.then(() => {
-				return db.query('GRANT ALL ON SCHEMA public TO matchmaker;');
+				return db.query('GRANT ALL ON SCHEMA public TO postgres;');
 			})
 			.then(() => {
 				return db.query('GRANT ALL ON SCHEMA public TO public;');
