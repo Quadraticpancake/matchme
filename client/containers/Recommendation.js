@@ -50,7 +50,7 @@ class Recommendation extends Component {
         </div>
         <div style={robotDivStyle}>
           <img style={robotStyle} src='http://i.imgur.com/20Whp63.gif'/>
-          <button onClick={() => {this.getRecommendation()}}> Get our match for you! </button>
+          <button type="button" class="btn btn-info" onClick={() => {this.getRecommendation()}}> Get our match for you! </button>
         </div>
         <div style={recommendationStyle}>
           <img src={recommendation.image_url}/>
