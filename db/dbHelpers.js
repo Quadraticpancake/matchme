@@ -451,6 +451,7 @@ export function postRecommendation(user_id, user_gender, user_preference) {
 
 
 export function buyCandidate (purchaseInfo) {
+  console.log('IN BUY CANDIDATE', purchaseInfo.user, purchaseInfo.candidate)
   var user_one = purchaseInfo.user < purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
   var user_two = purchaseInfo.user > purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
   var buyCandidateQueryStr = `with i as (insert into pairs (user_one, user_two, connected, user_one_heart, user_two_heart) \

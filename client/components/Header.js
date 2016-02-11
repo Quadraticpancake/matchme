@@ -50,6 +50,7 @@ class Header extends Component {
             {user.isAuthenticated && !user.isAuthenticated &&
             <LinkContainer to="/landing">
               <NavItem eventKey={4}>Landing</NavItem>
+
             </LinkContainer>}
           </Nav>
           <Nav>

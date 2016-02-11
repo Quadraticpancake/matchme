@@ -124,6 +124,27 @@ export function buyCandidate(candidate, user, scoreChange, triads) {
   }
 }
 
+export const BUY_RECOMMENDATION = 'BUY_RECOMMENDATION';
+
+export function buyRecommendation(candidate, user, scoreChange) {
+  return function(dispatch) {
+    dispatch(updateScore(scoreChange));
+    let request = new Request('/api/purchases/candidate', {
+      method: 'put',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({candidate: candidate, user: user, scoreChange: scoreChange})
+    });
+    return fetch(request)
+      .then(response => response.json())
+      .then((score) => {
+        dispatch(setScore(score));
+      });
+  }
+}
+
 export const UPDATE_SCORE = 'UPDATE_SCORE';
 
 function updateScore(scoreChange) {
