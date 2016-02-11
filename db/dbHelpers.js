@@ -213,6 +213,20 @@ export function getMatchSet (user_id) {
       });
   };
 
+  // Single triad version of app
+  var getTriads = function (user_id) {
+    var triad;
+    while (triadsStore.length > 0) {
+      triad = triadsStore.pop();
+      if (triad && triad.target.user_id !== user_id && triad.prospects[0].user_id !== user_id && triad.prospects[1].user_id !== user_id) {
+        return triad;
+      }
+    }
+  }
+
+
+  /*
+  //triad array version of app
   var getTriads = function (user_id) {
     var count = 0;
     var output = [];
@@ -227,7 +241,7 @@ export function getMatchSet (user_id) {
     }
     return output;
   }
-  
+  */
   if (triadsStore.length < 300 && replenishingTriads === false) {
     replenishingTriads = true;
     func();
@@ -440,10 +454,11 @@ export function buyCandidate (purchaseInfo) {
   var user_one = purchaseInfo.user < purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
   var user_two = purchaseInfo.user > purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
   var buyCandidateQueryStr = `with i as (insert into pairs (user_one, user_two, connected, user_one_heart, user_two_heart) \
-    values ${ user_one }, ${ user_two }, true, false, false where not exists (select * from pairs where user_one  \
+    select ${ user_one }, ${ user_two }, true, false, false where not exists (select * from pairs where user_one  \
     = ${ user_one } and user_two = ${ user_two })), p as (update pairs set connected = true  \
     where pairs.user_one = ${ user_one } and pairs.user_two = ${ user_two }) update users set score = score + ${ purchaseInfo.scoreChange } where user_id = \
     ${ purchaseInfo.user } returning score;`
+    //console.log(buyCandidateQueryStr);
   return db.query(buyCandidateQueryStr)
     .then((row) => {
       if (row.length > 0) {

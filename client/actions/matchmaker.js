@@ -83,7 +83,8 @@ export function getNewCandidates(user_id, triads) {
   user_id = user_id || 0;
   return function(dispatch) {
     dispatch(requestTriad())
-    if (triads.length < 3 && triadTracker()) {
+    // triads array version of the app
+    //if (triads.length < 3 && triadTracker()) {
       let request = new Request('/api/candidates/' + user_id, {
         method: 'get',
         headers: {
@@ -97,7 +98,7 @@ export function getNewCandidates(user_id, triads) {
         .then((json) => {
           dispatch(receiveTriads(json));
         });
-    }
+    //}
   };
 }
 
