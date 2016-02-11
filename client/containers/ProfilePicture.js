@@ -138,7 +138,7 @@ class ProfilePicture extends Component {
     let self = this;
 
     let photosMap = photos.map(function(item,i) {
-      return <div style={imgDiv}><img src={item} key={i} style={imageStyle} /><br></br><button type="button" class="btn btn-secondary" style={albumButtonStyle} onClick={self.handleClick.bind(self, item)}>Use as Profile Picture</button><br></br></div>
+      return <div style={imgDiv}><img src={item} key={i} style={imageStyle} /><br></br><button type="button" className="btn btn-secondary" style={albumButtonStyle} onClick={self.handleClick.bind(self, item)}>Use as Profile Picture</button><br></br></div>
     });
 
     return (
@@ -157,8 +157,8 @@ class ProfilePicture extends Component {
               <canvas style={displayElementStyle} id="picDisplay"></canvas>
             </div>
 
-            <button type="button" class="btn btn-secondary" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
-            <button type="button" class="btn btn-secondary" style={picButtonStyle} onClick={() => {this.uploadPictureCanvas()}}>Use as Profile Picture</button>
+            <button type="button" className="btn btn-secondary" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
+            <button type="button" className="btn btn-secondary" style={picButtonStyle} onClick={() => {this.uploadPictureCanvas()}}>Use as Profile Picture</button>
 
           <br></br>
           <br></br>

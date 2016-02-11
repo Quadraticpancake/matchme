@@ -122,7 +122,9 @@ class Recommendation extends Component {
           <div style={prospectInfoStyle}>
             <h4 style={nameStyle}> {recommendation.first_name}, {age} <img src={icon_path} style={iconProspectStyle}/> </h4>
             <p style={prospectInfo}>''{recommendation.description}''</p>
+            <a href="/chats">
             <BuyRecommendation dis={user.userScore.score < 1000 || recommendation.gender === 'none'} actions={buyActions} person={recommendation} user={user}/>
+            </a>
           </div>
 
         </div>

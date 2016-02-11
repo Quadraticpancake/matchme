@@ -38,8 +38,8 @@ class FileUpload extends Component {
     const buttonStyle = {
       display: 'block',
       clear: 'both',
-      marginLeft: 225
-      // marginTop: 100
+      marginLeft: 225,
+      marginBottom: 20
     }
 
     const {
@@ -56,7 +56,8 @@ class FileUpload extends Component {
             <Dropzone { ...files } onDrop={ ( filesToUpload, e ) => {
               document.querySelector("#preview").src=filesToUpload[0].preview;
               files.onChange(filesToUpload);
-            }}><div style={dropzoneInfoStyle}>Drop an image file here to upload. Images must be square.</div></Dropzone>
+            }}>
+            <div style={dropzoneInfoStyle}>Drop an image file here to upload. Images must be square.</div></Dropzone>
           </div>
           <div>
             <img style={preview} id="preview" src='http://allthetickets.net/images/no-preview.png'/>
@@ -64,7 +65,7 @@ class FileUpload extends Component {
         </div>
 
         <div>
-          <button style={buttonStyle} type="submit" disabled={submitting} >
+          <button style={buttonStyle} type="submit" className="btn btn-secondary" disabled={submitting} >
             {submitting ? <i/> : <i/>} Use as Profile Picture
           </button>
         </div>
