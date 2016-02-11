@@ -28,6 +28,7 @@ class ProfileForm extends Component {
 
       <form className={css.form} style={formStyle} onSubmit={handleSubmit}>
         <div>
+          <p>Note: You won't be matched unless you provide a birthday.</p>
           <label>Profile Picture</label>
           <div>
           <img src={image_url.value} />

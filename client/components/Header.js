@@ -22,7 +22,7 @@ class Header extends Component {
     const {user, actions} = this.props;
     return (
       <Navbar staticTop className={css.header} bsStyle='default'>
-        <Navbar.Header>
+        <Navbar.Header style={{position: 'absolute'}}>
           <Navbar.Brand>
             <Link to="/home">
               <div />
@@ -31,6 +31,14 @@ class Header extends Component {
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
+          {!user.isAuthenticated &&
+          <NavItem className={css.loginlogoutmobile} eventKey={3} onClick={this.props.actions.clickLogin} >
+            Login via Facebook
+          </NavItem>}
+          {user.isAuthenticated &&
+          <NavItem className={css.loginlogoutmobile} eventKey={3} onClick={this.props.actions.logout}>
+            Logout
+          </NavItem>}
         </Navbar.Header>
 
         <Navbar.Collapse eventKey={0}>
@@ -51,16 +59,17 @@ class Header extends Component {
             <LinkContainer to="/recommendation">
               <NavItem eventKey={5}>Recommended Match</NavItem>
             </LinkContainer>}
-          </Nav>
-          <Nav>
             {!user.isAuthenticated &&
-            <NavItem eventKey={3} onClick={this.props.actions.clickLogin}>
+            <NavItem className={css.loginlogoutdesktop} eventKey={3} onClick={this.props.actions.clickLogin} >
               Login via Facebook
             </NavItem>}
             {user.isAuthenticated &&
-            <NavItem eventKey={3} onClick={this.props.actions.logout}>
+            <NavItem className={css.loginlogoutdesktop} eventKey={3} onClick={this.props.actions.logout}>
               Logout
             </NavItem>}
+          </Nav>
+          <Nav>
+            
             {user.isAuthenticated &&
             <p className={'navbar-text'}>Logged in as <strong>{user.userInfo.first_name}</strong></p>}
             {user.isAuthenticated &&
