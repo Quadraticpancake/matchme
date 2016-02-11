@@ -22,7 +22,7 @@ export default function createTables () {
       + " location_preference INTEGER,"
       + " description VARCHAR(350),"
       + " image_url VARCHAR(255),"
-      + " score INTEGER);"
+      + " score INTEGER, real BOOLEAN);"
      	)
     //if you want to add additional basic schema fields to the user such as info, add it to the string here
    .then(function(){
@@ -56,6 +56,15 @@ export default function createTables () {
       + " created_at TIMESTAMP NOT NULL DEFAULT NOW());");
   })
   .then(function(){
+    console.log('face anaytics table created')
+    return db.query("CREATE TABLE IF NOT EXISTS analytics (analytics_id SERIAL PRIMARY KEY, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES users(user_id),"
+      + "age INTEGER,"
+      + "coloring VARCHAR(40),"
+      + "expression DECIMAL,"
+      + "faceShape DECIMAL,"
+      + " created_at TIMESTAMP NOT NULL DEFAULT NOW());");
+  })
+  .then(function(){
     console.log('creating trigger to expire old matches')
     return db.query("CREATE FUNCTION matches_made_delete_old() RETURNS trigger "
    + "LANGUAGE plpgsql "
@@ -74,10 +83,6 @@ export default function createTables () {
     console.log(error);
   });
 }
-
-
-
-
 
 
 

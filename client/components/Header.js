@@ -35,17 +35,21 @@ class Header extends Component {
 
         <Navbar.Collapse eventKey={0}>
           <Nav navbar style={{color: '#601848'}}>
-            {user.isAuthenticated &&
+            {user.isAuthenticated && 
             <LinkContainer to="/chats">
               <NavItem eventKey={1}>Chats</NavItem>
             </LinkContainer>}
-            {user.isAuthenticated &&
+            {user.isAuthenticated && 
             <LinkContainer to="/profile">
               <NavItem eventKey={2}>My Profile</NavItem>
             </LinkContainer>}
-            {user.isAuthenticated &&
+            {user.isAuthenticated && 
             <LinkContainer to="/score">
               <NavItem eventKey={3}>My Score</NavItem>
+            </LinkContainer>}
+            {user.isAuthenticated && !user.isAuthenticated &&
+            <LinkContainer to="/landing">
+              <NavItem eventKey={4}>Landing</NavItem>
             </LinkContainer>}
           </Nav>
           <Nav>

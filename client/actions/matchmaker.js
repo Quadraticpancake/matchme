@@ -14,68 +14,100 @@ import fetch from 'isomorphic-fetch';
 
 export const CHOOSE_MATCH = 'CHOOSE_MATCH';
 
-export function chooseMatch(target, prospect, user_id) {
+var createClickTracker = function () {
+  var lastClick = 0;
+  return function () {
+    if ((Date.now() - lastClick) > 1000) {
+      lastClick = Date.now();
+      return true;
+    }
+    return false;
+  }
+}
+
+var clickTracker = createClickTracker();
+
+export function chooseMatch(target, prospect, user_id, triads) {
   // Thunk middleware knows how to handle functions.
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
-  return function(dispatch) {
+  
+  if (clickTracker()) {
+    return function (dispatch) {
 
-    // Fetch our target
-    // TODO: also fetch our prospects
-    dispatch(updateScore(10)); 
-    dispatch(requestTriad());
-
-    let request = new Request('/api/pairs', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({matchmaker: {user_id: user_id}, pair: {target:  target, prospect: prospect }})
-    });
-
-    return fetch(request)
-      .then(response => response.json())
-      .then((json) => {
-        // We can dispatch many times!
-        // Here, we update the app state with the results of the API call.
-        dispatch(setScore(json.score));
-        console.log(json);
-        dispatch(receiveTriad(json.candidates));
+      // Fetch our target
+      // TODO: also fetch our prospects
+      dispatch(updateScore(10));
+      dispatch(getNewCandidates(user_id, triads));
+      let request = new Request('/api/pairs/', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({matchmaker: {user_id: user_id}, pair: {target:  target, prospect: prospect }})
       });
-  };
+      return fetch(request)
+        .then(response => response.json())
+        .then((json) => {
+          if (json && json.score) {
+            dispatch(updateScore(json.score));
+          }
+                    
+        });
+    }
+  } else {
+    return function (dispatch) {
+
+    }
+  }
 }
 
 
+var createTriadTracker = function () {
+  var last = 0;
+  return function () {
+    if ((Date.now() - last) > 4000) {
+      last = Date.now();
+      return true;
+    }
+    return false;
+  }
+}
+
+var triadTracker = createTriadTracker();
 
 export const GET_NEW_CANDIDATES = 'GET_NEW_CANDIDATES';
 
-export function getNewCandidates(user_id) {
+export function getNewCandidates(user_id, triads) {
   user_id = user_id || 0;
   return function(dispatch) {
-    let request = new Request('/api/candidates/' + user_id, {
-      method: 'get',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-    });
-
-    return fetch(request)
-      .then(response => response.json())
-      .then((json) => {
-        dispatch(setScore(json.score));
-        dispatch(receiveTriad(json.candidates));
+    dispatch(requestTriad())
+    // triads array version of the app
+    //if (triads.length < 3 && triadTracker()) {
+      let request = new Request('/api/candidates/' + user_id, {
+        method: 'get',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
       });
+
+      return fetch(request)
+        .then(response => response.json())
+        .then((json) => {
+          dispatch(receiveTriads(json));
+        });
+    //}
   };
 }
 
 export const BUY_CANDIDATE = 'BUY_CANDIDATE';
 
-export function buyCandidate(candidate, user, scoreChange) {
+export function buyCandidate(candidate, user, scoreChange, triads) {
   return function(dispatch) {
     dispatch(updateScore(scoreChange));
-    dispatch(getNewCandidates(user));
+    dispatch(getNewCandidates(user, triads));
     let request = new Request('/api/purchases/candidate', {
       method: 'put',
       headers: {
@@ -127,12 +159,13 @@ function requestTriad() {
     isFetching: true
   };
 }
-export const RECEIVE_TRIAD = 'RECEIVE_TRIAD';
+export const RECEIVE_TRIADS = 'RECEIVE_TRIADS';
 
-function receiveTriad(json) {
+function receiveTriads(json) {
+  console.log("These are the recieved triads", json);
   return {
-    type: RECEIVE_TRIAD,
-    triad: json,
+    type: RECEIVE_TRIADS,
+    triads: json,
     isFetching: false,
     receivedAt: Date.now()
   };

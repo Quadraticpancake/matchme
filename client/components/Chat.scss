@@ -1,0 +1,10 @@
+.chat {
+	margin-left: auto;
+	margin-right: auto;
+  width: 60%;
+  background-color: white;
+  padding: 10px;
+  @media (max-width: 995px) {
+    width: 100%;
+  }
+}

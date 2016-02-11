@@ -77,15 +77,26 @@ class Prospect extends Component {
   }
 
   render() {
-    const { prospect, actions, target, user } = this.props;
+    const { prospect, actions, target, user, triads } = this.props;
     // prospect on line 14 should be the prospect choosen
+    console.log(target);
+    if(!prospect || !prospect.first_name){
+      return (<Row className={css.prospect}></Row>);
+    }
 
     // divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
     function calculateAge(birthdate) {
-
+      if(birthdate === null){
+        return null;
+      }
       let difference = +Date.now() - +new Date(birthdate);
       let ageDate = new Date(difference); // miliseconds from epoch
-      return Math.abs(ageDate.getUTCFullYear() - 1970);
+      let age = Math.abs(ageDate.getUTCFullYear() - 1970);
+      if(isNaN(age)){
+        return null;
+      } else {
+        return age;
+      }
     }
 
     let age = calculateAge(prospect.birthday);
@@ -103,13 +114,13 @@ class Prospect extends Component {
 
 
     return (
-      <Row className={css.prospect} onClick={() => {actions.chooseMatch(target, prospect, user.user_id);}}>
+      <Row className={css.prospect} onClick={() => {actions.chooseMatch(target, prospect, user.user_id, triads);}}>
           <Image src={prospect.image_url} responsive className={css.prospectImage}/>
         <div style={prospectInfoStyle}>
           <h1 style={nameStyle}>{prospect.first_name}, {age} <Image src={icon_prospect_path} style={iconProspectStyle}/> </h1>
           <p style={prospectInfo}>''{prospect.description}''</p>
         </div>
-        </Row>
+      </Row>
     );
   }
 }
