@@ -128,8 +128,8 @@ module.exports = function (app, express) {
 	})
 
 
-	app.put('/api/users/:userID', (req, res) => {
-	  let userID = req.params.userID;
+	app.put('/api/users/:user_id', (req, res) => {
+	  let userID = req.params.user_id;
 	  let userInfo = req.body;
 	  putUser(userID, userInfo)
 	    .then((rows)=> {
