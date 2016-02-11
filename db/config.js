@@ -1,8 +1,8 @@
 //create connection here
 var bluebird = require('bluebird');
 var pgp = require('pg-promise')({promiseLib: bluebird});
-// var connectionString = process.env.DATABASE_URL||"postgres://postgres:test@localhost:5432/matchmaker";
-var connectionString = "postgres://matchmaker:quadraticpancake2016@matchmaker.c7schl94pgps.us-west-2.rds.amazonaws.com:5432/matchmaker";
+var connectionString = process.env.DATABASE_URL||"postgres://postgres:test@localhost:5432/matchmaker";
+// var connectionString = "postgres://matchmaker:quadraticpancake2016@matchmaker.c7schl94pgps.us-west-2.rds.amazonaws.com:5432/matchmaker";
 
 //create new db instance
 var db = pgp(connectionString);
