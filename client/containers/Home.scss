@@ -1,0 +1,21 @@
+.prospect {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin-left: 10px;
+  @media (max-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 0;
+  }
+}
+
+.dividingBar {
+	padding: 0.5em;
+	border-radius: 1%;
+	background-color: white;
+	margin: 0.5em;
+	@media (min-width: 768px) {
+		display: none;
+	}
+}

@@ -1,5 +1,5 @@
 import { getConnectedPairsAndMessagesForUser, addMessage, updateHeart, closeChat } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum, buyCandidate} from '../db/dbHelpers';
+import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum, buyCandidate, postAlbum, postRecommendation} from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -16,35 +16,37 @@ var genderPreference = function(input) {
   return 'male';
 }
 
-export default function (app, express) {
+module.exports = function (app, express) {
 	// test route, use this to get data for redux
-	app.get('/api/candidates', function(req, res) {
-		getMatchSet().then(function(rows) {
-			res.json([rows.prospects[0], rows.prospects[1], rows.target])
-		})
+	var TESTINGCOUNT = 0;
+	app.get('/api/candidates/:user_id', function(req, res) {
+		var user_id = Number(req.params.user_id) > 0 ? Number(req.params.user_id) : null;
+		console.log(++TESTINGCOUNT);		
+		res.json(getMatchSet(user_id));
 	});
 
 	app.post('/api/pairs', (req, res) => {
 		store.dispatch({type: 'UPDATE_LATEST', latestMatch: req.body})
 		addMatch(req.body).then((row) => {
-			// STUFF CAN BE DONE HERE TO PING USER IF ROW ENTRY RETURNED BECAUSE CONNECTION WAS MADE!!!!!
-			getMatchSet().then((rows) => {
-				res.json([rows.prospects[0], rows.prospects[1], rows.target])
-			})
+			if (row && row[0]) {
+			  // return a 200 point bonus because a connection was created
+			  res.json({score: 200}); 
+			} else {
+			  res.json({});
+			}
 		})
 	});
 
 
 	// This function should eventually get other things such as a score.
 	app.get('/api/matchmakerScore/:user_id', (req, res) => {
-		console.log("got here");
       	getMatchesMade(req.params.user_id).then((output) => {
         	res.json(output);
     	});
 	});
 
 	// change profile picture
-	// /api/users/:user_id/pictures/:picturei
+	// /api/users/:user_id/pictures/:picture
 	app.put('/api/pictures/:user_id', (req, res) => {
       	putPicture(req.params.user_id, req.body.image_url).then((output) => {
       		res.json(output);
@@ -53,6 +55,18 @@ export default function (app, express) {
 
 	app.get('/api/album/:user_id', (req, res) => {
       	getAlbum(req.params.user_id).then((output) => {
+      		res.json(output);
+      	});
+	});
+
+	app.post('/api/users/:user_id/recommendation', (req, res) => {
+		postRecommendation(req.params.user_id, req.body.gender, req.body.preference).then((output) => {
+			res.json(output);
+		});
+	});
+
+	app.post('/api/users/:user_id/album', (req, res) => {
+      	postAlbum(req.params.user_id, req.body.image_url).then((output) => {
       		res.json(output);
       	});
 	});
@@ -67,7 +81,6 @@ export default function (app, express) {
 
 	app.post('/api/chats', (req, res) => {
 		addMessage(req.body).then(() => {
-			console.log(req.body)
 			io.to(req.body.pair_id.toString()).emit('refreshChats');
 			res.end();
 		});
@@ -75,7 +88,6 @@ export default function (app, express) {
 
     // This should replace the put request
 	app.get('/api/users/:facebook_id', (req, res) => {
-		console.log(req.params.facebook_id);
 		getUser(req.params.facebook_id).then((rows) => {
 			if (rows.length === 0) {
 			  res.json(null);
@@ -86,10 +98,8 @@ export default function (app, express) {
 	});
 
 	app.post('/api/users', (req, res) => {
-		console.log('logging in');
 		request.get('https://graph.facebook.com/v2.5/me?fields=id,first_name,last_name,gender,birthday,picture.width(200).height(200).type(square)&access_token=' + req.body.access_token, function(err, getResponse, fbResult) {
             if (err) {
-                console.log("FB err: ", err);
                 res.send(500);
             }
             try {
@@ -110,21 +120,17 @@ export default function (app, express) {
                     image_url: fbResult.picture.data.url
                 }
                 postUser(userData).then((rows) => {
-                  console.log(rows);
                   res.json(rows);
                 });
             } catch (e) {
                 console.log("generic error");
                 res.send(500);
             }
-            console.log("GOT HERE");
 		})
 	})
 
 
 	app.put('/api/users/:userID', (req, res) => {
-      console.log(req.params.userID);
-	  console.log(req.body);
 	  let userID = req.params.userID;
 	  let userInfo = req.body;
 	  putUser(userID, userInfo)
@@ -134,7 +140,6 @@ export default function (app, express) {
 	});
 
 	app.put('/api/chatsheart', (req, res) => {
-	  console.log('got to here');
 	  updateHeart(req.body.user_id, req.body.pair_id, req.body.is_user_one)
 	    .then((heartInfo) => {
 	      res.json(heartInfo);
@@ -149,12 +154,12 @@ export default function (app, express) {
 	})
 
 	app.put('/api/pairs/:pair_id/close', (req, res) => {
-	  console.log('THE PAIR_ID FOR CLOSING CHAT', req.params.pair_id);
 	  closeChat(req.params.pair_id)
 	    .then((pair_id) => {
 	      res.json(pair_id);
 	    });
 	})
+
 	// app.get('/api/matchSet', (req, res) => {
 	// 	getMatchSet().then((matchSet) => {
 	// 		console.log(matchSet)

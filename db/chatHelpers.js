@@ -80,10 +80,17 @@ export function getConnectedPairsAndMessagesForUser(user_id) {
 
 export function addMessage(msgObj) {
 	var currentTime = (new Date ((new Date((new Date(new Date())).toISOString() )).getTime() - ((new Date()).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' ');
-
-	return db.query(
-		`insert into messages (pair, sender, text, created_at) values(${msgObj.pair_id}, ${msgObj.sender}, '${msgObj.text}', '${currentTime}');`
-	).catch((err) => { throw new Error(err); })
+    var text = '';
+    // single quotes need to be "escaped" with an additional single quote when inserting into postgres DB
+    for (var i = 0; i < msgObj.text.length; i++) {
+      if (msgObj.text.charAt(i) === "'") {
+      	text += "''";
+      } else {
+      	text += msgObj.text.charAt(i);
+      }
+    }
+    var q = `insert into messages (pair, sender, text, created_at) values(${msgObj.pair_id}, ${msgObj.sender}, '${text}', '${currentTime}');`
+	return db.query(q).catch((err) => { throw new Error(err); })
 }
 
 export function updateHeart(user, pair, is_user_one) {

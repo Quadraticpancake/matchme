@@ -15,31 +15,19 @@ class ProfilePicture extends Component {
     // http://matthewschrager.com/2013/05/25/how-to-take-webcam-pictures-from-browser-and-store-server-side/
     let canvas = document.querySelector("#picDisplay");
     let video = document.querySelector("#videoElement");
-    canvas.width = 624;
-    canvas.height = 468;
-    canvas.getContext('2d').drawImage(video,0,0);
+    // canvas.width = 624;
+    canvas.width = 465;
+    canvas.height = 465;
+    canvas.getContext('2d').drawImage(video,10,0);
   }
 
-  uploadPicture() {
+  uploadPictureCanvas() {
     let canvas = document.querySelector("#picDisplay");
     let imgData = canvas.toDataURL("img/png");
-    // console.log('url???', imgData.toString());
-    // extract data in base 64 encoded webp format
-    // console.log(imgData);
     imgData = imgData.replace('data:image/png;base64,','');
-    // console.log(imgData);
-    // let postData = JSON.stringify({imgData: imgData});
-
-    // console.log('postdata from webcam', postData)
-    // post to server
-      // ASYNC:
-      // writeFile to profilePics
-      //
 
     const {actions, user} = this.props;
-    // actions.updatePic(item,user.user_id);
     actions.postPicture(user.user_id, imgData);
-
   }
 
   componentDidMount(){
@@ -60,9 +48,7 @@ class ProfilePicture extends Component {
 
   componentWillMount(){
     const {actions, user} = this.props;
-    console.log('userID in profilePicture', user.user_id)
     actions.getAlbum(user.user_id);
-    console.log('USER IN PICTURES', user.user_id)
   }
 
   handleClick(item){
@@ -70,27 +56,25 @@ class ProfilePicture extends Component {
     actions.updatePic(item,user.user_id);
   }
 
-  handleSubmit(data){
+  handleUploadSubmit(data){
+    console.log('handle submit', typeof data.files[0])
     const {actions, user} = this.props;
-    console.log('HANDLED SUBMIT', data);
-    var body = new FormData();
-    // Object.keys(data).forEach(( key ) => {
-    //   body.append(key, data[ key ]);
-    // });
-    console.log(body);
-    body.append('image', data.files[0]);
-    console.log(body);
-    console.log(data.files[0]);
-    // actions.updatePic(item,user.user_id);
-    actions.postPicture(user.user_id, body);
+    
+    let fileToLoad = data.files[0];
+    var fileReader = new FileReader();
 
-    // fetch(`http://example.com/send/`, {
-    //   method: 'POST',
-    //   body: body,
-    // })
-    // .then(res => res.json())
-    // .then(res => console.log(res))
-    // .catch(err => console.error(err));
+    fileReader.onload = function(e, file) {
+      let file64 = e.target.result;
+      // file64 = file64.replace('data:image/jpeg;base64,','')
+      file64 = file64.replace(/(^[^,]*)\w/, '').slice(1);
+      actions.postPicture(user.user_id, file64);
+    }
+
+    fileReader.onerror = function(err) {
+      console.log('error', err)
+    }
+ 
+    fileReader.readAsDataURL(fileToLoad);
   }
 
 
@@ -102,18 +86,16 @@ class ProfilePicture extends Component {
     }
 
     const displayElementStyle = {
-      width: 200,
+      width: 150,
+      height: 150,
       clear: 'all',
-      border: '1px black'
+      backgroundImage: 'url("http://allthetickets.net/images/no-preview.png")',
+      backgroundSize: 'cover'
     }
 
     const picButtonStyle = {
-      borderRadius: 5,
-      // float: 'left',
-      // clear: 'all',
-      display: 'block',
-      borderRadius: 5,
-      margin: 2
+      marginLeft: 5,
+      marginRight: 5,
     }
 
     const imageStyle = {
@@ -131,7 +113,11 @@ class ProfilePicture extends Component {
     const divStyle = {
       clear: 'both',
       margin: 2
-    }
+    };
+
+    const albumButtonStyle = {
+      margin: '5px 2px 20px 22px'
+    };
 
     const {
       actions,
@@ -151,28 +137,26 @@ class ProfilePicture extends Component {
     let self = this;
 
     let photosMap = photos.map(function(item,i) {
-      return <div style={imgDiv}><img src={item} key={i} style={imageStyle} /><br></br><button type="button" style={picButtonStyle} onClick={self.handleClick.bind(self, item)}>Use as Profile Picture</button><br></br></div>
+      return <div style={imgDiv}><img src={item} key={i} style={imageStyle} /><br></br><button type="button" class="btn btn-secondary" style={albumButtonStyle} onClick={self.handleClick.bind(self, item)}>Use as Profile Picture</button><br></br></div>
     });
 
     return (
       <div>
         <h3 style={divStyle}>Option 1. Choose from your existing photos</h3>
-
-          <p>Your pictures:</p>
           <div>{photosMap}</div>
 
         <h3 style={divStyle}>Option 2. Upload a picture</h3>
-          <FileUpload onSubmit={this.handleSubmit.bind(this)} />
-          <p>Drop file here to upload</p>
-       <h3 style={divStyle}>Option 3. No good pics? Snap the perfect shot with your device camera!</h3>
+          <FileUpload onSubmit={this.handleUploadSubmit.bind(this)} />
+
+        <h3 style={divStyle}>Option 3. No good pics? Snap the perfect shot now!</h3>
 
           <div style={divStyle}>
             <video style={videoElementStyle} autoPlay="true" id="videoElement"></video>
             <canvas style={displayElementStyle} id="picDisplay"></canvas>
           </div>
 
-          <button type="button" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
-          <button type="button" style={picButtonStyle} onClick={() => {this.uploadPicture()}}>Use as Profile Picture</button>
+          <button type="button" class="btn btn-secondary" style={picButtonStyle} onClick={() => {this.takePicture()}}>Take a new Profile Picture</button>
+          <button type="button" class="btn btn-secondary" style={picButtonStyle} onClick={() => {this.uploadPictureCanvas()}}>Use as Profile Picture</button>
 
         <br></br>
         <br></br>
