@@ -32,3 +32,15 @@
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
 	background-color: black;
 }
+
+.loginlogoutmobile {
+  @media screen and (min-width: 995px) {
+  	display: none;
+  }
+}
+
+.loginlogoutdesktop {
+  @media screen and (max-width: 995px) {
+  	display: none;
+  }
+}
