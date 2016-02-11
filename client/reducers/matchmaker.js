@@ -14,7 +14,7 @@ const initialState = {
     },
     {
       user_id: 5,
-      first_name: 'matchmaker.js'
+      first_name: ''
     }
   ],
   triads: []
@@ -40,7 +40,7 @@ export default function matchmaker(state = initialState, action) {
         newState.prospects = triad.prospects;
         return newState;
       }
-      
+
     case RECEIVE_TRIADS:
       let triads = (action.triads).concat(newState.triads);
       console.log('WE RECIEVED TRIADS AND HERE THEY ARE', triads);
@@ -59,7 +59,7 @@ export default function matchmaker(state = initialState, action) {
           triads: triads
         });
       }
-      
+
 
 
 

@@ -16,7 +16,7 @@ describe('database helpers', () => {
 				return db.query('CREATE SCHEMA public;');
 			})
 			.then(() => {
-				return db.query('GRANT ALL ON SCHEMA public TO postgres;');
+				return db.query('GRANT ALL ON SCHEMA public TO matchmaker;');
 			})
 			.then(() => {
 				return db.query('GRANT ALL ON SCHEMA public TO public;');
@@ -50,11 +50,11 @@ describe('database helpers', () => {
 						return db.query(insertUserAnalyticsQueryStr);
 					}).then(() => {
 						if (profilesGenerated === NUM_PROFILES-1) {
-							done();	
+							done();
 						}
 				  	});
 				}
-				
+
 				console.log('tables dropped and recreated; fake users generated');
 			})
 			.catch((error) => {
