@@ -19,7 +19,7 @@ var genderPreference = function(input) {
 module.exports = function (app, express) {
 	// test route, use this to get data for redux
 	app.get('/api/candidates/:user_id', function(req, res) {
-		var user_id = Number(req.params.user_id) > 0 ? Number(req.params.user_id) : null;		
+		var user_id = Number(req.params.user_id) > 0 ? Number(req.params.user_id) : 0;				
 		res.json(getMatchSet(user_id));
 	});
 

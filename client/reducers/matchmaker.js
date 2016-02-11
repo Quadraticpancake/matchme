@@ -17,7 +17,22 @@ const initialState = {
       first_name: ''
     }
   ],
-  triads: []
+  triad: {target: {
+    placeholder: true,
+    user_id: 3,
+    first_name: '',
+  }, prospects: [
+    {
+      user_id: 4,
+      first_name: ''
+    },
+    {
+      user_id: 5,
+      first_name: ''
+    }
+  ]}
+  // This is code for triads array version of code
+  // triads: []
 };
 
 export default function matchmaker(state = initialState, action) {
@@ -30,6 +45,7 @@ export default function matchmaker(state = initialState, action) {
       return newState;
 
     case REQUEST_TRIAD:
+      /*
       if (newState.triads && newState.triads.length === 0) {
         return Object.assign({}, state, {
           isFetching: true,
@@ -40,8 +56,13 @@ export default function matchmaker(state = initialState, action) {
         newState.prospects = triad.prospects;
         return newState;
       }
+      */
+      return Object.assign({}, state, {
+          isFetching: true,
+        });
 
     case RECEIVE_TRIADS:
+      /*
       let triads = (action.triads).concat(newState.triads);
       console.log('WE RECIEVED TRIADS AND HERE THEY ARE', triads);
       if (newState.triads.length === 0) {
@@ -59,6 +80,14 @@ export default function matchmaker(state = initialState, action) {
           triads: triads
         });
       }
+      */
+      return Object.assign({}, state, {
+          isFetching: false,
+          lastUpdated: action.receivedAt,
+          triad: action.triads,
+          target: action.triads.target,
+          prospects: action.triads.prospects
+        });
 
 
 
