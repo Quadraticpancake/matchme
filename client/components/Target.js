@@ -92,7 +92,9 @@ class Target extends Component {
   }
 
   render() {
-    if(!target){
+
+    const { target, actions, user, triads } = this.props;
+    if(!target || !target.first_name){
       return (
         <Col xs={12} sm={12} md={6} >
           <Row className={css.target}>
@@ -100,8 +102,6 @@ class Target extends Component {
         </Col>
       );
     }
-    const { target, actions, user, triads } = this.props;
-
     let targetHeight = '90vh';
 
     let wellStyle = {height: targetHeight, backgroundColor: "#eee"};
