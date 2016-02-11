@@ -24,7 +24,7 @@ class BuyButton extends Component {
     const user_id = user.user_id;
 
     return (
-        <Button disabled={dis} className={css.button} bsStyle="info" style={{backgroundColor: '#601848'}} onClick={() => {actions.buyCandidate(person_id, user_id, cost, triads);}} >Match with { person.first_name }? ({cost} points)</Button>
+        <Button disabled={dis} className={css.button} bsStyle="info" style={{backgroundColor: '#601848'}} onClick={() => {actions.buyCandidate(person_id, user_id, cost, triads);}}> Match with { person.first_name }? ({cost} points) </Button>
     );
   }
 }
