@@ -49,6 +49,10 @@ class App extends Component {
           xfbml      : true,
           version    : 'v2.5'
         });
+
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
       };
 
       (function(d, s, id){
