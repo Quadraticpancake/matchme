@@ -2,13 +2,17 @@ import db from './config';
 var request = require('request');
 var _ = require('underscore');
 import generateUserAnalytics from '../server/faceAnalysis/faceAnalysis';
-/*
+
 var Queue = function () {
   var output = {};
   output._first = null;
   output._last = null;
+  output._size = 0;
   var node = function (val) {
     return {value: val, next: null};
+  }
+  output.getSize = function () {
+    return this._size;
   }
   output.enqueue = function (val) {
     if (this._first) {
@@ -18,11 +22,13 @@ var Queue = function () {
       this._first = node(val);
       this._last = this._first;
     }
+    this._size++;
   }
   output.dequeue = function () {
     if (this._first) {
       var result = this._first.value;
       this._first = this._first.next;
+      this._size--;
       return result;
     } else {
       return null;
@@ -30,8 +36,10 @@ var Queue = function () {
   }
   return output;
 }
-*/
-var triadsStore = [];
+
+var triadsStore = Queue();
+
+//var triadsStore = [];
 
 var replenishingTriads = false;
 
@@ -215,7 +223,8 @@ export function getMatchSet (user_id) {
                     prospectIterator = 0;
                   }
                   if (prospects.length === 2) {
-                    triadsStore.push({target: target, prospects: prospects})
+                    triadsStore.enqueue({target: target, prospects: prospects})
+                    //triadsStore.push({target: target, prospects: prospects})
                     prospects = [];
                   }
                 }
@@ -227,6 +236,7 @@ export function getMatchSet (user_id) {
   };
 
   // Single triad version of app
+  /*
   var getTriads = function (user_id) {
     var triad;
     while (triadsStore.length > 0) {
@@ -236,7 +246,23 @@ export function getMatchSet (user_id) {
       }
     }
   }
-
+*/
+  var getTriads = function (user_id) {
+    var triad = triadsStore.dequeue();
+    if (!triad || triadsStore.getSize() < 2) {
+      // should throw exception
+    } else {
+      // To ensure the queue is NEVER empty;
+      if (triad.target.user_id === user_id || triad.prospects[0].user_id === user_id || triad.prospects[1].user_id === user_id) {
+        // We need to get another triad because we can't return one with user included
+        return getTriads();
+      } else if (triadsStore.getSize() < 150) {
+        // To ensure the queue is NEVER empty;
+        triadsStore.enqueue(triad);
+      }
+    }
+    return triad;
+  }
 
   /*
   //triad array version of app
@@ -255,9 +281,11 @@ export function getMatchSet (user_id) {
     return output;
   }
   */
-  if (triadsStore.length < 300 && replenishingTriads === false) {
+  if (triadsStore.getSize() < 350 && replenishingTriads === false) {
+    console.log(triadsStore.getSize());
     replenishingTriads = true;
     func();
+  // triadsStore getting way low 
   }
   return getTriads();
 }
