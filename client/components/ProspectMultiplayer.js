@@ -107,7 +107,7 @@ class ProspectMultiplayer extends Component {
     let renderedVoters = [];
 
     Object.keys(prospect.votes).map((vote) => {
-        renderedVoters.push(<img src={prospect.votes[vote].userInfo.image_url} style={voterInfo}/>);
+        renderedVoters.push(<img src={prospect.votes[vote].userInfo.image_url} style={voterInfo} title={prospect.votes[vote].userInfo.first_name}/>);
     });
 
     return (
