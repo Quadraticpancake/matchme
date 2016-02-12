@@ -17,13 +17,13 @@ const divStyle = {
 const socksIconStyle = {
   width: 175,
   height: 'auto',
-  marginTop: -15,
-  marginBottom: 15
+  marginTop: '-6vh',
+  marginBottom: '2vh'
 }
 
 const trophyIconStyle = {
   width: 100,
-  marginTop: 50,
+  marginTop: '2vh',
   marginBottom: 20,
   height: 'auto'
 }
@@ -31,7 +31,7 @@ const trophyIconStyle = {
 const heartIconStyle = {
   width: 125,
   height: 'auto',
-  marginTop: 35,
+  marginTop: '1vh',
   marginBottom: 35
 }
 
@@ -51,7 +51,7 @@ const iconSquare = {
   fontFamily: 'Lobster',
   margin: '2vh',
   borderRadius: 20,
-  boxShadow: '0 5px 30px 5px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'
+  boxShadow: '0 2px 15px 2px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23)'
 }
 
 const parent = {
@@ -62,7 +62,7 @@ const parent = {
 
 const paraStyle = {
   margin: 5,
-  fontSize: '150%'
+  fontSize: '125%'
 }
 
 const vidStyle = {
@@ -73,7 +73,7 @@ const vidStyle = {
 }
 
 const descStyle = {
-  fontSize: '150%',
+  fontSize: '100%',
   fontFamily: 'Lobster',
   // height: 350,
   width: 400,
@@ -82,8 +82,7 @@ const descStyle = {
 }
 
 const title = {
-  fontSize: '350%',
-  fontFamily: 'Lobster',
+  fontSize: '150%',
   margin: 10,
   clear: 'both'
 }
@@ -129,7 +128,7 @@ class Landing extends Component {
 
       <div>
 
-        <div style={title}>MatchMe: The best place to matchmake and match up!</div>
+        <div style={title}><div style={{fontFamily: 'Lobster', fontSize: '250%'}}>Welcome to MatchMe</div>The best place to matchmake and match up!</div>
         <div style={iconHolder}>
           <div style={iconSquare}> <img style={socksIconStyle} src="http://i.imgur.com/ccVfBe7.png"/><p style={paraStyle}>Matchmake for other users &</p><p style={paraStyle}>Get matched with other users</p> </div>
           <div style={iconSquare}><img style={trophyIconStyle} src = 'http://i.imgur.com/l2sj0g2.png'/><p style={paraStyle}>Earn points for successful matchmaking</p></div>
@@ -173,23 +172,23 @@ export default connect(
 
         
           <tr>
-            <th><img style={vidStyle} src='http://i.imgur.com/p8d5t0k.gif'/></th>
+            <th><img style={vidStyle} src='https://i.imgur.com/p8d5t0k.gif'/></th>
             <th><p style={descStyle}>Sign in using Facebook. The only information we need is your public profile. You can then edit your MatchMe profile.</p></th>
           </tr>
           
   
           <tr>
-            <th><img style={vidStyle} src='http://i.imgur.com/nGpuchX.gif'/></th>
+            <th><img style={vidStyle} src='https://i.imgur.com/nGpuchX.gif'/></th>
             <th><p style={descStyle}>Start matchmaking! Select the best match for the user on the left from the two options on the right. If there's no good match, click the 'Skip' button. Once a certain number of users make a match, the couple is connected.</p></th>
           </tr>
 
           <tr>
-            <th><img style={vidStyle} src='http://i.imgur.com/WpjoQkt.gif'/></th>
+            <th><img style={vidStyle} src='https://i.imgur.com/WpjoQkt.gif'/></th>
             <th><p style={descStyle}>You earn 10 points for every match, 100 points if you matched a couple that gets connected, and 200 points if you're the vote that creates the connection! You can view your score and the connections you helped make under Score.</p></th>
           </tr>
 
           <tr>
-            <th><img style={vidStyle} src='http://i.imgur.com/RAY6Ky0.gif'/></th>
+            <th><img style={vidStyle} src='https://i.imgur.com/RAY6Ky0.gif'/></th>
             <th><p style={descStyle}>Spend the points you've earned to quick-match with users. They'll appear in your chatroom along with your other matches.</p></th>
           </tr>
 
