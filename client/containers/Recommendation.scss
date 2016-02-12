@@ -2,21 +2,20 @@
   float: left;
   margin: 2vh;
   margin-right: 5vh;
-  height: 43vh;
-  padding-top: 200;
+  margin-top: 8vh;
 
   @media screen and (max-width: 995px) {
     height: 5vh;
+    margin-top: 0;
  }
 }
 
 .recommendationButton {
   background-color: rgb(168, 225, 238);
   font-size: 200%;
-  margin-top: 7vh;
   max-width: 100%;
   @media screen and (max-width: 995px) {
-    margin-top: 1vh;
+    margin-top: 0;
     font-size: 120%;
     width: 100%;
  }
@@ -26,7 +25,7 @@
   padding-top: 5px;
   border: 3px solid transparent;
   background-color: white;
-  height: 65vh;
+  height: 40vh;
   margin: 2vh;
   width: 30vw;
   border-radius: 1%;
@@ -36,6 +35,7 @@
   @media screen and (max-width: 995px) {
      width: 90vw;
      margin: 1vh;
+     margin-top: 3vh;
      height: 35vh;
      width: 82vw;
   }
@@ -79,7 +79,7 @@
 }
 
 .robotsStyle {
-  height: 26vm;
+  height: 30vh;
   width: auto;
   margin-top: 5vm;
 
@@ -132,17 +132,16 @@
 }
 
 .buttonStyle {
-  font-size: 100%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 98%;
   background-color: #601848;
-  max-width: 90%;
+  width: 30vw;
+  margin-left: -2.1vh;
   position: relative;
-  bottom: 0;
+  bottom: 4vh;
 
   @media screen and (max-width: 995px) {
-    max-width: 90%;
-    font-size: 80%;
+    width: 110%;
+    font-size: 50%;
+    bottom: 0;
  }
 }
