@@ -36,7 +36,6 @@ class UserScore extends Component {
     if (user.isAuthenticated) {
       actions.fetchUserScore(user_id);
     }
-    actions.listenToArrowPress
     window.addEventListener('keyup', actions.changeIndex);
   }
 
@@ -48,8 +47,6 @@ class UserScore extends Component {
   render() {
     const { userScore, index, actions } = this.props;
 
-    //let rightArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/right_arrow.png';
-    //let leftArrowImg = '../assets/Right_arrow.svg';
     let heartImg = <span>{heartSvg}
                 <svg viewBox="0 0 32 32" style={heartFilledInStyle}>
                   <g filter="url(#inset-shadow)">
@@ -128,12 +125,6 @@ class UserScore extends Component {
   }
 }
 
-/*
-<section>
-        {
-}
-      </section>
-      */
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
