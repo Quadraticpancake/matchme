@@ -78,6 +78,13 @@ module.exports = {
       {
         test: /\.(woff2?|ttf|eot|svg)$/,
         loaders: ['url?limit=10000'],
+      },
+      {
+        test: /\.png$/,
+        loader: 'file?name=[name].[ext]',
+      }, {
+        test: /\.jpg$/,
+        loader: 'file?name=[name].[ext]',
       }]
   },
   postcss: [
