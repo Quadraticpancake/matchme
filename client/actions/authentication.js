@@ -70,30 +70,30 @@ export function logout(){
 
 export function clickLogin() {
   return function(dispatch) {
-    
+
     dispatch(requestLogin());
-    FB.getLoginStatus(function(response) {
+    // FB.getLoginStatus(function(response) {
       // In this case the user must have logged in previously so get request SHOULD return user data
       // These puts should be converted to gets with ID params
-      if (response.status === 'connected') {
-        login(response.authResponse.userID, response.authResponse.accessToken);
+      // if (response.status === 'connected') {
+      //   login(response.authResponse.userID, response.authResponse.accessToken);
 
-      } else {
+      // } else {
         FB.login(function(responseLogin) {
-          
+
           let request2 = new Request(`/api/users/${responseLogin.authResponse.userID}`, {method: 'GET'});
           return fetch(request2)
             .then(response => response.json())
             .then((json) => {
               if (json) {
                 // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
-              
+
                 dispatch(fetchChats(json.user_id))
                 dispatch(fetchUserScore(json.user_id));
                 dispatch(receiveLogin(json));
                 dispatch(getAlbum(json.user_id));
               } else {
-                
+
                 // New User
                 let request3 = new Request('/api/users', {
                   method: 'post',
@@ -113,7 +113,7 @@ export function clickLogin() {
                   // We can dispatch many times!
                   // Here, we update the app state with the results of the API call.
                     // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
-                  
+
                     dispatch(fetchChats(json.user_id));
                     dispatch(fetchUserScore(json.user_id));
                     dispatch(getAlbum(json.user_id));
@@ -126,8 +126,8 @@ export function clickLogin() {
               }
             });
         }, {scope: 'public_profile,email'});
-      }
-    })
+      // }
+    // })
 
   };
 }
