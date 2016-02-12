@@ -111,6 +111,7 @@ export function heartConnectionChanging(pair_id) {
 }
 
 export function heartConnectionChanged(pair_id, heartInfo) {
+  console.log(heartInfo);
   return {
     type: HEART_CONNECTION_CHANGED,
     userHeart: heartInfo.userHeart,

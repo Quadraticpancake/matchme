@@ -2,7 +2,35 @@ import db from './config';
 var request = require('request');
 var _ = require('underscore');
 import generateUserAnalytics from '../server/faceAnalysis/faceAnalysis';
-
+/*
+var Queue = function () {
+  var output = {};
+  output._first = null;
+  output._last = null;
+  var node = function (val) {
+    return {value: val, next: null};
+  }
+  output.enqueue = function (val) {
+    if (this._first) {
+      this._last.next = node(val);
+      this._last = this._last.next;
+    } else {
+      this._first = node(val);
+      this._last = this._first;
+    }
+  }
+  output.dequeue = function () {
+    if (this._first) {
+      var result = this._first.value;
+      this._first = this._first.next;
+      return result;
+    } else {
+      return null;
+    }
+  }
+  return output;
+}
+*/
 var triadsStore = [];
 
 var replenishingTriads = false;
@@ -236,8 +264,7 @@ export function getMatchSet (user_id) {
 
 export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
-  // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
-
+  
   var getMatchesStr = `select pairs.pair_id, pairs.connected, pairs.user_one_heart, pairs.user_two_heart, \
    uMatchmaker.score, \
   u1.user_id as user_id1, u1.facebook_id as facebook_id1,  \
