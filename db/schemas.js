@@ -14,12 +14,12 @@ export default function createTables () {
       + " gender VARCHAR(20),"
       + " birthday DATE,"
     // user inputs
-     	+ " zipcode VARCHAR(5),"
+      + " zipcode CHAR(5),"
       + " status VARCHAR(20),"
       + " age_min INTEGER,"
       + " age_max INTEGER,"
       + " gender_preference VARCHAR(10)," // male, female, both
-      + " location_preference INTEGER,"
+      + " location_preference CHAR(5),"
       + " description VARCHAR(350),"
       + " image_url VARCHAR(255),"
       + " score INTEGER, real BOOLEAN);"

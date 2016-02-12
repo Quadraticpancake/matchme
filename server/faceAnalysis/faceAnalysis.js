@@ -4,7 +4,7 @@ var request = require('request');
 import db from '../../db/config.js';
 
 export default function generateUserAnalytics(id, url) {
-
+	console.log(id);
 	let encodedURI = encodeURIComponent(url);
 
 	var options = {
@@ -35,11 +35,12 @@ export default function generateUserAnalytics(id, url) {
 		    	coloring: info.face[0].attribute.race.value,
 		    	expression: info.face[0].attribute.smiling.value,
 		    	faceShape: info.face[0].position.width / info.face[0].position.height
-		    };	
-	    }; 
+		    };
+	        var insertAnalyticsQueryStr = `INSERT INTO analytics (user_id, age, coloring, expression, faceShape) VALUES ('${faceAnalytics.user_id}','${faceAnalytics.age}','${faceAnalytics.coloring}','${faceAnalytics.expression}','${faceAnalytics.faceShape}') returning *;`;
+	    	  return db.query(insertAnalyticsQueryStr);
+	    };
 
-	    var insertAnalyticsQueryStr = `INSERT INTO analytics (user_id, age, coloring, expression, faceShape) VALUES ('${faceAnalytics.user_id}','${faceAnalytics.age}','${faceAnalytics.coloring}','${faceAnalytics.expression}','${faceAnalytics.faceShape}') returning *;`;
-	  	return db.query(insertAnalyticsQueryStr);
+
 	  }
 	}
 

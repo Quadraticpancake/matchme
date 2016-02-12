@@ -285,7 +285,7 @@ export function getMatchSet (user_id) {
     console.log(triadsStore.getSize());
     replenishingTriads = true;
     func();
-  // triadsStore getting way low 
+  // triadsStore getting way low
   }
   console.log('LOOK HERE', triadsStore.getSize());
   return getTriads();
@@ -293,7 +293,7 @@ export function getMatchSet (user_id) {
 
 export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
-  
+
   var getMatchesStr = `select pairs.pair_id, pairs.connected, pairs.user_one_heart, pairs.user_two_heart, \
    uMatchmaker.score, \
   u1.user_id as user_id1, u1.facebook_id as facebook_id1,  \
