@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 /* containers */
 import App from './containers/App';
@@ -13,6 +13,7 @@ import Landing from './containers/Landing.js';
 
 export default (
   <Route path="/" component={App}>
+    <IndexRoute component={Home}/>
     <Route path="home" component={Home} />
     <Route path="landing" component={Landing} />
     <Route path="profile" component={Profile} />

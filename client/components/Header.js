@@ -64,11 +64,6 @@ class Header extends Component {
             </NavItem>}
           </Nav>
           <Nav>
-
-            {user.isAuthenticated &&
-            <p className={'navbar-text'}>Logged in as <strong>{user.userInfo.first_name}</strong></p>}
-            {user.isAuthenticated &&
-            <div className={'navbar-text'}>Points: <strong>{user.userScore.score}</strong></div>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
