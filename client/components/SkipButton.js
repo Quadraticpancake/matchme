@@ -2,11 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 import css from './Target.scss';
 
-const buttonStyle = {
-  width: '50%',
-  fontSize: '100%'
-};
-
 class SkipButton extends Component {
 
   constructor(props, context) {
@@ -15,10 +10,10 @@ class SkipButton extends Component {
 
   render() {
     console.log('PROPS', this.props);
-    const { actions, user_id } = this.props;
+    const { actions, user_id, triads} = this.props;
 
     return (
-        <Button responsive className={css.button} bsStyle="danger" onClick={() => {actions.getNewCandidates(user_id);}} >No good match? Skip!</Button>
+        <Button responsive className={css.button} bsStyle="danger" onClick={() => {actions.getNewCandidates(user_id, triads);}} >No good match? Skip!</Button>
     );
   }
 }

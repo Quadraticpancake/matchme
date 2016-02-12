@@ -21,15 +21,18 @@ class Header extends Component {
     window.HeaderProps = this.props;
     const {user, actions} = this.props;
     return (
-      <Navbar staticTop className={css.header} bsStyle='default'>
-        <Navbar.Header>
+      <Navbar staticTop pullLeft className={css.header} bsStyle='default'>
+        <Navbar.Header style={{position: 'absolute'}}>
           <Navbar.Brand>
-            <Link to="/home">
-              <div />
-              {/* Sunset yellow: #FFC107 */}
-              <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large'}}>Home</span>
+             <Link to="/home">
+              <div className={css.brand}></div>
             </Link>
           </Navbar.Brand>
+          <Link to="/home">
+            <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large', marginTop: '-10'}}>
+            MatchMe
+            </span>
+          </Link>
           <Navbar.Toggle />
         </Navbar.Header>
 
@@ -47,14 +50,16 @@ class Header extends Component {
             <LinkContainer to="/score">
               <NavItem eventKey={3}>My Score</NavItem>
             </LinkContainer>}
-          </Nav>
-          <Nav>
+            {user.isAuthenticated &&
+            <LinkContainer to="/recommendation">
+              <NavItem eventKey={5}>Recommended Match</NavItem>
+            </LinkContainer>}
             {!user.isAuthenticated &&
-            <NavItem eventKey={3} onClick={this.props.actions.clickLogin}>
+            <NavItem className={css.loginlogoutdesktop} eventKey={3} onClick={this.props.actions.clickLogin} >
               Login via Facebook
             </NavItem>}
             {user.isAuthenticated &&
-            <NavItem eventKey={3} onClick={this.props.actions.logout}>
+            <NavItem className={css.loginlogoutdesktop} eventKey={3} onClick={this.props.actions.logout}>
               Logout
             </NavItem>}
             {user.isAuthenticated &&

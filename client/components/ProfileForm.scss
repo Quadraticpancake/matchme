@@ -213,7 +213,7 @@ input[type="checkbox"]:after {
   width: 1em;
   height: 1em;
   text-align: center;
-  color: white;
+  color: black;
   font-family: Times;
   border-radius: 50%;
   -webkit-transition: all .3s ease;
@@ -222,7 +222,7 @@ input[type="checkbox"]:after {
 input[type="radio"]:before {
   -webkit-transition: all .3s ease;
   transition: all .3s ease;
-  box-shadow: inset 0 0 0 0.2em white, inset 0 0 0 1em white;
+  box-shadow: inset 0 0 0 0.03em #AB526B, inset 0 0 0 1em white;
 }
 input[type="radio"]:hover:before {
   -webkit-transition: all .3s ease;

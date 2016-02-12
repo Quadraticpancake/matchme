@@ -3,6 +3,7 @@ import { fetchChats } from './chats';
 import { fetchUserScore } from './user';
 import { routeActions } from 'react-router-redux';
 import { getAlbum } from './pictureActions.js';
+import { postRecommendation } from './recommendationActions.js';
 
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -22,7 +23,7 @@ export function login(userID, accessToken){
         // We can dispatch many times!
         // Here, we update the app state with the results of the API call.
         if (json) {
-          console.log('HERE 1',json);
+          // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
           dispatch(fetchChats(json.user_id));
           dispatch(fetchUserScore(json.user_id));
           dispatch(receiveLogin(json));
@@ -45,13 +46,13 @@ export function login(userID, accessToken){
             // We can dispatch many times!
             // Here, we update the app state with the results of the API call.
               if (json) {
+                // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
                 console.log('HERE 2',json);
                 dispatch(fetchChats(json.user_id));
                 dispatch(fetchUserScore(json.user_id));
                 console.log('FETCHING ALBUM', json.user_id,getAlbum)
                 dispatch(getAlbum(json.user_id));
                 dispatch(receiveLogin(json));
-
               }
             });
         }
@@ -87,6 +88,7 @@ export function clickLogin() {
             .then(response => response.json())
             .then((json) => {
               if (json) {
+                // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
                 console.log('HERE 3',json);
                 dispatch(fetchChats(json.user_id))
                 dispatch(fetchUserScore(json.user_id));
@@ -112,6 +114,7 @@ export function clickLogin() {
                   .then((json) => {
                   // We can dispatch many times!
                   // Here, we update the app state with the results of the API call.
+                    // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
                     console.log('HERE 4',json);
                     console.log('FETCHING ALBUM', getAlbum)
                     dispatch(fetchChats(json.user_id));
