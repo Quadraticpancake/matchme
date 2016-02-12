@@ -126,7 +126,7 @@ export function addMatch (match) {
     user_two = ${ pairFormatted.user_two }) returning pair_id), p as (select pair_id from  \
     pairs where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = \
     ${ pairFormatted.user_two }), temp as (insert into matches_made (matchmaker, pair) values \
-    (${ match.matchmaker.user_id }, (select pair_id from p ))) \
+    (${ match.matchmaker.user_id }, (select pair_id from p union all select pair_id from i))) \
     select matches_made.matchmaker, matches_made.pair from matches_made join p on p.pair_id = matches_made.pair;`;
   return db.query(matchQuery)
     .then((rows) => {
@@ -377,10 +377,11 @@ export function putPicture (user_id, image_url) {
 // get recommendation
 export function postRecommendation(user_id, user_gender, user_preference) {
 // get the user ids of the matches the user has hearted
-
+  console.log(user_id, user_gender, user_preference);
   let getLikesQuery = `select * from pairs where user_one = ${ user_id } and user_one_heart =true or user_two = ${ user_id } and user_two_heart =true`;
   return db.query(getLikesQuery)
   .then((rows) => {
+    //console.log(rows);
     let result = [];
     for (var i = 0; i < rows.length -1; i++) {
       result.push(rows[i].user_one);
@@ -390,6 +391,7 @@ export function postRecommendation(user_id, user_gender, user_preference) {
   })
 
   .then((liked) => {
+    //console.log(liked);
     // get the analytics info of the hearted users, compile into the ideal
     let queryIds = ' user_id = ' + liked[0];
     liked.slice(1).forEach(function(item) {
@@ -399,7 +401,7 @@ export function postRecommendation(user_id, user_gender, user_preference) {
     let getLikedSetQuery = `select * from analytics where ` + queryIds + `;`;
     return db.query(getLikedSetQuery)
     .then((rows) => {
-
+      console.log(rows);
       let totalAge = 0;
       let totalColoring = [];
       let totalExpression = 0;

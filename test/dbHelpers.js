@@ -9,7 +9,6 @@ import { addMatch, getMatchSet, getMatchesMade } from '../db/dbHelpers';
 describe('database helpers', () => {
 	describe('database intialization', () => {
 		before((done) => {
-
 			// this is done to return database to untouched state: http://stackoverflow.com/questions/3327312/drop-all-tables-in-postgresql
 			db.query('DROP SCHEMA IF EXISTS public CASCADE;')
       		.then(() => {
@@ -61,6 +60,13 @@ describe('database helpers', () => {
 				throw new Error(error);
 			});
 		});
+        it('should exist', () => {
+        	return db.query('\\list')
+        	.then((rows) => {
+        	  consol.log('rows');
+        	  expect(rows.length).to.exist;
+        	});
+        });
 	});
 
 	describe('addMatch', () => {
