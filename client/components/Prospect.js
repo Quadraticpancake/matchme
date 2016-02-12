@@ -79,7 +79,7 @@ class Prospect extends Component {
   render() {
     const { prospect, actions, target, user, triads } = this.props;
     // prospect on line 14 should be the prospect choosen
-    console.log(target);
+    
     if(!prospect || !prospect.first_name){
       return (<Row className={css.prospect}></Row>);
     }

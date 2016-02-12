@@ -40,7 +40,6 @@ class Recommendation extends Component {
 
     // <img src='http://i.imgur.com/nTpf2tW.gif'/>
     const {recommendation, user} = this.props;
-    console.log('RECOMMENDATION', recommendation)
   
     return (
       <div>

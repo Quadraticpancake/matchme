@@ -47,9 +47,6 @@ class Scoreboard extends Component {
       return <ScoreboardEntry pair={scoreboardEntry.pair} key={index} />
     })
 
-    console.log("Entries: ", scoreboardEntries)
-    console.log("numEntries: ", scoreboardEntries.length)
-
     return (
       <div className="navbar-fixed-side navbar-fixed-side-right hidden-sm hidden-xs" style={scoreboardStyle}>
         {scoreboardEntries}

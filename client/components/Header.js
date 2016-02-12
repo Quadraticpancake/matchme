@@ -13,10 +13,6 @@ import css from './Header.scss';
 
 class Header extends Component {
 
-  componentDidUpdate() {
-    console.log('componentDidUpdate')
-  }
-
   render() {
     window.HeaderProps = this.props;
     const {user, actions} = this.props;
@@ -29,7 +25,7 @@ class Header extends Component {
             </Link>
           </Navbar.Brand>
           <Link to="/home">
-            <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large', marginTop: '-10'}}>
+            <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large', marginTop: '-10', marginRight: 20}}>
             MatchMe
             </span>
           </Link>
@@ -62,8 +58,10 @@ class Header extends Component {
             <NavItem className={css.loginlogoutdesktop} eventKey={3} onClick={this.props.actions.logout}>
               Logout
             </NavItem>}
-          </Nav>
-          <Nav>
+            {user.isAuthenticated &&
+            <NavItem >Logged in as <strong>{user.userInfo.first_name}</strong></NavItem>}
+            {user.isAuthenticated &&
+            <NavItem >Points: <strong>{user.userScore.score}</strong></NavItem>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

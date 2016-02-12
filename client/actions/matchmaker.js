@@ -109,7 +109,6 @@ export const UPDATE_SCORE = 'UPDATE_SCORE';
 
 // increase/decrease score by scorechange in state
 function updateScore(scoreChange) {
-  console.log("GOT INTO HERE");
   return {
     type: UPDATE_SCORE,
     scoreChange: scoreChange
@@ -130,7 +129,6 @@ export const REQUEST_TRIAD = 'REQUEST_TRIAD';
 
 // Tells the state that the app is requesting a new triad
 function requestTriad() {
-  console.log("requestTriad called");
   return {
     type: REQUEST_TRIAD,
     isFetching: true
@@ -141,7 +139,6 @@ export const RECEIVE_TRIADS = 'RECEIVE_TRIADS';
 
 // updates the state to have the new triad and not that the fetching is complete
 function receiveTriads(json) {
-  console.log("These are the recieved triads", json);
   return {
     type: RECEIVE_TRIADS,
     triads: json,
