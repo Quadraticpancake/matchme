@@ -7,6 +7,8 @@ import { routeActions } from 'react-router-redux';
 import heart from '../../static/img/icons/heart';
 import { Col, Row, Image} from 'react-bootstrap';
 import css from './UserScore.scss';
+import rightArrowImg from '../assets/Right_arrow.svg'
+import leftArrowImg from '../assets/Left_arrow.svg'
 
 
 // @connect(
@@ -14,36 +16,6 @@ import css from './UserScore.scss';
 //   dispatch => bindActionCreators(actionCreators, dispatch)
 // )
 
-/*
-                                     <div className="container">
-                                       <div className="row-fluid">
-                                         <div>
-                                           <div className="col-md-4">
-                                             <Matchee matchee={userScore.pairs[i].user_one} />
-                                           </div>
-                                           <div className="col-md-4">
-                                             <Matchee matchee={userScore.pairs[i].user_two} />
-                                           </div>
-                                         </div>
-                                       </div>
-                                     </div>
-*/
-
-/*
-
-Score information
-          
-          */
-
-          /*
-          Arrows
-                      <div>
-              {index > 0 && leftArrow}
-            </div>
-            <div>
-              {(index < renderedConnectionsMade.length - 1) && rightArrow}
-            </div>
-            */
 
 const heartSvg = heart();
 const heartFilledInStyle = {
@@ -56,63 +28,6 @@ const heartFilledInStyle = {
   strokeWidth: '1px',
   stroke:'black'
 };
-
-const divStyle = {
-  // width: 400,
-//  height: 40,
-  width: 'auto',
-  marginleft: 0,
-  marginRight: 0,
-//  borderWidth: 1,
-  borderColor: 'black',
-  // opacity: .5,
-  // backgroundColor: '#ccc',
-
-  // display: 'block',
-  // position:'relative',
-  // verticalAlign: 'bottom',
-
-  // backgroundImage: 'url(' + image_url + ')',
-  // backgroundSize: 'cover',
-
-  fontSize: 30,
-  fontWeight: 'bold',
-  fontFamily: 'Helvetica, sans-serif',
-  // backgroundImage: 'http://i.onionstatic.com/onion/7954/original/1200.jpg',
-  // WebkitTextFillColor: 'white',  Will override color (regardless of order)
-  // WebkitTextStrokeWidth: 2,
-  // WebkitTextStrokeColor: 'black',
-
-  //borderRadius: 5,
-  //zIndex: 1
-
-};
-/*
-const testStyle = {
-  float: 'left'
-}
-*/
-
-const heartIconStyle = {
-  height: 22,
-
-}
-
-const smallImageStyle = {
-  width: '10em',
-  height: '10em'
-};
-
-const leftArrowStyle = {
-  width: '5em',
-  height: '5em',
-};
-
-const rightArrowStyle = {
-  width: '5em',
-  height: '5em',
-}
-
 
 class UserScore extends Component {
   
@@ -133,8 +48,8 @@ class UserScore extends Component {
   render() {
     const { userScore, index, actions } = this.props;
 
-    let rightArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/right_arrow.png';
-    let leftArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/.cache/left_arrow.png';
+    //let rightArrowImg = 'https://www.wpclipart.com/signs_symbol/BW/direction_arrows/right_arrow.png';
+    //let leftArrowImg = '../assets/Right_arrow.svg';
     let heartImg = <span>{heartSvg}
                 <svg viewBox="0 0 32 32" style={heartFilledInStyle}>
                   <g filter="url(#inset-shadow)">
@@ -143,8 +58,8 @@ class UserScore extends Component {
                 </svg></span>;
     let renderedConnectionsMade = [];
     let score = 0;
-    let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
-    let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
+    let leftArrow = <img src={leftArrowImg} className={css.arrow} onClick={() => { actions.changeIndex(-1); }} />
+    let rightArrow = <img src={rightArrowImg} className={css.arrow} onClick={() => { actions.changeIndex(1); }}/>
     let nullArrow = null;
 
     if (userScore) {
@@ -157,9 +72,9 @@ class UserScore extends Component {
                 <Matchee matchee={userScore.pairs[i].user_one} />
                 <Matchee matchee={userScore.pairs[i].user_two} />
               </Row>
-              <Row xs={12} sm={12} md={5} className={css.matchee}>
-                {(index > 0 && leftArrow) || <div></div>}
-                {((index < userScore.pairs.length - 1) && rightArrow) || <div></div>}
+              <Row xs={12} sm={12} md={5} className={css.arrows}>
+                {(index > 0 && leftArrow) || <div className={css.arrow}></div>}
+                {((index < userScore.pairs.length - 1) && rightArrow) || <div className={css.arrow}></div>}
               </Row>
             </div>
           </div>
@@ -174,12 +89,12 @@ class UserScore extends Component {
     if (renderedConnectionsMade.length > 1) {
       connectionCount =
       <div className='text-center'>
-         You have helped create { renderedConnectionsMade.length } connections
+         You have helped create { renderedConnectionsMade.length } connections!
       </div>;
     } else if (renderedConnectionsMade.length === 1) {
       connectionCount =
       <div className='text-center'>
-         You have helped create { renderedConnectionsMade.length } connection
+         You have helped create { renderedConnectionsMade.length } connection!
       </div>;
     } else {
       connectionCount =
@@ -189,13 +104,9 @@ class UserScore extends Component {
     }
 
     return (
-      <section>
-        {<div>
-          <div className="row-fluid">
-            <div className='text-center' style={divStyle}>
-              Your score is { score }
-            </div>
-            <div style={divStyle}>
+      <div>
+          <div>            
+            <div className={css.header}>
               {connectionCount}
             </div>
           </div>
@@ -205,19 +116,24 @@ class UserScore extends Component {
             </div>
           </div>
           { userScore.pairs[index] && userScore.pairs[index].pairHeart && 
-          <div className='text-center' style={divStyle}>
-            <span>
+          <div className={css.header2}>
+            <div className='text-center'>
               {heartImg}
               {userScore.pairs[index].user_one.first_name} and {userScore.pairs[index].user_two.first_name} liked each other!
               {heartImg}
-            </span>
+            </div>
           </div> }
-        </div>}
-      </section>
+        </div>
     );
   }
 }
 
+/*
+<section>
+        {
+}
+      </section>
+      */
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,

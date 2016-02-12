@@ -61,7 +61,7 @@ describe('database helpers', () => {
 			});
 		});
         it('should exist', () => {
-        	return db.query('\\list')
+        	return db.query('')
         	.then((rows) => {
         	  consol.log('rows');
         	  expect(rows.length).to.exist;
