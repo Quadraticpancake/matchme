@@ -4,14 +4,6 @@ import * as multiplayerStore from './multiplayer';
 import * as multiplayerActions from './multiplayer/actions';
 import { getMatchSet } from '../db/dbHelpers';
 
-// MULTIPLAYER-RELATED
-// Seeds the multiplayer game with one match set
-getMatchSet(1).then((matchSet) => {
-	multiplayerStore.dispatch({type: multiplayerActions.NEW_MATCH_SET, newMatchSet: matchSet.triads[0]});
-});
-setTimeout(() => { console.log('multiplayer store', multiplayerStore.getState()); }, 2000)
-
-
 io.on('connection', (socket) => {
 	// MULTIPLAYER-RELATED
 	socket.on('joinGame', function(data) {
@@ -19,8 +11,8 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('vote', function(data) {
-		console.log('vote data',data);
 		multiplayerStore.dispatch({type: multiplayerActions.SET_VOTE, voteObj: data});
+		io.emit('gameState', multiplayerStore.getState());
 	});
 
 
@@ -44,6 +36,6 @@ store.subscribe(() => {
 });
 
 // Sends out the updated multiplayer game state every time the server-side store changes
-multiplayerStore.subscribe(() => {
-	io.emit('gameState', multiplayerStore.getState());
-});
+// multiplayerStore.subscribe(() => {
+// 	io.emit('gameState', multiplayerStore.getState());
+// });

@@ -8,6 +8,8 @@ import * as UserActions from '../actions/user'
 import { Col, Row, Image} from 'react-bootstrap';
 import css from './Home.scss';
 import { socket } from './App';
+import { CountUp } from './countUp';
+console.log('countup', CountUp);
 
            // <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
            //    <Scoreboard />
@@ -22,6 +24,17 @@ const parent = {
   flexDirection: 'column',
   justifyContent: 'center'
 }
+
+let counter = null;
+const counterOptions = {
+  useEasing : false, 
+  useGrouping : true, 
+  separator : ',', 
+  decimal : '.', 
+  prefix : '', 
+  suffix : '' 
+};  
+
 class MultiplayerHome extends Component {
 
   chooseMatchMP(target, prospect, voter, triads) {
@@ -29,7 +42,7 @@ class MultiplayerHome extends Component {
   }
 
   componentDidMount() {
-    const { actions, user } = this.props;
+    const { actions, user, multiplayer } = this.props;
 
     if (user.user_id !== null) {
       socket.emit('joinGame', { newPlayer: user.user_id });
@@ -37,18 +50,27 @@ class MultiplayerHome extends Component {
 
     socket.on('gameState', (gameState) => {
       actions.updateGameState(gameState);
+      counter = new CountUp("counter", gameState.timer ? gameState.timer : 0, 0, 2, 5, counterOptions);
+      counter.start();
     });
+
+    socket.on('getNewScore', () => {
+      actions.updateScore(this.props.user.user_id); // get the user_id from this.props instead of using the declared one above
+                                                    // because the one above does not update along with the state
+    });
+
   }
 
   render() {
     const { multiplayer, actions, user, matchmaker } = this.props;
-    console.log('chooseMatchMP', this.chooseMatchMP);
+
 
     return (
       <div>
           <div className="row-fluid">
             <Target target={multiplayer.target} actions={actions} user={user}/>
               <Col xs={12} sm={12} md={5} className={css.prospect} >
+                Timer: <div id='counter'>{multiplayer.timer ? multiplayer.timer : 'Timer loading...'}</div>
                 <ProspectMultiplayer 
                   target={multiplayer.target} 
                   prospect={multiplayer.prospects[0]} 

@@ -116,7 +116,8 @@ class ProspectMultiplayer extends Component {
         <div style={prospectInfoStyle}>
           <h1 style={nameStyle}>{prospect.first_name}, {age} <Image src={icon_prospect_path} style={iconProspectStyle}/> </h1>
           <p style={prospectInfo}>''{prospect.description}''</p>
-          {renderedVoters}
+          Voters:
+          <p>{renderedVoters}</p>
         </div>
       </Row>
     );
