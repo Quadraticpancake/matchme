@@ -5,6 +5,7 @@ import {reduxForm} from 'redux-form';
 import * as MatchmakerActions from '../actions/matchmaker';
 export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'age_min', 'age_max', 'favoriteColor', 'employed', 'description', 'image_url', 'birthday', 'status'];
 import css from './ProfileForm.scss';
+import { Button } from 'react-bootstrap';
 
 class ProfileForm extends Component {
 
@@ -52,11 +53,11 @@ class ProfileForm extends Component {
           <label>Gender</label>
           <div>
             <label for='maleRadio'>
-              <input type="radio" {...gender} value="male" checked={gender.value === 'male'} id='maleRadio'/> 
+              <input type="radio" {...gender} value="male" checked={gender.value === 'male'} id='maleRadio'/>
             <span>Male</span>
             </label>
             <label for='femaleRadio'>
-              <input type="radio" {...gender} value="female" checked={gender.value === 'female'} id='femaleRadio'/> 
+              <input type="radio" {...gender} value="female" checked={gender.value === 'female'} id='femaleRadio'/>
             Female
             </label>
           </div>
@@ -69,7 +70,7 @@ class ProfileForm extends Component {
           <label>Gender Preference</label>
           <div>
             <label>
-              <input type="radio" {...gender_preference} value="male" checked={gender_preference.value === 'male'}/> 
+              <input type="radio" {...gender_preference} value="male" checked={gender_preference.value === 'male'}/>
               Male
             </label>
             <label>
@@ -105,12 +106,12 @@ class ProfileForm extends Component {
           </div>
         </div>
         <div>
-          <button type="submit" disabled={submitting}>
+          <Button bsStyle="success" type="submit" disabled={submitting}>
             {submitting ? <i/> : <i/>} Save Profile
-          </button>
-          <button type="button" disabled={submitting} onClick={resetForm}>
+          </Button>
+          <Button bsStyle="danger" danger type="button" disabled={submitting} onClick={resetForm}>
             Cancel Edit
-          </button>
+          </Button>
         </div>
       </form>
       </div>
