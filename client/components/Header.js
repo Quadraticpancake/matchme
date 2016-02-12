@@ -20,7 +20,7 @@ class Header extends Component {
       <Navbar staticTop pullLeft className={css.header} bsStyle='default'>
         <Navbar.Header style={{position: 'absolute'}}>
           <Navbar.Brand>
-             <Link to="/home">
+             <Link to="/landing">
               <div className={css.brand}></div>
             </Link>
           </Navbar.Brand>
