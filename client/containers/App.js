@@ -20,8 +20,6 @@ class App extends Component {
     componentWillMount(){
       const { actions, routeActions } = this.props;
         function statusChangeCallback(response) {
-          console.log('statusChangeCallback!');
-          console.log(response);
 
           // The response object is returned with a status field that lets the
           // app know the current login status of the person.
@@ -29,7 +27,6 @@ class App extends Component {
           // for FB.getLoginStatus().
           if (response.status === 'connected') {
             // Logged into your app and Facebook.
-            console.log('connected!');
             let userID = response.authResponse.userID;
             let accessToken = response.authResponse.accessToken;
             actions.login(userID, accessToken);
