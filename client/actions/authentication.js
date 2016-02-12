@@ -64,7 +64,6 @@ export function logout(){
   return function(dispatch){
     dispatch(requestLogout());
     FB.logout(function(response) {
-      console.log(response);
     });
   };
 };
