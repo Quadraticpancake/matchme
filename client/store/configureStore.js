@@ -12,7 +12,6 @@ const reduxRouterMiddleware = syncHistory(browserHistory);
 const finalCreateStore = compose(
   applyMiddleware(
      thunkMiddleware, // lets us dispatch() functions
-     // loggerMiddleware, // neat middleware that logs actions
      reduxRouterMiddleware
    ),
   DevTools.instrument()

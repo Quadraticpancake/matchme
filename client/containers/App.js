@@ -20,7 +20,6 @@ class App extends Component {
     componentWillMount(){
       const { actions, routeActions } = this.props;
         function statusChangeCallback(response) {
-
           // The response object is returned with a status field that lets the
           // app know the current login status of the person.
           // Full docs on the response object can be found in the documentation
@@ -46,7 +45,7 @@ class App extends Component {
 
         window.fbAsyncInit = function() {
           FB.init({
-            appId      : '991657460895356',
+            appId      : '1640124032916803',
             cookie     : true,  // enable cookies to allow the server to access
                                 // the session
             xfbml      : true,  // parse social plugins on this page
@@ -68,7 +67,8 @@ class App extends Component {
           js.src = "//connect.facebook.net/en_US/sdk.js";
           fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-      };
+
+  }
 
   render() {
     window.AppProps = this.props;

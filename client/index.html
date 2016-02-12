@@ -3,13 +3,22 @@
   <head>
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>MatchMe</title>
-    <link rel="stylesheet" type="text/css" href="/dist/bundle.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/dist/bundle.css"> -->
   </head>
   <body>
 
 
-    <div class="matchmaker" id="root"></div>
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <div class="matchmaker" id="root">
+    </div>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <script>
+       window.jQuery = window.$ = jQuery;
+
+       $(document).ready(function() {
+           console.log( "jQuery is loaded" );
+       });
+    </script>
     <script src="/dist/bundle.js"></script>
 
   </body>

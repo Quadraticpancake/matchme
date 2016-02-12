@@ -30,7 +30,7 @@ const heartFilledInStyle = {
 };
 
 class UserScore extends Component {
-
+  
   componentDidMount() {
     const { actions, user_id, user} = this.props;
     if (user.isAuthenticated) {
@@ -81,7 +81,7 @@ class UserScore extends Component {
 
 
 
-
+    
     let connectionCount;
     if (renderedConnectionsMade.length > 1) {
       connectionCount =
@@ -102,7 +102,7 @@ class UserScore extends Component {
 
     return (
       <div>
-          <div>
+          <div>            
             <div className={css.header}>
               {connectionCount}
             </div>
@@ -112,7 +112,7 @@ class UserScore extends Component {
               {renderedConnectionsMade[index]}
             </div>
           </div>
-          { userScore.pairs[index] && userScore.pairs[index].pairHeart &&
+          { userScore.pairs[index] && userScore.pairs[index].pairHeart && 
           <div className={css.header2}>
             <div className='text-center'>
               {heartImg}
