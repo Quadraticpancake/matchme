@@ -287,6 +287,7 @@ export function getMatchSet (user_id) {
     func();
   // triadsStore getting way low 
   }
+  console.log('LOOK HERE', triadsStore.length)
   return getTriads();
 }
 

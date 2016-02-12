@@ -6,7 +6,7 @@ import { each } from 'underscore';
 import { io } from '../server';
 // These functions manage the game state (starting it, and progressing between stages)
 // The communication of the game state with the client happens in ../sockets.js
-
+console.log('getMatchSet', getMatchSet(0));
 setInterval(() => {
 	var gameTimer = multiplayerStore.getState().timer;
 	if (gameTimer === 0) {
@@ -19,9 +19,8 @@ setInterval(() => {
 
 // start the game when the server starts
 	// Seeds the multiplayer game with one match set
-getMatchSet(1).then((matchSet) => {
-	multiplayerStore.dispatch({type: multiplayerActions.NEW_MATCH_SET, newMatchSet: matchSet.triads[0]});
-});
+console.log('getMatchSet', getMatchSet(0));
+multiplayerStore.dispatch({type: multiplayerActions.NEW_MATCH_SET, newMatchSet: getMatchSet(0)});
 
 var progressGame = () => {
 	// determine winner of this round (prospect with more votes) if one exists
@@ -47,12 +46,10 @@ var progressGame = () => {
 	}
 
 	// proceed to next game state
-	getMatchSet(1).then((matchSet) => {
-		multiplayerStore.dispatch({type: multiplayerActions.RESET_TIMER});
-		multiplayerStore.dispatch({type: multiplayerActions.NEW_MATCH_SET, newMatchSet: matchSet.triads[0]});
-		io.emit('getNewScore');
-		io.emit('gameState', multiplayerStore.getState());
-	});
+	multiplayerStore.dispatch({type: multiplayerActions.RESET_TIMER});
+	multiplayerStore.dispatch({type: multiplayerActions.NEW_MATCH_SET, newMatchSet: getMatchSet(0)});
+	io.emit('getNewScore');
+	io.emit('gameState', multiplayerStore.getState());
 
 
 }
