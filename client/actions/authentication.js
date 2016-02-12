@@ -47,10 +47,8 @@ export function login(userID, accessToken){
             // Here, we update the app state with the results of the API call.
               if (json) {
                 // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
-                console.log('HERE 2',json);
                 dispatch(fetchChats(json.user_id));
                 dispatch(fetchUserScore(json.user_id));
-                console.log('FETCHING ALBUM', json.user_id,getAlbum)
                 dispatch(getAlbum(json.user_id));
                 dispatch(receiveLogin(json));
               }
@@ -72,7 +70,7 @@ export function logout(){
 
 export function clickLogin() {
   return function(dispatch) {
-    console.log('dispatching login', dispatch);
+    
     dispatch(requestLogin());
     FB.getLoginStatus(function(response) {
       // In this case the user must have logged in previously so get request SHOULD return user data
@@ -82,20 +80,20 @@ export function clickLogin() {
 
       } else {
         FB.login(function(responseLogin) {
-          console.log(responseLogin);
+          
           let request2 = new Request(`/api/users/${responseLogin.authResponse.userID}`, {method: 'GET'});
           return fetch(request2)
             .then(response => response.json())
             .then((json) => {
               if (json) {
                 // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
-                console.log('HERE 3',json);
+              
                 dispatch(fetchChats(json.user_id))
                 dispatch(fetchUserScore(json.user_id));
                 dispatch(receiveLogin(json));
                 dispatch(getAlbum(json.user_id));
               } else {
-                console.log("New User");
+                
                 // New User
                 let request3 = new Request('/api/users', {
                   method: 'post',
@@ -115,8 +113,7 @@ export function clickLogin() {
                   // We can dispatch many times!
                   // Here, we update the app state with the results of the API call.
                     // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
-                    console.log('HERE 4',json);
-                    console.log('FETCHING ALBUM', getAlbum)
+                  
                     dispatch(fetchChats(json.user_id));
                     dispatch(fetchUserScore(json.user_id));
                     dispatch(getAlbum(json.user_id));

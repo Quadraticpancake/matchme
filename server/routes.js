@@ -45,7 +45,7 @@ module.exports = function (app, express) {
 
 	// change profile picture
 	// /api/users/:user_id/pictures/:picture
-	app.put('api/users/:user_id/pictures', (req, res) => {
+	app.put('/api/users/:user_id/pictures', (req, res) => {
       	putPicture(req.params.user_id, req.body.image_url).then((output) => {
       		res.json(output);
       	});
@@ -72,7 +72,6 @@ module.exports = function (app, express) {
 	//api/users:user_id/chats
 	app.get('/api/chats/:user_id', (req, res) => {
 		getConnectedPairsAndMessagesForUser(req.params.user_id).then((rows) => {
-			console.log('chats', rows)
 			res.json(rows)
 		});
 	});
@@ -157,14 +156,5 @@ module.exports = function (app, express) {
 	      res.json(pair_id);
 	    });
 	})
-
-	// app.get('/api/matchSet', (req, res) => {
-	// 	getMatchSet().then((matchSet) => {
-	// 		console.log(matchSet)
-	// 		res.json(matchSet)
-	// 	})
-	// })
-
-
 
 }

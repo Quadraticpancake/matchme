@@ -15,7 +15,7 @@ function setChats(chats) {
 }
 
 export function fetchChats(user_id) {
-  console.log("fetch_chats");
+  
   return function(dispatch) {
     let request = new Request(`/api/chats/${user_id}`, {method: 'GET'});
     return fetch(request)

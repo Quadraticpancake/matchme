@@ -7,7 +7,6 @@ import fetch from 'isomorphic-fetch';
 export const POST_REC = 'POST_REC';
 
 export function postRecommendation(user_id, user_gender, user_preference) {
-  console.log('getting recommendation from recommendationActions!', user_id, user_gender, user_preference);
   
   return function(dispatch) {
     dispatch(requestRecommendation());
@@ -24,7 +23,6 @@ export function postRecommendation(user_id, user_gender, user_preference) {
     return fetch(request)
       .then(response => response.json())
       .then((json) => {
-        console.log('response from getting recommendation', json)
         dispatch(receiveRecommendation(json));
       });
   };

@@ -13,10 +13,6 @@ import css from './Header.scss';
 
 class Header extends Component {
 
-  componentDidUpdate() {
-    console.log('componentDidUpdate')
-  }
-
   render() {
     window.HeaderProps = this.props;
     const {user, actions} = this.props;

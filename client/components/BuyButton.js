@@ -16,7 +16,6 @@ class BuyButton extends Component {
 
 
   render() {
-    console.log('PROPS', this.props);
     const { actions, person, user, dis, triads } = this.props;
 
     const cost = -1000;
