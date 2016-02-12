@@ -45,18 +45,16 @@
   }
 }
 
-
-
-  .brand {
-    position: relative;
-    $size: 40px;
-    top: 0px;
-    left: 5px;
-    display: inline-block;
+.brand {
+  position: relative;
+  $size: 40px;
+  top: 0px;
+  left: 5px;
+  display: inline-block;
   background: black url('http://i.imgur.com/PIDJGcO.png') no-repeat center center;
-    width: $size;
-    height: $size;
-    background-size: 80%;
-    margin: -10px 10px 0 0;
-    border-radius: $size / 2;
-  }
+  width: $size;
+  height: $size;
+  background-size: 80%;
+  margin: -10px 10px 0 0;
+  border-radius: $size / 2;
+}
