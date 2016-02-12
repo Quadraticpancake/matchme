@@ -1,0 +1,48 @@
+.prospect {
+  padding-top: 5px;
+  border: 3px solid transparent;
+  background-color: white;
+  height: 43vh;
+  margin-bottom: 1vh;
+  width: 30vw;
+  border-radius: 1%;
+  box-shadow: 0 5px 30px 5px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+  @media screen and (max-width:995px) {
+    width: 45vw;
+  }
+  @media screen and (max-width:414px){
+    width: 45vw;
+  }
+  @media screen and (max-width:375px){
+    width: 45vw;
+  }
+  @media screen and (max-width:320px){
+    width: 45vw;
+  }
+
+}
+
+.prospectImage {
+  max-height: 25vh;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+@-webkit-keyframes scalex{
+    from {-webkit-transform: scale(1.01);}
+    65% {-webkit-transform: scale(0.98);}
+    to {-webkit-transform: scale(1.01);}    
+}
+    
+@-moz-keyframes scale{
+    from {-moz-transform: scale(1.01);}
+    65% {-moz-transform: scale(0.98);}
+    to {-moz-transform: scale(1.01);}    
+}
+
+h1 {
+  margin: 0px;
+}
