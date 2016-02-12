@@ -1,5 +1,5 @@
 import { getConnectedPairsAndMessagesForUser, addMessage, updateHeart, closeChat } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum, buyCandidate, postAlbum, postRecommendation} from '../db/dbHelpers';
+import { addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum, buyCandidate, postAlbum, postRecommendation} from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -37,7 +37,7 @@ module.exports = function (app, express) {
 
 
 	// This function should eventually get other things such as a score.
-	app.get('/api/users/:user_id/matchmakerScore', (req, res) => {
+	app.get('/api/users/:user_id/results', (req, res) => {
       	getMatchesMade(req.params.user_id).then((output) => {
         	res.json(output);
     	});
