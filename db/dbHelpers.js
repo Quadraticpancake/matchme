@@ -255,7 +255,7 @@ export function getMatchSet (user_id) {
       // To ensure the queue is NEVER empty;
       if (triad.target.user_id === user_id || triad.prospects[0].user_id === user_id || triad.prospects[1].user_id === user_id) {
         // We need to get another triad because we can't return one with user included
-        return getTriads();
+        return getTriads(user_id);
       } else if (triadsStore.getSize() < 150) {
         // To ensure the queue is NEVER empty;
         triadsStore.enqueue(triad);
@@ -287,6 +287,7 @@ export function getMatchSet (user_id) {
     func();
   // triadsStore getting way low
   }
+  console.log('LOOK HERE', triadsStore.getSize());
   return getTriads();
 }
 
@@ -510,5 +511,4 @@ export function buyCandidate (purchaseInfo) {
       }
     });
 }
-
 

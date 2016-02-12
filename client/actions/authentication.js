@@ -4,7 +4,7 @@ import { fetchUserScore } from './user';
 import { routeActions } from 'react-router-redux';
 import { getAlbum } from './pictureActions.js';
 import { postRecommendation } from './recommendationActions.js';
-
+import { socket } from '../containers/App';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -144,6 +144,7 @@ export function requestLogin() {
 }
 
 export function receiveLogin(user) {
+  socket.emit('joinGame', { newPlayer: user.user_id });
   return {
     type: LOGIN_SUCCESS,
     isFetchingAuth: false,

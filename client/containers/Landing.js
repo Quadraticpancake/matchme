@@ -4,13 +4,50 @@ import { connect } from 'react-redux';
 import { Col, Row, Image} from 'react-bootstrap';
 import css from './Home.scss';
 
-           // <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
-           //    <Scoreboard />
-           //  </div>
 const divStyle = {
   top: 10,
   right: 10
 };
+
+const socksIconStyle = {
+  width: 175,
+  height: 'auto',
+  marginTop: -15,
+  marginBottom: 15
+}
+
+const trophyIconStyle = {
+  width: 100,
+  marginTop: 50,
+  marginBottom: 20,
+  height: 'auto'
+}
+
+const heartIconStyle = {
+  width: 125,
+  height: 'auto',
+  marginTop: 35,
+  marginBottom: 35
+}
+
+const iconHolder = {
+  width: '80%',
+  height: '20%',
+  backgroundColor: 'blue',
+  clear: 'both'
+}
+
+const iconSquare = {
+  width: '30vh',
+  height: '30vh',
+  textAlign: 'center',
+  float: 'left',
+  backgroundColor: 'rgb(168, 225, 238)',
+  fontFamily: 'Lobster',
+  margin: '2vh',
+  borderRadius: 20,
+  boxShadow: '0 5px 30px 5px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'
+}
 
 const parent = {
   display: 'flex',
@@ -18,7 +55,36 @@ const parent = {
   justifyContent: 'center'
 }
 
+const paraStyle = {
+  margin: 5,
+  fontSize: '150%'
+}
+
+const vidStyle = {
+  border: '2px solid black',
+  height: 350,
+  width: 'auto',
+  margin: 10
+}
+
+const descStyle = {
+  fontSize: '150%',
+  fontFamily: 'Lobster',
+  // height: 350,
+  width: 400,
+  textAlign: 'center',
+  margin: 10
+}
+
+const title = {
+  fontSize: '350%',
+  fontFamily: 'Lobster',
+  margin: 10,
+  clear: 'both'
+}
+
 class Landing extends Component {
+
   componentWillMount(){
     /*
     const { matchmaker, actions, user } = this.props;
@@ -34,7 +100,41 @@ class Landing extends Component {
     return (
 
       <div>
-        This is a landing page
+
+        <div style={title}>MatchMe: The best place to matchmake and match up!</div>
+        <div style={iconHolder}>
+          <div style={iconSquare}> <img style={socksIconStyle} src="http://i.imgur.com/ccVfBe7.png"/><p style={paraStyle}>Matchmake for other users &</p><p style={paraStyle}>Get matched with other users</p> </div>
+          <div style={iconSquare}><img style={trophyIconStyle} src = 'http://i.imgur.com/l2sj0g2.png'/><p style={paraStyle}>Earn points for successful matchmaking</p></div>
+          <div style={iconSquare}><img style={heartIconStyle} src='http://i.imgur.com/SuxgYjU.png'/><p style={paraStyle}>Sign up to connect</p><p style={paraStyle}>See how it all works below!</p></div>
+        </div>
+        
+        <div style={title}>How to use MatchMe: </div>
+        <table>
+
+        
+          <tr>
+            <th><img style={vidStyle} src='http://i.imgur.com/p8d5t0k.gif'/></th>
+            <th><p style={descStyle}>Sign in using Facebook. The only information we need is your public profile. You can then edit your MatchMe profile.</p></th>
+          </tr>
+          
+  
+          <tr>
+            <th><img style={vidStyle} src='http://i.imgur.com/nGpuchX.gif'/></th>
+            <th><p style={descStyle}>Start matchmaking! Select the best match for the user on the left from the two options on the right. If there's no good match, click the 'Skip' button. Once a certain number of users make a match, the couple is connected.</p></th>
+          </tr>
+
+          <tr>
+            <th><img style={vidStyle} src='http://i.imgur.com/WpjoQkt.gif'/></th>
+            <th><p style={descStyle}>You earn 10 points for every match, 100 points if you matched a couple that gets connected, and 200 points if you're the vote that creates the connection! You can view your score and the connections you helped make under Score.</p></th>
+          </tr>
+
+          <tr>
+            <th><img style={vidStyle} src='http://i.imgur.com/RAY6Ky0.gif'/></th>
+            <th><p style={descStyle}>Spend the points you've earned to quick-match with users. They'll appear in your chatroom along with your other matches.</p></th>
+          </tr>
+
+        </table>
+
       </div>
     );
   }
@@ -57,4 +157,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Landing);
-

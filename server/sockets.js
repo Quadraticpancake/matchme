@@ -1,7 +1,22 @@
-import * as store from './scoreboard/'
+import * as store from './scoreboard/';
 import { io } from './server';
+import * as multiplayerStore from './multiplayer';
+import * as multiplayerActions from './multiplayer/actions';
+import { getMatchSet } from '../db/dbHelpers';
 
 io.on('connection', (socket) => {
+	// MULTIPLAYER-RELATED
+	socket.on('joinGame', function(data) {
+		socket.emit('gameState', multiplayerStore.getState());
+	});
+
+	socket.on('vote', function(data) {
+		multiplayerStore.dispatch({type: multiplayerActions.SET_VOTE, voteObj: data});
+		io.emit('gameState', multiplayerStore.getState());
+	});
+
+
+	// SCOREBOARD-RELATED
 	// send out current scoreboard state to anyone who uses the app
 	socket.emit('scoreboard', store.getState())
 
@@ -19,3 +34,8 @@ io.on('connection', (socket) => {
 store.subscribe(() => {
 	io.emit('scoreboard', store.getState())
 });
+
+// Sends out the updated multiplayer game state every time the server-side store changes
+// multiplayerStore.subscribe(() => {
+// 	io.emit('gameState', multiplayerStore.getState());
+// });

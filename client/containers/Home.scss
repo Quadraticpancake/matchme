@@ -19,3 +19,27 @@
 		display: none;
 	}
 }
+
+.timerContainer {
+  padding-top: 0.5em;
+  width: 4em;
+  height: 4em;
+  font-size: x-large;
+  font-family: 'Lobster';
+  text-align: center;
+  color: rgb(254, 67, 80);
+  background-color: white;
+  border: 5px solid rgb(96, 24, 72);
+  border-radius: 50%;
+  position: absolute;
+  top: 48%;
+  left: 45%;
+  z-index: 9999;
+  @media (max-width: 995px) {
+    top: 45%;
+    left: 38%;
+    width: 4em;
+    height: 4em;
+    font-size: large;
+  }
+}
