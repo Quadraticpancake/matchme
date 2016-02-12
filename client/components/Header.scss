@@ -12,7 +12,7 @@
 
 .header a {
 	font-family: 'Lobster', cursive !important;
-	color: rgb(254,67,80) !important;	
+	color: rgb(254,67,80) !important;
 	font-size: large;
 }
 
@@ -31,4 +31,30 @@
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
 	background-color: black;
+}
+
+.loginlogoutmobile {
+  @media screen and (min-width: 995px) {
+  	display: none;
+  }
+}
+
+.loginlogoutdesktop {
+  @media screen and (max-width: 995px) {
+  	display: none;
+  }
+}
+
+.brand {
+  position: relative;
+  $size: 40px;
+  top: 0px;
+  left: 5px;
+  display: inline-block;
+  background: black url('http://i.imgur.com/PIDJGcO.png') no-repeat center center;
+  width: $size;
+  height: $size;
+  background-size: 80%;
+  margin: -10px 10px 0 0;
+  border-radius: $size / 2;
 }

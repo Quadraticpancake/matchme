@@ -8,7 +8,6 @@
   box-shadow: 0 10px 30px 5px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   width: 40vw;
   height: 80vh;
-
   @media (max-width: 995px) {
     width: auto;
     height: 40vh;
@@ -47,10 +46,12 @@
 
 .button {
   font-size: 2.3vmin;
+  background-color: rgb(204,0,0);
   @media (max-width: 768px) {
   	font-size: 2.4vmin;
     padding: 1.5vmin;
   }
+
 }
 
 .userInfo {
@@ -59,4 +60,8 @@
   margin-left: 1.5vw;
   margin-right: 1.5vw;
   margin-right: auto;
+}
+
+.button:hover {
+  background-Color: rgb(150,0,0);
 }

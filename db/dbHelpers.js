@@ -1,9 +1,49 @@
 import db from './config';
 var request = require('request');
-var zipcodes = require('zipcodes');
 var _ = require('underscore');
+import generateUserAnalytics from '../server/faceAnalysis/faceAnalysis';
 
-var userCount = null;
+var Queue = function () {
+  var output = {};
+  output._first = null;
+  output._last = null;
+  output._size = 0;
+  var node = function (val) {
+    return {value: val, next: null};
+  }
+  output.getSize = function () {
+    return this._size;
+  }
+  output.enqueue = function (val) {
+    if (this._first) {
+      this._last.next = node(val);
+      this._last = this._last.next;
+    } else {
+      this._first = node(val);
+      this._last = this._first;
+    }
+    this._size++;
+  }
+  output.dequeue = function () {
+    if (this._first) {
+      var result = this._first.value;
+      this._first = this._first.next;
+      this._size--;
+      return result;
+    } else {
+      return null;
+    }
+  }
+  return output;
+}
+
+var triadsStore = Queue();
+
+//var triadsStore = [];
+
+var replenishingTriads = false;
+
+getMatchSet();
 
 ///////////////// DB helpers /////////////////////
 
@@ -13,28 +53,26 @@ export function getUser (facebook_id) {
   return db.query("SELECT *, to_char(birthday, 'YYYY-MM-DD') as birthday from users where facebook_id = '" + facebook_id + "';");
 }
 
-
 export function postUser (user) {
   var userInfo = null;
   var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,zipcode,status,age_min,age_max,gender_preference,\
-              location_preference,description,image_url,score) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}', \
+              location_preference,description,image_url,score,real) VALUES ('${user.facebook_id}','${user.first_name}','${user.last_name}', \
               '${user.gender}', '${user.zipcode}','${user.status}',${user.age_min},${user.age_max},\
-              '${user.gender_preference}',${user.location_preference},'${user.description}','${user.image_url}',0) returning *;`;
+              '${user.gender_preference}',${user.location_preference},'${user.description}','${user.image_url}',0,false) returning *;`;
 
   return db.query(insertUserQueryStr)
   .then((rows) => {
-    userCount++;
     userInfo = rows[0];
     return rows[0];
   })
   .then((row) => {
-
     var insertPictureQueryStr = `INSERT INTO pictures (user_id, image_url) VALUES ('${row.user_id}','${user.image_url}') returning *;`;
     return db.query(insertPictureQueryStr);
   })
   .then((rows) => {
-    console.log(rows);
-    console.log(userInfo);
+    return generateUserAnalytics(rows[0].user_id, rows[0].image_url);
+  })
+  .then((rows) => {
     return userInfo;
   })
   .catch((error) => {
@@ -54,27 +92,12 @@ export const putUser = (userID, userInfo) => {
 
   return db.query(queryStr)
     .then((rows) => {
-      return rows[0];
+      return rows;
     })
     .catch((error) => {
       console.log(error);
     });
 };
-
-
-// get three random users, based on: http://stackoverflow.com/questions/8674718/best-way-to-select-random-rows-postgresql
-export function getRandomUsers () {
-  // the first query gets the size of the table
-  return db.query("SELECT count(*) AS ct, min(user_id)  AS min_id, max(user_id)  AS max_id, max(user_id) - min(user_id) AS id_span FROM users;")
-         .then((rows) => {
-          // this is the actual query which pulls 3 random distinct rows from the users table using the size variables pulled in the first query
-            return db.query(`SELECT * FROM  (\
-                        SELECT DISTINCT 1 + trunc(random() * ${rows[0].id_span})::integer AS user_id \
-                        FROM   generate_series(1, 4) g ) \
-                        r JOIN users USING (user_id) LIMIT  3;`)
-            });
-}
-
 
 // if pair not previously existing, create pair, otherwise, increment pair match count
 export function addMatch (match) {
@@ -105,7 +128,6 @@ export function addMatch (match) {
     ${ pairFormatted.user_two }), temp as (insert into matches_made (matchmaker, pair) values \
     (${ match.matchmaker.user_id }, (select pair_id from p union all select pair_id from i))) \
     select matches_made.matchmaker, matches_made.pair from matches_made join p on p.pair_id = matches_made.pair;`;
-    //console.log(matchQuery);
   return db.query(matchQuery)
     .then((rows) => {
       var threshold = 1;
@@ -118,7 +140,7 @@ export function addMatch (match) {
           ${ match.matchmaker.user_id }), allscore as (update users set score = score + 100 where user_id in \
           (${ matchmakersStr })) update pairs set connected = true where pair_id = \
           ${ rows[0].pair } returning *;`
-        console.log(onConnectionQuery);
+
         return db.query(onConnectionQuery);
       } else {
         return false; // No connection occured
@@ -128,71 +150,22 @@ export function addMatch (match) {
 
 // get one target and two suitable prospects
 export function getMatchSet (user_id) {
-  var func = function (user_id) {
-        var randomUserId = Math.floor(Math.random() * userCount) + 1;
-        console.log(userCount);
-        console.log(user_id, "user_id 1");
-        /*
-        while (randomUserId === user_id) {
-          randomUserId = Math.floor((Math.random() * userCount) + 1;
-        }
-        */
-        var date = new Date();
-        var month = date.getMonth();
-        var day = date.getDate()
-        month = month.length < 2 ? '0' + month : month;
-        day = day.length < 2 ? '0' + day : day;
-        var dateStr = '' + month + '/' + day + '/' + date.getFullYear();
-        var q = `with target as (select * from users where user_id = ${ randomUserId }) select * from users  \
-          where ('${dateStr}' - birthday) > (365.25 * (select age_min from target)) and ('${dateStr}' - birthday) <  \
-          (365.25 * (select age_max from target)) and ('${dateStr}' - (select birthday from target)) > \
-          (365.25 * age_min) and ('${dateStr}' - (select birthday from target)) < (365.25 * age_max) and \
-          user_id <> (select user_id from target) and (gender = (select  \
-          gender_preference from target) or (select gender_preference from target) = 'both')  \
-          and (gender_preference = (select gender from target) or gender_preference = 'both') union all  \
-          (select * from target) union all (select * from users where user_id = ${ user_id });`
-        console.log(q);
-        return db.query(q)
-          .then((rows) => {
-            var matchmaker = rows.pop();
-            var target;
-            var score;
-            console.log(matchmaker.user_id, "!==", user_id);
-            if (matchmaker.user_id !== user_id) {
-              target = matchmaker;
-              score = -1 // or null
-            } else {
-              target = rows.pop();
-              score = matchmaker.score;
-            }
-            var prospects = _.shuffle(rows).slice(0,2);
-            console.log("score =", score, "target =", target.first_name);
-            console.log(prospects[0].first_name, prospects[1].first_name);
-            prospects.push(target);
-            console.log(prospects);
-            return {score: score, candidates: prospects};
-          });
-  }
- // let matchSet = {};
-  if(!user_id) {
-    user_id = 0;
-  }
-  if (!userCount) {
-    return db.query('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;')
-      .then((row) => {
-        userCount = row[0].user_id;
-        return func(user_id);
-    });
-  } else {
-    return func(user_id);
-  }/*
-    return db.query('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;')
-      .then((row) => {
-        userCount = row[0].user_id;
-        var randomUserId = Math.floor(Math.random() * userCount) + 1;
 
-        while (randomUserId === user_id) {
-          randomUserId = Math.floor((Math.random() * userCount) + 1;
+  var func = function () {
+    return db.query('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;')
+      .then((row) => {
+        var userCount = row[0].user_id
+        var randomUserIdsStr = '' + Math.floor(Math.random() * userCount) + 1;
+        for (var i = 0; i < 100; i++) {
+          randomUserIdsStr += ', ' + (Math.floor(Math.random() * userCount) + 1);
+        }
+        var sample_min = Math.floor(Math.random() * userCount) + 1;
+        var prospectRangeStr = ' user_id >= ' + sample_min + ' or user_id <= ';
+        var prospectCount = 1000;
+        if (sample_min + prospectCount <= userCount) {
+          prospectRangeStr += (sample_min + prospectCount);
+        } else {
+          prospectRangeStr += (sample_min - userCount + prospectCount);
         }
         var date = new Date();
         var month = date.getMonth();
@@ -200,102 +173,126 @@ export function getMatchSet (user_id) {
         month = month.length < 2 ? '0' + month : month;
         day = day.length < 2 ? '0' + day : day;
         var dateStr = '' + month + '/' + day + '/' + date.getFullYear();
-        var q = `with target as (select * from users where user_id = ${ randomUserId }) select * from users  \
-          where ('${dateStr}' - birthday) > (365.25 * (select age_min from target)) and ('${dateStr}' - birthday) <  \
-          (365.25 * (select age_max from target)) and ('${dateStr}' - (select birthday from target)) > \
-          (365.25 * age_min) and ('${dateStr}' - (select birthday from target)) < (365.25 * age_max) and \
-          user_id <> (select user_id from target) and (gender = (select  \
-          gender_preference from target) or (select gender_preference from target) = 'both')  \
-          and (gender_preference = (select gender from target) or gender_preference = 'both') union all  \
-          (select * from target) union all (select * from users where user_id = ${ user_id });`
-        console.log(q);
-        return db.query(q)
-          .then((rows) => {
-            var matchmaker = rows.pop();
-            var target;
-            var score;
-            if (matchmaker.user_id !== user_id) {
-              target = matchmaker;
-              score = -1 // or null
+        var targetsAndUserQuery = `select * from users where user_id in ( ${randomUserIdsStr} );`
+        var prospectsQuery = `select * from users where ${ prospectRangeStr };`;
+        var age = function(person) {
+          if (person.birthday) {
+            var date = new Date();
+            var month = person.birthday.getMonth();
+            var day = person.birthday.getDate();
+            var year = person.birthday.getFullYear();
+            var output = date.getFullYear() - year;
+            if (month > date.getMonth()) {
+              return output;
+            } else if (month < date.getMonth()) {
+              return output - 1;
+            } else if (day >= date.getDate()) {
+              return output;
             } else {
-              target = rows.pop();
-              score = matchmaker.score;
+              return output - 1;
             }
-            var prospects = _.shuffle(rows).slice(0,2);
-            console.log("score =", score, "target =", target.first_name);
-            console.log(prospects[0].first_name, prospects[1].first_name);
-            prospects.push(target);
-            console.log(prospects);
-            return {score: score, candidates: prospects};
-          });
+          } else {
+            return false;
+          }
+        }
 
+        var match = function (p1, p2) {
+          return (p1.gender === p2.gender_preference || p2.gender_preference === 'both')
+            && (p2.gender === p1.gender_preference || p1.gender_preference === 'both')
+            && p1.user_id !== p2.user_id && age(p2) !== false && age(p1) !== false
+            && p1.age_min <= age(p2) && p2.age_min <= age(p1) && p2.age_max >= age(p1) && p1.age_max >= age(p2);
+        }
+        //console.log(targetsAndUserQuery);
+        //console.log(prospectsQuery);
+        return db.query(targetsAndUserQuery)
+          .then((targetRows) => {
+            return db.query(prospectsQuery)
+              .then((prospectRows) => {
+                var target;
+                var prospects = [];
+                var prospectIterator = 0;
+                for (var i = 0; i < targetRows.length; i++) {
+                  target = targetRows[i];
+                  for (prospectIterator; (prospectIterator < prospectRows.length && prospects.length < 2); prospectIterator++) {
+                    if (prospectRows[prospectIterator] && match(target, prospectRows[prospectIterator])) {
+                      prospects.push(prospectRows[prospectIterator]);
+                      prospectRows[prospectIterator] = null;
+                    }
+                  }
+                  if (prospectIterator === prospectRows.length) {
+                    prospectIterator = 0;
+                  }
+                  if (prospects.length === 2) {
+                    triadsStore.enqueue({target: target, prospects: prospects})
+                    //triadsStore.push({target: target, prospects: prospects})
+                    prospects = [];
+                  }
+                }
+                replenishingTriads = false;
+                return;
+              });
+          });
       });
+  };
+
+  // Single triad version of app
+  /*
+  var getTriads = function (user_id) {
+    var triad;
+    while (triadsStore.length > 0) {
+      triad = triadsStore.pop();
+      if (triad && triad.target.user_id !== user_id && triad.prospects[0].user_id !== user_id && triad.prospects[1].user_id !== user_id) {
+        return triad;
+      }
+    }
+  }
+*/
+  var getTriads = function (user_id) {
+    var triad = triadsStore.dequeue();
+    if (!triad || triadsStore.getSize() < 2) {
+      // should throw exception
+    } else {
+      // To ensure the queue is NEVER empty;
+      if (triad.target.user_id === user_id || triad.prospects[0].user_id === user_id || triad.prospects[1].user_id === user_id) {
+        // We need to get another triad because we can't return one with user included
+        return getTriads(user_id);
+      } else if (triadsStore.getSize() < 150) {
+        // To ensure the queue is NEVER empty;
+        triadsStore.enqueue(triad);
+      }
+    }
+    return triad;
+  }
+
+  /*
+  //triad array version of app
+  var getTriads = function (user_id) {
+    var count = 0;
+    var output = [];
+    while(count < 10) {
+      var triad = triadsStore.pop();
+      if (triad && triad.target.user_id !== user_id && triad.prospects[0].user_id !== user_id && triad.prospects[1].user_id !== user_id) {
+        output.push(triad);
+        count++;
+      } else if (!triad) {
+        count++;
+      }
+    }
+    return output;
   }
   */
-  /*
-  // gets a random user to be a match target
-  return db.query("SELECT count(*) AS ct, min(user_id) AS min_id, max(user_id) AS max_id, max(user_id) - min(user_id) AS id_span FROM users;")
-         .then((rows) => {
-          // this is the actual query which pulls 1 random distinct rows from the users table using the size variables pulled in the first query
-            return db.query(`SELECT * FROM  (\
-                SELECT DISTINCT 1 + trunc(random() * ${rows[0].id_span})::integer AS user_id \
-                FROM generate_series(1, 4) g ) \
-                r JOIN users USING (user_id) LIMIT  1;`)
-            })
-
-          .then((targetRows) => {
-
-            // get target out of row results
-
-            let target = targetRows[0];
-
-            let roughAge = (new Date()).getFullYear() - (new Date(target.birthday)).getFullYear();
-
-            let maxBirthday = new Date(Date.now() - (target.age_max * 365 * 24 * 60 * 60 * 1000));
-            let minBirthday = new Date(Date.now() - (target.age_min * 365 * 24 * 60 * 60 * 1000));
-
-            let gender_preference = target.gender_preference;
-            let prospectsQuery = ``;
-
-            if (gender_preference === 'both') {
-              prospectsQuery = `SELECT * FROM users WHERE age_min<='${roughAge}' ` +
-                `AND gender_preference='${target.gender}' `+
-                `AND age_max>='${roughAge}' `+
-                // within target's age range
-                `AND birthday<='${minBirthday.toISOString()}' `+
-                `AND birthday>='${maxBirthday.toISOString()}' ` +
-                `AND user_id!='${target.user_id}'`
-
-            } else {
-              prospectsQuery = `SELECT * FROM users WHERE gender= '${target.gender_preference}' ` +
-                `AND gender_preference='${target.gender}' `+
-                // target is within correct age range
-                `AND age_min<='${roughAge}' `+
-                `AND age_max>='${roughAge}' `+
-                // within target's age range
-                `AND birthday<='${minBirthday.toISOString()}' `+
-                `AND birthday>='${maxBirthday.toISOString()}' ` +
-
-                `AND user_id<>'${target.user_id}'`
-
-            }
-
-
-            matchSet.target = target;
-            return db.query(prospectsQuery);
-
-          })
-          .then((prospectRows) => {
-            matchSet.prospects = _.shuffle(prospectRows).slice(0,2);
-            return matchSet;
-
-          })
-*/
+  if (triadsStore.getSize() < 350 && replenishingTriads === false) {
+    console.log(triadsStore.getSize());
+    replenishingTriads = true;
+    func();
+  // triadsStore getting way low
+  }
+  console.log('LOOK HERE', triadsStore.getSize());
+  return getTriads();
 }
 
 export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
-  // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
 
   var getMatchesStr = `select pairs.pair_id, pairs.connected, pairs.user_one_heart, pairs.user_two_heart, \
    uMatchmaker.score, \
@@ -326,7 +323,7 @@ export function getMatchesMade (matchmaker) {
               obj.user_two[key.substr(0, key.length - 1)] = rows[i][key];
             } else if (key.charAt(key.length - 1) === '1') {
               obj.user_one[key.substr(0, key.length - 1)] = rows[i][key];
-            } 
+            }
           }
           obj.pairHeart = rows[i].user_one_heart && rows[i].user_two_heart;
           output.push(obj);
@@ -348,7 +345,7 @@ export function getAlbum (user_id) {
 
   return db.query(getAlbumQueryStr)
   .then((rows) => {
-    return rows; 
+    return rows;
   })
   .catch((error) => {
     console.log(error);
@@ -356,7 +353,6 @@ export function getAlbum (user_id) {
 }
 
 export function postAlbum (user_id, image_url) {
-  console.log('GOT TO POST ALBUM IN DB HELPERS, INFO', user_id, image_url);
   var postAlbumQueryStr = `INSERT INTO pictures (user_id, image_url) VALUES ('${user_id}','${image_url}') returning *;`;
   return db.query(postAlbumQueryStr)
     .then((rows) => {
@@ -379,6 +375,124 @@ export function putPicture (user_id, image_url) {
   });
 }
 
+// get recommendation
+export function postRecommendation(user_id, user_gender, user_preference) {
+// get the user ids of the matches the user has hearted
+  console.log(user_id, user_gender, user_preference);
+  let getLikesQuery = `select * from pairs where user_one = ${ user_id } and user_one_heart =true or user_two = ${ user_id } and user_two_heart =true`;
+  return db.query(getLikesQuery)
+  .then((rows) => {
+    //console.log(rows);
+    let result = [];
+    for (var i = 0; i < rows.length -1; i++) {
+      result.push(rows[i].user_one);
+      result.push(rows[i].user_two);
+    }
+    return _.without(result, parseInt(user_id)); // returns an array containing many instances of the target user_id
+  })
+
+  .then((liked) => {
+    //console.log(liked);
+    // get the analytics info of the hearted users, compile into the ideal
+    let queryIds = ' user_id = ' + liked[0];
+    liked.slice(1).forEach(function(item) {
+      queryIds += ' OR user_id= ' + item;
+    });
+
+    let getLikedSetQuery = `select * from analytics where ` + queryIds + `;`;
+    return db.query(getLikedSetQuery)
+    .then((rows) => {
+      console.log(rows);
+      let totalAge = 0;
+      let totalColoring = [];
+      let totalExpression = 0;
+      let totalFaceShape = 0;
+
+      rows.forEach(function(item) {
+        totalAge += item.age;
+        totalExpression += parseInt(item.expression);
+        totalFaceShape += parseInt(item.faceshape);
+        totalColoring.push(item.coloring);
+      });
+
+      function mode(array) {
+          if(array.length === 0)
+            return null;
+          var modeMap = {};
+          var maxEl = array[0], maxCount = 1;
+          for(var i = 0; i < array.length; i++) {
+            var el = array[i];
+            if(modeMap[el] == null)
+              modeMap[el] = 1;
+            else
+              modeMap[el]++;
+            if(modeMap[el] > maxCount)
+            {
+              maxEl = el;
+              maxCount = modeMap[el];
+            }
+          }
+          return maxEl;
+      };
+
+      let ideal = {
+        age: totalAge / rows.length,
+        coloring: mode(totalColoring),
+        expression: totalExpression / rows.length,
+        faceShape: totalFaceShape / rows.length
+      };
+      return {ideal: ideal, liked: liked, user_id: user_id};
+    });
+  })
+  .then((result) => {
+    // get a set of recommendations
+    let idealAgeMin = result.ideal.age - 5;
+    let idealAgeMax = result.ideal. age + 5;
+    let idealExpressionMin = result.ideal.expression - 10;
+    let idealExpressionMax = result.ideal.expression + 10;
+    let idealFaceMin = result.ideal.faceShape - .2;
+    let idealFaceMax = result.ideal.faceShape + .2;
+    let idealColoring = result.ideal.coloring;
+
+    let queryAlreadyConnected = '';
+    result.liked.forEach(function(item) {
+      queryAlreadyConnected += ' AND user_id <> ' + item;
+    });
+
+    let getRecQuery = `select user_id from analytics where` +
+       ` age < ${ idealAgeMax } and age > ${ idealAgeMin }` +
+       ` and expression < ${ idealExpressionMax } and expression > ${ idealExpressionMin }` +
+       ` and faceShape < ${ idealFaceMax } and faceShape > ${ idealFaceMin }` +
+       ` and coloring = '${ idealColoring }'` +
+       ` and user_id <> ${ result.user_id }`
+       + queryAlreadyConnected + ';';
+
+     return db.query(getRecQuery)
+
+     .then((rows) => {
+       // rows is an array of potential user_ids
+       let userQueryString = '';
+       rows.forEach(function(item) {
+         userQueryString += ' or user_id=' + item.user_id;
+       });
+
+       let preferencesQuery = `select * from users where gender='${user_preference}' and gender_preference='${user_gender}'` + userQueryString;
+       if (user_preference = 'none') {
+        preferencesQuery = `select * from users where gender_preference='${user_gender}'` + userQueryString;
+       }
+       return db.query(preferencesQuery);
+     })
+     .then((rows) => {
+       return _.shuffle(rows)[0];
+     })
+     .catch((error) => {
+       console.log(error);
+     });
+  });
+
+};
+
+
 export function buyCandidate (purchaseInfo) {
   var user_one = purchaseInfo.user < purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
   var user_two = purchaseInfo.user > purchaseInfo.candidate ? purchaseInfo.user : purchaseInfo.candidate;
@@ -387,7 +501,7 @@ export function buyCandidate (purchaseInfo) {
     = ${ user_one } and user_two = ${ user_two })), p as (update pairs set connected = true  \
     where pairs.user_one = ${ user_one } and pairs.user_two = ${ user_two }) update users set score = score + ${ purchaseInfo.scoreChange } where user_id = \
     ${ purchaseInfo.user } returning score;`
-  console.log(buyCandidateQueryStr);
+    //console.log(buyCandidateQueryStr);
   return db.query(buyCandidateQueryStr)
     .then((row) => {
       if (row.length > 0) {
@@ -395,5 +509,6 @@ export function buyCandidate (purchaseInfo) {
       } else {
         return null;
       }
-    })
+    });
 }
+

@@ -1,9 +1,27 @@
 import React, { Component, PropTypes } from 'react';
+import { Col, Row, Image} from 'react-bootstrap';
+import css from './Matchee.scss';
+
+      /*
+      // Return Garbage
+      <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle}>
+        <div style={divMatcheeStyle} >
+          <img src={matchee.image_url} style={imgMatcheeStyle} className="img img-responsive img-rounded center-block"/>
+        </div>
+        <div style={matcheeInfoStyle}>
+          <label>{matchee.first_name}, {age}</label> <img src={icon_matchee_path} style={iconMatcheeStyle}/>
+          <p style={matcheeInfo}>''{matchee.description}''</p>
+        </div>
+      </div>
+      */
+
+
 
 const wellStyle = {
-  height: '24em',
-  marginBottom: 15,
+  height: '44vh',
+  marginBottom: 15
 };
+
 const divMatcheeStyle = {
   height:250,
   width: 'auto',
@@ -31,13 +49,9 @@ const paraMatcheeStyle = {
   right: 30
 };
 
-const divMatcheeNameStyle = {
-};
-
 const imgMatcheeStyle = {
-  maxHeight: '100%',
-  maxWidth: '100%',
-  marginBottom: 10,
+  marginTop: '2vh',
+  height: '29vmin',
 };
 
 const divStyle = {
@@ -54,12 +68,19 @@ const iconMatcheeStyle = {
 };
 
 const matcheeInfoStyle = {
-  width: '90%',
-  marginLeft: 10
+  width: 'auto',
+  marginTop: '1vw',
+  marginLeft: '1vw',
+  marginRight: '1vw'
 };
 
 const matcheeInfo = {
-  marginTop: -10
+  marginTop: -6,
+  fontSize: '2.2vmin'
+}
+
+const nameStyle = {
+  fontSize: '2.6vmin'
 }
 
 class Matchee extends Component {
@@ -94,15 +115,13 @@ class Matchee extends Component {
     }
     
     return (
-      <div className='well well-sm col-md-12 col-lg-12col-sm-6 col-xs-6' style={wellStyle}>
-        <div style={divMatcheeStyle} >
-          <img src={matchee.image_url} style={imgMatcheeStyle} className="img img-responsive img-rounded center-block"/>
-        </div>
+      <Row className={css.prospect}>
+          <Image src={matchee.image_url} responsive className={css.prospectImage}/>
         <div style={matcheeInfoStyle}>
-          <label>{matchee.first_name}, {age}</label> <img src={icon_matchee_path} style={iconMatcheeStyle}/>
+          <h1 style={nameStyle}>{matchee.first_name}, {age} <Image src={icon_matchee_path} style={iconMatcheeStyle}/> </h1>
           <p style={matcheeInfo}>''{matchee.description}''</p>
         </div>
-      </div>
+      </Row>
     );
   }
 }

@@ -1,0 +1,18 @@
+.chatCollapsed {
+	border: 1px solid gray;
+	border-radius: 2px;
+	display: flex;
+  flex-direction: row;
+  padding: 0.5em;
+  background-color: white;
+  margin-bottom: 0.5em;
+  height: 5em;
+  flex-shrink: 1;
+  margin-right: auto;
+  margin-left: auto;
+  @media (max-width: 995px) {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}

@@ -4,15 +4,17 @@ export const SET_USER_INFO = 'SET_USER_INFO';
 export const RECEIVE_USER_INFO = 'RECEIVE_USER_INFO';
 export const CHANGE_INDEX = 'CHANGE_INDEX';
 
+// Fetches the info of the connections the user has helped create as well as user's points total
 export function fetchUserScore (user_id) {
   return function (dispatch) {
-    let request = new Request(`/api/matchmakerScore/${user_id}`, {method: 'GET'});
+    let request = new Request(`/api/users/${user_id}/results`, {method: 'GET'});
     return fetch(request)
       .then(response => response.json())
       .then(json => dispatch(setUserScore(json)));
   };
 }
 
+// sets the userResult data (connections made, score etc.)
 export function setUserScore (userScore) {
   return {
     type: SET_USER_SCORE,
@@ -20,6 +22,7 @@ export function setUserScore (userScore) {
   };
 }
 
+// tells state the updated user info is being sent to server
 const setUserInfo = (userInfo) => {
   return {
     type: SET_USER_INFO,
@@ -28,6 +31,7 @@ const setUserInfo = (userInfo) => {
   };
 };
 
+// sets the user's information in state to be the info received
 const receiveUserInfo = (userInfo) => {
   return {
     type: RECEIVE_USER_INFO,
@@ -36,7 +40,7 @@ const receiveUserInfo = (userInfo) => {
   };
 };
 
-
+// tells the server to update user info with new info and then returns said info opon request completion
 export const updateUserInfo = (userID, userInfo) => {
   return dispatch => {
     dispatch(setUserInfo(userInfo));
@@ -51,6 +55,9 @@ export const updateUserInfo = (userID, userInfo) => {
   };
 };
 
+// Changes the index (which connection) is displayed in the UserScore component based on either keypresses
+// or on the number to incrememnt or decrement index by. NOTE that change is relative to current index
+
 export const changeIndex = (e) => {
   var indexChange;
   if (typeof e === 'number') {
@@ -59,14 +66,15 @@ export const changeIndex = (e) => {
     indexChange = 1;
   } else if (e.keyCode === 37) {
     indexChange = -1;
-  } else { 
+  } else {
     indexChange = 0;
   }
   return dispatch => {
     dispatch(changeIndexAction(indexChange));
-  } 
+  }
 }
 
+// Updates index for UserScore in state. indexChange increments or decrements index according to it's val
 export const changeIndexAction = (indexChange) => {
   return {
     type: CHANGE_INDEX,

@@ -3,7 +3,8 @@ import { fetchChats } from './chats';
 import { fetchUserScore } from './user';
 import { routeActions } from 'react-router-redux';
 import { getAlbum } from './pictureActions.js';
-
+import { postRecommendation } from './recommendationActions.js';
+import { socket } from '../containers/App';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -22,7 +23,7 @@ export function login(userID, accessToken){
         // We can dispatch many times!
         // Here, we update the app state with the results of the API call.
         if (json) {
-          console.log('HERE 1',json);
+          // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
           dispatch(fetchChats(json.user_id));
           dispatch(fetchUserScore(json.user_id));
           dispatch(receiveLogin(json));
@@ -45,13 +46,12 @@ export function login(userID, accessToken){
             // We can dispatch many times!
             // Here, we update the app state with the results of the API call.
               if (json) {
-                console.log('HERE 2',json);
+                // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
+                dispatch(receiveLogin(json));
+                dispatch(routeActions.push('/profile'));
                 dispatch(fetchChats(json.user_id));
                 dispatch(fetchUserScore(json.user_id));
-                console.log('FETCHING ALBUM', json.user_id,getAlbum)
                 dispatch(getAlbum(json.user_id));
-                dispatch(receiveLogin(json));
-
               }
             });
         }
@@ -71,29 +71,30 @@ export function logout(){
 
 export function clickLogin() {
   return function(dispatch) {
-    console.log('dispatching login', dispatch);
+
     dispatch(requestLogin());
-    FB.getLoginStatus(function(response) {
+    // FB.getLoginStatus(function(response) {
       // In this case the user must have logged in previously so get request SHOULD return user data
       // These puts should be converted to gets with ID params
-      if (response.status === 'connected') {
-        login(response.authResponse.userID, response.authResponse.accessToken);
+      // if (response.status === 'connected') {
+      //   login(response.authResponse.userID, response.authResponse.accessToken);
 
-      } else {
+      // } else {
         FB.login(function(responseLogin) {
-          console.log(responseLogin);
+
           let request2 = new Request(`/api/users/${responseLogin.authResponse.userID}`, {method: 'GET'});
           return fetch(request2)
             .then(response => response.json())
             .then((json) => {
               if (json) {
-                console.log('HERE 3',json);
+                // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
+
                 dispatch(fetchChats(json.user_id))
                 dispatch(fetchUserScore(json.user_id));
                 dispatch(receiveLogin(json));
                 dispatch(getAlbum(json.user_id));
               } else {
-                console.log("New User");
+
                 // New User
                 let request3 = new Request('/api/users', {
                   method: 'post',
@@ -112,8 +113,8 @@ export function clickLogin() {
                   .then((json) => {
                   // We can dispatch many times!
                   // Here, we update the app state with the results of the API call.
-                    console.log('HERE 4',json);
-                    console.log('FETCHING ALBUM', getAlbum)
+                    // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
+
                     dispatch(fetchChats(json.user_id));
                     dispatch(fetchUserScore(json.user_id));
                     dispatch(getAlbum(json.user_id));
@@ -126,8 +127,8 @@ export function clickLogin() {
               }
             });
         }, {scope: 'public_profile,email'});
-      }
-    })
+      // }
+    // })
 
   };
 }
@@ -143,6 +144,7 @@ export function requestLogin() {
 }
 
 export function receiveLogin(user) {
+  socket.emit('joinGame', { newPlayer: user.user_id });
   return {
     type: LOGIN_SUCCESS,
     isFetchingAuth: false,

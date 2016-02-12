@@ -26,21 +26,21 @@ class Home extends Component {
     const { matchmaker, actions, user } = this.props;
     if(matchmaker.target.placeholder){
       //getNewCandidates when target is currently placeholder
-      actions.getNewCandidates();
+      actions.getNewCandidates(user.user_id, matchmaker.triads);
     }
   }
   render() {
     const { matchmaker, actions, user } = this.props;
     window.props = this.props;
-    console.log(user, 'this is the user_id');
+    
     return (
 
       <div>
           <div className="row-fluid">
-            <Target target={matchmaker.target} actions={actions} user={user}/>
+            <Target target={matchmaker.target} actions={actions} user={user} triads={matchmaker.triads}/>
               <Col xs={12} sm={12} md={5} className={css.prospect} >
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} user={user} />
-              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} user={user} />
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[0]} actions={actions} user={user} triads={matchmaker.triads}/>
+              <Prospect target={matchmaker.target} prospect={matchmaker.prospects[1]} actions={actions} user={user} triads={matchmaker.triads}/>
               </Col>
           </div>
       </div>
@@ -63,7 +63,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(MatchmakerActions, dispatch)
-    
   };
 }
 

@@ -1,0 +1,13 @@
+.collapsedChatContainer {
+	background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1em;
+  width: 60%;
+	border: 1px solid gray;
+  @media (max-width: 995px) {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}

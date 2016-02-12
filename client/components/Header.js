@@ -13,23 +13,22 @@ import css from './Header.scss';
 
 class Header extends Component {
 
-  componentDidUpdate() {
-    console.log('componentDidUpdate')
-  }
-
   render() {
     window.HeaderProps = this.props;
     const {user, actions} = this.props;
     return (
-      <Navbar staticTop className={css.header} bsStyle='default'>
-        <Navbar.Header>
+      <Navbar staticTop pullLeft className={css.header} bsStyle='default'>
+        <Navbar.Header style={{position: 'absolute'}}>
           <Navbar.Brand>
-            <Link to="/home">
-              <div />
-              {/* Sunset yellow: #FFC107 */}
-              <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large'}}>Home</span>
+             <Link to="/home">
+              <div className={css.brand}></div>
             </Link>
           </Navbar.Brand>
+          <Link to="/home">
+            <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large', marginTop: '-10', marginRight: 20}}>
+            MatchMe
+            </span>
+          </Link>
           <Navbar.Toggle />
         </Navbar.Header>
 
@@ -41,26 +40,32 @@ class Header extends Component {
             </LinkContainer>}
             {user.isAuthenticated &&
             <LinkContainer to="/profile">
-              <NavItem eventKey={2}>My Profile</NavItem>
+              <NavItem eventKey={2}>Profile</NavItem>
             </LinkContainer>}
             {user.isAuthenticated &&
             <LinkContainer to="/score">
-              <NavItem eventKey={3}>My Score</NavItem>
+              <NavItem eventKey={3}>Results</NavItem>
             </LinkContainer>}
-          </Nav>
-          <Nav>
+            {user.isAuthenticated &&
+            <LinkContainer to="/recommendation">
+              <NavItem eventKey={5}>Recommended Match</NavItem>
+            </LinkContainer>}
+            {user.isAuthenticated &&
+            <LinkContainer to="/multiplayerHome">
+              <NavItem eventKey={5}>Multiplayer</NavItem>
+            </LinkContainer>}
             {!user.isAuthenticated &&
-            <NavItem eventKey={3} onClick={this.props.actions.clickLogin}>
+            <NavItem className={css.loginlogoutdesktop} eventKey={3} onClick={this.props.actions.clickLogin} >
               Login via Facebook
             </NavItem>}
             {user.isAuthenticated &&
-            <NavItem eventKey={3} onClick={this.props.actions.logout}>
+            <NavItem className={css.loginlogoutdesktop} eventKey={3} onClick={this.props.actions.logout}>
               Logout
             </NavItem>}
             {user.isAuthenticated &&
-            <p className={'navbar-text'}>Logged in as <strong>{user.userInfo.first_name}</strong></p>}
+            <NavItem >Logged in as <strong>{user.userInfo.first_name}</strong></NavItem>}
             {user.isAuthenticated &&
-            <div className={'navbar-text'}>Points: <strong>{user.userScore.score}</strong></div>}
+            <NavItem >Points: <strong>{user.userScore.score}</strong></NavItem>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

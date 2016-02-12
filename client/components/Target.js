@@ -5,40 +5,19 @@ import { Col, Row, Image, ButtonGroup, Button, ButtonToolbar } from 'react-boots
 import BuyButton from '../components/BuyButton';
 
 const divStyle = {
-  // width: 400,
   height: 600,
   width: 'auto',
   paddingTop: 10,
-  // marginTop: 40,
   borderWidth: 1,
   borderColor: 'black',
-  // opacity: .5,
-  // backgroundColor: '#ccc',
-
-  // display: 'block',
-  // position:'relative',
-  // verticalAlign: 'bottom',
-
-  // backgroundImage: 'url(' + image_url + ')',
-  // backgroundSize: 'cover',
-
   fontSize: 30,
   fontWeight: 'bold',
   fontFamily: 'Helvetica, sans-serif',
-  // backgroundImage: 'http://i.onionstatic.com/onion/7954/original/1200.jpg',
-  // WebkitTextFillColor: 'white',  Will override color (regardless of order)
-  // WebkitTextStrokeWidth: 2,
-  // WebkitTextStrokeColor: 'black',
-
   borderRadius: 5,
   zIndex: 1
 };
 
 const paraTargetStyle = {
-  // backgroundColor: '#ccc',
-  // position: 'absolute'
-  // bottom: 0;
-  // width: '90%',
   fontSize: '3vmin',
   color:'black',
 };
@@ -63,7 +42,6 @@ const backgroundDivStyle = {
 };
 
 const wellStyle = {
-  // marginTop: 20
   border: 'black',
   backgroundColor: '#eee'
 };
@@ -114,16 +92,27 @@ class Target extends Component {
   }
 
   render() {
-    const { target, actions, user } = this.props;
 
+    const { target, actions, user, triads } = this.props;
+    if(!target || !target.first_name){
+      return (
+        <Col xs={12} sm={12} md={6} >
+          <Row className={css.target}>
+          </Row>
+        </Col>
+      );
+    }
     let targetHeight = '90vh';
 
     let wellStyle = {height: targetHeight, backgroundColor: "#eee"};
 
 
-    let maleIcon = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
-    let femaleIcon = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
-    let bothIcon = 'http://i.imgur.com/ku5iAME.png';
+    // let maleIcon = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
+    // let femaleIcon = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
+    // let bothIcon = 'http://i.imgur.com/ku5iAME.png';
+    let maleIcon = '/img/icons/male_icon.png';
+    let femaleIcon = '/img/icons/female_icon.png';
+    let bothIcon = '/img/icons/both_icon.png';
 
     let icon_user_path = maleIcon;
     if (target.gender === 'female') {
@@ -136,22 +125,25 @@ class Target extends Component {
     if (target.gender_preference === 'female') {
       icon_seeking_path = femaleIcon;
     } else if (target.gender_preference === 'both') {
-      // http://icons.iconarchive.com/icons/aha-soft/free-large-love/512/Sex-icon.png
       icon_seeking_path = bothIcon;
     }
 
     function calculateAge(birthdate) {
-
+      if(birthdate === null){
+        return null;
+      }
       let difference = +Date.now() - +new Date(birthdate);
       let ageDate = new Date(difference); // miliseconds from epoch
-      return Math.abs(ageDate.getUTCFullYear() - 1970);
+      let age = Math.abs(ageDate.getUTCFullYear() - 1970);
+      if(isNaN(age)){
+        return null;
+      } else {
+        return age;
+      }
     }
 
     let age = calculateAge(target.birthday);
 
-    // <container className='col-md-6 col-sm-12 col-xs-12 img-rounded' style={wellStyle}>
-// && (user.userScore.score >= 1000
-  // className="img img-responsive img-rounded center-block"
     return (
 
       <Col xs={12} sm={12} md={6} >
@@ -166,8 +158,8 @@ class Target extends Component {
           </div>
         </Row>
         <Row className={css.buttons}>
-            <BuyButton dis={(user.userScore.score < 1000) || (!user.isAuthenticated) || (target.gender_preference !== user.userInfo.gender && target.gender_preference !== 'both')} actions={actions} person={target} user={user}/>
-            <SkipButton actions={actions} user_id={user.user_id}/>
+            <BuyButton dis={(user.userScore.score < 1000) || (!user.isAuthenticated) || (target.gender_preference !== user.userInfo.gender && target.gender_preference !== 'both')} actions={actions} triads={triads} person={target} user={user}/>
+            <SkipButton actions={actions} user_id={user.user_id} triads={triads}/>
         </Row>
       </Col>
 
@@ -180,7 +172,5 @@ Target.propTypes = {
   target: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
-
-
 
 export default Target;

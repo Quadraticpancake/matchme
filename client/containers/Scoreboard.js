@@ -16,13 +16,7 @@ const scoreboardStyle = {
   // borderRight: '1px solid #333',
   // padding: 16
   backgroundImage:
-    '-webkit-linear-gradient(#C6E4EE 0%, #C6E4EE 40%, #FED1AE 60%, #FAA0B9 80%, rgb(254,67,101) 90%, #757ECB 95%)',
-  backgroundImage:
-    '-moz-linear-gradient(#C6E4EE 0%, #C6E4EE 40%, #FED1AE 60%, #FAA0B9 80%, rgb(254,67,101) 90%, #757ECB 95%)',
-  backgroundImage:
-    '-o-linear-gradient(#C6E4EE 0%, #C6E4EE 40%, #FED1AE 60%, #FAA0B9 80%, rgb(254,67,101) 90%, #757ECB 95%)',
-  backgroundImage:
-    'linear-gradient(#C6E4EE 0%, #C6E4EE 40%, #FED1AE 60%, #FAA0B9 80%, rgb(254,67,101) 90%, #757ECB 95%)',
+    'linear-gradient(#C6E4EE 0%, #C6E4EE 40%, #FED1AE 60%, #FAA0B9 80%, rgb(254,67,101) 90%, #757ECB 95%)'
 }
 
 const heartSvg = heart();
@@ -32,8 +26,8 @@ const heartFilledInStyle = {
   width: '2em',
   height: '2em',
   minWidth: '5vh',
-  fill: '#FE4365', 
-  strokeWidth: '1px', 
+  fill: '#FE4365',
+  strokeWidth: '1px',
   stroke:'black'
 };
 
@@ -52,9 +46,6 @@ class Scoreboard extends Component {
     let scoreboardEntries = scoreboard.map((scoreboardEntry, index) => {
       return <ScoreboardEntry pair={scoreboardEntry.pair} key={index} />
     })
-
-    console.log("Entries: ", scoreboardEntries)
-    console.log("numEntries: ", scoreboardEntries.length)
 
     return (
       <div className="navbar-fixed-side navbar-fixed-side-right hidden-sm hidden-xs" style={scoreboardStyle}>

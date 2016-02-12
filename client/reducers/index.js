@@ -3,8 +3,11 @@ import { combineReducers } from 'redux';
 import matchmaker from './matchmaker';
 import scoreboard from './scoreboard';
 import user from './user';
+import multiplayer from './multiplayer';
 import {reducer as formReducer} from 'redux-form';
 import chats from './chats';
+import recommendation from './recommendation';
+import landing from './landing';
 
 const rootReducer = combineReducers({
   routing: routeReducer,
@@ -12,7 +15,10 @@ const rootReducer = combineReducers({
   scoreboard,
   matchmaker,
   user,
-  chats
+  chats,
+  recommendation,
+  multiplayer,
+  landing
 });
 
 export default rootReducer;

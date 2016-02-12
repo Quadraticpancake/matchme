@@ -13,10 +13,10 @@ export const UPDATE_PIC = 'UPDATE_PIC';
 export function updatePic(image_url, user_id) {
 
   return function(dispatch) {
-
+    
     dispatch(requestPic());
 
-    let request = new Request(`/api/pictures/${user_id}`, {
+    let request = new Request(`/api/users/${user_id}/pictures`, {
       method: 'put',
       headers: {
         'Accept': 'application/json',
@@ -39,7 +39,6 @@ export function updateAlbum(image_url, user_id) {
 
   return function(dispatch) {
     dispatch(postAlbum());
-    console.log('UPDATING ALBUM FROM PICTURE ALBUM');
 
     let request = new Request(`/api/users/${user_id}/album`, {
       method: 'post',
@@ -60,7 +59,7 @@ export const GET_ALBUM = 'GET_ALBUM';
 export function getAlbum(user_id) {
   return function(dispatch) {
     dispatch(requestAlbum());
-    let request = new Request(`/api/album/${user_id}`, {
+    let request = new Request(`/api/users/${user_id}/album`, {
       method: 'get',
       headers: {
         'Accept': 'application/json',

@@ -33,7 +33,8 @@ export function getConnectedPairsAndMessagesForUser(user_id) {
 		});
 
 		for (let pair in allPairs) {
-			allPairs[pair].userHeart = allPairs[pair].user_one.user_one_heart && allPairs[pair].user_one.user_two_heart;
+			allPairs[pair].pairHeart = allPairs[pair].user_one.user_one_heart && allPairs[pair].user_one.user_two_heart;
+			allPairs[pair].userHeart = user_id === allPairs[pair].user_one.user_id ? allPairs[pair].user_one.user_one_heart : allPairs[pair].user_one.user_two_heart;
 			delete allPairs[pair].user_one.pair_id;
 			delete allPairs[pair].user_one.user_one;
 			delete allPairs[pair].user_one.user_two;

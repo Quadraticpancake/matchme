@@ -2,12 +2,13 @@ import {expect} from 'chai';
 import db from '../db/config';
 import createTables from  '../db/schemas';
 import generateUser from '../server/userGenerator/taglines';
-import { getRandomUsers, addMatch, getMatchSet, getMatchesMade } from '../db/dbHelpers';
+import generateFakeAnalytics from '../server/faceAnalysis/fakeAnalysis';
+import { addMatch, getMatchSet, getMatchesMade } from '../db/dbHelpers';
+
 
 describe('database helpers', () => {
-	describe('getRandomUsers', () => {
+	describe('database intialization', () => {
 		before((done) => {
-
 			// this is done to return database to untouched state: http://stackoverflow.com/questions/3327312/drop-all-tables-in-postgresql
 			db.query('DROP SCHEMA IF EXISTS public CASCADE;')
       		.then(() => {
@@ -25,47 +26,47 @@ describe('database helpers', () => {
 			.then(() => {
 				return createTables();
 			})
-			.then(() => {
-
-				for (var i = 0; i < 1000; i++) {
+			.then((result) => {
+				console.log(result, result)
+				const NUM_PROFILES = 100;
+				let profilesGenerated = 0;
+				for (var i = 0; i < NUM_PROFILES; i++) {
 
 					var fakeUser = generateUser();
 					var insertUserQueryStr = `INSERT INTO users(facebook_id,first_name,last_name,gender,birthday,zipcode,status,age_min,age_max,gender_preference,\
-							location_preference,description,image_url,score) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
+							location_preference,description,image_url,score,real) VALUES ('12345','${fakeUser.first_name}','${fakeUser.last_name}','${fakeUser.gender}',\
 							'${fakeUser.birthdayStr}','${fakeUser.zipcode}','${fakeUser.status}',${fakeUser.age_min},${fakeUser.age_max},\
-							'${fakeUser.gender_preference}',${fakeUser.location_preference},'${fakeUser.description}','${fakeUser.image_url}',0);`;
-					
-				// run done() after the 500th user is generated to end the before block, otherwise run the query without resolving the promise
-					if (i === 999) {
-						db.query(insertUserQueryStr)
-					  .then(() => {
-					  	done();
-					  });
-					} else {
-						db.query(insertUserQueryStr);
-					}
+							'${fakeUser.gender_preference}',${fakeUser.location_preference},'${fakeUser.description}','${fakeUser.image_url}',0,true) RETURNING user_id;`;
+
+					// run done() after the last user is generated to end the before block, otherwise run the query without resolving the promise
+
+					db.query(insertUserQueryStr)
+					.then((row) =>{
+						profilesGenerated += 1;
+						let user_id = row[0].user_id;
+						var fakeAnalytics = generateFakeAnalytics(user_id);
+						var insertUserAnalyticsQueryStr = `INSERT INTO analytics (user_id, age, coloring, expression, faceShape) VALUES (${fakeAnalytics.user_id},${fakeAnalytics.age},'${fakeAnalytics.coloring}', ${fakeAnalytics.expression} , ${fakeAnalytics.faceShape});`;
+						return db.query(insertUserAnalyticsQueryStr);
+					}).then(() => {
+						if (profilesGenerated === NUM_PROFILES-1) {
+							done();
+						}
+				  	});
 				}
-				
+
 				console.log('tables dropped and recreated; fake users generated');
 			})
 			.catch((error) => {
 				throw new Error(error);
 			});
 		});
-
-		it('should return 3 random, different users', () => {
-			return getRandomUsers()
-			.then((rows) => {
-				expect(rows.length).to.equal(3);
-				expect(rows[0]).not.to.equal(rows[1]);
-				expect(rows[1]).not.to.equal(rows[2]);
-				expect(rows[0]).not.to.equal(rows[2]);
-			})
-			.catch((err) => {
-				throw new Error(err);
-			});
-		});
-
+        it('should exist', () => {
+        	return db.query('')
+        	.then((rows) => {
+        	  consol.log('rows');
+        	  expect(rows.length).to.exist;
+        	});
+        });
 	});
 
 	describe('addMatch', () => {
@@ -130,24 +131,24 @@ describe('database helpers', () => {
 		})
 	});
 
-	describe('getMatchSet', () => {
-		it('should get a match set', () => {
-			return getMatchSet()
-			.then((rows) => {
+	// describe('getMatchSet', () => {
+	// 	it('should get a match set', () => {
+	// 		return getMatchSet()
+	// 		.then((rows) => {
 
-				expect(rows.target).to.have.property('first_name')
-				expect(rows.target).to.have.property('gender_preference')
+	// 			expect(rows.target).to.have.property('first_name')
+	// 			expect(rows.target).to.have.property('gender_preference')
 
-				expect(rows.prospects).to.have.length(2)
-				expect(rows.prospects[0]).to.not.equal(rows[1])
-				expect(rows.prospects[0]).to.have.property('first_name')
-				expect(rows.prospects[1]).to.have.property('gender_preference')
-			})
-			.catch((err) => {
-				throw new Error(err);
-			});
-		});
-	});
+	// 			expect(rows.prospects).to.have.length(2)
+	// 			expect(rows.prospects[0]).to.not.equal(rows[1])
+	// 			expect(rows.prospects[0]).to.have.property('first_name')
+	// 			expect(rows.prospects[1]).to.have.property('gender_preference')
+	// 		})
+	// 		.catch((err) => {
+	// 			throw new Error(err);
+	// 		});
+	// 	});
+	// });
 
 	describe('getMatchesMade', () => {
 		it('should get a pair that connected in part due to the matchmaker made', () => {
