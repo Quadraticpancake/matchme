@@ -3,11 +3,11 @@ import db from '../db/config';
 import createTables from  '../db/schemas';
 import generateUser from '../server/userGenerator/taglines';
 import generateFakeAnalytics from '../server/faceAnalysis/fakeAnalysis';
-import { getRandomUsers, addMatch, getMatchSet, getMatchesMade } from '../db/dbHelpers';
+import { addMatch, getMatchSet, getMatchesMade } from '../db/dbHelpers';
 
 
 describe('database helpers', () => {
-	describe('getRandomUsers', () => {
+	describe('database intialization', () => {
 		before((done) => {
 
 			// this is done to return database to untouched state: http://stackoverflow.com/questions/3327312/drop-all-tables-in-postgresql
@@ -61,20 +61,6 @@ describe('database helpers', () => {
 				throw new Error(error);
 			});
 		});
-
-		it('should return 3 random, different users', () => {
-			return getRandomUsers()
-			.then((rows) => {
-				expect(rows.length).to.equal(3);
-				expect(rows[0]).not.to.equal(rows[1]);
-				expect(rows[1]).not.to.equal(rows[2]);
-				expect(rows[0]).not.to.equal(rows[2]);
-			})
-			.catch((err) => {
-				throw new Error(err);
-			});
-		});
-
 	});
 
 	describe('addMatch', () => {
