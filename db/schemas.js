@@ -8,7 +8,7 @@ export default function createTables () {
    //   console.log('user created');
    //   return db.query("CREATE TABLE IF NOT EXISTS users (user_name VARCHAR(40),"
     // from Facebook
-      + " facebook_id VARCHAR(40),"
+      + " facebook_id VARCHAR(40) UNIQUE,"
       + " first_name VARCHAR(40),"
       + " last_name VARCHAR(40),"
       + " gender VARCHAR(20),"
