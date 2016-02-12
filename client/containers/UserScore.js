@@ -5,15 +5,45 @@ import * as UserActions from '../actions/user';
 import Matchee from '../components/Matchee';
 import { routeActions } from 'react-router-redux';
 import heart from '../../static/img/icons/heart';
-//var hotkey = require('react-hotkey');
-//import {Chat} from '../components/Chat';
+import { Col, Row, Image} from 'react-bootstrap';
+import css from './UserScore.scss';
 
-//hotkey.activate();
 
 // @connect(
 //   state => state.items,
 //   dispatch => bindActionCreators(actionCreators, dispatch)
 // )
+
+/*
+                                     <div className="container">
+                                       <div className="row-fluid">
+                                         <div>
+                                           <div className="col-md-4">
+                                             <Matchee matchee={userScore.pairs[i].user_one} />
+                                           </div>
+                                           <div className="col-md-4">
+                                             <Matchee matchee={userScore.pairs[i].user_two} />
+                                           </div>
+                                         </div>
+                                       </div>
+                                     </div>
+*/
+
+/*
+
+Score information
+          
+          */
+
+          /*
+          Arrows
+                      <div>
+              {index > 0 && leftArrow}
+            </div>
+            <div>
+              {(index < renderedConnectionsMade.length - 1) && rightArrow}
+            </div>
+            */
 
 const heartSvg = heart();
 const heartFilledInStyle = {
@@ -76,15 +106,11 @@ const smallImageStyle = {
 const leftArrowStyle = {
   width: '5em',
   height: '5em',
-  marginTop: 120,
-  marginLeft: 0
 };
 
 const rightArrowStyle = {
   width: '5em',
   height: '5em',
-  marginTop: 120,
-  marginLeft: 380
 }
 
 
@@ -117,44 +143,47 @@ class UserScore extends Component {
                 </svg></span>;
     let renderedConnectionsMade = [];
     let score = 0;
+    let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
+    let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
+    let nullArrow = null;
+
     if (userScore) {
       score = userScore.score;
       for (var i = 0; i < userScore.pairs.length; i++) {
-        renderedConnectionsMade.push(<div className="container">
-                                       <div className="row-fluid">
-                                         <div>
-                                           <div className="col-md-4" style={{marginLeft: 15}}>
-                                             <Matchee matchee={userScore.pairs[i].user_one} />
-                                           </div>
-                                           <div className="col-md-4" style={{marginLeft: -30}}>
-                                             <Matchee matchee={userScore.pairs[i].user_two} />
-                                           </div>
-                                         </div>
-                                       </div>
-                                     </div>
-                                     );
+        renderedConnectionsMade.push(
+          <div>
+            <div>
+              <Row xs={12} sm={12} md={5} className={css.matchee}>
+                <Matchee matchee={userScore.pairs[i].user_one} />
+                <Matchee matchee={userScore.pairs[i].user_two} />
+              </Row>
+              <Row xs={12} sm={12} md={5} className={css.matchee}>
+                {(index > 0 && leftArrow) || <div></div>}
+                {((index < userScore.pairs.length - 1) && rightArrow) || <div></div>}
+              </Row>
+            </div>
+          </div>
+        );
       }
     }
 
 
 
-    let leftArrow = <img src={leftArrowImg} style={leftArrowStyle} onClick={() => { actions.changeIndex(-1); }} />
-    let rightArrow = <img src={rightArrowImg} style={rightArrowStyle} onClick={() => { actions.changeIndex(1); }}/>
     
     let connectionCount;
     if (renderedConnectionsMade.length > 1) {
       connectionCount =
-      <div className='text-center' style={{marginLeft: 0}}>
+      <div className='text-center'>
          You have helped create { renderedConnectionsMade.length } connections
       </div>;
     } else if (renderedConnectionsMade.length === 1) {
       connectionCount =
-      <div className='text-center' style={{marginLeft: 0}}>
+      <div className='text-center'>
          You have helped create { renderedConnectionsMade.length } connection
       </div>;
     } else {
       connectionCount =
-      <div className='text-center' style={{marginLeft: 0}}>
+      <div className='text-center'>
         You have yet to help create any connections
       </div>;
     }
@@ -162,34 +191,26 @@ class UserScore extends Component {
     return (
       <section>
         {<div>
-          <div className='col-md-8 col-sm-8 col-xs-8' style={divStyle}>
-            <div className='text-center' style={{marginLeft: 200}}>
+          <div className="row-fluid">
+            <div className='text-center' style={divStyle}>
               Your score is { score }
             </div>
-            <div className='text-center' style={{marginLeft: 200}}>
+            <div style={divStyle}>
               {connectionCount}
             </div>
           </div>
-          <div className='col-md-8'>
-            <div className='col-md-1'>
-              {index > 0 && leftArrow}
-            </div>
-            <div className='col-md-6'>
+          <div>
+            <div>
               {renderedConnectionsMade[index]}
-            </div>
-            <div className='col-md-1'>
-              {(index < renderedConnectionsMade.length - 1) && rightArrow}
             </div>
           </div>
           { userScore.pairs[index] && userScore.pairs[index].pairHeart && 
-          <div className='col-md-8' style={divStyle}>
-            <div className='text-center' style={{marginLeft: 170}}>
-              <span>
-                {heartImg}
-                {userScore.pairs[index].user_one.first_name} and {userScore.pairs[index].user_two.first_name} liked each other!
-                {heartImg}
-              </span>
-            </div>
+          <div className='text-center' style={divStyle}>
+            <span>
+              {heartImg}
+              {userScore.pairs[index].user_one.first_name} and {userScore.pairs[index].user_two.first_name} liked each other!
+              {heartImg}
+            </span>
           </div> }
         </div>}
       </section>

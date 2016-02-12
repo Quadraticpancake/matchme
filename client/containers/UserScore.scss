@@ -1,0 +1,23 @@
+.matchee {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  margin-left: 10px;
+  @media (max-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 0;
+  }
+}
+
+.likeMessage {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-left: 10px;
+  @media (max-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 0;
+  }
+}
