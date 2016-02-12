@@ -9,7 +9,6 @@ class SkipButton extends Component {
   }
 
   render() {
-    console.log('PROPS', this.props);
     const { actions, user_id, triads} = this.props;
 
     return (

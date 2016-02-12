@@ -32,7 +32,7 @@ class Home extends Component {
   render() {
     const { matchmaker, actions, user } = this.props;
     window.props = this.props;
-    console.log(user, 'this is the user_id');
+    
     return (
 
       <div>

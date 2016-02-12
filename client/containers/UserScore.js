@@ -92,7 +92,6 @@ class UserScore extends Component {
   
   componentDidMount() {
     const { actions, user_id, user} = this.props;
-    console.log(actions);
     if (user.isAuthenticated) {
       actions.fetchUserScore(user_id);
     }
