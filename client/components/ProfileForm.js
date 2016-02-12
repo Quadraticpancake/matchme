@@ -29,7 +29,8 @@ class ProfileForm extends Component {
 
       <form className={css.form} style={formStyle} onSubmit={handleSubmit}>
         <div>
-          <p>Note: You won't be matched unless you provide a birthday.</p>
+          <h3>Please set your birthday, age preference, and gender preference.</h3>
+          <h4>Note: You won't be matched unless you provide a birthday.</h4>
           <label>Profile Picture</label>
           <div>
           <img src={image_url.value} />

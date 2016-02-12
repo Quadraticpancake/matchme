@@ -47,10 +47,11 @@ export function login(userID, accessToken){
             // Here, we update the app state with the results of the API call.
               if (json) {
                 // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
+                dispatch(receiveLogin(json));
+                dispatch(routeActions.push('/profile'));
                 dispatch(fetchChats(json.user_id));
                 dispatch(fetchUserScore(json.user_id));
                 dispatch(getAlbum(json.user_id));
-                dispatch(receiveLogin(json));
               }
             });
         }
