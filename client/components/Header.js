@@ -50,6 +50,10 @@ class Header extends Component {
             <LinkContainer to="/recommendation">
               <NavItem eventKey={5}>Recommended Match</NavItem>
             </LinkContainer>}
+            {user.isAuthenticated &&
+            <LinkContainer to="/multiplayerHome">
+              <NavItem eventKey={5}>Multiplayer Mode</NavItem>
+            </LinkContainer>}
             {!user.isAuthenticated &&
             <NavItem className={css.loginlogoutdesktop} eventKey={3} onClick={this.props.actions.clickLogin} >
               Login via Facebook

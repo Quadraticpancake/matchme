@@ -19,8 +19,10 @@ setInterval(() => {
 
 // start the game when the server starts
 	// Seeds the multiplayer game with one match set
-console.log('getMatchSet', getMatchSet(0));
-multiplayerStore.dispatch({type: multiplayerActions.NEW_MATCH_SET, newMatchSet: getMatchSet(0)});
+setTimeout(() => {
+	console.log('getMatchSet', getMatchSet(0));
+	multiplayerStore.dispatch({type: multiplayerActions.NEW_MATCH_SET, newMatchSet: getMatchSet(0)});
+}, 2000);
 
 var progressGame = () => {
 	// determine winner of this round (prospect with more votes) if one exists

@@ -2,18 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ProspectMultiplayer from '../components/ProspectMultiplayer';
-import Target from '../components/Target';
+import MultiplayerTarget from '../components/MultiplayerTarget';
 import * as MultiplayerActions from '../actions/multiplayer';
 import * as UserActions from '../actions/user'
 import { Col, Row, Image} from 'react-bootstrap';
 import css from './Home.scss';
 import { socket } from './App';
 import { CountUp } from './countUp';
-console.log('countup', CountUp);
 
-           // <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
-           //    <Scoreboard />
-           //  </div>
 const divStyle = {
   top: 10,
   right: 10
@@ -34,6 +30,23 @@ const counterOptions = {
   prefix : '', 
   suffix : '' 
 };  
+
+const timerContainerStyle = {
+  paddingTop: '0.5em',
+  width: '4em',
+  height: '4em',
+  fontSize: 'x-large',
+  fontFamily: 'Lobster',
+  textAlign: 'center',
+  color: 'rgb(254, 67, 80)',
+  backgroundColor: 'white',
+  border: '5px solid rgb(96, 24, 72)',
+  borderRadius: '50%',
+  position: 'absolute',
+  top: '48%',
+  left: '45%',
+  zIndex: '9999'
+}
 
 class MultiplayerHome extends Component {
 
@@ -67,10 +80,12 @@ class MultiplayerHome extends Component {
 
     return (
       <div>
+          <div id='timerContainer' className={css.timerContainer}>
+            <div>Timer:</div> <div id='counter'>{multiplayer.timer ? multiplayer.timer : 'Timer loading...'}</div>
+          </div>
           <div className="row-fluid">
-            <Target target={multiplayer.target} actions={actions} user={user}/>
+            <MultiplayerTarget target={multiplayer.target} actions={actions} user={user}/>
               <Col xs={12} sm={12} md={5} className={css.prospect} >
-                Timer: <div id='counter'>{multiplayer.timer ? multiplayer.timer : 'Timer loading...'}</div>
                 <ProspectMultiplayer 
                   target={multiplayer.target} 
                   prospect={multiplayer.prospects[0]} 

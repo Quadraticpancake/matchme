@@ -63,7 +63,7 @@ const prospectInfoStyle = {
 
 const prospectInfo = {
   marginTop: -6,
-  fontSize: '2.2vmin'
+  fontSize: '1.5vmin',
 }
 
 const nameStyle = {
@@ -117,7 +117,7 @@ class ProspectMultiplayer extends Component {
           <h1 style={nameStyle}>{prospect.first_name}, {age} <Image src={icon_prospect_path} style={iconProspectStyle}/> </h1>
           <p style={prospectInfo}>''{prospect.description}''</p>
           Voters:
-          <p>{renderedVoters}</p>
+          <p style={{zIndex: 9999}}>{renderedVoters}</p>
         </div>
       </Row>
     );
