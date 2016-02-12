@@ -7,6 +7,7 @@ import multiplayer from './multiplayer';
 import {reducer as formReducer} from 'redux-form';
 import chats from './chats';
 import recommendation from './recommendation';
+import landing from './landing';
 
 const rootReducer = combineReducers({
   routing: routeReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   user,
   chats,
   recommendation,
-  multiplayer
+  multiplayer,
+  landing
 });
 
 export default rootReducer;
