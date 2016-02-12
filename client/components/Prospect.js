@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Col, Row, Image} from 'react-bootstrap';
 import css from './Prospect.scss';
+import maleIcon from '../../img/icons/male_icon.png';
+import femaleIcon from '../../img/icons/female_icon.png';
+import bothIcon from '../../img/icons/both_icon.png';
 
 const wellStyle = {
   height: '44vh',
@@ -104,9 +107,6 @@ class Prospect extends Component {
     // let maleIcon = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
     // let femaleIcon = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
     // let bothIcon = 'http://i.imgur.com/ku5iAME.png';
-    let maleIcon = '/img/icons/male_icon.png';
-    let femaleIcon = '/img/icons/female_icon.png';
-    let bothIcon = '/img/icons/both_icon.png';
 
     let icon_prospect_path = maleIcon;
     if (prospect.gender === 'female') {
