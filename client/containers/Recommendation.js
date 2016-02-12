@@ -45,9 +45,9 @@ class Recommendation extends Component {
 
       <div style={{marginLeft: '2%', marginTop: '0%'}}>
         <div className={css.algorithmDescription}>
-          <h2 className={css.header2}>Let our algorithm help you find the perfect match...</h2>
-          <h4 className={css.header4}>Looks are important. Our algorithm analyzes the matches that you've 'hearted' and conducts facial image analysis on their pictures to find other users you may like the look of. Try it now!</h4>
-          <h6 className={css.header6}>Our robot can't get you matches until you've hearted matches. Go to your chats and heart your favorite matches!</h6>
+          <h3 className={css.header3}> Let our algorithm help you find the perfect match...</h3>
+          <h5 className={css.header5}>Looks are important. Our algorithm analyzes the matches that you've 'hearted' and conducts facial image analysis on their pictures to find other users you may like the look of. Try it now!</h5>
+          
         </div>
         <div className={css.robotDivStyle}>
           <img className={css.robotsStyle} src='http://i.imgur.com/83p3mf2.gif'/>
