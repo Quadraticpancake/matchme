@@ -7,71 +7,6 @@ import * as MatchmakerActions from '../actions/matchmaker.js';
 import css from './Recommendation.scss';
 import BuyRecommendation from '../components/BuyRecommendation.js';
 
-const algorithmDescription = {
-  width: '70%',
-  border: '0 solid #ccc',
-}
-
-const robotsStyle = {
-  height: 250,
-  width: 'auto',
-  marginTop: 80
-}
-
-const prospectInfoStyle = {
-  width: 'auto',
-  marginTop: '1vw',
-  marginLeft: '1vw',
-  marginRight: '1vw'
-};
-
-const prospectInfo = {
-  marginTop: -6,
-  fontSize: '1.8vmin'
-}
-
-const nameStyle = {
-  fontSize: '2.6vmin'
-}
-
-// const matchRecButton = {
-//   fontSize:'140%',
-//   float: 'left',
-//   bottom: 0
-// }
-
-const iconProspectStyle = {
-  width: 55,
-  height: 'auto',
-
-};
-
-const description = {
-  width: '70%',
-  border: '0 solid #ccc',
-}
-
-const robotDivStyle = {
-  float: 'left',
-  margin: 20,
-  marginRight: 50
-}
-
-const robotStyle = {
-  height: 250,
-  width: 'auto',
-
-}
-
-const recommendationStyle = {
-  paddingTop: 30,
-  width: '20%',
-  float: 'left',
-  // backgroundColor: 'red',
-  paddingLeft: 20
-  
-}
-
 class Recommendation extends Component {
 
   getRecommendation() {
@@ -104,27 +39,30 @@ class Recommendation extends Component {
       return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
 
-    let age = calculateAge(recommendation.birthday) || '';
+    let age = calculateAge(recommendation.birthday) || '? years old';
 
     return (
 
-      <div style={{marginLeft: '5vh'}}>
-        <div style={algorithmDescription}>
-          <h1>Let our algorithm help you find the perfect match...</h1>
-          <h3>Looks are important. Our algorithm analyzes the matches that you've 'hearted' and conducts facial image analysis on their pictures to find other users you may like the look of. Try it now!</h3>
+      <div style={{marginLeft: '2%', marginTop: '2%'}}>
+        <div className={css.algorithmDescription}>
+          <h2>Let our algorithm help you find the perfect match...</h2>
+          <h4>Looks are important. Our algorithm analyzes the matches that you've 'hearted' and conducts facial image analysis on their pictures to find other users you may like the look of. Try it now!</h4>
+          <h6>Our robot can't get you matches until you've hearted matches. Go to your chats and heart your favorite matches!</h6>
         </div>
         <div className={css.robotDivStyle}>
-          <img style={robotsStyle} src='http://i.imgur.com/20Whp63.gif'/>
+          <img className={css.robotsStyle} src='http://i.imgur.com/83p3mf2.gif'/>
           <Button className={css.recommendationButton} type="button" onClick={() => {this.getRecommendation()}}> Get Matched! </Button>
         </div>
         <div className={css.recommendation}>
           <img className={css.recommendationImage} src={recommendation.image_url}/>
-          <div style={prospectInfoStyle}>
-            <h4 style={nameStyle}> {recommendation.first_name}, {age} <img src={icon_path} style={iconProspectStyle}/> </h4>
-            <p style={prospectInfo}>''{recommendation.description}''</p>
+          <div className={css.prospectInfoStyle}>
+            <h4 className={css.nameStyle}> {recommendation.first_name}, {age} <img src={icon_path} className={css.iconProspectStyle}/> </h4>
+            <div className={css.prospectInfo}>''{recommendation.description}''</div>
+            
             <a href="/chats">
             <BuyRecommendation dis={user.userScore.score < 1000 || recommendation.gender === 'none'} actions={buyActions} person={recommendation} user={user}/>
             </a>
+            
           </div>
 
         </div>
