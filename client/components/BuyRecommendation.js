@@ -1,17 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
-import css from './Target.scss';
-
-const buttonStyle = {
-  // width: '10%',
-  fontSize: '140%',
-  display: 'block',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  backgroundColor: '#601848',
-  position: 'relative',
-  bottom: 0
-};
+import css from '../containers/Recommendation.scss';
 
 class BuyRecommendation extends Component {
 
@@ -27,7 +16,7 @@ class BuyRecommendation extends Component {
     const user_id = user.user_id;
 
     return (
-      <Button style={buttonStyle} disabled={dis} className={css.button} bsStyle="info" onClick={() => {actions.buyRecommendation(person_id, user_id, cost);}}> Match with { person.first_name }? ({cost} points) </Button>
+      <Button className={css.buttonStyle} disabled={dis} bsStyle="info" onClick={() => {actions.buyRecommendation(person_id, user_id, cost);}}> Match with { person.first_name }? ({cost} points) </Button>
     );
   }
 }

@@ -46,10 +46,12 @@
 
 .button {
   font-size: 2.3vmin;
+  background-color: rgb(204,0,0);
   @media (max-width: 768px) {
   	font-size: 2.4vmin;
     padding: 1.5vmin;
   }
+
 }
 
 .userInfo {
@@ -58,4 +60,8 @@
   margin-left: 1.5vw;
   margin-right: 1.5vw;
   margin-right: auto;
+}
+
+.button:hover {
+  background-Color: rgb(150,0,0);
 }
