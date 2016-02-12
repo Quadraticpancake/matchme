@@ -25,7 +25,7 @@ class Header extends Component {
             </Link>
           </Navbar.Brand>
           <Link to="/home">
-            <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large', marginTop: '-10'}}>
+            <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large', marginTop: '-10', marginRight: 20}}>
             MatchMe
             </span>
           </Link>
@@ -59,9 +59,9 @@ class Header extends Component {
               Logout
             </NavItem>}
             {user.isAuthenticated &&
-            <p className={'navbar-text'}>Logged in as <strong>{user.userInfo.first_name}</strong></p>}
+            <NavItem >Logged in as <strong>{user.userInfo.first_name}</strong></NavItem>}
             {user.isAuthenticated &&
-            <div className={'navbar-text'}>Points: <strong>{user.userScore.score}</strong></div>}
+            <NavItem >Points: <strong>{user.userScore.score}</strong></NavItem>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
