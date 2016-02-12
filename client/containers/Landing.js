@@ -9,6 +9,19 @@ import arrowcss from './UserScore.scss';
 import rightArrowImg from '../assets/Right_arrow.svg'
 import leftArrowImg from '../assets/Left_arrow.svg'
 
+const arrows = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  flexCirection: 'row',
+  marginLeft: 100,
+  float: 'left'
+}
+
+const arrow = {
+  height: 20,
+  width: 20
+}
+
 const divStyle = {
   top: 10,
   right: 10
@@ -85,7 +98,6 @@ const vidStyle = {
 
 const descStyle = {
   fontSize: '100%',
-  fontFamily: 'Lobster',
   // height: 350,
   width: 400,
   textAlign: 'center',
@@ -148,10 +160,12 @@ class Landing extends Component {
         
         <div style={title}>How to use MatchMe: </div>
         {videos[index]}
-        <Row xs={12} sm={12} md={5} className={arrowcss.arrows}>
-          {(index > 0 && leftArrow) || <div className={arrowcss.arrow}></div>}
-          {((index < videoCount - 1) && rightArrow) || <div className={arrowcss.arrow}></div>}
-        </Row>
+        <div>
+          <Row xs={12} sm={12} md={5} style={arrows}>
+            {(index > 0 && leftArrow) || <div style={arrow}></div>}
+            {((index < videoCount - 1) && rightArrow) || <div style={arrow}></div>}
+          </Row>
+        </div>
       </div>
     );
   }
