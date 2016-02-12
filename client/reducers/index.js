@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import matchmaker from './matchmaker';
 import scoreboard from './scoreboard';
 import user from './user';
+import multiplayer from './multiplayer';
 import {reducer as formReducer} from 'redux-form';
 import chats from './chats';
 import recommendation from './recommendation';
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   matchmaker,
   user,
   chats,
-  recommendation
+  recommendation,
+  multiplayer
 });
 
 export default rootReducer;

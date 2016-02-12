@@ -4,6 +4,7 @@ import { Route, IndexRoute } from 'react-router';
 /* containers */
 import App from './containers/App';
 import Home from './containers/Home';
+import MultiplayerHome from './containers/MultiplayerHome';
 import Profile from './containers/Profile.js';
 import Chats from './containers/Chats.js';
 import Score from './containers/UserScore.js';
@@ -16,6 +17,7 @@ export default (
     <IndexRoute component={Home}/>
     <Route path="home" component={Home} />
     <Route path="landing" component={Landing} />
+    <Route path="multiplayerHome" component={MultiplayerHome} />
     <Route path="profile" component={Profile} />
     <Route path="chats" component={Chats} />
     <Route path="score" component={Score} />
