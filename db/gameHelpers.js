@@ -50,3 +50,103 @@ export function addMatchWithBonus (match) {
       }
     });
 }
+
+var userCount = null;
+
+export function getMatchSetMP (user_id) {
+
+
+  var func = function (user_id) {
+
+        var randomUserIdsStr = '' + user_id;
+        for (var i = 0; i < 10; i++) {
+          randomUserIdsStr += ', ' + (Math.floor(Math.random() * userCount) + 1); 
+        }
+        var sample_min = Math.floor(Math.random() * userCount) + 1;
+        var prospectRangeStr = ' user_id >= ' + sample_min + ' or user_id <= ';
+        if (sample_min + 200 <= userCount) {
+          prospectRangeStr += (sample_min + 200);
+        } else {
+          prospectRangeStr += (sample_min - userCount + 200);
+        }       
+        var date = new Date();
+        var month = date.getMonth();
+        var day = date.getDate()
+        month = month.length < 2 ? '0' + month : month;
+        day = day.length < 2 ? '0' + day : day;
+        var dateStr = '' + month + '/' + day + '/' + date.getFullYear();
+        var targetsAndUserQuery = `select * from users where user_id in ( ${randomUserIdsStr} );`
+        var prospectsQuery = `select * from users where ${ prospectRangeStr };`;
+        var age = function(person) {
+          if (person.birthday) {
+            var date = new Date();
+            var month = person.birthday.getMonth();
+            var day = person.birthday.getDate();
+            var year = person.birthday.getFullYear();
+            var output = date.getFullYear() - year;
+            if (month > date.getMonth()) {
+              return output;
+            } else if (month < date.getMonth()) {
+              return output - 1;
+            } else if (day >= date.getDate()) {
+              return output;
+            } else {
+              return output - 1;
+            }
+          } else {
+            return false;
+          }
+        }
+
+        var match = function (p1, p2) {
+          console.log()
+          return (p1.gender === p2.gender_preference || p2.gender_preference === 'both') 
+            && (p2.gender === p1.gender_preference || p1.gender_preference === 'both') 
+            && p1.user_id !== p2.user_id && age(p2) !== false && age(p1) !== false 
+            && p1.age_min <= age(p2) && p2.age_min <= age(p1) && p2.age_max >= age(p1) && p1.age_max >= age(p2);
+        }
+
+        return db.query(targetsAndUserQuery)
+          .then((targetRows) => {
+            return db.query(prospectsQuery)
+              .then((prospectRows) => {
+                var score = null;
+                var triads = [];
+                var target;
+                var prospects = [];
+
+                for (var i = 0; i < targetRows.length; i++) {
+                  if (targetRows[i].user_id === user_id) {
+                    score = targetRows[i].score;
+                  } else {
+                    target = targetRows[i];
+                    for (var j = 0; (j < prospectRows.length && prospects.length < 2); j++) {
+                      //console.log(prospectRows[j], prospectRows[j].user_id !== user_id, match(target, prospectRows[j]));
+                      if (prospectRows[j] && prospectRows[j].user_id !== user_id && match(target, prospectRows[j])) {
+                        prospects.push(prospectRows[j]);
+                        prospectRows[j] = null;
+                      }
+                    }
+                    if (prospects.length === 2) {
+                      triads.push({target: target, prospects: prospects})
+                      prospects = [];
+                    }
+                  }
+                }
+                return {score: score, triads: triads};
+              })
+          })
+  };
+  if(!user_id) {
+    user_id = 0;
+  }
+  if (!userCount) {
+    return db.query('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;')
+      .then((row) => {
+        userCount = row[0].user_id;
+        return func(user_id);
+    });
+  } else {
+    return func(user_id);
+  }
+}

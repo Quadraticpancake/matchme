@@ -36,7 +36,10 @@
   left: 45%;
   z-index: 9999;
   @media (max-width: 995px) {
-    top: 40%;
+    top: 45%;
     left: 38%;
+    width: 4em;
+    height: 4em;
+    font-size: large;
   }
 }

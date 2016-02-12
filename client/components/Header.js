@@ -40,11 +40,11 @@ class Header extends Component {
             </LinkContainer>}
             {user.isAuthenticated &&
             <LinkContainer to="/profile">
-              <NavItem eventKey={2}>My Profile</NavItem>
+              <NavItem eventKey={2}>Profile</NavItem>
             </LinkContainer>}
             {user.isAuthenticated &&
             <LinkContainer to="/score">
-              <NavItem eventKey={3}>My Score</NavItem>
+              <NavItem eventKey={3}>Results</NavItem>
             </LinkContainer>}
             {user.isAuthenticated &&
             <LinkContainer to="/recommendation">
@@ -52,7 +52,7 @@ class Header extends Component {
             </LinkContainer>}
             {user.isAuthenticated &&
             <LinkContainer to="/multiplayerHome">
-              <NavItem eventKey={5}>Multiplayer Mode</NavItem>
+              <NavItem eventKey={5}>Multiplayer</NavItem>
             </LinkContainer>}
             {!user.isAuthenticated &&
             <NavItem className={css.loginlogoutdesktop} eventKey={3} onClick={this.props.actions.clickLogin} >
