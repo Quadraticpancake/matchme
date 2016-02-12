@@ -21,37 +21,32 @@ class Header extends Component {
     window.HeaderProps = this.props;
     const {user, actions} = this.props;
     return (
-      <Navbar staticTop className={css.header} bsStyle='default'>
+      <Navbar staticTop pullLeft className={css.header} bsStyle='default'>
         <Navbar.Header style={{position: 'absolute'}}>
           <Navbar.Brand>
-            <Link to="/home">
-              <div />
-              {/* Sunset yellow: #FFC107 */}
-              <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large'}}>Home</span>
+             <Link to="/home">
+              <div className={css.brand}></div>
             </Link>
           </Navbar.Brand>
+          <Link to="/home">
+            <span style={{color: 'rgb(168, 225, 238)', fontFamily: 'Lobster', fontWeight: "500", fontSize: 'xx-large', marginTop: '-10'}}>
+            MatchMe
+            </span>
+          </Link>
           <Navbar.Toggle />
-          {!user.isAuthenticated &&
-          <NavItem className={css.loginlogoutmobile} eventKey={3} onClick={this.props.actions.clickLogin} >
-            Login via Facebook
-          </NavItem>}
-          {user.isAuthenticated &&
-          <NavItem className={css.loginlogoutmobile} eventKey={3} onClick={this.props.actions.logout}>
-            Logout
-          </NavItem>}
         </Navbar.Header>
 
         <Navbar.Collapse eventKey={0}>
           <Nav navbar style={{color: '#601848'}}>
-            {user.isAuthenticated && 
+            {user.isAuthenticated &&
             <LinkContainer to="/chats">
               <NavItem eventKey={1}>Chats</NavItem>
             </LinkContainer>}
-            {user.isAuthenticated && 
+            {user.isAuthenticated &&
             <LinkContainer to="/profile">
               <NavItem eventKey={2}>My Profile</NavItem>
             </LinkContainer>}
-            {user.isAuthenticated && 
+            {user.isAuthenticated &&
             <LinkContainer to="/score">
               <NavItem eventKey={3}>My Score</NavItem>
             </LinkContainer>}
@@ -69,7 +64,7 @@ class Header extends Component {
             </NavItem>}
           </Nav>
           <Nav>
-            
+
             {user.isAuthenticated &&
             <p className={'navbar-text'}>Logged in as <strong>{user.userInfo.first_name}</strong></p>}
             {user.isAuthenticated &&
