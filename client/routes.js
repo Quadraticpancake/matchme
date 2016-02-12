@@ -14,7 +14,7 @@ import Landing from './containers/Landing.js';
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={Home}/>
+    <IndexRoute component={Landing}/>
     <Route path="home" component={Home} />
     <Route path="landing" component={Landing} />
     <Route path="multiplayerHome" component={MultiplayerHome} />
