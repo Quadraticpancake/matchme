@@ -5,6 +5,7 @@ export const EXPAND_CHAT = 'EXPAND_CHAT';
 export const HEART_CONNECTION_CHANGING = 'HEART_CONNECTION_CHANGING';
 export const HEART_CONNECTION_CHANGED = 'HEART_CONNECTION_CHANGED';
 export const REMOVE_CHAT = 'REMOVE_CHAT';
+export const COLLAPSE_CHAT = 'COLLAPSE_CHAT';
 
 function setChats(chats) {
   return {
@@ -42,7 +43,6 @@ export function sendMessage(text, sender, pair_id) {
         dispatch(fetchChats(sender));
       });
   };
-
 }
 
 export function closeChat(pair_id) {
@@ -73,11 +73,15 @@ export function expandChat(pair_id) {
   }
 }
 
+export function collapseChat() {
+  return {
+    type: COLLAPSE_CHAT
+  }
+}
+
 export function heartConnection(pair_id, user_id, is_user_one) {
-  console.log('heartConnection', arguments);
   return function (dispatch) {
     dispatch(heartConnectionChanging(pair_id));
-    console.log('making heart connection request');
     let request = new Request('/api/chatsheart', {
       method: 'PUT',
       headers: {

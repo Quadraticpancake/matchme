@@ -3,7 +3,7 @@ require("babel-core/register");
 var webpack = require('webpack')
 var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('../webpack.config')
+var config = require('../webpack.config.dev');
 
 var express = require('express');
 var path = require('path');
@@ -13,7 +13,8 @@ var app = express();
 var server = require('http').Server(app);
 
 var io = require('socket.io')(server);
-
+// var createTables = require('../db/schemas.js').default;
+// createTables();
 module.exports = {app: app, io: io};
 require('./sockets');
 
@@ -26,14 +27,16 @@ app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output
 app.use(webpackHotMiddleware(compiler))
 
 //Set up routes
-//require('./routes/index.js')(app, express);
 require('./routes')(app, express);
 
-app.use(express.static(path.join(__dirname , '..', '/static')));
+app.use(express.static(path.join(__dirname , '../static')));
 
 //Set up static files
-app.use(function(req, res) {
-  res.sendFile(path.join(__dirname, '..', '/client/index.html'));
+// app.use(function(req, res) {
+//   res.sendFile(path.join(__dirname, '..', '/index.html'));
+// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 // Set up ports

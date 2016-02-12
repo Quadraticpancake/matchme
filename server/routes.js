@@ -1,5 +1,5 @@
 import { getConnectedPairsAndMessagesForUser, addMessage, updateHeart, closeChat } from '../db/chatHelpers'
-import { getRandomUsers, addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum, buyCandidate, postAlbum} from '../db/dbHelpers';
+import { addMatch, getMatchSet, getUser, postUser, getMatchesMade, putUser, putPicture, getAlbum, buyCandidate, postAlbum, postRecommendation} from '../db/dbHelpers';
 import path from 'path';
 import bodyParser from 'body-parser';
 import store from './scoreboard';
@@ -16,28 +16,28 @@ var genderPreference = function(input) {
   return 'male';
 }
 
-export default function (app, express) {
+module.exports = function (app, express) {
 	// test route, use this to get data for redux
-	app.get('/api/candidates/:user_id', function(req, res) {
-		var user_id = req.params.user_id > 0 ? Number(req.params.user_id) : null;
-		getMatchSet(user_id).then(function(json) {
-			res.json(json);
-		})
+	app.get('/api/users/:user_id/candidates', function(req, res) {
+		var user_id = Number(req.params.user_id) > 0 ? Number(req.params.user_id) : 0;
+		res.json(getMatchSet(user_id));
 	});
 
 	app.post('/api/pairs', (req, res) => {
 		store.dispatch({type: 'UPDATE_LATEST', latestMatch: req.body})
 		addMatch(req.body).then((row) => {
-			// STUFF CAN BE DONE HERE TO PING USER IF ROW ENTRY RETURNED BECAUSE CONNECTION WAS MADE!!!!!
-			getMatchSet(req.body.matchmaker.user_id).then((json) => {
-				res.json(json);
-			})
+			if (row && row[0]) {
+			  // return a 200 point bonus because a connection was created
+			  res.json({score: 200});
+			} else {
+			  res.json({});
+			}
 		})
 	});
 
 
 	// This function should eventually get other things such as a score.
-	app.get('/api/matchmakerScore/:user_id', (req, res) => {
+	app.get('/api/users/:user_id/results', (req, res) => {
       	getMatchesMade(req.params.user_id).then((output) => {
         	res.json(output);
     	});
@@ -45,20 +45,25 @@ export default function (app, express) {
 
 	// change profile picture
 	// /api/users/:user_id/pictures/:picture
-	app.put('/api/pictures/:user_id', (req, res) => {
+	app.put('api/users/:user_id/pictures', (req, res) => {
       	putPicture(req.params.user_id, req.body.image_url).then((output) => {
       		res.json(output);
       	});
 	});
 
-	app.get('/api/album/:user_id', (req, res) => {
+	app.get('/api/users/:user_id/album', (req, res) => {
       	getAlbum(req.params.user_id).then((output) => {
       		res.json(output);
       	});
 	});
 
+	app.post('/api/users/:user_id/recommendation', (req, res) => {
+		postRecommendation(req.params.user_id, req.body.gender, req.body.preference).then((output) => {
+			res.json(output);
+		});
+	});
+
 	app.post('/api/users/:user_id/album', (req, res) => {
-		console.log('INSIDE POST ALBUM ROUTE')
       	postAlbum(req.params.user_id, req.body.image_url).then((output) => {
       		res.json(output);
       	});
@@ -113,7 +118,6 @@ export default function (app, express) {
                     image_url: fbResult.picture.data.url
                 }
                 postUser(userData).then((rows) => {
-                  console.log(rows);
                   res.json(rows);
                 });
             } catch (e) {
@@ -124,8 +128,8 @@ export default function (app, express) {
 	})
 
 
-	app.put('/api/users/:userID', (req, res) => {
-	  let userID = req.params.userID;
+	app.put('/api/users/:user_id', (req, res) => {
+	  let userID = req.params.user_id;
 	  let userInfo = req.body;
 	  putUser(userID, userInfo)
 	    .then((rows)=> {
@@ -153,6 +157,7 @@ export default function (app, express) {
 	      res.json(pair_id);
 	    });
 	})
+
 	// app.get('/api/matchSet', (req, res) => {
 	// 	getMatchSet().then((matchSet) => {
 	// 		console.log(matchSet)
