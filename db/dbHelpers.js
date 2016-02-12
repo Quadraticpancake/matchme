@@ -3,7 +3,43 @@ var request = require('request');
 var _ = require('underscore');
 import generateUserAnalytics from '../server/faceAnalysis/faceAnalysis';
 
-var triadsStore = [];
+var Queue = function () {
+  var output = {};
+  output._first = null;
+  output._last = null;
+  output._size = 0;
+  var node = function (val) {
+    return {value: val, next: null};
+  }
+  output.getSize = function () {
+    return this._size;
+  }
+  output.enqueue = function (val) {
+    if (this._first) {
+      this._last.next = node(val);
+      this._last = this._last.next;
+    } else {
+      this._first = node(val);
+      this._last = this._first;
+    }
+    this._size++;
+  }
+  output.dequeue = function () {
+    if (this._first) {
+      var result = this._first.value;
+      this._first = this._first.next;
+      this._size--;
+      return result;
+    } else {
+      return null;
+    }
+  }
+  return output;
+}
+
+var triadsStore = Queue();
+
+//var triadsStore = [];
 
 var replenishingTriads = false;
 
@@ -90,7 +126,7 @@ export function addMatch (match) {
     user_two = ${ pairFormatted.user_two }) returning pair_id), p as (select pair_id from  \
     pairs where pairs.user_one = ${ pairFormatted.user_one } and pairs.user_two = \
     ${ pairFormatted.user_two }), temp as (insert into matches_made (matchmaker, pair) values \
-    (${ match.matchmaker.user_id }, (select pair_id from p ))) \
+    (${ match.matchmaker.user_id }, (select pair_id from p union all select pair_id from i))) \
     select matches_made.matchmaker, matches_made.pair from matches_made join p on p.pair_id = matches_made.pair;`;
   return db.query(matchQuery)
     .then((rows) => {
@@ -187,7 +223,8 @@ export function getMatchSet (user_id) {
                     prospectIterator = 0;
                   }
                   if (prospects.length === 2) {
-                    triadsStore.push({target: target, prospects: prospects})
+                    triadsStore.enqueue({target: target, prospects: prospects})
+                    //triadsStore.push({target: target, prospects: prospects})
                     prospects = [];
                   }
                 }
@@ -199,6 +236,7 @@ export function getMatchSet (user_id) {
   };
 
   // Single triad version of app
+  /*
   var getTriads = function (user_id) {
     var triad;
     while (triadsStore.length > 0) {
@@ -208,7 +246,23 @@ export function getMatchSet (user_id) {
       }
     }
   }
-
+*/
+  var getTriads = function (user_id) {
+    var triad = triadsStore.dequeue();
+    if (!triad || triadsStore.getSize() < 2) {
+      // should throw exception
+    } else {
+      // To ensure the queue is NEVER empty;
+      if (triad.target.user_id === user_id || triad.prospects[0].user_id === user_id || triad.prospects[1].user_id === user_id) {
+        // We need to get another triad because we can't return one with user included
+        return getTriads();
+      } else if (triadsStore.getSize() < 150) {
+        // To ensure the queue is NEVER empty;
+        triadsStore.enqueue(triad);
+      }
+    }
+    return triad;
+  }
 
   /*
   //triad array version of app
@@ -227,17 +281,18 @@ export function getMatchSet (user_id) {
     return output;
   }
   */
-  if (triadsStore.length < 300 && replenishingTriads === false) {
+  if (triadsStore.getSize() < 350 && replenishingTriads === false) {
+    console.log(triadsStore.getSize());
     replenishingTriads = true;
     func();
+  // triadsStore getting way low 
   }
   return getTriads();
 }
 
 export function getMatchesMade (matchmaker) {
   // the query below will return all the information for who user one is and who user two is.
-  // select pairs.pair_id, u1.*, u2.* from matches_made join pairs on matches_made.matchmaker = 3 and matches_made.pair = pairs.pair_id join users u1 on u1.user_id = pairs.user_one join users u2 on u2.user_id = pairs.user_two;
-
+  
   var getMatchesStr = `select pairs.pair_id, pairs.connected, pairs.user_one_heart, pairs.user_two_heart, \
    uMatchmaker.score, \
   u1.user_id as user_id1, u1.facebook_id as facebook_id1,  \
@@ -322,10 +377,11 @@ export function putPicture (user_id, image_url) {
 // get recommendation
 export function postRecommendation(user_id, user_gender, user_preference) {
 // get the user ids of the matches the user has hearted
-
+  console.log(user_id, user_gender, user_preference);
   let getLikesQuery = `select * from pairs where user_one = ${ user_id } and user_one_heart =true or user_two = ${ user_id } and user_two_heart =true`;
   return db.query(getLikesQuery)
   .then((rows) => {
+    //console.log(rows);
     let result = [];
     for (var i = 0; i < rows.length -1; i++) {
       result.push(rows[i].user_one);
@@ -335,6 +391,7 @@ export function postRecommendation(user_id, user_gender, user_preference) {
   })
 
   .then((liked) => {
+    //console.log(liked);
     // get the analytics info of the hearted users, compile into the ideal
     let queryIds = ' user_id = ' + liked[0];
     liked.slice(1).forEach(function(item) {
@@ -344,7 +401,7 @@ export function postRecommendation(user_id, user_gender, user_preference) {
     let getLikedSetQuery = `select * from analytics where ` + queryIds + `;`;
     return db.query(getLikedSetQuery)
     .then((rows) => {
-
+      console.log(rows);
       let totalAge = 0;
       let totalColoring = [];
       let totalExpression = 0;
