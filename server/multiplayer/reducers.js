@@ -1,7 +1,7 @@
 import * as MultiplayerActions from './actions';
 
 const initialState = {
-	timer: 5
+	timer: 60
 }
 
 export default function(state = initialState, action) {
@@ -36,7 +36,7 @@ export default function(state = initialState, action) {
 
 		case MultiplayerActions.RESET_TIMER:
 			return Object.assign({}, state, {
-				timer: 5
+				timer: 60
 			});
 	}
 	return state;

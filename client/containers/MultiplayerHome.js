@@ -50,7 +50,7 @@ class MultiplayerHome extends Component {
 
     socket.on('gameState', (gameState) => {
       actions.updateGameState(gameState);
-      counter = new CountUp("counter", gameState.timer ? gameState.timer : 0, 0, 2, 5, counterOptions);
+      counter = new CountUp("counter", gameState.timer ? gameState.timer : 0, 0, 2, gameState.timer ? gameState.timer : 0, counterOptions);
       counter.start();
     });
 
