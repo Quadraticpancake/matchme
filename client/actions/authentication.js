@@ -3,7 +3,6 @@ import { fetchChats } from './chats';
 import { fetchUserScore } from './user';
 import { routeActions } from 'react-router-redux';
 import { getAlbum } from './pictureActions.js';
-import { postRecommendation } from './recommendationActions.js';
 import { socket } from '../containers/App';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -13,8 +12,8 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 
 // Working but not hooked up to redux totally properly
 
-export function login(userID, accessToken){
-  return function(dispatch) {
+export function login(userID, accessToken) {
+  return function (dispatch) {
     dispatch(requestLogin());
     let request = new Request(`/api/users/${userID}`, {method: 'GET'});
     return fetch(request)
@@ -73,13 +72,6 @@ export function clickLogin() {
   return function(dispatch) {
 
     dispatch(requestLogin());
-    // FB.getLoginStatus(function(response) {
-      // In this case the user must have logged in previously so get request SHOULD return user data
-      // These puts should be converted to gets with ID params
-      // if (response.status === 'connected') {
-      //   login(response.authResponse.userID, response.authResponse.accessToken);
-
-      // } else {
         FB.login(function(responseLogin) {
 
           let request2 = new Request(`/api/users/${responseLogin.authResponse.userID}`, {method: 'GET'});
@@ -127,9 +119,6 @@ export function clickLogin() {
               }
             });
         }, {scope: 'public_profile,email'});
-      // }
-    // })
-
   };
 }
 
@@ -152,7 +141,7 @@ export function receiveLogin(user) {
   };
 }
 
-export function loginError(message) {
+export function loginError() {
   return {
     type: LOGIN_FAILURE,
     isFetchingAuth: false
