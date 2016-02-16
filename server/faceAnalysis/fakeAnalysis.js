@@ -1,3 +1,4 @@
+// generates user analytics based on expected ranges for result of facial image analysis
 export default function generateFakeAnalytics(i) {
   const fakeAnalytics = {};
   fakeAnalytics.user_id = i;
