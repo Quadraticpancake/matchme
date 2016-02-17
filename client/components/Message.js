@@ -8,7 +8,7 @@ const messageDivStyle = {
   padding: '0.5em',
   marginBottom: '10px',
   backgroundColor: 'white',
-  borderRadius: '2px', 
+  borderRadius: '2px',
   border: '1px solid #e3e3e3'
 };
 
@@ -29,11 +29,11 @@ const senderNameStyle = {
 
 const timestampStyle = {
   fontSize: 'x-small'
-}
+};
 
 export class Message extends Component {
   render() {
-    const {chat, message, sender} = this.props;
+    const { chat, message, sender } = this.props;
     window.moment = moment;
 
     return (
@@ -52,7 +52,7 @@ export class Message extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

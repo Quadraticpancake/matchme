@@ -1,9 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import {reduxForm} from 'redux-form';
-import * as ProfilePictureActions from '../actions/pictureActions';
-
+import { reduxForm } from 'redux-form';
 import Dropzone from 'react-dropzone';
 
 export const fields = ['files'];
@@ -11,12 +7,6 @@ export const fields = ['files'];
 class FileUpload extends Component {
 
   render() {
-
-    const formStyle = {
-      clear: 'all'
-    };
-
-
     const preview = {
       height: 200,
       width: 'auto',
@@ -33,19 +23,18 @@ class FileUpload extends Component {
     const dropzoneInfoStyle = {
       textAlign: 'center',
       marginTop: 75,
-    }
+    };
 
     const buttonStyle = {
       display: 'block',
       clear: 'both',
       marginLeft: 225,
       marginBottom: 20
-    }
+    };
 
     const {
-      fields: {files},
+      fields: { files },
       handleSubmit,
-      resetForm,
       submitting
     } = this.props;
 
@@ -53,19 +42,25 @@ class FileUpload extends Component {
       <form onSubmit={handleSubmit}>
         <div>
           <div style={dropzoneStyle}>
-            <Dropzone { ...files } onDrop={ ( filesToUpload, e ) => {
-              document.querySelector("#preview").src=filesToUpload[0].preview;
+            <Dropzone { ...files } onDrop={ (filesToUpload) => {
+              document.querySelector('#preview').src = filesToUpload[0].preview;
               files.onChange(filesToUpload);
-            }}>
+            }}
+            >
             <div style={dropzoneInfoStyle}>Drop an image file here to upload. Images must be square.</div></Dropzone>
           </div>
           <div>
-            <img style={preview} id="preview" src='http://allthetickets.net/images/no-preview.png'/>
+            <img style={preview} id="preview" src="http://allthetickets.net/images/no-preview.png"/>
           </div>
         </div>
 
         <div>
-          <button style={buttonStyle} type="submit" className="btn btn-secondary" disabled={submitting} >
+          <button
+            style={buttonStyle}
+            type="submit"
+            className="btn btn-secondary"
+            disabled={submitting}
+          >
             {submitting ? <i/> : <i/>} Use as Profile Picture
           </button>
         </div>

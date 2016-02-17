@@ -1,24 +1,23 @@
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import {reduxForm} from 'redux-form';
-import * as MatchmakerActions from '../actions/matchmaker';
-export const fields = ['first_name', 'last_name', 'gender', 'gender_preference', 'age_min', 'age_max', 'favoriteColor', 'employed', 'description', 'image_url', 'birthday', 'status'];
+import { reduxForm } from 'redux-form';
+export const fields = ['first_name', 'last_name', 'gender',
+  'gender_preference', 'age_min', 'age_max', 'favoriteColor',
+  'employed', 'description', 'image_url', 'birthday', 'status'];
 import css from './ProfileForm.scss';
 import { Button } from 'react-bootstrap';
 
 class ProfileForm extends Component {
 
   render() {
-
     const formStyle = {
 
       clear: 'all'
 
-    }
+    };
 
     const {
-      fields: {first_name, last_name, gender, gender_preference, age_min, age_max, favoriteColor, employed, description, image_url, birthday, status},
+      fields: { first_name, last_name, gender, gender_preference, age_min,
+        age_max, description, image_url, birthday, status },
       handleSubmit,
       resetForm,
       submitting
@@ -53,11 +52,11 @@ class ProfileForm extends Component {
         <div>
           <label>Gender</label>
           <div>
-            <label for='maleRadio'>
+            <label for="maleRadio">
               <input type="radio" {...gender} value="male" checked={gender.value === 'male'} id='maleRadio'/>
             <span>Male</span>
             </label>
-            <label for='femaleRadio'>
+            <label for="femaleRadio">
               <input type="radio" {...gender} value="female" checked={gender.value === 'female'} id='femaleRadio'/>
             Female
             </label>
@@ -71,11 +70,19 @@ class ProfileForm extends Component {
           <label>Gender Preference</label>
           <div>
             <label>
-              <input type="radio" {...gender_preference} value="male" checked={gender_preference.value === 'male'}/>
+              <input
+                type="radio" {...gender_preference}
+                value="male"
+                checked={gender_preference.value === 'male'}
+              />
               Male
             </label>
             <label>
-              <input type="radio" {...gender_preference} value="female" checked={gender_preference.value === 'female'}/> Female
+              <input
+                type="radio" {...gender_preference}
+                value="female"
+                checked={gender_preference.value === 'female'}
+              /> Female
             </label>
             <label>
               <input type="radio" {...gender_preference} value="none" checked={gender_preference.value === 'none' || gender_preference.value === null}/> None
@@ -92,7 +99,11 @@ class ProfileForm extends Component {
         </div>
         <div>
           <label>
-            <input type="checkbox" {...status} checked={status.value} defaultChecked /> Want to be Matched?
+            <input
+              type="checkbox" {...status}
+              checked={status.value}
+              defaultChecked
+            /> Want to be Matched?
           </label>
         </div>
         <div>
