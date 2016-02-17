@@ -1,0 +1,92 @@
+.bodyDiv {
+  margin-left: 10vh;
+}
+
+.arrows {
+  display: flex;
+  justifyontent: space-between;
+  flex-cirection: row;
+  margin-left: 100px;
+  float: left;
+}
+
+.arrow {
+  height: 20px;
+  width: 20px;
+}
+
+.largeTitle {
+  font-family: Lobster;
+  font-size: 250%;
+  clear: both;
+}
+
+.socksIconStyle {
+  width: 175px;
+  height: auto;
+  margin-top: -6vh;
+  margin-bottom: 2vh;
+}
+
+.trophyIconStyle {
+  width: 100px;
+  margin-top: 2vh;
+  margin-bottom: 20px;
+  height: auto;
+}
+
+.heartIconStyle {
+  width: 125px;
+  height: auto;
+  margin-top: 1vh;
+  margin-bottom: 35px;
+}
+
+.iconHolder {
+  width: 80%;
+  height: 20%;
+  clear: both;
+}
+
+.iconSquare {
+  width: 30vh;
+  height: 30vh;
+  text-align: center;
+  float: left;
+  background-color: rgb(168, 225, 238);
+  font-family: Lobster;
+  margin: 2vh;
+  border-radius: 20px;
+  box-shadow: 0 2px 15px 2px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+}
+
+.paraStyle {
+  margin: 5px;
+  fontSize: 125%;
+}
+
+.paraSignUpStyle {
+  margin: 5px;
+  font-size: 150%;
+  color: red;
+}
+
+.vidStyle {
+  border: 2px solid black;
+  height: 350px;
+  width: auto;
+  margin: 10px;
+}
+
+.descStyle {
+  font-size: 100%;
+  width: 400px;
+  text-align: center;
+  margin: 10px;
+}
+
+.title {
+  font-size: 150%;
+  margin: 10px;
+  clear: both;
+}
