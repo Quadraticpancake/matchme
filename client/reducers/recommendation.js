@@ -8,8 +8,7 @@ const initialState = {
   description: 'What are you waiting for?'
 };
 
-export default function recommendation(state = initialState, action) {
-
+export default (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_REC:
       return action.recommendation;
@@ -17,4 +16,4 @@ export default function recommendation(state = initialState, action) {
       return state;
   }
 
-}
+};

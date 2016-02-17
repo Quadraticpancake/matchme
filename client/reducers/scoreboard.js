@@ -1,6 +1,6 @@
 import { UPDATE_SCOREBOARD } from '../actions/scoreboard';
 
-export default function scoreboard(state = [], action) {
+export default (state = [], action) => {
   switch (action.type) {
     case UPDATE_SCOREBOARD:
       return action.updatedScoreboard; // not returning new state?
@@ -8,4 +8,4 @@ export default function scoreboard(state = [], action) {
       return state;
   }
   return state;
-}
+};

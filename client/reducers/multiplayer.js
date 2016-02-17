@@ -1,7 +1,7 @@
 import { UPDATE_GAME_STATE } from '../actions/multiplayer';
 
 const initialState = {
-	target: {
+  target: {
     placeholder: true,
     user_id: 3,
     first_name: '',
@@ -18,15 +18,15 @@ const initialState = {
       votes: {}
     }
   ]
-}
+};
 
-export default function multiplayer(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_GAME_STATE:
-      return action.updatedGameState; 
+      return action.updatedGameState;
 
     default:
       return state;
   }
   return state;
-}
+};
