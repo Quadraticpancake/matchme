@@ -7,34 +7,35 @@ export const HEART_CONNECTION_CHANGED = 'HEART_CONNECTION_CHANGED';
 export const REMOVE_CHAT = 'REMOVE_CHAT';
 export const COLLAPSE_CHAT = 'COLLAPSE_CHAT';
 
-function setChats(chats) {
+const setChats = (chats) => {
   return {
     type: SET_CHATS,
-    chats: chats
+    chats
   };
-}
+};
 
-export function fetchChats(user_id) {
-  
-  return function(dispatch) {
-    let request = new Request(`/api/chats/${user_id}`, {method: 'GET'});
+export const fetchChats = (user_id) => {
+
+  return (dispatch) => {
+    const request = new Request(`/api/chats/${user_id}`, {method: 'GET'});
     return fetch(request)
       .then(response => response.json())
       .then(json => dispatch(setChats(json)));
   };
-}
+};
 
-export function sendMessage(text, sender, pair_id) {
-  return function(dispatch) {
-    let request = new Request('/api/chats', {
+export const sendMessage = (text, sender, pair_id) => {
+  return (dispatch) => {
+    const request = new Request('/api/chats', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ sender: sender,
-        pair_id: pair_id,
-        text: text //note: created_at is calculated on the server before db insert
+      body: JSON.stringify({
+        sender,
+        pair_id,
+        text //note: created_at is calculated on the server before db insert
       })
     });
 
@@ -43,12 +44,19 @@ export function sendMessage(text, sender, pair_id) {
         dispatch(fetchChats(sender));
       });
   };
-}
+};
 
-export function closeChat(pair_id) {
-  return function(dispatch) {
+export const removeChat = (pair_id) => {
+  return {
+    type: REMOVE_CHAT,
+    pair_id
+  };
+};
+
+export const closeChat = (pair_id) => {
+  return (dispatch) => {
     dispatch(removeChat(pair_id));
-    let request = new Request('/api/pairs/' + pair_id + '/close', {
+    const request = new Request(`/api/pairs/${pair_id}/close`, {
       method: 'PUT'
     });
     return fetch(request)
@@ -57,41 +65,51 @@ export function closeChat(pair_id) {
         dispatch(removeChat(pair_id));
       });
   };
-}
+};
 
-export function removeChat(pair_id) {
-  return {
-    type: REMOVE_CHAT,
-    pair_id: pair_id
-  };
-}
-
-export function expandChat(pair_id) {
+export const expandChat = (pair_id) => {
   return {
     type: EXPAND_CHAT,
-    pair_id: pair_id
-  }
-}
+    pair_id
+  };
+};
 
-export function collapseChat() {
+export const collapseChat = () => {
   return {
     type: COLLAPSE_CHAT
-  }
-}
+  };
+};
 
-export function heartConnection(pair_id, user_id, is_user_one) {
-  return function (dispatch) {
+export const heartConnectionChanging = (pair_id) => {
+  return {
+    type: HEART_CONNECTION_CHANGING,
+    pair_id
+  };
+};
+
+export const heartConnectionChanged = (pair_id, heartInfo) => {
+  console.log(heartInfo);
+  return {
+    type: HEART_CONNECTION_CHANGED,
+    userHeart: heartInfo.userHeart,
+    pairHeart: heartInfo.pairHeart,
+    pair_id
+  };
+};
+
+export const heartConnection = (pair_id, user_id, is_user_one) => {
+  return (dispatch) => {
     dispatch(heartConnectionChanging(pair_id));
-    let request = new Request('/api/chatsheart', {
+    const request = new Request('/api/chatsheart', {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        user_id: user_id,
-        pair_id: pair_id,
-        is_user_one: is_user_one
+        user_id,
+        pair_id,
+        is_user_one
       })
     });
     return fetch(request)
@@ -99,24 +117,5 @@ export function heartConnection(pair_id, user_id, is_user_one) {
       .then((json) => {
         dispatch(heartConnectionChanged(pair_id, json));
       });
-  }
-}
-
-
-export function heartConnectionChanging(pair_id) {
-  return {
-    type: HEART_CONNECTION_CHANGING,
-    pair_id: pair_id,
-  }
-}
-
-export function heartConnectionChanged(pair_id, heartInfo) {
-  console.log(heartInfo);
-  return {
-    type: HEART_CONNECTION_CHANGED,
-    userHeart: heartInfo.userHeart,
-    pairHeart: heartInfo.pairHeart,
-    pair_id: pair_id
-  }
-}
-
+  };
+};

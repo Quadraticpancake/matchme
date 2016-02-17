@@ -13,10 +13,10 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 
 // Working but not hooked up to redux totally properly
 
-export function login(userID, accessToken){
-  return function(dispatch) {
+export const login = (userID, accessToken) => {
+  return (dispatch) => {
     dispatch(requestLogin());
-    let request = new Request(`/api/users/${userID}`, {method: 'GET'});
+    let request = new Request(`/api/users/${userID}`, { method: 'GET' });
     return fetch(request)
       .then(response => response.json())
       .then((json) => {
@@ -59,109 +59,93 @@ export function login(userID, accessToken){
       });
   };
 
-}
+};
 
-export function logout(){
-  return function(dispatch){
+export const logout = () => {
+  return (dispatch) => {
     dispatch(requestLogout());
-    FB.logout(function(response) {
+    FB.logout( response => {
       console.log(response);
     });
   };
 };
 
-export function clickLogin() {
-  return function(dispatch) {
+export const clickLogin = () => {
+  return (dispatch) => {
 
     dispatch(requestLogin());
-    // FB.getLoginStatus(function(response) {
-      // In this case the user must have logged in previously so get request SHOULD return user data
-      // These puts should be converted to gets with ID params
-      // if (response.status === 'connected') {
-      //   login(response.authResponse.userID, response.authResponse.accessToken);
-
-      // } else {
-        FB.login(function(responseLogin) {
-
-          let request2 = new Request(`/api/users/${responseLogin.authResponse.userID}`, {method: 'GET'});
-          return fetch(request2)
-            .then(response => response.json())
-            .then((json) => {
-              if (json) {
-                // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
-
-                dispatch(fetchChats(json.user_id))
-                dispatch(fetchUserScore(json.user_id));
-                dispatch(receiveLogin(json));
-                dispatch(getAlbum(json.user_id));
-              } else {
-
-                // New User
-                let request3 = new Request('/api/users', {
-                  method: 'post',
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    facebook_id: responseLogin.authResponse.userID,
-                    access_token: responseLogin.authResponse.accessToken
-                  })
-                });
-
-                return fetch(request3)
-                  .then(response => response.json())
-                  .then((json) => {
-                  // We can dispatch many times!
-                  // Here, we update the app state with the results of the API call.
-                    // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
-
-                    dispatch(fetchChats(json.user_id));
-                    dispatch(fetchUserScore(json.user_id));
-                    dispatch(getAlbum(json.user_id));
-                    dispatch(receiveLogin(json));
-                    dispatch(routeActions.push('/profile'));
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  } );
-              }
+    FB.login(responseLogin => {
+      let request2 = new Request(`/api/users/${responseLogin.authResponse.userID}`, { method: 'GET' });
+      return fetch(request2)
+        .then(response => response.json())
+        .then((json) => {
+          if (json) {
+            // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
+            dispatch(fetchChats(json.user_id));
+            dispatch(fetchUserScore(json.user_id));
+            dispatch(receiveLogin(json));
+            dispatch(getAlbum(json.user_id));
+          } else {
+            // New User
+            let request3 = new Request('/api/users', {
+              method: 'post',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                facebook_id: responseLogin.authResponse.userID,
+                access_token: responseLogin.authResponse.accessToken
+              })
             });
-        }, {scope: 'public_profile,email'});
-      // }
-    // })
 
+            return fetch(request3)
+              .then(response => response.json())
+              .then((json) => {
+              // We can dispatch many times!
+              // Here, we update the app state with the results of the API call.
+                // dispatch(postRecommendation(json.user_id, json.gender, json.gender_preference));
+                dispatch(fetchChats(json.user_id));
+                dispatch(fetchUserScore(json.user_id));
+                dispatch(getAlbum(json.user_id));
+                dispatch(receiveLogin(json));
+                dispatch(routeActions.push('/profile'));
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        });
+    }, { scope: 'public_profile,email' });
   };
-}
+};
 
-// Naive solution to getting searching for FB login status after FB loads
-setTimeout(clickLogin, 2000);
-
-export function requestLogin() {
+export const requestLogin = () => {
   return {
     type: LOGIN_REQUEST,
     isFetchingAuth: true
   };
 }
 
-export function receiveLogin(user) {
+export const receiveLogin = (user) => {
   socket.emit('joinGame', { newPlayer: user.user_id });
   return {
     type: LOGIN_SUCCESS,
     isFetchingAuth: false,
-    user: user
+    user
   };
-}
+};
 
-export function loginError(message) {
+export const loginError = (message) => {
   return {
     type: LOGIN_FAILURE,
-    isFetchingAuth: false
+    isFetchingAuth: false,
+    message
   };
-}
+};
 
-export function requestLogout() {
+export const requestLogout = () => {
   return {
     type: LOGOUT_REQUEST,
   };
-}
+};

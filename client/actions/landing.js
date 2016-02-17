@@ -1,7 +1,15 @@
 export const CHANGE_LANDING_INDEX = 'CHANGE_LANDING_INDEX';
 
+// Updates index for UserScore in state. indexChange increments or decrements index according to it's val
+export const changeLandingIndexAction = (indexChange) => {
+  return {
+    type: CHANGE_LANDING_INDEX,
+    indexChange
+  };
+};
+
 export const changeIndex = (e) => {
-  var indexChange;
+  let indexChange;
   if (typeof e === 'number') {
     indexChange = e;
   } else if (e.keyCode === 39) {
@@ -13,13 +21,5 @@ export const changeIndex = (e) => {
   }
   return dispatch => {
     dispatch(changeLandingIndexAction(indexChange));
-  }
-}
-
-// Updates index for UserScore in state. indexChange increments or decrements index according to it's val
-export const changeLandingIndexAction = (indexChange) => {
-  return {
-    type: CHANGE_LANDING_INDEX,
-    indexChange: indexChange
-  }
-}
+  };
+};
