@@ -1,21 +1,21 @@
-require("babel-core/register");
+require('babel-core/register');
 
-var webpack = require('webpack')
-var webpackDevMiddleware = require('webpack-dev-middleware')
-var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('../webpack.config.dev');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const config = require('../webpack.config.dev');
 
-var express = require('express');
-var path = require('path');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
 
-var app = express();
-var server = require('http').Server(app);
+const app = express();
+const server = require('http').Server(app);
 
-var io = require('socket.io')(server);
-// var createTables = require('../db/schemas.js').default;
+const io = require('socket.io')(server);
+// let createTables = require('../db/schemas.js').default;
 // createTables();
-module.exports = {app: app, io: io};
+module.exports = { app: app, io: io };
 require('./multiplayer/gameRunner');
 require('./sockets');
 
@@ -23,16 +23,16 @@ require('./sockets');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var compiler = webpack(config)
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
-app.use(webpackHotMiddleware(compiler))
+const compiler = webpack(config);
+app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+app.use(webpackHotMiddleware(compiler));
 
-//Set up routes
+// Set up routes
 require('./routes')(app, express);
 
-app.use(express.static(path.join(__dirname , '../static')));
+app.use(express.static(path.join(__dirname, '../static')));
 
-//Set up static files
+// Set up static files
 // app.use(function(req, res) {
 //   res.sendFile(path.join(__dirname, '..', '/index.html'));
 // });
@@ -41,13 +41,12 @@ app.get('*', (req, res) => {
 });
 
 // Set up ports
-var port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-server.listen(port, function(error) {
+server.listen(port, (error) => {
   if (error) {
-    console.error(error)
+    console.error(error);
   } else {
-    console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port)
+    console.info('==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.', port, port);
   }
-})
-
+});
