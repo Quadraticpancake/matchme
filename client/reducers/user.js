@@ -12,8 +12,7 @@ const initialState = {
 
 };
 
-export default function user(state = initialState, action) {
-
+export default (state = initialState, action) => {
   let newState = Object.assign({}, state);
   switch (action.type) {
     case LOGIN_REQUEST:
@@ -71,7 +70,7 @@ export default function user(state = initialState, action) {
       newState.userScore.score += action.scoreChange;
       return newState;
 
-    case CHANGE_INDEX: 
+    case CHANGE_INDEX:
       newState.userScore.index += action.indexChange;
       if (newState.userScore.index === -1) {
         newState.userScore.index += 1;

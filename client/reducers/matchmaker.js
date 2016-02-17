@@ -1,4 +1,4 @@
-import { CHOOSE_MATCH, REQUEST_TRIAD, RECEIVE_TRIADS, UPDATE_SCORE, SET_SCORE } from '../actions/matchmaker';
+import { CHOOSE_MATCH, REQUEST_TRIAD, RECEIVE_TRIADS } from '../actions/matchmaker';
 
 const initialState = {
   isFetching: false,
@@ -17,33 +17,31 @@ const initialState = {
       first_name: ''
     }
   ],
-  triad: {target: {
-    placeholder: true,
-    user_id: 3,
-    first_name: '',
-  }, prospects: [
-    {
-      user_id: 4,
-      first_name: ''
-    },
-    {
-      user_id: 5,
-      first_name: ''
-    }
-  ]}
+  triad: {
+    target: {
+      placeholder: true,
+      user_id: 3,
+      first_name: '',
+    }, prospects: [
+      {
+        user_id: 4,
+        first_name: ''
+      },
+      {
+        user_id: 5,
+        first_name: ''
+      }
+    ] }
   // This is code for triads array version of code
   // triads: []
 };
 
-export default function matchmaker(state = initialState, action) {
-
+export default (state = initialState, action) => {
   let newState = Object.assign({}, state);
 
   switch (action.type) {
-
     case CHOOSE_MATCH:
       return newState;
-
     case REQUEST_TRIAD:
       /*
       if (newState.triads && newState.triads.length === 0) {
@@ -59,8 +57,7 @@ export default function matchmaker(state = initialState, action) {
       */
       return Object.assign({}, state, {
           isFetching: true,
-        });
-
+      });
     case RECEIVE_TRIADS:
       /*
       let triads = (action.triads).concat(newState.triads);
@@ -82,17 +79,13 @@ export default function matchmaker(state = initialState, action) {
       }
       */
       return Object.assign({}, state, {
-          isFetching: false,
-          lastUpdated: action.receivedAt,
-          triad: action.triads,
-          target: action.triads.target,
-          prospects: action.triads.prospects
-        });
-
-
-
-
+        isFetching: false,
+        lastUpdated: action.receivedAt,
+        triad: action.triads,
+        target: action.triads.target,
+        prospects: action.triads.prospects
+      });
     default:
       return state;
   }
-}
+};
