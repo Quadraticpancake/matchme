@@ -42,6 +42,13 @@ export default function createTables () {
       + " created_at TIMESTAMP NOT NULL DEFAULT NOW(),"
       + " FOREIGN KEY (sender) REFERENCES users(user_id));");
    })
+   // // create user to zipcode join table
+   // .then(function(){
+   //  console.log('user zipcode join created')
+   //  return db.query("CREATE TABLE IF NOT EXISTS zipcodes (FOREIGN KEY (zipcode_id) REFERENCES users(zipcode),"
+   //    + " text VARCHAR(255),"
+   //    + " FOREIGN KEY (user) REFERENCES users(user_id));");
+   // })
   .then(function(){
     console.log('picture join table created')
     return db.query("CREATE TABLE IF NOT EXISTS pictures (picture_id SERIAL PRIMARY KEY, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES users(user_id),"
