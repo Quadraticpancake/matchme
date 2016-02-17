@@ -11,8 +11,6 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 
-// Working but not hooked up to redux totally properly
-
 export const login = (userID, accessToken) => {
   return (dispatch) => {
     dispatch(requestLogin());
