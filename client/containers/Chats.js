@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as ChatsActions from '../actions/chats';
@@ -8,52 +8,9 @@ import { socket } from './App';
 import { routeActions } from 'react-router-redux';
 import css from './Chats.scss';
 
-// @connect(
-//   state => state.items,
-//   dispatch => bindActionCreators(actionCreators, dispatch)
-// )
-
-const collapsedChatContainer = {
-  backgroundColor: 'white',
-  marginLeft: '0px',
-  marginRight: '0px'
-};
-
-const chatStyle = {
-  paddingLeft: 0
-};
-
 class Chats extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-  addMessageOnEnter(pair_id, event) {
-    const { actions, user_id } = this.props;
-    if (event.key === 'Enter') {
-      actions.sendMessage(event.target.value, user_id, Number(pair_id));
-      event.target.value = '';
-    }
-  }
-
-  fetchChatsAndTellSocket() {
-    const { actions, user_id, chats } = this.props;
-    actions.fetchChats(user_id);
-    // () => {
-    //   socket.emit('joinChatrooms', { chats: chats });
-    // }
-  }
-
-  // componentWillMount(){
-  //   const { user, routerActions } = this.props;
-  //   //if user isn't authenticated reroute them to the home page
-  //   if (!user.isAuthenticated) {
-  //     routerActions.push('/home');
-  //     return;
-  //   }
-  // }
-
   componentDidMount() {
-    const { actions, user_id, user, routerActions } = this.props;
+    const { user, routerActions } = this.props;
     if (user.isAuthenticated) {
       this.fetchChatsAndTellSocket();
       socket.on('refreshChats', () => {
@@ -67,13 +24,25 @@ class Chats extends Component {
     socket.emit('joinChatrooms', { chats: chats });
   }
 
+  addMessageOnEnter(pair_id, event) {
+    const { actions, user_id } = this.props;
+    if (event.key === 'Enter') {
+      actions.sendMessage(event.target.value, user_id, Number(pair_id));
+      event.target.value = '';
+    }
+  }
+
+  fetchChatsAndTellSocket() {
+    const { actions, user_id} = this.props;
+    actions.fetchChats(user_id);
+  }
+
   render() {
     const { chats, focus, focusedChat, user_id, actions } = this.props;
 
-    let renderedChats = [];
+    const renderedChats = [];
 
     Object.keys(chats).map((chatKey) => {
-      //chatKey is the pair_id
       renderedChats.push(
         <ChatCollapsed
           key={chatKey}
@@ -92,7 +61,7 @@ class Chats extends Component {
     if (focus === null) {
       return (
         <div className={css.collapsedChatContainer}>
-          <div style={{fontFamily: 'Lobster', fontSize: 'x-large'}}>Chats</div>
+          <div style={{ fontFamily: 'Lobster', fontSize: 'x-large'} }>Chats</div>
           {renderedChats}
         </div>
       );

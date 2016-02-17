@@ -4,37 +4,20 @@ import { connect } from 'react-redux';
 import Prospect from '../components/Prospect';
 import Target from '../components/Target';
 import * as MatchmakerActions from '../actions/matchmaker';
-import * as UserActions from '../actions/user'
-import { Col, Row, Image} from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import css from './Home.scss';
 
-           // <div className="col-md-2 hidden-sm hidden-xs" style={divStyle}>
-           //    <Scoreboard />
-           //  </div>
-const divStyle = {
-  top: 10,
-  right: 10
-};
-
-const parent = {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center'
-}
 class Home extends Component {
-  componentWillMount(){
+  componentWillMount() {
     const { matchmaker, actions, user } = this.props;
-    if(matchmaker.target.placeholder){
-      //getNewCandidates when target is currently placeholder
+    if (matchmaker.target.placeholder) {
       actions.getNewCandidates(user.user_id, matchmaker.triads);
     }
   }
   render() {
     const { matchmaker, actions, user } = this.props;
     window.props = this.props;
-    
     return (
-
       <div>
           <div className="row-fluid">
             <Target target={matchmaker.target} actions={actions} user={user} triads={matchmaker.triads}/>
@@ -50,7 +33,8 @@ class Home extends Component {
 
 Home.propTypes = {
   matchmaker: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -70,4 +54,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Home);
-

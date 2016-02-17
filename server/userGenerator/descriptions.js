@@ -1,4 +1,4 @@
-module.exports = ['Professional Eugoogoolizer at the Derek Zoolander Center For Kids Who Can’t Read Good',
+module.exports = ['Professional Eugoogoolizer and model',
     'Fact-checked essay in the streets, unmoderated comments section in the sheets.',
     'Clever pick up lines are the way to go.',
     'Your parents will love me, but your neighbors won’t.',
@@ -9,32 +9,32 @@ module.exports = ['Professional Eugoogoolizer at the Derek Zoolander Center For 
     'Half-German, Physics major.',
     'I like laughing, dogs, lots of food, beer, outdoor activities, and adventures.',
     'If you can’t handle me at my worst, then leave because I don’t have a best. I’m always awful.',
-    'Our relationship will be like Nintendo 64–classic, every issue fixed by blowing on it then shoving it back in.',
+    'Our relationship = Nintendo 64–classic, fix issues by blowing on it then shoving it back in.',
     'message me and be my swole m8',
     'I can tell you I don’t have money. But what I do have is a very particular set of skills.',
     'I’m the good thing small packages come in.',
-    'Puppy enthusiast and frozen yogurt connoisseur. I’m outdoorsy in the sense that I like to get drunk on patios.',
+    'I’m outdoorsy in the sense that I like to get drunk on patios.',
     'I just want some 80’s movie romance. That’s it. I swear I’m not that hard to please. ',
     'I’ll make you dessert, if you don’t like it, there is always me ;)',
     'Seeking hostile partner for mutual psychological torture, co-dependency and future divorce.',
     'Horseback rider. Dog owner. Photographer. Aspiring gym rat.',
     'If your dog is cute, I’ll probably look through your photos twice and I do a lot of yoga.',
     'The only thing that’s not goofy about me is my stance.',
-    'I like long walks down the beach and… I just wanna make out, cuddle in baggy clothes while watching movies',
+    'I just wanna make out, cuddle in baggy clothes while watching movies',
     '“Makes your mama proud.” – Cosmopolitan “Sexy, stylish and smart: 5 stars.” – Elle',
-    'Hi, I’m here for a boring time. I’m looking for a long term relationship of hard work and hardly any sex.',
+    'I’m looking for a long term relationship of hard work and hardly any sex.',
     'I’m emotional, stubborn and always right. I like to pick the movies.',
     'I have an AMD graphics card, so you can say I’m used to things getting hot quickly.',
     'I cuddle at a level that should require a paid subscription',
-    'Love to laugh. My passions are shopping and being gorgeous. I never message first. Music is my life.',
-    'If you can’t handle me at my worst, you don’t deserve me at my best. Sushi and a caramel frapp.',
-    'Seeking someone that dislikes to laugh and hates good music. Bonus points if you dislike the outdoors.',
+    'Love to laugh. I never message first. Music is my life.',
+    'If you can’t handle me at my worst, you don’t deserve me at my best.',
+    'Seeking someone that dislikes to laugh and hates good music and the outdoors.',
     'I like pizza. If you workout, we belong together',
-    'Looking for someone to bring to family events so they’ll stop thinking something’s wrong with me',
+    'Looking for someone to bring to family events',
     'I’m here to avoid friends on Facebook.',
     'Trying to elevate small talk to medium talk.',
     'MBA at Harvard, but I have my Ph.D in Snuggleology.',
-    'Send me an emoji that represents our first date, I’ll send you an emoji that represents our future',
+    'Send me an emoji that represents of first date, I’ll send you an emoji of our future',
     'I got a memory foam mattress if you are trying to chill.',
     'Aussie travelling Europe. I still ride on the back of shopping carts when I shop.',
     'Professional bathroom singer. Seeking duet partner.',
@@ -48,49 +48,49 @@ module.exports = ['Professional Eugoogoolizer at the Derek Zoolander Center For 
     'Im really just looking for a someone to break my heart so I have something to write about',
     'artist in Oakland',
     'There is literally nothing funny left to say about pizza.  Crust me on this one.',
-    'Likes: fiscal responsibility (can you say sexy?), dive bars, museums, Thai food, lists (apparently)',
+    'Likes: fiscal responsibility, dive bars, museums, Thai food, lists (apparently)',
     'mechanical engineer, teacher, jewelery manufacturer',
     '$0.25 - bad advice, $0.50 - good advice, $1.00 - poem.',
     'I"m glad this app is based on looks cause I have zero personality.',
     'Is this the hopeless place Rihanna was talking about?',
-    'If atoms behave in a predictable fashion and the brain is made up of atoms, do we have free will?',
+    'If atoms behave predictably and the brain is made up of atoms, do we have free will?',
     'Part time student. Part time musicians . part time cook for drunk idiots. Full time doofus.',
     'Specialist. Inquire within.',
     'Im an exceptionally talented pingpong player. & I plan on taking a class in sign language',
     'Dont be shy, I wont bite on the first date.',
     'love outdoor adventures but also enjoy the occasional Netflix marathon.',
-    'Embarrassing MeFact# 113 : I didnt eat hot dogs until I was 13 because I thought they were dogs wieners',
+    'Embarrassing MeFact# 113 : I didnt eat hot dogs until I was 13',
     'Likes: human rights. Dislikes: black olives',
     'Im an engineer that specializes in being inappropriate for the workplace.',
     'Im a paramedic who loves to party',
     'Craft beer drinking vet transitioning to the real world.',
     'Hi, Im on here looking for my lost socks.',
     'I dont: eat meat, watch sportz, get down with religion in any conceivable fashion',
-    'I have an irrational fear of ACs falling from NYC high rises onto my head, killing me instantly.',
+    'I have an irrational fear of ACs falling onto my head, killing me instantly.',
     'Entrepreneur ΘΔΧ please do not have Ebola',
     'My life is pretty much all about cars... and chipotle.',
     'I tried yoga once.. Did Pilates for like a week',
     'Full time Bio&Psych dbl mjr/p.f changs waiter/CAT',
     'A man walks into a bar... and bruised his head.',
     'need someone to go to concerts with...... and massage my shoulders',
-    'Love to workout, chop wood, build shit, laugh, cook and eat except green eggs and ham, that shit is gross.',
+    'Love to workout, chop wood, build shit, laugh, cook and eat',
     'Software engineer at Google. Bottle of red, bottle of white, bottle of pineapple schnapps.',
-    'They say you should dress for the job you want; If thats the case Ill be needing a Super Hero costume.',
+    'They say you should dress for the job you want, so Ill be needing a Super Hero costume.',
     'I sit still in nature sometimes and i can hear all the molecules vibrating around me.',
     'Im very cerebral. I work at Palantir by day, am a philosopher by night',
-    'Enthusiastic pun maker, PM at Pinterest, and wine enthusiast. Be yourself. Everyone else is taken.',
+    'Enthusiastic pun maker, PM at Pinterest, and wine enthusiast.',
     'I like cheating death, tempting fate and taking long walks on the beach',
     'My interests include but are not limited to global domination, longboarding, &weird music.',
-    'Food Photography is my career. If we go out for a dinner date I will pay more attention to your meal then you',
-    'Dragon Slayer, Disrupter, Wine Connoisseur, Creator of Words, Conveyor of Messages, Part-time Lion Tamer...',
+    'If we go out for a dinner date I will pay more attention to your meal then you',
+    'Dragon Slayer, Disrupter, Wine Connoisseur, Part-time Lion Tamer...',
     'Undisputed Super MarioKart Champion/Peanut Butter and Jelly Enthusiast',
-    'Fan of: filmmaking, stand-up comedy, tech products I cant afford, traveling and fruits that end in -ango.',
-    'Anyone wanna drink wine and watch frozen or old episodes of The OC?  Im a billionaire though so get at me.',
+    'Fan of: filmmaking, stand-up comedy, tech products I cant afford',
+    'Anyone wanna drink wine and watch frozen or old episodes of The OC?',
     'Do you wanna build a snowman?',
     'Im 511 and a mix of Puerto Rican, Italian and lizard people',
-    'My ideal night is eating a bag of Swedish Fish and a box of Cheez Its while watching Mean Girls.',
-    'Im a hip oldie who can hip-hop, be-bop, dance til ya drop, and yoyo make a wicked cup of coco.',
-    'Tall, dark, and handsome isnt on the menu. However, at the all you can eat buffet is genuine and funny.',
+    'My ideal night is eating a box of Cheez Its while watching Mean Girls.',
+    'hip-hop, be-bop, dance til ya drop, and yoyo make a wicked cup of coco.',
+    'Tall, dark, and handsome isnt on the menu.',
     'My interests range from everyone to everything, textbook eclecticism',
     'Im kinda fat, I say "I love you" too soon, and I sweat when its unnecessary.',
     'organic farming apprentice who is likely to charm you with the permanent dirt on my hands.',
@@ -101,7 +101,7 @@ module.exports = ['Professional Eugoogoolizer at the Derek Zoolander Center For 
     'Like good food, good drink, and friends. In med school as UCSF.',
     'Im great at killing spiders and opening jars.',
     'wanna hear a joke about pizza? Nevermind... Its too cheesy.',
-    'volly firefighter, met, problem solver, lover not a fighter...but ill finish a fight if i have to',
+    'volly firefighter, met, problem solver, lover not a fighter...',
     'The fortuneteller brought me here',
     'Looking for something dumb to do...',
     'If you could wake up anywhere in the world tomorrow, where would it be?',
@@ -109,7 +109,7 @@ module.exports = ['Professional Eugoogoolizer at the Derek Zoolander Center For 
     'Buenos Aires – Paris – Berlin',
     'Rise and shine, porcupine',
     'What you cooking, good looking?',
-    'Im a cheap date',    
+    'Im a cheap date',
     '1 tequila, 2 tequila, 3 tequila, floor!',
     'I hate when people wear sunglasses indoors and say abbreviated words.',
     'I think I’m funny, most people just think I’m an asshole.',
@@ -120,30 +120,6 @@ module.exports = ['Professional Eugoogoolizer at the Derek Zoolander Center For 
     'Just a normal person on a creepy app',
     'Bio major, rock climber, hockey, Doctor Who, friends',
     'Everything I need to know I got from watching Gilligans Island.',
-    'In time, we all become that which we most hate. That explains how I became a plate of liver and onions.',
+    'In time, we all become that which we most hate.',
     'I used to think I was indecisive, but now Im not too sure.'
   ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -5,17 +5,10 @@ import * as UserActions from '../actions/user';
 import Matchee from '../components/Matchee';
 import { routeActions } from 'react-router-redux';
 import heart from '../../static/img/icons/heart';
-import { Col, Row, Image} from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import css from './UserScore.scss';
-import rightArrowImg from '../assets/Right_arrow.svg'
-import leftArrowImg from '../assets/Left_arrow.svg'
-
-
-// @connect(
-//   state => state.items,
-//   dispatch => bindActionCreators(actionCreators, dispatch)
-// )
-
+import rightArrowImg from '../assets/Right_arrow.svg';
+import leftArrowImg from '../assets/Left_arrow.svg';
 
 const heartSvg = heart();
 const heartFilledInStyle = {
@@ -26,13 +19,12 @@ const heartFilledInStyle = {
   minWidth: '5vh',
   fill: '#FE4365',
   strokeWidth: '1px',
-  stroke:'black'
+  stroke: 'black'
 };
 
 class UserScore extends Component {
-  
   componentDidMount() {
-    const { actions, user_id, user} = this.props;
+    const { actions, user_id, user } = this.props;
     if (user.isAuthenticated) {
       actions.fetchUserScore(user_id);
     }
@@ -47,17 +39,16 @@ class UserScore extends Component {
   render() {
     const { userScore, index, actions } = this.props;
 
-    let heartImg = <span>{heartSvg}
+    const heartImg = <span>{heartSvg}
                 <svg viewBox="0 0 32 32" style={heartFilledInStyle}>
                   <g filter="url(#inset-shadow)">
                     <use xlinkHref="#heart-icon"></use>
                   </g>
                 </svg></span>;
-    let renderedConnectionsMade = [];
+    const renderedConnectionsMade = [];
     let score = 0;
-    let leftArrow = <img src={leftArrowImg} className={css.arrow} onClick={() => { actions.changeIndex(-1); }} />
-    let rightArrow = <img src={rightArrowImg} className={css.arrow} onClick={() => { actions.changeIndex(1); }}/>
-    let nullArrow = null;
+    const leftArrow = <img src={leftArrowImg} className={css.arrow} onClick={() => { actions.changeIndex(-1); }} />;
+    const rightArrow = <img src={rightArrowImg} className={css.arrow} onClick={() => { actions.changeIndex(1); }}/>;
 
     if (userScore) {
       score = userScore.score;
@@ -79,30 +70,27 @@ class UserScore extends Component {
       }
     }
 
-
-
-    
     let connectionCount;
     if (renderedConnectionsMade.length > 1) {
       connectionCount =
-      <div className='text-center'>
+      <div className="text-center">
          You have helped create { renderedConnectionsMade.length } connections!
       </div>;
     } else if (renderedConnectionsMade.length === 1) {
       connectionCount =
-      <div className='text-center'>
+      <div className="text-center">
          You have helped create { renderedConnectionsMade.length } connection!
       </div>;
     } else {
       connectionCount =
-      <div className='text-center'>
+      <div className="text-center">
         You have yet to help create any connections
       </div>;
     }
 
     return (
       <div>
-          <div>            
+          <div>          
             <div className={css.header}>
               {connectionCount}
             </div>
@@ -112,9 +100,9 @@ class UserScore extends Component {
               {renderedConnectionsMade[index]}
             </div>
           </div>
-          { userScore.pairs[index] && userScore.pairs[index].pairHeart && 
+          { userScore.pairs[index] && userScore.pairs[index].pairHeart &&
           <div className={css.header2}>
-            <div className='text-center'>
+            <div className="text-center">
               {heartImg}
               {userScore.pairs[index].user_one.first_name} and {userScore.pairs[index].user_two.first_name} liked each other!
               {heartImg}
@@ -125,6 +113,11 @@ class UserScore extends Component {
   }
 }
 
+UserScore.propTypes = {
+  actions: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
 function mapStateToProps(state) {
   return {
     user_id: state.user.user_id,
@@ -132,15 +125,14 @@ function mapStateToProps(state) {
     user: state.user,
     index: state.user.userScore.index
   };
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(UserActions, dispatch),
     routerActions: bindActionCreators(routeActions, dispatch)
   };
-};
-
+}
 
 export default connect(
   mapStateToProps,
