@@ -19,16 +19,16 @@ Be the best matchmaker ever
 <hr>
 ## Usage
 
-MatchMe is a gamified dating web application wherein users act as matchmakers instead of browsing for themselves. Fun for both those on and off the dating market, MatchMe lets users choose matches for other random compatible users by selecting which of the two candidates is the best match for that person. MatchMe also includes chatting and other features for an fun way to find your next friend or date.
+MatchMe is a gamified dating web application wherein users act as matchmakers instead of browsing for themselves. Fun for both those on and off the dating market, MatchMe lets users choose matches for other random compatible users by selecting which of the two candidates is the best match for that person. MatchMe also includes chatting and other features for an fun way to find your next friend or date. Visit [matchme1.herokuapp.com](http://matchme1.herokuapp.com) to check it out! To run locally, clone down the repo and follow these steps: 1. run 'npm install' 2. run 'npm run test' to run populate the database and run database tests. 3. start the server with 'npm start' 4. visit http://localhost:3000/.
 
 <hr>
 ## Requirements
 
 - Node 0.10.x
-- Express -
+- Express 
 - Postgresql 9.1.x
-- React -
-- Redux -
+- React 
+- Redux 
 
 <hr>
 ## Architecture
@@ -50,5 +50,9 @@ MatchMe is a gamified dating web application wherein users act as matchmakers in
 |Get User Info (login)|/api/users/:facebook_id|userObj|
 |Update User Info|/api/users/:userID|userObj|
 |Like/Unlike Match|/api/chatsheart|heartInfoObj|
-|Connect with points|/api/purchases/candidate|score (Int)|
+|Connect with Points|/api/purchases/candidate|score (Int)|
 |Delete Match|/api/pairs/:pair_id/close|pair_id (Int)|
+|Update Profile Picture|/api/users/:user_id/pictures |userObj|
+|Get User's Photo Album|/api/users/:user_id/album |albumObj|
+|Update User's Photo Album|/api/users/:user_id/album |ablumObj|
+|Get Recommendation|/api/users/:user_id/recommendation |recommendationObj|
