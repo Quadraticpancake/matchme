@@ -1,4 +1,4 @@
-# matchmaker
+# MatchMe
 Be the best matchmaker ever
 
 <hr>
