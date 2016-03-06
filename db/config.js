@@ -5,7 +5,8 @@ var connectionString = process.env.DATABASE_URL||"postgres://postgres:test@local
 // var connectionString = "postgres://matchmaker:quadraticpancake2016@matchmaker.c7schl94pgps.us-west-2.rds.amazonaws.com:5432/matchmaker";
 
 //create new db instance
-var db = pgp(connectionString);
+// var db = pgp(`postgres://postgres:password@postgres/postgres`);
+var db = pgp(`postgres://postgres:password@postgres/postgres`);
 module.exports = db;
 
 // install postgres: https://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/

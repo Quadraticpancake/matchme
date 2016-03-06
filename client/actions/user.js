@@ -5,22 +5,22 @@ export const RECEIVE_USER_INFO = 'RECEIVE_USER_INFO';
 export const CHANGE_INDEX = 'CHANGE_INDEX';
 
 // Fetches the info of the connections the user has helped create as well as user's points total
-export function fetchUserScore (user_id) {
-  return function (dispatch) {
-    let request = new Request(`/api/users/${user_id}/results`, {method: 'GET'});
+export const fetchUserScore = (user_id) => {
+  return (dispatch) => {
+    const request = new Request(`/api/users/${user_id}/results`, { method: 'GET' });
     return fetch(request)
       .then(response => response.json())
       .then(json => dispatch(setUserScore(json)));
   };
-}
+};
 
 // sets the userResult data (connections made, score etc.)
-export function setUserScore (userScore) {
+export const setUserScore = (userScore) => {
   return {
     type: SET_USER_SCORE,
-    userScore: userScore
+    userScore
   };
-}
+};
 
 // tells state the updated user info is being sent to server
 const setUserInfo = (userInfo) => {
@@ -44,7 +44,7 @@ const receiveUserInfo = (userInfo) => {
 export const updateUserInfo = (userID, userInfo) => {
   return dispatch => {
     dispatch(setUserInfo(userInfo));
-    let request = new Request(`/api/users/${userID}`, {
+    const request = new Request(`/api/users/${userID}`, {
       method: 'put',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'},
       body: JSON.stringify(userInfo)
@@ -59,7 +59,7 @@ export const updateUserInfo = (userID, userInfo) => {
 // or on the number to incrememnt or decrement index by. NOTE that change is relative to current index
 
 export const changeIndex = (e) => {
-  var indexChange;
+  let indexChange;
   if (typeof e === 'number') {
     indexChange = e;
   } else if (e.keyCode === 39) {
@@ -71,13 +71,13 @@ export const changeIndex = (e) => {
   }
   return dispatch => {
     dispatch(changeIndexAction(indexChange));
-  }
-}
+  };
+};
 
 // Updates index for UserScore in state. indexChange increments or decrements index according to it's val
 export const changeIndexAction = (indexChange) => {
   return {
     type: CHANGE_INDEX,
-    indexChange: indexChange
-  }
-}
+    indexChange
+  };
+};

@@ -1,55 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Col, Row, Image} from 'react-bootstrap';
+import { Row, Image } from 'react-bootstrap';
 import css from './Prospect.scss';
 import maleIcon from '../../img/icons/male_icon.png';
 import femaleIcon from '../../img/icons/female_icon.png';
 import bothIcon from '../../img/icons/both_icon.png';
-
-const wellStyle = {
-  height: '44vh',
-  marginBottom: 15
-};
-const divProspectStyle = {
-  height:250,
-  width: 'auto',
-  //float: 'left',
-  // backgroundColor: '#ccc',
-  display: 'block',
-  verticalAlign: 'bottom',
-  borderWidth: 5,
-  borderColor: 'black',
-
-  fontSize: 35,
-  fontWeight: 'bold',
-  fontFamily: 'Arial, Helvetica, sans-serif',
-
-  borderRadius: 5
-};
-
-const paraProspectStyle = {
-  // backgroundColor: '#ccc',
-  width: 150,
-  fontSize: 18,
-  fontWeight: 'bold',
-  color:'black',
-  position: 'absolute',
-  right: 30
-};
-
-const divProspectNameStyle = {
-};
-
-const imgProspectStyle = {
-  marginTop: '2vh',
-  height: '29vmin',
-};
-
-const divStyle = {
-  width: 200,
-  height: 64,
-  padding: 32,
-  float: 'left',
-};
 
 const iconProspectStyle = {
   width: 25,
@@ -67,11 +21,11 @@ const prospectInfoStyle = {
 const prospectInfo = {
   marginTop: -6,
   fontSize: '2.2vmin'
-}
+};
 
 const nameStyle = {
   fontSize: '2.6vmin'
-}
+};
 
 class Prospect extends Component {
 
@@ -83,26 +37,26 @@ class Prospect extends Component {
     const { prospect, actions, target, user, triads } = this.props;
     // prospect on line 14 should be the prospect choosen
 
-    if(!prospect || !prospect.first_name){
+    if (!prospect || !prospect.first_name) {
       return (<Row className={css.prospect}></Row>);
     }
 
     // divProspectStyle.backgroundImage = 'url(' + 'http://localhost:3000' + prospect.image_url + ')'
     function calculateAge(birthdate) {
-      if(birthdate === null){
+      if (birthdate === null) {
         return null;
       }
-      let difference = +Date.now() - +new Date(birthdate);
-      let ageDate = new Date(difference); // miliseconds from epoch
-      let age = Math.abs(ageDate.getUTCFullYear() - 1970);
-      if(isNaN(age)){
+      const difference = +Date.now() - +new Date(birthdate);
+      const ageDate = new Date(difference); // miliseconds from epoch
+      const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+      if (isNaN(age)) {
         return null;
       } else {
         return age;
       }
     }
 
-    let age = calculateAge(prospect.birthday);
+    const age = calculateAge(prospect.birthday);
 
     // let maleIcon = 'http://1.bp.blogspot.com/-9zJZ2kiHqFQ/VQCayOG1pxI/AAAAAAAADEU/igsvbvsPjKU/s1600/The%2BMale%2BPrinciple.png';
     // let femaleIcon = 'http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-symbols-shapes/016921-3d-transparent-glass-icon-symbols-shapes-female-symbol.png';
@@ -130,7 +84,10 @@ class Prospect extends Component {
 
 Prospect.propTypes = {
   prospect: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  target: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  triads: PropTypes.object.isRequired
 };
 
 

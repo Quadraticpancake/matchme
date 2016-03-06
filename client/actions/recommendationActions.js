@@ -6,19 +6,18 @@ import fetch from 'isomorphic-fetch';
 
 export const POST_REC = 'POST_REC';
 
-export function postRecommendation(user_id, user_gender, user_preference) {
-  
-  return function(dispatch) {
+export const postRecommendation = (user_id, user_gender, user_preference) => {
+  return (dispatch) => {
     dispatch(requestRecommendation());
 
-    let request = new Request(`/api/users/${user_id}/recommendation`, {
+    const request = new Request(`/api/users/${user_id}/recommendation`, {
       method: 'post',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ gender: user_gender, preference: user_preference })
-      });
+    });
 
     return fetch(request)
       .then(response => response.json())
@@ -26,29 +25,27 @@ export function postRecommendation(user_id, user_gender, user_preference) {
         dispatch(receiveRecommendation(json));
       });
   };
-}
+};
 
 
 ///////////////////
 // Network requests
 ///////////////////
 
-
 export const REQUEST_REC = 'REQUEST_REC';
-function requestRecommendation() {
-  console.log("requestRecommendation");
+const requestRecommendation = () => {
+  console.log('requestRecommendation');
   return {
     type: REQUEST_REC,
   };
-}
+};
 
 export const RECEIVE_REC = 'RECEIVE_REC';
-function receiveRecommendation(json) {
+const receiveRecommendation = (json) => {
   return {
     type: RECEIVE_REC,
     recommendation: json,
     receivedAt: Date.now()
   };
-}
-
+};
 

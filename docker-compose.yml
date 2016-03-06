@@ -1,0 +1,12 @@
+matchme:
+  build: .
+  ports:
+   - 80:3000
+  links:
+   - postgres
+
+postgres:
+  image: postgres
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: password
