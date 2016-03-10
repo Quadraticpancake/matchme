@@ -150,31 +150,41 @@ export function addMatch (match) {
 
 // get one target and two suitable prospects
 export function getMatchSet (user_id) {
-
+  // Add in a second prospect query so that there is 0 correlation between first prospect and second prospect.
   var func = function () {
     return db.query('SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;')
       .then((row) => {
+        // Grabs 101 random numbers from 1 to number of users that will be targets.
         var userCount = row[0].user_id
-        var randomUserIdsStr = '' + Math.floor(Math.random() * userCount) + 1;
-        for (var i = 0; i < 100; i++) {
-          randomUserIdsStr += ', ' + (Math.floor(Math.random() * userCount) + 1);
+        var createTargetsQuery = function () {
+          var randomUserIdsStr = '' + Math.floor(Math.random() * userCount) + 1;
+          for (var i = 0; i < 100; i++) {
+            randomUserIdsStr += ', ' + (Math.floor(Math.random() * userCount) + 1);
+          }
+          return `select * from users where user_id in ( ${randomUserIdsStr} );`
         }
-        var sample_min = Math.floor(Math.random() * userCount) + 1;
-        var prospectRangeStr = ' user_id >= ' + sample_min + ' or user_id <= ';
-        var prospectCount = 1000;
-        if (sample_min + prospectCount <= userCount) {
-          prospectRangeStr += (sample_min + prospectCount);
-        } else {
-          prospectRangeStr += (sample_min - userCount + prospectCount);
+        // Grabs a random range of 1000 of the total number of users and selects them all.
+        var createProspectsQuery = function () {
+          var sample_min = Math.floor(Math.random() * userCount) + 1;
+          var prospectRangeStr = ' user_id >= ' + sample_min + ' or user_id <= ';
+          var prospectCount = 1000;
+          if (sample_min + prospectCount <= userCount) {
+            prospectRangeStr += (sample_min + prospectCount);
+          } else {
+            prospectRangeStr += (sample_min - userCount + prospectCount);
+          }
+          return `select * from users where ${ prospectRangeStr };`;
         }
+        var targetsQuery = createTargetsQuery();
+        var prospectsQuery1 = createProspectsQuery();
+        var prospectsQuery2 = createProspectsQuery();
         var date = new Date();
         var month = date.getMonth();
         var day = date.getDate()
         month = month.length < 2 ? '0' + month : month;
         day = day.length < 2 ? '0' + day : day;
         var dateStr = '' + month + '/' + day + '/' + date.getFullYear();
-        var targetsAndUserQuery = `select * from users where user_id in ( ${randomUserIdsStr} );`
-        var prospectsQuery = `select * from users where ${ prospectRangeStr };`;
+        // returns the age of a person based on the current date.
         var age = function(person) {
           if (person.birthday) {
             var date = new Date();
@@ -196,40 +206,55 @@ export function getMatchSet (user_id) {
           }
         }
 
+        // returns if two people are a match based on user_id, gender_preferences, and age
         var match = function (p1, p2) {
           return (p1.gender === p2.gender_preference || p2.gender_preference === 'both')
             && (p2.gender === p1.gender_preference || p1.gender_preference === 'both')
             && p1.user_id !== p2.user_id && age(p2) !== false && age(p1) !== false
             && p1.age_min <= age(p2) && p2.age_min <= age(p1) && p2.age_max >= age(p1) && p1.age_max >= age(p2);
         }
-        //console.log(targetsAndUserQuery);
-        //console.log(prospectsQuery);
-        return db.query(targetsAndUserQuery)
+        return db.query(targetsQuery)
           .then((targetRows) => {
-            return db.query(prospectsQuery)
-              .then((prospectRows) => {
-                var target;
-                var prospects = [];
-                var prospectIterator = 0;
-                for (var i = 0; i < targetRows.length; i++) {
-                  target = targetRows[i];
-                  for (prospectIterator; (prospectIterator < prospectRows.length && prospects.length < 2); prospectIterator++) {
-                    if (prospectRows[prospectIterator] && match(target, prospectRows[prospectIterator])) {
-                      prospects.push(prospectRows[prospectIterator]);
-                      prospectRows[prospectIterator] = null;
+            return db.query(prospectsQuery1)
+              .then((prospectRows1) => {
+                return db.query(prospectsQuery2)
+                  .then((prospectRows2) => {
+                    prospectRows1 = _.shuffle(prospectRows1);
+                    prospectRows2 = _.shuffle(prospectRows2);
+                    var target;
+                    var prospect1 = null;
+                    var prospect2 = null;
+                    var prospectIterator1 = 0;
+                    var prospectIterator2 = 0;
+                    for (var i = 0; i < targetRows.length; i++) {
+                      target = targetRows[i];
+                      for (prospectIterator1; (prospectIterator1 < prospectRows1.length && !prospect1); prospectIterator1++) {
+                        if (prospectRows1[prospectIterator1] && match(target, prospectRows1[prospectIterator1])) {
+                          prospect1 = (prospectRows1[prospectIterator1]);
+                          prospectRows1[prospectIterator1] = null;
+                        }
+                      }
+                      for (prospectIterator2; (prospectIterator2 < prospectRows2.length && !prospect2); prospectIterator2++) {
+                        if (prospectRows2[prospectIterator2] && match(target, prospectRows2[prospectIterator2])) {
+                          prospect2 = (prospectRows2[prospectIterator2]);
+                          prospectRows2[prospectIterator2] = null;
+                        }
+                      }
+                      if (prospectIterator1 === prospectRows1.length) {
+                        prospectIterator1 = 0;
+                      }
+                      if (prospectIterator2 === prospectRows2.length) {
+                        prospectIterator2 = 0;
+                      }
+                      if (prospect1 && prospect2 && prospect1.user_id !== prospect2.user_id) {
+                        triadsStore.enqueue({target: target, prospects: [prospect1, prospect2]})
+                      }
+                      prospect1 = null;
+                      prospect2 = null;
                     }
-                  }
-                  if (prospectIterator === prospectRows.length) {
-                    prospectIterator = 0;
-                  }
-                  if (prospects.length === 2) {
-                    triadsStore.enqueue({target: target, prospects: prospects})
-                    //triadsStore.push({target: target, prospects: prospects})
-                    prospects = [];
-                  }
-                }
-                replenishingTriads = false;
-                return;
+                    replenishingTriads = false;
+                    return;
+                  });
               });
           });
       });
